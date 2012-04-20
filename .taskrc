@@ -1,0 +1,3 @@
+data.location=/home/aanari/.task
+include /usr/share/task/holidays.en-US.rc
+include /usr/share/task/dark-yellow-green.theme
