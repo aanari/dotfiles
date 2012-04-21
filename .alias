@@ -8,8 +8,10 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
+alias tmux="TERM=screen-256color-bce tmux"
 alias ll='ls -l'
 alias la='ls -A'
 alias l='ls -CF'
 alias mpn="mpc next"
 alias mpp="mpc prev"
+alias tcli="transmission-cli"
