@@ -1,0 +1,17 @@
+Config { font = "xft:DejaVu Sans Mono:pixelsize=12:style=Regular:dpi=96:rgba=rgb:antialias=true:hinting=true:hintslight=hintsfull"
+    , bgColor = "#000000"
+    , fgColor = "grey"
+    , position = Top
+    , lowerOnStart = True
+    , commands = [ Run Weather "KPHL" ["-t","<tempF>°F","-L","65","-H","80","--normal","green","--high","red","--low","lightblue"] 36000
+            , Run Network "eth0" ["-L","0","-H","32","--normal","green","--high","red"] 10
+            , Run Cpu ["-L","0","-h","32","--normal","green","--high","red"] 10
+            , Run Memory ["-t","Mem: <usedratio>%"] 10
+            , Run Swap [] 10
+            , Run Com "uname" ["-s","-r"] "" 36000
+            , Run Date "%a %b %_d %l:%M" "date" 10
+            ]
+    , sepChar = "%"
+    , alignSep = "}{"
+    , template = "%cpu%   %memory%   %swap%   %eth0% }{ <fc=#ee9a00>%date%</fc>   %KPHL%   %uname% "
+}
