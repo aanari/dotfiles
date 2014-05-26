@@ -1,0 +1,24 @@
+# vim: set ft=sh:
+
+fresh freshshell/fresh bin/fresh --bin
+
+fresh zsh-users/zsh-completions src --file=completion/
+fresh freshshell/fresh contrib/completion/fresh-completion.zsh --file=completion/_fresh
+
+fresh config/\* --file
+
+fresh shell/\* --file
+
+fresh config/re.pl --file=~/.re.pl/
+
+fresh config/sqitch --file=~/.sqitch/
+
+fresh rupa/z z.sh
+
+fresh foobacca/dotfiles shell/aliases-dir
+
+fresh bin/\* --bin
+fresh pengwynn/dotfiles bin/git-pr --bin
+fresh pengwynn/dotfiles bin/gxpr --bin
+fresh twe4ked/catacomb bin/catacomb --bin
+fresh thenigan/git-diffall git-diffall --bin

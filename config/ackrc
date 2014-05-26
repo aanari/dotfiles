@@ -1,3 +1,9 @@
+--sort-files
+--color
+--context=1
+--follow
+--nogroup
+
 --type-set
 pm=.pm
  
@@ -23,3 +29,5 @@ scss=.scss
 --ignore-file=match:main.css
 --ignore-file=match:mobile.css
 --ignore-file=match:filepicker.css
+
+--smart-case
