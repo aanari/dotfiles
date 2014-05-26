@@ -15,6 +15,7 @@ fresh config/sqitch --file=~/.sqitch/
 
 fresh rupa/z z.sh
 
+fresh foobacca/dotfiles shell/tmux
 fresh foobacca/dotfiles shell/aliases-dir
 
 fresh bin/\* --bin
