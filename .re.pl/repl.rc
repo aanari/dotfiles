@@ -1,0 +1,81 @@
+# vim:syntax=perl:
+#
+#package main;
+## this is for Perl's Devel::REPL. it goes in ~/.re.pl/repl.rc
+#
+
+use 5.014;
+use lib 'lib';
+use strict;
+use warnings;
+no warnings 'redefine';
+
+use POSIX qw(strftime);
+
+$ENV{PERLREPL_HISTLEN} = 100000;
+$ENV{DANCER_ENVIRONMENT} = 'testing';
+
+use Capture::Tiny qw(capture capture_stdout capture_stderr capture_merged);
+use Carp qw(carp croak confess cluck);
+use DateTime;
+use File::Slurp qw(slurp);
+use List::Util qw(first max maxstr min minstr reduce shuffle sum);
+use List::MoreUtils ':all';
+use JSON;
+use Scalar::Defer qw(lazy defer force);
+use Scalar::Util qw(blessed weaken isweak tainted looks_like_number);
+use String::Util ':all';
+use Term::ANSIColor;
+use Try::Tiny;
+use Test::Deep qw(cmp_bag cmp_deeply bag re superhashof subhashof superbagof);
+use Test::More;
+use Crowdtilt::Internal::Util::Campaign qw(:constants);
+
+# Silence complaints about redefining 'io'
+BEGIN {
+    no strict 'refs';
+    delete ${__PACKAGE__.'::'}{io};
+}
+use IO::All;
+
+*fold = \&reduce;
+
+my @plugins = (
+    'Colors',                      # colorize return value and errors
+    'Completion',                  # completion plugins
+    'CompletionDriver::Globals',   # global variables
+    'CompletionDriver::INC',       # loading new modules
+    'CompletionDriver::LexEnv',    # current environment
+    'CompletionDriver::Keywords',  # substr, while, etc
+    'CompletionDriver::Methods',   # class method completion
+    'CompletionDriver::Turtles',   # turtle command completion
+    'DataPrinter',                 # pretty print REPL results
+    'DumpHistory',                 # plugin to save/print history
+    'Editor',                      # editor for longer expressions
+    'FancyPrompt',                 # provide an irb-like prompt
+    'Interrupt',                   # improve handling of ^C
+    'LazyLoad',                    # lazy load certain packages
+    'MultiLine::PPI',              # allow multiple lines
+    'Nopaste',                     # paste session with #nopaste
+    'OutputCache',                 # access previous results
+    'PPI',                         # PPI dumping of Perl code
+    'ReadLineHistory',             # history saved across sessions
+    'Refresh',                     # refresh before every eval
+    'Turtles',                     # generic command support
+);
+
+$_REPL->load_plugin($_) for @plugins;
+$_REPL->lazy_load('t::lib::API' => qw(api rset schema config unpack_rs));
+$_REPL->dataprinter_config({ deparse => 1 });
+
+$_REPL->term->ornaments(0);
+
+$_REPL->fancy_prompt(sub {
+    "\n" . color('blue') . 'λ' . color('green') . '(0)' . color('reset') . ' ';
+});
+
+$_REPL->fancy_continuation_prompt(sub {
+    my $self = shift;
+    color('blue') . 'λ' . color('yellow') . '(' . $self->line_depth. ')' .
+    color('bright_blue') . ' :   ' x (($self->line_depth)) . color('reset').' ';
+});
