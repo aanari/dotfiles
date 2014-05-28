@@ -289,6 +289,7 @@ settings = {
     trackbar_style = "%y";
     splitlong_line_start = "$";
     splitlong_line_end = "|";
+    pushover_ignore = "no";
     pushover_sound = "default";
     pushover_token = "[REDACTED]";
     pushover_apptoken = "[REDACTED]";
