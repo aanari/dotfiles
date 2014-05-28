@@ -1,4 +1,21 @@
---regex-perl=/^\s*has\s+['"]?([0-9a-zA-Z_]+)/\1/a,attribute/
---regex-perl=/^\s*with\s+(['"])(.+)\1/\2/r,role/
---regex-perl=/^\s*extends\s+(['"])(.+)\1/\2/e,extends/
---regex-perl=/^\s*use\s+([^ ;]+)/\1/u,use/
+--recurse=yes
+--tag-relative=yes
+--exclude=.git
+
+--langmap=perl:+.pod
+--regex-perl=/package[ \t]+['"]*([A-Za-z][A-Za-z0-9:]+)['" \t]*;/\1/p<Plug>PeepOpenackage<Plug>PeepOpenackages/
+--regex-perl=/with[ \t]+['"]*([A-Za-z][A-Za-z0-9:]+)['" \t]*;/\1/w,role,roles/
+--regex-perl=/extends[ \t]+['"]*([A-Za-z][A-Za-z0-9:]+)['" \t]*;/\1/e,extends/
+--regex-perl=/use[ \t]+base[ \t]+['"]*([A-Za-z][A-Za-z0-9:]+)['" \t]*;/\1/e,extends/
+--regex-perl=/use[ \t]+parent[ \t]+['"]*([A-Za-z][A-Za-z0-9:]+)['" \t]*;/\1/e,extends/
+--regex-perl=/^[ \t]*use[ \t]+['"]*([A-Za-z][A-Za-z0-9:]+)['" \t]*;/\1/u,use,uses/
+--regex-perl=/^[ \t]*require[ \t]+['"]*([A-Za-z][A-Za-z0-9:]+)['" \t]*;/\1/r,require,requires/
+--regex-perl=/^[ \t]*has[ \t]+['"]*([A-Za-z_+][A-Za-z0-9_]+)['"]*[ \t]+/\1/a,attribute,attributes/
+--regex-perl=/^[ \t]*around[ \t]+['"]*([A-Za-z_][A-Za-z0-9_]+)['"]*[ \t]+/\1/x,around/
+--regex-perl=/^[ \t]*\*([A-Za-z_][A-Za-z0-9:_]+)[ \t]+=/\1/l,alias,aliases/
+--regex-perl=/^[ \t]*our[ \t]+([\$@%][A-Za-z_][A-Za-z0-9_]+)/\1/o,our,ours/
+--regex-perl=/use[ \t]+constante[ \t]+['"]*([A-Za-z_][A-Za-z0-9_]+)['" \t]*/\1/c,constants/
+--regex-perl=/^\=head1[ \t]+(.+)/\0/d<Plug>PeepOpenod,Plain Old Documentation/
+--regex-perl=/^\=head2[ \t]+(.+)/-- \1/d<Plug>PeepOpenod,Plain Old Documentation/
+--regex-perl=/^\=head[3-5][ \t]+(.+)/--- \1/d<Plug>PeepOpenod,Plain Old Documentation/
+-R
