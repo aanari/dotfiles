@@ -79,7 +79,5 @@
 [user]
 	name = Ali Anari
 	email = ali@anari.me
-[push]
-	default = simple
 [credential]
 	helper = osxkeychain
