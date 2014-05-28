@@ -78,6 +78,4 @@ alias hide="defaults write com.apple.Finder AppleShowAllFiles -bool false && kil
 alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
 alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
 
-alias tmux="TERM=screen-256color-bce tmux"
-alias tcli="transmission-cli"
 alias ios="open -a /Applications/Xcode.app/Contents/Applications/iPhone\ Simulator.app"

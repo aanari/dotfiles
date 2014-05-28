@@ -53,7 +53,6 @@ fresh jasoncodes/dotfiles shell/aliases/\*
 fresh jasoncodes/dotfiles shell/editor.sh
 fresh jasoncodes/dotfiles shell/config/filters.sh
 
-
 #fresh aliases/\*
 
 # irb
@@ -80,14 +79,18 @@ fresh-options --bin
     fresh jasoncodes/dotfiles bin/wemux/\*
     fresh k4rthik/git-cal git-cal
     fresh LuRsT/hr hr
+    fresh pengwynn/dotfiles bin/git-ci
     fresh pengwynn/dotfiles bin/git-go
     fresh pengwynn/dotfiles bin/git-pr
     fresh pengwynn/dotfiles bin/gxpr
+    fresh pengwynn/dotfiles bin/termcolors
     fresh rtomayko/dotfiles bin/+x
     fresh rtomayko/dotfiles bin/addr
     fresh rtomayko/dotfiles bin/served
     fresh rtomayko/dotfiles bin/lock-screen
     fresh sivel/speedtest-cli speedtest_cli.py
     fresh thenigan/git-diffall git-diffall
+    fresh twe4ked/dotfiles bin/build_status
+    fresh twe4ked/dotfiles bin/add-keys
     fresh twe4ked/catacomb bin/catacomb
 fresh-options
