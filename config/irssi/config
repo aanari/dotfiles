@@ -1,0 +1,476 @@
+# vim:ft=config
+
+servers = (
+  {
+    address = "jabber.crowdtilt.com";
+    chatnet = "Crowdtilt";
+    port = "5222";
+    password = "[REDACTED]";
+    use_ssl = "no";
+    ssl_verify = "no";
+    autoconnect = "yes";
+  },
+  {
+    address = "chat.freenode.net";
+    chatnet = "FreeNode";
+    port = "6667";
+    use_ssl = "no";
+    ssl_verify = "no";
+    autoconnect = "yes";
+  }
+);
+
+chatnets = {
+  FreeNode = {
+    type = "IRC";
+    autosendcmd = "^msg nickserv identify [REDACTED]; wait 2000";
+  };
+  Crowdtilt = { type = "XMPP"; nick = "ali@crowdtilt.com"; };
+};
+
+channels = (
+  { name = "#perl"; chatnet = "FreeNode"; autojoin = "Yes"; },
+  { name = "#crowdtilt"; chatnet = "FreeNode"; autojoin = "Yes"; },
+  { name = "#amadas"; chatnet = "FreeNode"; autojoin = "Yes"; },
+  { name = "#offsec"; chatnet = "FreeNode"; autojoin = "Yes"; },
+  { name = "##networking"; chatnet = "FreeNode"; autojoin = "Yes"; },
+  { name = "##security"; chatnet = "FreeNode"; autojoin = "Yes"; },
+  {
+    name = "crowdtilt@conference.jabber.crowdtilt.com";
+    chatnet = "Crowdtilt";
+    autojoin = "Yes";
+    nick = "fanatacist";
+  },
+  {
+    name = "api@conference.jabber.crowdtilt.com";
+    chatnet = "Crowdtilt";
+    autojoin = "Yes";
+    nick = "fanatacist";
+  },
+  {
+    name = "site@conference.jabber.crowdtilt.com";
+    chatnet = "Crowdtilt";
+    autojoin = "Yes";
+    nick = "fanatacist";
+  },
+  {
+    name = "off-topic@conference.jabber.crowdtilt.com";
+    chatnet = "Crowdtilt";
+    autojoin = "Yes";
+    nick = "fanatacist";
+  },
+  {
+    name = "i18n@conference.jabber.crowdtilt.com";
+    chatnet = "Crowdtilt";
+    autojoin = "Yes";
+    nick = "fanatacist";
+  },
+  {
+    name = "dev-support@conference.jabber.crowdtilt.com";
+    chatnet = "Crowdtilt";
+    autojoin = "Yes";
+    nick = "fanatacist";
+  },
+  {
+    name = "security@conference.jabber.crowdtilt.com";
+    chatnet = "Crowdtilt";
+    autojoin = "Yes";
+    nick = "fanatacist";
+  }
+);
+
+aliases = {
+  J = "join";
+  WJOIN = "join -window";
+  WQUERY = "query -window";
+  LEAVE = "part";
+  BYE = "quit";
+  EXIT = "quit";
+  SIGNOFF = "quit";
+  DESCRIBE = "action";
+  DATE = "time";
+  HOST = "userhost";
+  LAST = "lastlog";
+  SAY = "msg *";
+  WI = "whois";
+  WII = "whois $0 $0";
+  WW = "whowas";
+  W = "who";
+  N = "names";
+  M = "msg";
+  T = "topic";
+  C = "clear";
+  CL = "clear";
+  K = "kick";
+  KB = "kickban";
+  KN = "knockout";
+  BANS = "ban";
+  B = "ban";
+  MUB = "unban *";
+  UB = "unban";
+  IG = "ignore";
+  UNIG = "unignore";
+  SB = "scrollback";
+  UMODE = "mode $N";
+  WC = "window close";
+  WN = "window new hide";
+  SV = "say Irssi $J ($V) - http://irssi.org/";
+  GOTO = "sb goto";
+  CHAT = "dcc chat";
+  RUN = "SCRIPT LOAD";
+  CALC = "exec - if command -v bc >/dev/null 2>&1\\; then printf '%s=' '$*'\\; echo '$*' | bc -l\\; else echo bc was not found\\; fi";
+  SBAR = "STATUSBAR";
+  INVITELIST = "mode $C +I";
+  Q = "QUERY";
+  "MANUAL-WINDOWS" = "set use_status_window off;set autocreate_windows off;set autocreate_query_level none;set autoclose_windows off;set reuse_unused_windows on;save";
+  EXEMPTLIST = "mode $C +e";
+  ATAG = "WINDOW SERVER";
+  UNSET = "set -clear";
+  RESET = "set -default";
+};
+
+statusbar = {
+  items = {
+    # start/end text in statusbars
+    barstart = "{sbstart}";
+    barend = "{sbend}";
+
+    topicbarstart = "{topicsbstart}";
+    topicbarend = "{topicsbend}";
+
+    # treated "normally", you could change the time/user name to whatever
+    time = "{sb $Z}       ";
+    user = "{sb {sbnickmode $cumode}$N{sbmode $usermode}{sbaway $A}}";
+
+    # treated specially .. window is printed with non-empty windows,
+    # window_empty is printed with empty windows
+    window = "{sb $winref:$tag/$itemname{sbmode $M}}";
+    window_empty = "{sb $winref{sbservertag $tag}}";
+    prompt = "{prompt $[.15]itemname}";
+    prompt_empty = "{prompt $winname}";
+    topic = " $topic";
+    topic_empty = " Irssi v$J - http://www.irssi.org";
+
+    # all of these treated specially, they're only displayed when needed
+    lag = "{sb Lag: %m$0-%n}";
+    act = "{sb Act: $0-}";
+    more = "%k%3-- more --%n";
+  };
+
+  default = {
+    window = {
+      type = "window";
+      placement = "bottom";
+      visible = "active";
+      items = {
+        barstart = { priority = "100"; };
+        time = { };
+        user = { };
+        window = { };
+        window_empty = { };
+        lag = { priority = "-1"; };
+        more = { priority = "-1"; alignment = "right"; };
+        barend = { priority = "100"; alignment = "right"; };
+        xmpp_composing = { alignment = "right"; };
+        usercount = { alignment = "right"; };
+        vim_mode = { };
+      };
+    };
+    window_inact = {
+      type = "window";
+      placement = "bottom";
+      visible = "inactive";
+      items = {
+        barstart = { priority = "100"; };
+        window = { };
+        window_empty = { };
+        more = { priority = "-1"; alignment = "right"; };
+        barend = { priority = "100"; alignment = "right"; };
+      };
+    };
+    prompt = {
+      type = "root";
+      placement = "bottom";
+      position = "100";
+      visible = "always";
+
+      items = {
+        prompt = { priority = "-1"; };
+        prompt_empty = { priority = "-1"; };
+        input = { priority = "10"; };
+      };
+    };
+
+    topic = {
+      type = "root";
+      placement = "top";
+      position = "1";
+      visible = "always";
+      items = {
+        topicbarstart = { priority = "100"; };
+        topic = { };
+        topic_empty = { };
+        topicbarend = { priority = "100"; alignment = "right"; };
+      };
+    };
+
+    awl_0 = {
+      placement = "top";
+      items = {
+        barstart = { priority = "100"; };
+        awl_0 = { };
+        barend = { priority = "100"; alignment = "right"; };
+      };
+    };
+  };
+};
+
+settings = {
+  "fe-text" = {
+    actlist_sort = "refnum";
+    indent = "5";
+    mirc_blink_fix = "yes";
+  };
+  core = {
+    real_name = "Ali Anari";
+    user_name = "fanatacist";
+    nick = "fanatacist";
+    recode_autodetect_utf8 = "yes";
+    recode_fallback = "CP1252";
+    awaylog_level = "MSGS HILIGHT";
+    awaylog_file = "~/.irssi/away.log";
+    timestamp_format = "%H:%M";
+    log_timestamp = "%H:%M:%S";
+    #resolve_prefer_ipv6 = "yes";
+  };
+  "irc/core" = { skip_motd = "yes"; };
+  "xmpp/core" = { xmpp_history_maxstanzas = "999999999"; };
+  "fe-common/core" = {
+    emphasis = "OFF";
+    theme = "solarized-universal";
+    autolog = "yes";
+    autolog_colors = "yes";
+    autolog_path = "~/.irssi/irclogs/$chatnet/$0.log";
+    window_history = "yes";
+    show_own_nickchange_once = "yes";
+    #autolog_level = "ALL -CLIENTNOTICES -CRAP -CLIENTCRAP -CTCPS -SNOTES";
+    autolog_ignore_targets = "Chanserv Nickserv auth";
+    term_charset = "ISO-8859-15";
+    activity_hide_level = "= JOINS QUITS";
+    beep_msg_level = "NOTICE MSGS NOTICES DCC DCCMSGS HILIGHT";
+    bell_beeps = "no";
+    show_nickmode = "yes";
+    show_nickmode_empty = "no";
+    hilight_nick_matches = "off";
+    show_names_on_join = "no";
+    completion_char = ":";
+  };
+  "perl/core/scripts" = {
+    awl_display_key_active = "%k%2[$N:$C]%n";
+    awl_display_nokey_active = "%k%2[$N:$C]%n";
+    awl_display_key = "[$Q:$H$C$S]";
+    awl_display_nokey = "[$N:$H$C$S]";
+    awl_placement = "top";
+    awl_prefer_name = "yes";
+    growl_show_privmsg = "ON";
+    growl_reveal_privmsg = "OFF";
+    growl_show_hilight = "ON";
+    notifier_on_privmsg = "1";
+    notifier_on_regex = ".*";
+    neat_right_mode = "no";
+    neat_colors = "rRgGyYmMbBcCwW12345678U";
+    neat_colorize = "yes";
+    neat_left_actions = "no";
+    neat_left_messages = "no";
+    neat_allow_shrinking = "yes";
+    lt_in_queries = "yes";
+    nicklist_height = "62";
+    nicklist_width = "24";
+    trackbar_style = "%y";
+    splitlong_line_start = "$";
+    splitlong_line_end = "|";
+    pushover_sound = "default";
+    pushover_token = "[REDACTED]";
+    pushover_apptoken = "[REDACTED]";
+    usercount_show_zero = "no";
+    usercount_show_halfops = "yes";
+    usercount_show_ircops = "yes";
+  };
+};
+logs = { };
+ignores = (
+  { level = "JOINS PARTS QUITS NICKS MODES"; },
+  { mask = "crowdtilt.com"; level = "ALL"; }
+);
+hilights = (
+  { text = "fanatacist"; color = "%W"; nick = "no"; word = "yes"; }
+);
+windows = {
+  1 = { 
+    immortal = "yes";
+    name = "(status)";
+    level = "ALL";
+    sticky = "yes";
+  };
+  2 = { name = "hilight"; sticky = "yes"; };
+  3 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "XMPP";
+        name = "crowdtilt@conference.jabber.crowdtilt.com";
+        tag = "Crowdtilt";
+      }
+    );
+    sticky = "yes";
+    parent = "1";
+  };
+  4 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "XMPP";
+        name = "api@conference.jabber.crowdtilt.com";
+        tag = "Crowdtilt";
+      }
+    );
+    sticky = "yes";
+    parent = "1";
+  };
+  5 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "XMPP";
+        name = "site@conference.jabber.crowdtilt.com";
+        tag = "Crowdtilt";
+      }
+    );
+    sticky = "yes";
+    parent = "1";
+  };
+  6 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "XMPP";
+        name = "off-topic@conference.jabber.crowdtilt.com";
+        tag = "Crowdtilt";
+      }
+    );
+    sticky = "yes";
+    parent = "1";
+  };
+  7 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "XMPP";
+        name = "i18n@conference.jabber.crowdtilt.com";
+        tag = "Crowdtilt";
+      }
+    );
+    sticky = "yes";
+    parent = "1";
+  };
+  8 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "XMPP";
+        name = "dev-support@conference.jabber.crowdtilt.com";
+        tag = "Crowdtilt";
+      }
+    );
+    sticky = "yes";
+    parent = "1";
+  };
+  9 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "XMPP";
+        name = "security@conference.jabber.crowdtilt.com";
+        tag = "Crowdtilt";
+      }
+    );
+    sticky = "yes";
+    parent = "1";
+  };
+  11 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "IRC";
+        name = "#amadas";
+        tag = "FreeNode";
+      }
+    );
+    sticky = "yes";
+    parent = "1";
+  };
+  12 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "IRC";
+        name = "#perl";
+        tag = "FreeNode";
+      }
+    );
+    sticky = "yes";
+    parent = "1";
+  };
+  13 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "IRC";
+        name = "#offsec";
+        tag = "FreeNode";
+      }
+    );
+    sticky = "yes";
+    parent = "1";
+  };
+  14 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "IRC";
+        name = "##networking";
+        tag = "FreeNode";
+      }
+    );
+    sticky = "yes";
+    parent = "1";
+  };
+  15 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "IRC";
+        name = "##security";
+        tag = "FreeNode";
+      }
+    );
+    sticky = "yes";
+    parent = "1";
+  };
+  16 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "IRC";
+        name = "#crowdtilt";
+        tag = "FreeNode";
+      }
+    );
+    sticky = "yes";
+    parent = "1";
+  };
+};
+mainwindows = {
+  1 = { first_line = "11"; lines = "55"; };
+  2 = { first_line = "1"; lines = "10"; };
+};

@@ -41,6 +41,8 @@ fresh twe4ked/dotfiles shell/zsh/zsh-syntax-highlighting.zsh --file=~/.zshrc
 
 # config
 fresh config/\* --file
+fresh config/mutt --file=~/.mutt/
+fresh config/irssi --file=~/.irssi/
 fresh config/re.pl --file=~/.re.pl/
 fresh config/sqitch --file=~/.sqitch/
 fresh henrik/dotfiles rubyrc --file=~/.pryrc --filter='cat; echo include RubyRC'

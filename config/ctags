@@ -1,0 +1,1 @@
+--regex-perl=/has '(.*)' =>  \(/\1/a,attribute,moose attributes/
