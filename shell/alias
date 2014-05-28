@@ -1,3 +1,5 @@
+# vim: set ft=sh:
+
 if ls --color > /dev/null 2>&1; then # GNU `ls`
 	colorflag="--color"
 else # OS X `ls`
@@ -7,6 +9,26 @@ fi
 gittags () {
     ls -1 --sort=time .git/refs/heads/ | while read b; do PAGER='' git log -n1 --color --pretty=format:'%C(yellow)%<(40)%d%Creset %Cred%h%Creset  %<(90)%s %C(green)%>(18)%cr%Creset   %C(bold blue)%>(18)%an%Creset%n' --abbrev-commit $b --; done;
 }
+
+function g() {
+    if [ $# -gt 0 ];
+    then
+      git $*
+    else
+      git status --short --branch
+    fi
+}
+
+function manpdf() {
+    man -t $@ | open -f -a Preview;
+}
+
+function mkcd() {
+    mkdir -p "$1" && cd "$1";
+}
+
+alias speedtest='speedtest_cli.py'
+alias lock='lock-screen'
 alias ctdb='psql -h 127.0.0.1 -U crowdtilt'
 alias dbictrace='export DBIC_TRACE=1;export DBIC_TRACE_PROFILE=console'
 alias re.pl='cd /$HOME/Projects/crowdtilt-internal-api; perl -Ilib -Ilocallib/lib/perl5 /$HOME/perl5/perlbrew/perls/perl-5.14.2/bin/re.pl'
@@ -18,7 +40,6 @@ alias gitcleanup='git branch --merged | grep -v "\*" | xargs -n 1 git branch -d'
 alias realias='$EDITOR ~/.alias; source ~/.alias'
 
 alias sudo='nocorrect sudo'
-alias g='git'
 alias p='cd ~/Projects'
 
 alias mutt='cd ~/Desktop && mutt'

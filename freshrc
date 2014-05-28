@@ -1,25 +1,93 @@
 # vim: set ft=sh:
 
+# fresh
 fresh freshshell/fresh bin/fresh --bin
 
+# fresh plugins
+fresh freshshell/fresh-open bin/fresh-open --bin
+
+# zshrc
+fresh-options --file=~/.zshrc --marker
+    fresh twe4ked/dotfiles shell/zsh/completion.zsh
+    fresh twe4ked/dotfiles shell/zsh/title.zsh
+    fresh twe4ked/dotfiles shell/zsh/aliases.zsh
+    fresh twe4ked/dotfiles shell/zsh/zshrc
+    fresh twe4ked/dotfiles shell/zsh/keybindings.zsh
+    fresh robbyrussell/oh-my-zsh lib/git.zsh
+    fresh robbyrussell/oh-my-zsh lib/grep.zsh
+    fresh robbyrussell/oh-my-zsh lib/history.zsh
+    fresh robbyrussell/oh-my-zsh lib/spectrum.zsh
+    fresh robbyrussell/oh-my-zsh lib/theme-and-appearance.zsh
+    fresh shell/zsh/powerline.zsh
+
+    fresh freshshell/fresh contrib/source-build.sh
+
+    fresh rupa/z z.sh
+    fresh sharat87/zsh-vim-mode zsh-vim-mode.plugin.zsh
+    fresh robbyrussell/oh-my-zsh lib/edit-command-line.zsh --ref=a38774c
+    fresh robbyrussell/oh-my-zsh plugins/git-flow/git-flow.plugin.zsh --ref=df30eae
+    fresh zsh-users/zsh-history-substring-search zsh-history-substring-search.zsh --ref=3bd84be
+fresh-options
+
+# zsh completions
 fresh zsh-users/zsh-completions src --file=completion/
 fresh freshshell/fresh contrib/completion/fresh-completion.zsh --file=completion/_fresh
 
+# zsh syntax highlighting
+fresh zsh-users/zsh-syntax-highlighting zsh-syntax-highlighting.zsh --file=vendor/zsh-syntax-highlighting.zsh
+fresh zsh-users/zsh-syntax-highlighting highlighters/main/main-highlighter.zsh --file=vendor/highlighters/main/main-highlighter.zsh
+fresh zsh-users/zsh-syntax-highlighting highlighters/brackets/brackets-highlighter.zsh --file=vendor/highlighters/brackets/brackets-highlighter.zsh
+fresh twe4ked/dotfiles shell/zsh/zsh-syntax-highlighting.zsh --file=~/.zshrc
+
+# config
 fresh config/\* --file
-
-fresh shell/\* --file
-
 fresh config/re.pl --file=~/.re.pl/
-
 fresh config/sqitch --file=~/.sqitch/
+fresh henrik/dotfiles rubyrc --file=~/.pryrc --filter='cat; echo include RubyRC'
 
-fresh rupa/z z.sh
-
+# shell
+fresh shell/\*
 fresh foobacca/dotfiles shell/tmux
 fresh foobacca/dotfiles shell/aliases-dir
+fresh jasoncodes/dotfiles shell/aliases/\*
+fresh jasoncodes/dotfiles shell/editor.sh
+fresh jasoncodes/dotfiles shell/config/filters.sh
 
-fresh bin/\* --bin
-fresh pengwynn/dotfiles bin/git-pr --bin
-fresh pengwynn/dotfiles bin/gxpr --bin
-fresh twe4ked/catacomb bin/catacomb --bin
-fresh thenigan/git-diffall git-diffall --bin
+
+#fresh aliases/\*
+
+# irb
+fresh-options --file=~/.irbrc
+    fresh twe4ked/dotfiles config/irb/encoding.rb
+    fresh jasoncodes/dotfiles config/irbrc
+    fresh twe4ked/dotfiles config/irb/prompt.rb
+    fresh-options
+fresh-options
+
+# bin
+fresh-options --bin
+    fresh akatov/dotfiles bin/currency_convert
+    fresh benhoskings/dot-files files/bin/gbrt
+    fresh defunkt/repl bin/repl
+    fresh garybernhardt/dotfiles bin/git-churn
+    fresh git/git contrib/diff-highlight/diff-highlight
+    fresh jamesottaway/dotfiles bin/ssid
+    fresh jasoncodes/dotfiles bin/airport-bounce
+    fresh jasoncodes/dotfiles bin/pidof
+    fresh jasoncodes/dotfiles bin/loop
+    fresh jasoncodes/dotfiles bin/vimdiff
+    fresh jasoncodes/dotfiles bin/vol
+    fresh jasoncodes/dotfiles bin/wemux/\*
+    fresh k4rthik/git-cal git-cal
+    fresh LuRsT/hr hr
+    fresh pengwynn/dotfiles bin/git-go
+    fresh pengwynn/dotfiles bin/git-pr
+    fresh pengwynn/dotfiles bin/gxpr
+    fresh rtomayko/dotfiles bin/+x
+    fresh rtomayko/dotfiles bin/addr
+    fresh rtomayko/dotfiles bin/served
+    fresh rtomayko/dotfiles bin/lock-screen
+    fresh sivel/speedtest-cli speedtest_cli.py
+    fresh thenigan/git-diffall git-diffall
+    fresh twe4ked/catacomb bin/catacomb
+fresh-options

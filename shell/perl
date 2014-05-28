@@ -1,0 +1,4 @@
+export NOPASTE_SERVICES=Dancebin
+export TEST_PRETTY_COLOR_NAME=bright_white
+
+[[ -f ~/perl5/perlbrew/etc/bashrc ]] && . ~/perl5/perlbrew/etc/bashrc ]]
