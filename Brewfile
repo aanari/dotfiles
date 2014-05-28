@@ -26,13 +26,11 @@ install gnu-sed
 install gnu-tar
 install gnutls
 install hub
-install ios-sim
 install node
 install openvpn
 install pandoc
 install ranger
 install ssh-copy-id
-install the-silver-searcher
 install tmux
 install wemux
 install wget
