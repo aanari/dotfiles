@@ -1,1 +1,4 @@
 --regex-perl=/^\s*has\s+['"]?([0-9a-zA-Z_]+)/\1/a,attribute/
+--regex-perl=/^\s*with\s+(['"])(.+)\1/\2/r,role/
+--regex-perl=/^\s*extends\s+(['"])(.+)\1/\2/e,extends/
+--regex-perl=/^\s*use\s+([^ ;]+)/\1/u,use/
