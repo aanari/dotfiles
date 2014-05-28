@@ -7,9 +7,11 @@ install direnv
 install dnscrypt-proxy
 install git
 install git-extras
+install hub
 install ios-sim
 install node
 install openvpn
+install ssh-copy-id
 install tmux
 install wemux
 install wget
