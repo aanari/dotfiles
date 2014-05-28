@@ -27,6 +27,9 @@ fresh-options --file=~/.zshrc --marker
     fresh robbyrussell/oh-my-zsh lib/edit-command-line.zsh --ref=a38774c
     fresh robbyrussell/oh-my-zsh plugins/git-flow/git-flow.plugin.zsh --ref=df30eae
     fresh zsh-users/zsh-history-substring-search zsh-history-substring-search.zsh --ref=3bd84be
+    fresh bjeanes/dot-files shells/zsh/lib/completion-waiting-dots.zsh
+
+    fresh akatov/dotfiles zshrc/dedup-path --ref=55e80fe
 fresh-options
 
 # ~/.zshenv
@@ -50,12 +53,20 @@ fresh zsh-users/zsh-syntax-highlighting highlighters/brackets/brackets-highlight
 fresh twe4ked/dotfiles shell/zsh/zsh-syntax-highlighting.zsh --file=~/.zshrc
 
 # config
-fresh config/\* --file
+fresh-options --file
+    fresh config/\*
+    fresh jasoncodes/dotfiles config/hushlogin
+    fresh jasoncodes/dotfiles config/inputrc
+    fresh jasoncodes/dotfiles config/gemrc
+    fresh jasoncodes/dotfiles config/screenrc
+    fresh jasoncodes/dotfiles config/sqliterc
+fresh-options
 fresh config/mutt --file=~/.mutt/
 fresh config/irssi --file=~/.irssi/
 fresh config/re.pl --file=~/.re.pl/
 fresh config/sqitch --file=~/.sqitch/
 fresh henrik/dotfiles rubyrc --file=~/.pryrc --filter='cat; echo include RubyRC'
+fresh twe4ked/dotfiles config/ranger/rc.conf --file=~/.config/ranger/rc.conf
 
 # ~/.irbrc
 fresh-options --file=~/.irbrc
@@ -96,3 +107,9 @@ fresh-options --bin
     fresh twe4ked/dotfiles bin/add-keys
     fresh twe4ked/catacomb bin/catacomb
 fresh-options
+
+fresh_after_build() {
+    if which chflags &> /dev/null; then
+        chflags hidden ~/bin
+    fi
+}
