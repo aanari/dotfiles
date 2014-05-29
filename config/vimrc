@@ -9,10 +9,10 @@ call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
 Bundle 'aanari/vim-codereview'
+Plugin 'aanari/vim-sprunge'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'bling/vim-airline'
 Plugin 'c9s/perlomni.vim'
-Plugin 'chilicuil/vim-sprunge'
 Plugin 'chreekat/vim-paren-crosshairs'
 Plugin 'ervandew/supertab'
 Plugin 'evanmiller/nginx-vim-syntax'
@@ -472,7 +472,7 @@ let g:syntastic_warning_symbol='⚠'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Sprunge
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let s:sprunge_cmd='nopaste'
+let g:sprunge_cmd='nopaste'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Indent guides
