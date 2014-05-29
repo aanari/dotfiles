@@ -54,6 +54,7 @@ fresh twe4ked/dotfiles shell/zsh/zsh-syntax-highlighting.zsh --file=~/.zshrc
 # config
 fresh-options --file
     fresh config/\*
+    fresh machinshin/dotfiles .perltidyrc
     fresh jasoncodes/dotfiles config/hushlogin
     fresh jasoncodes/dotfiles config/inputrc
     fresh jasoncodes/dotfiles config/gemrc
