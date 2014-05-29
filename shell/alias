@@ -27,6 +27,7 @@ function mkcd() {
     mkdir -p "$1" && cd "$1";
 }
 
+alias deploy='gen_deploy_email /$HOME/Projects'
 alias speedtest='speedtest_cli.py'
 alias lock='lock-screen'
 alias ctdb='psql -h 127.0.0.1 -U crowdtilt'
