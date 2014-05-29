@@ -1,5 +1,46 @@
+# vim: set ft=sh:
+
+gittags () {
+    ls -1 --sort=time .git/refs/heads/ | while read b; do PAGER='' git log -n1 --color --pretty=format:'%C(yellow)%<(40)%d%Creset
+%Cred%h%Creset  %<(90)%s %C(green)%>(18)%cr%Creset   %C(bold blue)%>(18)%an%Creset%n' --abbrev-commit $b --; done;
+}
+
+function g() {
+    if [ $# -gt 0 ];
+    then
+      git $*
+    else
+      git status --short --branch
+    fi
+}
+
+function manpdf() {
+    man -t $@ | open -f -a Preview;
+}
+
+function mkcd() {
+    mkdir -p "$1" && cd "$1";
+}
+
+
 # Credit goes to DelvarWorld for the below - https://github.com/DelvarWorld
 # Generate git format string on the fly to get the right top level directory
+
+shc() {
+    # If no inputs, ssh to main
+    if [ -z $1 ]; then
+        ssh bastion1
+    else
+        # If it's in config file, ssh to it regularly
+        if [ -n "$(cat ~/.ssh/config | grep "Host $1")" ]; then
+            ssh $1
+            # Otherwise tunnel to it
+        else
+            ssh -t bastion1 "ssh -t $1";
+        fi
+    fi
+}
+
 _gen_format_string() {
     echo "<a href=\"https://github.com/Crowdtilt/`basename $(git rev-parse --show-toplevel)`/commit/%h\" style='font-family:\"Courier new\"; color:red; font-weight:bold; text-decoration:none'>%h</a> %s <span style=\"color:green\">(%cr)</span> &lt;<span style=\"color:blue; font-weight:bold;\">%an</span>&gt;<br />"
 }

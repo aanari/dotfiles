@@ -6,27 +6,6 @@ else # OS X `ls`
 	colorflag="-G"
 fi
 
-gittags () {
-    ls -1 --sort=time .git/refs/heads/ | while read b; do PAGER='' git log -n1 --color --pretty=format:'%C(yellow)%<(40)%d%Creset %Cred%h%Creset  %<(90)%s %C(green)%>(18)%cr%Creset   %C(bold blue)%>(18)%an%Creset%n' --abbrev-commit $b --; done;
-}
-
-function g() {
-    if [ $# -gt 0 ];
-    then
-      git $*
-    else
-      git status --short --branch
-    fi
-}
-
-function manpdf() {
-    man -t $@ | open -f -a Preview;
-}
-
-function mkcd() {
-    mkdir -p "$1" && cd "$1";
-}
-
 alias deploy='gen_deploy_email /$HOME/Projects'
 alias speedtest='speedtest_cli.py'
 alias lock='lock-screen'
