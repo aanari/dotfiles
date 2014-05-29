@@ -1,0 +1,505 @@
+""""""""""""""""""""""""""""""
+" => Vundle
+""""""""""""""""""""""""""""""
+set nocompatible
+filetype off
+
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'gmarik/Vundle.vim'
+
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'bling/vim-airline'
+Plugin 'c9s/perlomni.vim'
+Plugin 'chilicuil/vim-sprunge'
+Plugin 'chreekat/vim-paren-crosshairs'
+Plugin 'ervandew/supertab'
+Plugin 'evanmiller/nginx-vim-syntax'
+Plugin 'garbas/vim-snipmate'
+Plugin 'godlygeek/tabular'
+Plugin 'Harenome/vim-neatfoldtext'
+Plugin 'honza/vim-snippets'
+Plugin 'jlanzarotta/bufexplorer'
+Plugin 'junegunn/goyo.vim'
+Plugin 'kana/vim-fakeclip'
+Plugin 'kien/ctrlp.vim'
+Plugin 'kien/rainbow_parentheses.vim'
+Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'mhinz/vim-signify'
+Plugin 'mileszs/ack.vim'
+Plugin 'michaeljsmith/vim-indent-object'
+Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'plasticboy/vim-markdown'
+Plugin 'pjcj/vim-hl-var'
+Plugin 'Raimondi/delimitMate'
+Plugin 'rkitover/perl-vim-mxd'
+Plugin 'scrooloose/nerdtree'
+Plugin 'sjl/gundo.vim'
+Plugin 'scrooloose/snipmate-snippets'
+Plugin 'scrooloose/syntastic'
+Plugin 'Shougo/neocomplete.vim'
+Plugin 'Shougo/neosnippet'
+Plugin 'Shougo/neosnippet-snippets'
+Plugin 'terryma/vim-expand-region'
+Plugin 'tomtom/tcomment_vim'
+Plugin 'tomtom/tlib_vim'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-surround'
+"Plugin 'Townk/vim-autoclose'
+Plugin 'uguu-org/vim-matrix-screensaver'
+Plugin 'vim-perl/vim-perl'
+Plugin 'vim-scripts/AutoTag'
+Plugin 'vim-scripts/dbext.vim'
+Plugin 'vim-scripts/perlhelp.vim'
+Plugin 'vim-scripts/SyntaxRange'
+Plugin 'vim-scripts/UltiSnips'
+Plugin 'yegappan/mru'
+Plugin 'yko/mojo.vim'
+
+call vundle#end()
+
+""""""""""""""""""""""""""""""
+" => General
+""""""""""""""""""""""""""""""
+set history =700
+
+filetype plugin indent on
+syntax enable
+
+set autoread
+
+let mapleader = ","
+let g:mapleader = ","
+
+nmap <leader>w :w!<cr>
+
+command W w !sudo tee % > /dev/null
+
+""""""""""""""""""""""""""""""
+" => User interface
+""""""""""""""""""""""""""""""
+set so=7
+
+set wildmenu
+set wildignore=*.o,*~,*.pyc
+if has("win16") || has("win32")
+    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
+else
+    set wildignore+=.git\*,.hg\*,.svn\*
+endif
+
+set ruler
+set cmdheight=2
+set hid
+set backspace=eol,start,indent
+set whichwrap+=<,>,h,l
+set ignorecase
+set smartcase
+set hlsearch
+set incsearch
+set lazyredraw
+set magic
+set showmatch
+set mat=2
+set noerrorbells
+set novisualbell
+set t_vb=
+set tm=500
+set foldcolumn=1
+
+""""""""""""""""""""""""""""""
+" => Colors and fonts
+""""""""""""""""""""""""""""""
+syntax enable
+
+try
+    colorscheme solarized
+catch
+endtry
+
+set background=dark
+
+if has("gui_running")
+    set guioptions-=T
+    set guioptions-=e
+    set t_Co=256
+    set guitablabel=%M\ %t
+endif
+
+set encoding=utf8
+set ffs=unix,dos,mac
+
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=0 guibg=#2c2d27
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=0 guibg=#2c2d27
+hi ExtraWhitespace ctermbg=0
+au BufEnter * match ExtraWhitespace /\S\zs\s\+$/
+let &colorcolumn=join(range(81,999),",")
+highlight ColorColumn ctermbg=8
+
+""""""""""""""""""""""""""""""
+" => Backups
+""""""""""""""""""""""""""""""
+set nobackup
+set nowb
+set noswapfile
+
+""""""""""""""""""""""""""""""
+" => Tabs
+""""""""""""""""""""""""""""""
+set expandtab
+set smarttab
+set shiftwidth=4
+set tabstop=4
+set lbr
+set tw=500
+set ai
+set si
+set wrap
+
+""""""""""""""""""""""""""""""
+" => Movement
+""""""""""""""""""""""""""""""
+map j gj
+map k gk
+map <space> /
+map <c-space> ?
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+map! jk <esc>
+
+""""""""""""""""""""""""""""""
+" => Highlight
+""""""""""""""""""""""""""""""
+map <silent> <leader><cr> :noh<cr>
+
+""""""""""""""""""""""""""""""
+" => Buffers
+""""""""""""""""""""""""""""""
+map <leader>bd :Bclose<cr>
+map <leader>ba :1,1000 bd!<cr>
+autocmd BufReadPost *
+     \ if line("'\"") > 0 && line("'\"") <= line("$") |
+     \   exe "normal! g`\"" |
+     \ endif
+set viminfo^=%
+try
+  set switchbuf=useopen,usetab,newtab
+  set stal=2
+catch
+endtry
+
+""""""""""""""""""""""""""""""
+" => Tabs
+""""""""""""""""""""""""""""""
+map <leader>tn :tabnew<cr>
+map <leader>to :tabonly<cr>
+map <leader>tc :tabclose<cr>
+map <leader>tm :tabmove<cr>
+map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
+map <leader>cd :cd %:p:h<cr>:pwd<cr>
+
+""""""""""""""""""""""""""""""
+" => Status line
+""""""""""""""""""""""""""""""
+set laststatus=2
+set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l
+
+""""""""""""""""""""""""""""""
+" => Spell checking
+""""""""""""""""""""""""""""""
+map <leader>ss :setlocal spell!<cr>
+map <leader>sn ]s
+map <leader>sp [s
+map <leader>sa zg
+map <leader>s? z=
+
+""""""""""""""""""""""""""""""
+" => Misc
+""""""""""""""""""""""""""""""
+map 0 ^
+noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
+map <leader>q :e ~/buffer<cr>
+map <leader>x :e ~/buffer.md<cr>
+map <leader>pp :setlocal paste!<cr>
+
+""""""""""""""""""""""""""""""
+" => Persistent undo
+""""""""""""""""""""""""""""""
+try
+    set undodir=~/.vim/temp_dirs/undodir
+    set undofile
+catch
+endtry
+
+""""""""""""""""""""""""""""""
+" => Command mode
+""""""""""""""""""""""""""""""
+cnoremap <C-A> <Home>
+cnoremap <C-E> <End>
+cnoremap <C-K> <C-U>
+cnoremap <C-P> <Up>
+cnoremap <C-N> <Down>
+
+""""""""""""""""""""""""""""""
+" => Date
+""""""""""""""""""""""""""""""
+
+iab xdate <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
+
+""""""""""""""""""""""""""""""
+" => Python
+""""""""""""""""""""""""""""""
+let python_highlight_all = 1
+au FileType python syn keyword pythonDecorator True None False self
+au FileType python map <buffer> F :set foldmethod=indent<cr>
+au FileType python inoremap <buffer> $r return
+au FileType python inoremap <buffer> $i import
+au FileType python inoremap <buffer> $p print
+au FileType python inoremap <buffer> $f #--- PH ----------------------------------------------<esc>FP2xi
+au FileType python map <buffer> <leader>1 /class
+au FileType python map <buffer> <leader>2 /def
+au FileType python map <buffer> <leader>C ?class
+au FileType python map <buffer> <leader>D ?def
+
+""""""""""""""""""""""""""""""
+" => Javascript
+""""""""""""""""""""""""""""""
+au FileType javascript call JavaScriptFold()
+au FileType javascript setl fen
+au FileType javascript setl nocindent
+au FileType javascript imap <c-t> AJS.log();<esc>hi
+au FileType javascript imap <c-a> alert();<esc>hi
+au FileType javascript inoremap <buffer> $r return
+au FileType javascript inoremap <buffer> $f //--- PH ----------------------------------------------<esc>FP2xi
+
+""""""""""""""""""""""""""""""
+" => Perl
+""""""""""""""""""""""""""""""
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
+let perl_include_pod=1
+let perl_want_scope_in_variables=1
+let perl_extended_vars=1
+let perl_nofold_packages=1
+let perl_fold_anonymous_subs=1
+inoremap => =><Esc>:Tabularize /=><CR>A<Space>
+autocmd BufNewFile,BufRead *.t set filetype=perl
+autocmd BufNewFile,BufRead *.tt set filetype=xml
+autocmd FileType perl set complete-=i
+
+""""""""""""""""""""""""""""""
+" => Functions
+""""""""""""""""""""""""""""""
+function! CmdLine(str)
+    exe "menu Foo.Bar :" . a:str
+    emenu Foo.Bar
+    unmenu Foo
+endfunction
+
+function! JavaScriptFold()
+    setl foldmethod=syntax
+    setl foldlevelstart=1
+    syn region foldBraces start=/{/ end=/}/ transparent fold keepend extend
+
+    function! FoldText()
+        return substitute(getline(v:foldstart), '{.*', '{...}', '')
+    endfunction
+    setl foldtext=FoldText()
+endfunction
+
+function PerlFold()
+  if getline(v:lnum) =~ '^\s*sub\s'
+    return ">1"
+  elseif getline(v:lnum) =~ '\}\s*$'
+    let my_perlnum = v:lnum
+    let my_perlmax = line("$")
+    while (1)
+      let my_perlnum = my_perlnum + 1
+      if my_perlnum > my_perlmax
+        return "<1"
+      endif
+      let my_perldata = getline(my_perlnum)
+      if my_perldata =~ '^\s*\(\#.*\)\?$'
+        " do nothing
+      elseif my_perldata =~ '^\s*sub\s'
+        return "<1"
+      else
+        return "="
+      endif
+    endwhile
+  else
+    return "="
+  endif
+endfunction
+setlocal foldexpr=PerlFold()
+setlocal foldmethod=expr
+
+function! VisualSelection(direction, extra_filter) range
+    let l:saved_reg = @"
+    execute "normal! vgvy"
+
+    let l:pattern = escape(@", '\\/.*$^~[]')
+    let l:pattern = substitute(l:pattern, "\n$", "", "")
+
+    if a:direction == 'b'
+        execute "normal ?" . l:pattern . "^M"
+    elseif a:direction == 'gv'
+        call CmdLine("Ack \"" . l:pattern . "\" " )
+    elseif a:direction == 'replace'
+        call CmdLine("%s" . '/'. l:pattern . '/')
+    elseif a:direction == 'f'
+        execute "normal /" . l:pattern . "^M"
+    endif
+
+    let @/ = l:pattern
+    let @" = l:saved_reg
+endfunction
+
+function! HasPaste()
+    if &paste
+        return 'PASTE MODE  '
+    en
+    return ''
+endfunction
+
+command! Bclose call <SID>BufcloseCloseIt()
+function! <SID>BufcloseCloseIt()
+   let l:currentBufNum = bufnr("%")
+   let l:alternateBufNum = bufnr("#")
+
+   if buflisted(l:alternateBufNum)
+     buffer #
+   else
+     bnext
+   endif
+
+   if bufnr("%") == l:currentBufNum
+     new
+   endif
+
+   if buflisted(l:currentBufNum)
+     execute("bdelete! ".l:currentBufNum)
+   endif
+endfunction
+
+""""""""""""""""""""""""""""""
+" => Ack
+""""""""""""""""""""""""""""""
+vnoremap <silent> gv :call VisualSelection('gv', '')<CR>
+map <leader>g :Ack
+vnoremap <silent> <leader>r :call VisualSelection('replace', '')<CR>
+map <leader>cc :botright cope<cr>
+map <leader>co ggVGy:tabnew<cr>:set syntax=qf<cr>pgg
+map <leader>n :cn<cr>
+map <leader>p :cp<cr>
+
+""""""""""""""""""""""""""""""
+" => bufexplorer
+""""""""""""""""""""""""""""""
+let g:bufExplorerDefaultHelp=0
+let g:bufExplorerShowRelativePath=1
+let g:bufExplorerFindActive=1
+let g:bufExplorerSortBy='name'
+map <leader>o :BufExplorer<cr>
+
+""""""""""""""""""""""""""""""
+" => MRU
+""""""""""""""""""""""""""""""
+let MRU_Max_Entries = 400
+map <leader>f :MRU<CR>
+
+""""""""""""""""""""""""""""""
+" => Ctrl-P
+""""""""""""""""""""""""""""""
+let g:ctrlp_working_path_mode = 0
+let g:ctrlp_map = '<c-f>'
+map <leader>j :CtrlP<cr>
+map <c-b> :CtrlPBuffer<cr>
+let g:ctrlp_max_height = 20
+let g:ctrlp_custom_ignore = {
+    \ 'dir':  '\v[\/](\.git|local|locallib|Crowdtilt\-Internal\-API\-0\.0100|emails|ebin)$',
+    \ 'file': '\v\.(exe|so|dll|tgz|gz|beam|.DS_Store)$',
+    \ }
+
+""""""""""""""""""""""""""""""
+" => snipMate
+""""""""""""""""""""""""""""""
+ino <c-j> <c-r>=snipMate#TriggerSnippet()<cr>
+snor <c-j> <esc>i<right><c-r>=snipMate#TriggerSnippet()<cr>
+
+""""""""""""""""""""""""""""""
+" => NerdTree
+""""""""""""""""""""""""""""""
+map <leader>nn :NERDTreeToggle<cr>
+map <leader>nb :NERDTreeFromBookmark
+map <leader>nf :NERDTreeFind<cr>
+
+""""""""""""""""""""""""""""""
+" => Airline
+""""""""""""""""""""""""""""""
+let g:airline_theme="luna"
+let g:airline_powerline_fonts=1
+let g:airline_enable_syntastic=1
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Goyo
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:goyo_width=100
+let g:goyo_margin_top = 2
+let g:goyo_margin_bottom = 2
+nnoremap <silent> <leader>z :Goyo<cr>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Syntastic
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:syntastic_python_checkers=['pyflakes']
+let g:syntastic_enable_perl_checker=1
+let g:syntastic_perl_checkers=['perl','podchecker']
+let g:syntastic_perl_lib_path=['lib','locallib/lib/perl5']
+let g:syntastic_ignore_files=['\m\c\.t$']
+let g:syntastic_error_symbol='✗'
+let g:syntastic_warning_symbol='⚠'
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Sprunge
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let s:sprunge_cmd='nopaste'
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Indent guides
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_auto_colors = 0
+let g:indent_guides_start_level = 2
+let g:indent_guides_guide_size = 1
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => NeatFold
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:NeatFoldTextFancy = 1
+
+""""""""""""""""""""""""""""""
+" => Neocomplete
+""""""""""""""""""""""""""""""
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_smart_case = 1
+if !exists('g:neocomplete#sources#omni#input_patterns')
+  let g:neocomplete#sources#omni#input_patterns = {}
+endif
+let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+
+""""""""""""""""""""""""""""""
+" => Custom
+""""""""""""""""""""""""""""""
+map <leader>t   <Esc>:!ctp2 %; growlnotify -t "Test complete" -m "%"<cr>
+
+"let tlist_perl_settings='perl;u:use;p:package;r:role;e:extends;c:constant;a:attribute;s:subroutine;l:label'
+"let Tlist_Show_One_File = 1
+"let g:AutoClosePairs_add="<> | ' [] \""
+
