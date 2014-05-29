@@ -8,7 +8,6 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
-
 Bundle 'aanari/vim-codereview'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'bling/vim-airline'
@@ -22,6 +21,7 @@ Plugin 'godlygeek/tabular'
 Plugin 'Harenome/vim-neatfoldtext'
 Plugin 'honza/vim-snippets'
 Plugin 'jlanzarotta/bufexplorer'
+Plugin 'joonty/vdebug'
 Plugin 'junegunn/goyo.vim'
 Bundle 'junkblocker/patchreview-vim'
 Plugin 'kana/vim-fakeclip'
@@ -486,6 +486,28 @@ let g:indent_guides_guide_size = 1
 " => NeatFold
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:NeatFoldTextFancy = 1
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Rainbow Parenthesis
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:rbpt_colorpairs = [
+    \ ['brown',       'RoyalBlue3'],
+    \ ['Darkblue',    'SeaGreen3'],
+    \ ['darkgray',    'DarkOrchid3'],
+    \ ['darkgreen',   'firebrick3'],
+    \ ['darkcyan',    'RoyalBlue3'],
+    \ ['darkred',     'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['brown',       'firebrick3'],
+    \ ['gray',        'RoyalBlue3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['Darkblue',    'firebrick3'],
+    \ ['darkgreen',   'RoyalBlue3'],
+    \ ['darkcyan',    'SeaGreen3'],
+    \ ['darkred',     'DarkOrchid3'],
+    \ ['red',         'firebrick3'],
+    \ ]
+let g:rbpt_max = 15
 
 """"""""""""""""""""""""""""""
 " => Neocomplete
