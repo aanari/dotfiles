@@ -9,12 +9,12 @@ call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
 
+Bundle 'aanari/vim-codereview'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'bling/vim-airline'
 Plugin 'c9s/perlomni.vim'
 Plugin 'chilicuil/vim-sprunge'
 Plugin 'chreekat/vim-paren-crosshairs'
-Bundle 'codegram/vim-codereview'
 Plugin 'ervandew/supertab'
 Plugin 'evanmiller/nginx-vim-syntax'
 Plugin 'garbas/vim-snipmate'
