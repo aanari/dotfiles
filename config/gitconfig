@@ -33,13 +33,12 @@
 	credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
 	# Undo a `git push`
 	undopush = push -f origin HEAD^:master
-
+#[include]
+#    path = .gitconfig.local
 [core]
 	# Use custom `.gitignore`
 	excludesfile = ~/.gitignore
-
 [color]
-	# Use colors in Git commands that are capable of colored output when outputting to the terminal
 	ui = auto
 [color "branch"]
 	current = yellow reverse
@@ -55,27 +54,13 @@
 	changed = green
 	untracked = cyan
 [merge]
-	# Include summaries of merged commits in newly created merge commit messages
-	log = true
-
+    log = true
+    conflictstyle = diff3
+      tool = vimdiff
 # Use `origin` as the default remote on the `master` branch in all cases
 [branch "master"]
 	remote = origin
 	merge = refs/heads/master
-
-# URL shorthands
-[url "git@github.com:"]
-	insteadOf = "gh:"
-	pushInsteadOf = "github:"
-	pushInsteadOf = "git://github.com/"
-[url "git://github.com/"]
-	insteadOf = "github:"
-[url "git@gist.github.com:"]
-	insteadOf = "gst:"
-	pushInsteadOf = "gist:"
-	pushInsteadOf = "git://gist.github.com/"
-[url "git://gist.github.com/"]
-	insteadOf = "gist:"
 [user]
 	name = Ali Anari
 	email = ali@anari.me
