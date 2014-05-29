@@ -54,6 +54,8 @@ fresh twe4ked/dotfiles shell/zsh/zsh-syntax-highlighting.zsh --file=~/.zshrc
 # config
 fresh-options --file
     fresh config/\*
+    fresh AndyA/dotfiles .mostrc
+    fresh AndyA/dotfiles .perldb
     fresh machinshin/dotfiles .perltidyrc
     fresh jasoncodes/dotfiles config/hushlogin
     fresh jasoncodes/dotfiles config/inputrc
@@ -65,6 +67,7 @@ fresh config/mutt --file=~/.mutt/
 fresh config/irssi --file=~/.irssi/
 fresh config/re.pl --file=~/.re.pl/
 fresh config/sqitch --file=~/.sqitch/
+fresh AndyA/dotfiles .perldb.d --file=~/.perldb.d/
 fresh henrik/dotfiles rubyrc --file=~/.pryrc --filter='cat; echo include RubyRC'
 fresh twe4ked/dotfiles config/ranger/rc.conf --file=~/.config/ranger/rc.conf
 
