@@ -1,1 +1,3 @@
+[[ -f ~/.rvm/scripts/rvm ]] && . ~/.rvm/scripts/rvm
+[[ -f ~/perl5/perlbrew/etc/bashrc ]] && . ~/perl5/perlbrew/etc/bashrc
 [[ -f ~/.aws ]] && . ~/.aws

@@ -65,6 +65,7 @@ fresh-options --file
 fresh-options
 fresh config/mutt --file=~/.mutt/
 fresh config/irssi --file=~/.irssi/
+fresh config/perldebug --file=~/.perldebug/
 fresh config/re.pl --file=~/.re.pl/
 fresh config/sqitch --file=~/.sqitch/
 fresh AndyA/dotfiles .perldb.d --file=~/.perldb.d/
