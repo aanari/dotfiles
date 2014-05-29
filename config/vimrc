@@ -47,7 +47,6 @@ Plugin 'tomtom/tlib_vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
-"Plugin 'Townk/vim-autoclose'
 Plugin 'uguu-org/vim-matrix-screensaver'
 Plugin 'vim-perl/vim-perl'
 Plugin 'vim-scripts/AutoTag'
@@ -114,6 +113,9 @@ set foldcolumn=1
 """"""""""""""""""""""""""""""
 syntax enable
 
+let &colorcolumn=join(range(81,999),",")
+hi ColorColumn ctermbg=8
+
 try
     colorscheme solarized
 catch
@@ -133,10 +135,9 @@ set ffs=unix,dos,mac
 
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=0 guibg=#2c2d27
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=0 guibg=#2c2d27
-hi ExtraWhitespace ctermbg=0
 au BufEnter * match ExtraWhitespace /\S\zs\s\+$/
-let &colorcolumn=join(range(81,999),",")
-highlight ColorColumn ctermbg=8
+hi ExtraWhitespace ctermbg=0
+hi SignColumn ctermbg=0
 
 """"""""""""""""""""""""""""""
 " => Backups
@@ -487,19 +488,31 @@ let g:NeatFoldTextFancy = 1
 """"""""""""""""""""""""""""""
 " => Neocomplete
 """"""""""""""""""""""""""""""
+let g:acp_enableAtStartup = 0
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
+inoremap <expr><C-g>     neocomplete#undo_completion()
+inoremap <expr><C-l>     neocomplete#complete_common_string()
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return neocomplete#close_popup() . "\<CR>"
+endfunction
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y>  neocomplete#close_popup()
+inoremap <expr><C-e>  neocomplete#cancel_popup()"
 if !exists('g:neocomplete#sources#omni#input_patterns')
   let g:neocomplete#sources#omni#input_patterns = {}
 endif
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
 """"""""""""""""""""""""""""""
 " => Custom
 """"""""""""""""""""""""""""""
 map <leader>t   <Esc>:!ctp2 %; growlnotify -t "Test complete" -m "%"<cr>
-
-"let tlist_perl_settings='perl;u:use;p:package;r:role;e:extends;c:constant;a:attribute;s:subroutine;l:label'
-"let Tlist_Show_One_File = 1
-"let g:AutoClosePairs_add="<> | ' [] \""
-
