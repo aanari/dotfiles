@@ -123,6 +123,11 @@ let g:rbpt_max = 15
 map <leader>b :Breakpoint<cr>
 "nnoremap <F5>:!perl -d %&;:VdebugStart<cr>
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => ScriptRunner
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:script_runner_perl = 'perl -Mfeature=:5.10 -MData::Dump'
+
 """"""""""""""""""""""""""""""
 " => Neocomplete
 """"""""""""""""""""""""""""""
