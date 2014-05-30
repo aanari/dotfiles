@@ -63,6 +63,7 @@ fresh-options --file
     fresh jasoncodes/dotfiles config/screenrc
     fresh jasoncodes/dotfiles config/sqliterc
 fresh-options
+fresh github/gitignore Global/\* --file=~/.gitignore
 fresh config/mutt --file=~/.mutt/
 fresh config/irssi --file=~/.irssi/
 fresh config/perldebug --file=~/.perldebug/
