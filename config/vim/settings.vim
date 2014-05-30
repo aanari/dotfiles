@@ -78,6 +78,10 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=0 guibg=#2c2d27
 au BufEnter * match ExtraWhitespace /\S\zs\s\+$/
 hi ExtraWhitespace ctermbg=0
 hi SignColumn ctermbg=0
+hi SyntasticErrorSign ctermfg=1 ctermbg=0
+hi SyntasticWarningSign ctermfg=3 ctermbg=0
+hi SyntasticErrorLine ctermbg=0
+hi SyntasticWarningLine ctermbg=0
 
 """"""""""""""""""""""""""""""
 " => Backups

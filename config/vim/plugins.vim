@@ -68,6 +68,7 @@ nnoremap <silent> <leader>z :Goyo<cr>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Syntastic
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:syntastic_auto_jump = 2
 let g:syntastic_python_checkers=['pyflakes']
 let g:syntastic_enable_perl_checker=1
 let g:syntastic_perl_checkers=['perl','podchecker']
@@ -152,4 +153,6 @@ let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 """"""""""""""""""""""""""""""
 " => Custom
 """"""""""""""""""""""""""""""
-map <leader>t   <Esc>:!ctp2 %; growlnotify -t "Test complete" -m "%"<cr>
+vmap <leader>pt :!perltidy<cr>
+nmap <leader>pt :%! perltidy<cr>
+nmap <leader>t :!ctp2 %; growlnotify -t "Test complete" -m "%"<cr>
