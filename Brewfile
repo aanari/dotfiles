@@ -30,6 +30,7 @@ install node
 install openvpn
 install pandoc
 install ranger
+install reattach-to-user-namespace
 install ssh-copy-id
 install tmux
 install wemux
