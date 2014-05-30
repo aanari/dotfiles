@@ -80,6 +80,15 @@ fresh-options --file=~/.irbrc
     fresh-options
 fresh-options
 
+# ~/.vimrc
+fresh-options --file=~/.vimrc --marker=\"
+    fresh config/vim/vundle_before.vim
+    fresh config/vim/vundle.vim
+    fresh config/vim/vundle_after.vim
+    fresh config/vim/settings.vim
+    fresh config/vim/plugins.vim
+fresh-options
+
 # bin
 fresh-options --bin
     fresh akatov/dotfiles bin/currency_convert
