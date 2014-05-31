@@ -31,8 +31,10 @@ install openvpn
 install pandoc
 install ranger
 install reattach-to-user-namespace
+install scala
 install ssh-copy-id
 install tmux
+install typesafe-activator
 install wemux
 install wget
 install zsh
