@@ -239,6 +239,15 @@ autocmd BufNewFile,BufRead *.tt set filetype=xml
 autocmd FileType perl set complete-=i
 
 """"""""""""""""""""""""""""""
+" => Scala
+""""""""""""""""""""""""""""""
+au BufNewFile,BufRead *.scala setlocal filetype=scala
+au FileType scala setlocal cindent
+au FileType scala setlocal tabstop=2 softtabstop=2 shiftwidth=2
+let g:scala_first_party_namespaces='\(controllers\|views\|models\|util\|de.\|relayr\)'
+let g:scala_sort_across_groups=1
+
+""""""""""""""""""""""""""""""
 " => Functions
 """"""""""""""""""""""""""""""
 function! CmdLine(str)
