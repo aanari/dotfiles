@@ -1,0 +1,30 @@
+#!/bin/sh
+
+osascript -e '
+	to replaceText(find, replace, subject)
+		set prevTIDs to text item delimiters of AppleScript
+		set text item delimiters of AppleScript to find
+		set subject to text items of subject
+
+		set text item delimiters of AppleScript to replace
+		set subject to "" & subject
+		set text item delimiters of AppleScript to prevTIDs
+
+		return subject
+	end replaceText
+
+	on run argv
+		'"set escaped_filename to replaceText(\"'\", \"'\\\\''\", item 1 of argv)"'
+		tell application "iTerm"
+			make new terminal
+			tell the last terminal
+				make new session
+				tell the last session
+					exec command "zsh"
+					write text "vim -c \"setf perl\" " & escaped_filename & ";exit"
+				end tell
+			end tell
+            activate
+		end tell
+	end run' \
+	"$1"

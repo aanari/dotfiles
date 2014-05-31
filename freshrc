@@ -93,6 +93,7 @@ fresh-options
 
 # bin
 fresh-options --bin
+    fresh bin/\*
     fresh akatov/dotfiles bin/currency_convert
     fresh benhoskings/dot-files files/bin/gbrt
     fresh defunkt/repl bin/repl
