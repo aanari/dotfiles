@@ -19,7 +19,6 @@ command W w !sudo tee % > /dev/null
 " => User interface
 """"""""""""""""""""""""""""""
 set so=7
-
 set wildmenu
 set wildignore=*.o,*~,*.pyc
 if has("win16") || has("win32")
@@ -47,6 +46,8 @@ set t_vb=
 set tm=500
 set foldcolumn=1
 set clipboard=unnamed
+let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
 
 """"""""""""""""""""""""""""""
 " => Colors and fonts
