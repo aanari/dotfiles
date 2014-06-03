@@ -23,6 +23,7 @@ function mkcd() {
 }
 
 function ctp() {
+    `perl -pi -e 's/(logger:\s\")crowdtilt\"/$1file\"/;' ./environments/development.yml`
     tmp="$(prove -MCarp::Always -Pretty -lvr -Ilocallib/lib/perl5 $1 > /dev/tty)"
     retval=$?
     title="✅  Test Succeeded"
