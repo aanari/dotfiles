@@ -235,7 +235,7 @@ let perl_want_scope_in_variables=1
 let perl_extended_vars=1
 let perl_nofold_packages=1
 let perl_fold_anonymous_subs=1
-inoremap => =><Esc>:Tabularize /=><CR>A<Space>
+inoremap => =><Esc>:call tabularity#Align('=>')<cr>a
 autocmd BufNewFile,BufRead *.t set filetype=perl
 autocmd BufNewFile,BufRead *.tt set filetype=xml
 autocmd FileType perl set complete-=i

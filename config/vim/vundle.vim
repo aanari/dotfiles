@@ -1,5 +1,6 @@
 Plugin 'aanari/vim-sprunge'
 Plugin 'altercation/vim-colors-solarized'
+Plugin 'atsepkov/vim-tabularity'
 Plugin 'bling/vim-airline'
 Plugin 'c9s/perlomni.vim'
 Plugin 'chreekat/vim-paren-crosshairs'
