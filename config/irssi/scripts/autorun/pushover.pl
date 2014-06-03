@@ -1,5 +1,6 @@
-# Push hilights and private  while away
+# Push hilights and private while away
 # Author: Marcus Carlsson <carlsson.marcus@gmail.com>
+# Modified to be compatible with irssi-xmpp
 
 use strict;
 use warnings;
@@ -9,7 +10,7 @@ use vars qw($VERSION %IRSSI %config);
 use LWP::UserAgent;
 use Scalar::Util qw(looks_like_number);
 
-$VERSION = '0.2.1';
+$VERSION = '0.2.2';
 
 %IRSSI = (
     authors => 'Marcus Carlsson',
@@ -84,30 +85,25 @@ sub send_push {
     }
 }
 
-sub msg_pub {
-    my ($server, $data, $nick, $address, $target) = @_;
-    my $safeNick = quotemeta($server->{nick});
+sub msg_print_text {
+     my ($dest, $text, $stripped) = @_;
+     my $server = $dest->{server};
+     my $target = $dest->{target};
 
-    if(check_ignore_channels($target)) {
-        return;
-    }
+     return if (!$server || !($dest->{level} & MSGLEVEL_HILIGHT));
+     return if check_ignore_channels($target);
+     return if check_away($server);
 
-    if(check_ignore($address) || check_away($server)) {
-        return;
-    }
-
-    if ($data =~ /$safeNick/i) {
-        debug('Got pub msg.');
-        send_push($target, $nick.': '.strip_formating($data));
-    }
+     debug('Got nick highlight');
+     $stripped =~ s/^\s+|\s+$//g;
+     send_push($target, $stripped);
 }
 
 sub msg_pri {
     my ($server, $data, $nick, $address) = @_;
 
-    if(check_ignore($address) || check_away($server)) {
-        return;
-    }
+    return if check_ignore($address) || check_away($server);
+
     debug('Got priv msg.');
     send_push('Priv, '.$nick, strip_formating($data));
 }
@@ -115,9 +111,7 @@ sub msg_pri {
 sub msg_kick {
     my ($server, $channel, $nick, $kicker, $address, $reason) = @_;
 
-    if(check_ignore($address) || check_away($server)) {
-        return;
-    }
+    return if check_ignore($address) || check_away($server);
 
     if ($nick eq $server->{nick}) {
         debug('Was kicked.');
@@ -279,7 +273,7 @@ Irssi::command_bind('pushtest', \&msg_test);
 Irssi::signal_add_first("default command pushignore", \&ignore_unknown);
 
 
-Irssi::signal_add_last('message public', 'msg_pub');
+Irssi::signal_add_last('print text', 'msg_print_text');
 Irssi::signal_add_last('message private', 'msg_pri');
 Irssi::signal_add_last('message kick', 'msg_kick');
 
