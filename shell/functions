@@ -35,21 +35,6 @@ function ctp() {
 # Credit goes to DelvarWorld for the below - https://github.com/DelvarWorld
 # Generate git format string on the fly to get the right top level directory
 
-shc() {
-    # If no inputs, ssh to main
-    if [ -z $1 ]; then
-        ssh bastion1
-    else
-        # If it's in config file, ssh to it regularly
-        if [ -n "$(cat ~/.ssh/config | grep "Host $1")" ]; then
-            ssh $1
-            # Otherwise tunnel to it
-        else
-            ssh -t bastion1 "ssh -t $1";
-        fi
-    fi
-}
-
 _gen_format_string() {
     echo "<a href=\"https://github.com/Crowdtilt/`basename $(git rev-parse --show-toplevel)`/commit/%h\" style='font-family:\"Courier new\"; color:red; font-weight:bold; text-decoration:none'>%h</a> %s <span style=\"color:green\">(%cr)</span> &lt;<span style=\"color:blue; font-weight:bold;\">%an</span>&gt;<br />"
 }
