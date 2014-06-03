@@ -68,7 +68,6 @@ fresh seebi/tmux-colors-solarized tmuxcolors-256.conf --file=~/.tmux.conf
 fresh github/gitignore Global/\* --file=~/.gitignore
 fresh config/mutt --file=~/.mutt/
 fresh config/irssi --file=~/.irssi/
-fresh config/perldebug --file=~/.perldebug/
 fresh config/re.pl --file=~/.re.pl/
 fresh config/sqitch --file=~/.sqitch/
 fresh AndyA/dotfiles .perldb.d --file=~/.perldb.d/

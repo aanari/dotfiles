@@ -33,6 +33,7 @@ install ranger
 install reattach-to-user-namespace
 install scala
 install ssh-copy-id
+install terminal-notifier
 install tmux
 install typesafe-activator
 install wemux
