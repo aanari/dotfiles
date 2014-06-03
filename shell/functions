@@ -22,6 +22,14 @@ function mkcd() {
     mkdir -p "$1" && cd "$1";
 }
 
+function ctp() {
+    tmp="$(prove -MCarp::Always -Pretty -lvr -Ilocallib/lib/perl5 $1 > /dev/tty)"
+    retval=$?
+    title="✅  Test Succeeded"
+    if [ $retval -ne 0 ]; then title="❌  Test Failed"; fi
+    terminal-notifier -activate com.googlecode.iterm2 -title "$title" -message "$1"
+}
+
 
 # Credit goes to DelvarWorld for the below - https://github.com/DelvarWorld
 # Generate git format string on the fly to get the right top level directory

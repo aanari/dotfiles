@@ -154,4 +154,4 @@ let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 """"""""""""""""""""""""""""""
 vmap <leader>pt :!perltidy<cr>
 nmap <leader>pt :%! perltidy<cr>
-nmap <leader>t :!ctp2 %; growlnotify -t "Test complete" -m "%"<cr>
+nmap <leader>t :!ctp %<cr>
