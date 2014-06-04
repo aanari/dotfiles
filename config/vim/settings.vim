@@ -44,7 +44,6 @@ set noerrorbells
 set novisualbell
 set t_vb=
 set tm=500
-set updatetime=50
 set foldcolumn=1
 set clipboard=unnamed
 let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
@@ -238,6 +237,7 @@ autocmd BufNewFile,BufRead *.tt set filetype=xml
 autocmd FileType perl set complete-=i
 autocmd FileType perl setl foldexpr=PerlFold(v:lnum)
 autocmd FileType perl setl foldmethod=expr
+hi PerlVarHiLight ctermbg=NONE guibg=NONE guifg=white ctermfg=white gui=NONE
 
 """"""""""""""""""""""""""""""
 " => Scala
