@@ -44,6 +44,7 @@ set noerrorbells
 set novisualbell
 set t_vb=
 set tm=500
+set updatetime=50
 set foldcolumn=1
 set clipboard=unnamed
 let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
@@ -239,6 +240,7 @@ inoremap => =><Esc>:call tabularity#Align('=>')<cr>a
 autocmd BufNewFile,BufRead *.t set filetype=perl
 autocmd BufNewFile,BufRead *.tt set filetype=xml
 autocmd FileType perl set complete-=i
+let g:hlvarhl="ctermbg=none ctermfg=white guifg=white guibg=none gui=bold"
 
 """"""""""""""""""""""""""""""
 " => Scala
