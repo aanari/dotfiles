@@ -68,7 +68,6 @@ nnoremap <silent> <leader>z :Goyo<cr>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Syntastic
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:syntastic_auto_jump = 2
 let g:syntastic_python_checkers=['pyflakes']
 let g:syntastic_enable_perl_checker=1
 let g:syntastic_perl_checkers=['perl','podchecker']
