@@ -138,6 +138,8 @@ try
   set stal=2
 catch
 endtry
+autocmd BufWinLeave *.* mkview!
+autocmd BufWinEnter *.* silent loadview
 
 """"""""""""""""""""""""""""""
 " => Tabs
@@ -194,7 +196,6 @@ cnoremap <C-N> <Down>
 """"""""""""""""""""""""""""""
 " => Date
 """"""""""""""""""""""""""""""
-
 iab xdate <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
 
 """"""""""""""""""""""""""""""
@@ -231,16 +232,12 @@ au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
-let perl_include_pod=1
-let perl_want_scope_in_variables=1
-let perl_extended_vars=1
-let perl_nofold_packages=1
-let perl_fold_anonymous_subs=1
 inoremap => =><Esc>:call tabularity#Align('=>')<cr>a
 autocmd BufNewFile,BufRead *.t set filetype=perl
 autocmd BufNewFile,BufRead *.tt set filetype=xml
 autocmd FileType perl set complete-=i
-let g:hlvarhl="ctermbg=none ctermfg=white guifg=white guibg=none gui=bold"
+autocmd FileType perl setl foldexpr=PerlFold(v:lnum)
+autocmd FileType perl setl foldmethod=expr
 
 """"""""""""""""""""""""""""""
 " => Scala
@@ -271,32 +268,26 @@ function! JavaScriptFold()
     setl foldtext=FoldText()
 endfunction
 
-function PerlFold()
-  if getline(v:lnum) =~ '^\s*sub\s'
-    return ">1"
-  elseif getline(v:lnum) =~ '\}\s*$'
-    let my_perlnum = v:lnum
-    let my_perlmax = line("$")
-    while (1)
-      let my_perlnum = my_perlnum + 1
-      if my_perlnum > my_perlmax
-        return "<1"
-      endif
-      let my_perldata = getline(my_perlnum)
-      if my_perldata =~ '^\s*\(\#.*\)\?$'
-        " do nothing
-      elseif my_perldata =~ '^\s*sub\s'
-        return "<1"
-      else
-        return "="
-      endif
-    endwhile
-  else
-    return "="
+function! PerlFold(lnum)
+  if (!exists('b:in_pod'))
+    let b:in_pod = 0
   endif
+  if indent(a:lnum) == 0
+    let l:line = getline(a:lnum)
+    if b:in_pod == 0 && l:line =~ '^=\(head\d\|endpoint\)'
+      let b:in_pod = 1
+      return ">1"
+    elseif l:line !~ '\s*#'
+      if b:in_pod == 0 && l:line =~ '[{(]$'
+        return ">1"
+      elseif l:line =~ '\(\}\|\};\|);\|1;\)$'
+        let b:in_pod = 0
+        return "<1"
+      endif
+    endif
+  endif
+  return "="
 endfunction
-setlocal foldexpr=PerlFold()
-setlocal foldmethod=expr
 
 function! VisualSelection(direction, extra_filter) range
     let l:saved_reg = @"
