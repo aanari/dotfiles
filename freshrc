@@ -90,6 +90,13 @@ fresh-options --file=~/.vimrc --marker=\"
     fresh config/vim/settings.vim
     fresh config/vim/plugins.vim
 fresh-options
+fresh vim-perl/vim-perl contrib/carp.vim --file=~/.vim/after/syntax/perl/carp.vim
+fresh vim-perl/vim-perl contrib/dancer.vim --file=~/.vim/after/syntax/perl/dancer.vim
+fresh vim-perl/vim-perl contrib/highlight-all-pragmas.vim --file=~/.vim/after/syntax/perl/highlight-all-pragmas.vim
+fresh vim-perl/vim-perl contrib/method-signatures.vim --file=~/.vim/after/syntax/perl/method-signatures.vim
+fresh vim-perl/vim-perl contrib/moose.vim --file=~/.vim/after/syntax/perl/moose.vim
+fresh vim-perl/vim-perl contrib/test-more.vim --file=~/.vim/after/syntax/perl/test-more.vim
+fresh vim-perl/vim-perl contrib/try-tiny.vim --file=~/.vim/after/syntax/perl/try-tiny.vim
 
 # bin
 fresh-options --bin
