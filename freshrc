@@ -98,8 +98,8 @@ fresh vim-perl/vim-perl contrib/method-signatures.vim --file=~/.vim/after/syntax
 fresh vim-perl/vim-perl contrib/moose.vim --file=~/.vim/after/syntax/perl/moose.vim
 fresh vim-perl/vim-perl contrib/test-more.vim --file=~/.vim/after/syntax/perl/test-more.vim
 fresh vim-perl/vim-perl contrib/try-tiny.vim --file=~/.vim/after/syntax/perl/try-tiny.vim
-fresh c9s/perlomni.vim bin/grep-objvar.pl --file=~/.vim/bin/grep-objvar.pl
-fresh c9s/perlomni.vim bin/grep-pattern.pl --file=~/.vim/bin/grep-pattern.pl
+fresh c9s/perlomni.vim bin/grep-objvar.pl --bin=~/.vim/bin/grep-objvar.pl
+fresh c9s/perlomni.vim bin/grep-pattern.pl --bin=~/.vim/bin/grep-pattern.pl
 
 # bin
 fresh-options --bin
