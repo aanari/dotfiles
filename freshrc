@@ -104,6 +104,7 @@ fresh-options --bin
     fresh bin/\*
     fresh akatov/dotfiles bin/currency_convert
     fresh benhoskings/dot-files files/bin/gbrt
+    fresh c9s/perlomni.vim bin/\*
     fresh defunkt/repl bin/repl
     fresh garybernhardt/dotfiles bin/git-churn
     fresh git/git contrib/diff-highlight/diff-highlight
