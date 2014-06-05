@@ -64,6 +64,19 @@ let g:goyo_width=100
 let g:goyo_margin_top = 2
 let g:goyo_margin_bottom = 2
 nnoremap <silent> <leader>z :Goyo<cr>
+function! Goyo_before()
+  let g:neocomplete#disable_auto_complete = 1
+  if exists('$TMUX')
+    silent !tmux set status off
+  endif
+endfunction
+function! Goyo_after()
+  let g:neocomplete#disable_auto_complete = 0
+  if exists('$TMUX')
+    silent !tmux set status on
+  endif
+endfunction
+let g:goyo_callbacks = [function('Goyo_before'), function('Goyo_after')]
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Syntastic
