@@ -178,7 +178,8 @@ map <leader>pp :setlocal paste!<cr>
 " => Persistent undo
 """"""""""""""""""""""""""""""
 try
-    set undodir=~/.vim/temp_dirs/undodir
+    silent !mkdir ~/.vim/undodir > /dev/null 2>&1
+    set undodir=~/.vim/undodir
     set undofile
 catch
 endtry
