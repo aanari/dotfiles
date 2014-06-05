@@ -148,6 +148,14 @@ autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => UltiSnip
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:UltiSnipsEditSplit="vertical"
+
 """"""""""""""""""""""""""""""
 " => Custom
 """"""""""""""""""""""""""""""
