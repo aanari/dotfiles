@@ -1,13 +1,9 @@
 """"""""""""""""""""""""""""""
-" => Ack
+" => Ag
 """"""""""""""""""""""""""""""
 vnoremap <silent> gv :call VisualSelection('gv', '')<CR>
-map <leader>g :Ack
+map <leader>g :Ag 
 vnoremap <silent> <leader>r :call VisualSelection('replace', '')<CR>
-map <leader>cc :botright cope<cr>
-map <leader>co ggVGy:tabnew<cr>:set syntax=qf<cr>pgg
-map <leader>n :cn<cr>
-map <leader>p :cp<cr>
 
 """"""""""""""""""""""""""""""
 " => bufexplorer
@@ -169,6 +165,15 @@ let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:UltiSnipsEditSplit="vertical"
+
+""""""""""""""""""""""""""""""
+" => YankRing
+""""""""""""""""""""""""""""""
+if has("win16") || has("win32")
+    " Don't do anything
+else
+    let g:yankring_history_dir = '~/.vim'
+endif
 
 """"""""""""""""""""""""""""""
 " => Custom
