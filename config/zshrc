@@ -1,0 +1,1 @@
+[[ -f ~/perl5/perlbrew/etc/perlbrew-completion.bash ]] && . ~/perl5/perlbrew/etc/perlbrew-completion.bash 

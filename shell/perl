@@ -1,7 +1,2 @@
-export PERL5LIB=~/.perldebug/
-export PERL5DB="BEGIN { require q($PERL5LIB/perl5db.pl)}"
-export PERLDB_OPTS="RemotePort=localhost:9000"
-export DBGP_IDEKEY="vim"
-
 export NOPASTE_SERVICES=Dancebin
 export TEST_PRETTY_COLOR_NAME=bright_white
