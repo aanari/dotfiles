@@ -35,6 +35,7 @@ install scala
 install ssh-copy-id
 install terminal-notifier
 install tmux
+install the_silver_searcher
 install typesafe-activator
 install wemux
 install wget
