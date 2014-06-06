@@ -66,7 +66,7 @@ fresh-options --file
 fresh-options
 fresh claytron/pentadactyl-solarized colors/solarized-dark.penta --file=~/.pentadactyl/colors/solarized-dark.penta
 fresh seebi/tmux-colors-solarized tmuxcolors-256.conf --file=~/.tmux.conf
-fresh github/gitignore Global/\* --file=~/.gitignore
+fresh github/gitignore Global/OSX.gitignore --file=~/.gitignore
 fresh config/mutt --file=~/.mutt/
 fresh config/irssi --file=~/.irssi/
 fresh config/re.pl --file=~/.re.pl/
