@@ -8,6 +8,7 @@ use 5.014;
 use lib 'lib';
 use strict;
 use warnings;
+use signatures;
 no warnings 'redefine';
 
 use POSIX qw(strftime);
@@ -25,7 +26,6 @@ use JSON;
 use Scalar::Defer qw(lazy defer force);
 use Scalar::Util qw(blessed weaken isweak tainted looks_like_number);
 use String::Util ':all';
-use Term::ANSIColor;
 use Try::Tiny;
 use Test::Deep qw(cmp_bag cmp_deeply bag re superhashof subhashof superbagof);
 use Test::More;
@@ -70,12 +70,9 @@ $_REPL->dataprinter_config({ deparse => 1 });
 
 $_REPL->term->ornaments(0);
 
-$_REPL->fancy_prompt(sub {
-    "\n" . color('blue') . 'λ' . color('green') . '(0)' . color('reset') . ' ';
-});
+$_REPL->fancy_prompt(sub { "\n" . 'λ' . '(0)' . ' ' });
 
 $_REPL->fancy_continuation_prompt(sub {
     my $self = shift;
-    color('blue') . 'λ' . color('yellow') . '(' . $self->line_depth. ')' .
-    color('bright_blue') . ' :   ' x (($self->line_depth)) . color('reset').' ';
+    'λ(' . $self->line_depth . ')' . ' :   ' x (($self->line_depth)) . ' ';
 });
