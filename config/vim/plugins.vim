@@ -81,6 +81,7 @@ let g:syntastic_python_checkers=['pyflakes']
 let g:syntastic_enable_perl_checker=1
 let g:syntastic_perl_checkers=['perl','podchecker']
 let g:syntastic_perl_lib_path=['lib','locallib/lib/perl5']
+let g:syntastic_cpp_compiler_options = '-std=c++1y'
 let g:syntastic_ignore_files=['\m\c\.t$']
 let g:syntastic_error_symbol='✗'
 let g:syntastic_warning_symbol='⚠'
@@ -133,8 +134,18 @@ let g:script_runner_perl = 'perl -Mfeature=:5.10 -MData::Dump'
 """"""""""""""""""""""""""""""
 let g:acp_enableAtStartup = 0
 let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_smart_case = 1
-"let g:neocomplete#enable_auto_select = 1
+let g:neocomplete#enable_smart_case = 0
+let g:neocomplete#data_directory = '~/.vim/neocomplete'
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+let g:neocomplete#keyword_patterns      = {}
+let g:neocomplete#keyword_patterns._    = '\h\w*'
+
+if !exists('g:neocomplete#keyword_patterns')
+  let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
 inoremap <expr><C-g>     neocomplete#undo_completion()
 inoremap <expr><C-l>     neocomplete#complete_common_string()
 inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
@@ -145,20 +156,51 @@ inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
 inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
 inoremap <expr><C-y>  neocomplete#close_popup()
 inoremap <expr><C-e>  neocomplete#cancel_popup()"
+
 if !exists('g:neocomplete#sources#omni#input_patterns')
   let g:neocomplete#sources#omni#input_patterns = {}
 endif
+
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+let g:neocomplete#sources#omni#input_patterns.php  = '[^. \t]->\h\w*\|\h\w*::'
 let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
+if !exists('g:neocomplete#sources#include#paths')
+  let g:neocomplete#sources#include#paths = {}
+endif
+let g:neocomplete#sources#include#paths.c = '/usr/include,'.'/usr/local/include'
+let g:neocomplete#sources#include#paths.cpp = '/usr/include,'.'/usr/include/c++/*,'.'/usr/local/include'
+
+let g:neocomplete#force_overwrite_completefunc = 1
+if !exists('g:neocomplete#force_omni_input_patterns')
+  let g:neocomplete#force_omni_input_patterns = {}
+endif
+let g:neocomplete#force_omni_input_patterns.c =
+      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+let g:neocomplete#force_omni_input_patterns.cpp =
+      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+let g:neocomplete#force_omni_input_patterns.objc =
+      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+let g:neocomplete#force_omni_input_patterns.objcpp =
+      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+let g:neocomplete#force_omni_input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::\w*'
+
+let g:neocomplete#same_filetypes           = {}
+let g:neocomplete#same_filetypes.gitconfig = '_'
+let g:neocomplete#same_filetypes._         = '_'
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Supertab
+" => clang_complete
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:SuperTabDefaultCompletionType = "<C-X><C-O>"
+let g:clang_library_path = "/Library/Developer/CommandLineTools/usr/lib"
+let g:clang_use_library = 1
+let g:clang_complete_auto = 0
+let g:clang_auto_select = 0
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => UltiSnip

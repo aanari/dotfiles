@@ -7,6 +7,7 @@ install autoenv
 install autoconf
 install base64
 install bcrypt
+install boost
 install boot2docker
 install burl
 install coreutils
