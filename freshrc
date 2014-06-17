@@ -91,6 +91,8 @@ fresh-options --file=~/.vimrc --marker=\"
     fresh config/vim/settings.vim
     fresh config/vim/plugins.vim
 fresh-options
+fresh git://gist.github.com/4273473.git dancer.snippets --file=~/.vim/UltiSnips/dancer.snippets
+fresh config/vim/ftplugin/perl.vim --file=~/.vim/after/ftplugin/perl.vim
 fresh vim-perl/vim-perl contrib/carp.vim --file=~/.vim/after/syntax/perl/carp.vim
 fresh vim-perl/vim-perl contrib/dancer.vim --file=~/.vim/after/syntax/perl/dancer.vim
 fresh vim-perl/vim-perl contrib/highlight-all-pragmas.vim --file=~/.vim/after/syntax/perl/highlight-all-pragmas.vim

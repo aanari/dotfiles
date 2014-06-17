@@ -230,12 +230,13 @@ au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
+au Syntax * RainbowParenthesesLoadChevrons
 inoremap => =><Esc>:call tabularity#Align('=>')<cr>a
-autocmd BufNewFile,BufRead *.t set filetype=perl
-autocmd BufNewFile,BufRead *.tt set filetype=xml
-autocmd FileType perl set complete-=i
-autocmd FileType perl setl foldexpr=PerlFold(v:lnum)
-autocmd FileType perl setl foldmethod=expr
+au BufNewFile,BufRead *.t set filetype=perl
+au BufNewFile,BufRead *.tt set filetype=xml
+au FileType perl set complete-=i
+au FileType perl setl foldexpr=PerlFold(v:lnum)
+au FileType perl setl foldmethod=expr
 hi PerlVarHiLight ctermbg=NONE guibg=NONE guifg=white ctermfg=white gui=NONE
 
 """"""""""""""""""""""""""""""
