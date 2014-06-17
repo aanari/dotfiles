@@ -137,8 +137,6 @@ try
   set stal=2
 catch
 endtry
-autocmd BufWinLeave *.* mkview!
-autocmd BufWinEnter *.* silent loadview
 
 """"""""""""""""""""""""""""""
 " => Tabs
