@@ -16,6 +16,10 @@ use POSIX qw(strftime);
 $ENV{PERLREPL_HISTLEN} = 100000;
 $ENV{DANCER_ENVIRONMENT} = 'testing';
 
+if ($ENV{BALANCED_SECRET}) {
+    use Business::BalancedPayments;
+    my $bp = Business::BalancedPayments->new(secret => $ENV{BALANCED_SECRET});
+}
 use Capture::Tiny qw(capture capture_stdout capture_stderr capture_merged);
 use Carp qw(carp croak confess cluck);
 use DateTime;
