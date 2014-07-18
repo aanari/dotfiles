@@ -36,7 +36,6 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'SirVer/ultisnips'
 Plugin 'sjl/gundo.vim'
 Plugin 'scrooloose/syntastic'
-Plugin 'Shougo/neocomplete.vim'
 Plugin 'sickill/vim-pasta'
 Plugin 'terryma/vim-expand-region'
 Plugin 'tomtom/tcomment_vim'
@@ -54,3 +53,7 @@ Plugin 'vim-scripts/SyntaxRange'
 Plugin 'vim-scripts/YankRing.vim'
 Plugin 'yegappan/mru'
 Plugin 'yko/mojo.vim'
+
+if has('lua') && (v:version > 703 || (v:version == 703 && has('patch885')))
+    Plugin 'Shougo/neocomplete.vim'
+endif
