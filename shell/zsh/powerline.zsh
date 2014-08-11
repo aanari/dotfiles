@@ -13,7 +13,7 @@ if [ "$POWERLINE_FULL_CURRENT_PATH" = "" ]; then
 fi
 
 POWERLINE_GIT_INFO_LEFT=""
-POWERLINE_GIT_INFO_RIGHT="%F{red}"$'\u2b82'"%F{black}%K{red}"$'$(git_prompt_info)'" %f"
+POWERLINE_GIT_INFO_RIGHT="%F{red}"$'\u2b82'"%F{white}%K{red}"$'$(git_prompt_info)'" %f"
 if [ "$POWERLINE_SHOW_GIT_ON_RIGHT" = "" ]; then
     POWERLINE_GIT_INFO_LEFT=$'$(git_prompt_info)'
     POWERLINE_GIT_INFO_RIGHT=""
