@@ -62,7 +62,7 @@ try
 catch
 endtry
 
-set background=dark
+set background=light
 
 if has("gui_running")
     set guioptions-=T
@@ -74,15 +74,15 @@ endif
 set encoding=utf8
 set ffs=unix,dos,mac
 
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=0 guibg=#2c2d27
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=0 guibg=#2c2d27
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=7
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=7
 au BufEnter * match ExtraWhitespace /\S\zs\s\+$/
-hi ExtraWhitespace ctermbg=0
-hi SignColumn ctermbg=0
-hi SyntasticErrorSign ctermfg=1 ctermbg=0
-hi SyntasticWarningSign ctermfg=3 ctermbg=0
-hi SyntasticErrorLine ctermbg=0
-hi SyntasticWarningLine ctermbg=0
+hi ExtraWhitespace ctermbg=7
+hi SignColumn ctermbg=7
+hi SyntasticErrorSign ctermfg=1 ctermbg=7
+hi SyntasticWarningSign ctermfg=3 ctermbg=7
+hi SyntasticErrorLine ctermbg=7
+hi SyntasticWarningLine ctermbg=7
 
 """"""""""""""""""""""""""""""
 " => Backups

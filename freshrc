@@ -64,8 +64,8 @@ fresh-options --file
     fresh jasoncodes/dotfiles config/screenrc
     fresh jasoncodes/dotfiles config/sqliterc
 fresh-options
-fresh claytron/pentadactyl-solarized colors/solarized-dark.penta --file=~/.pentadactyl/colors/solarized-dark.penta
-fresh seebi/tmux-colors-solarized tmuxcolors-256.conf --file=~/.tmux.conf
+fresh claytron/pentadactyl-solarized colors/solarized-light.penta --file=~/.pentadactyl/colors/solarized-light.penta
+fresh seebi/tmux-colors-solarized tmuxcolors-light.conf --file=~/.tmux.conf
 fresh github/gitignore Global/OSX.gitignore --file=~/.gitignore
 fresh config/mutt --file=~/.mutt/
 fresh config/irssi --file=~/.irssi/

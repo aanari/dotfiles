@@ -49,7 +49,7 @@ map <leader>nf :NERDTreeFind<cr>
 """"""""""""""""""""""""""""""
 " => Airline
 """"""""""""""""""""""""""""""
-let g:airline_theme="luna"
+let g:airline_theme="solarized"
 let g:airline_powerline_fonts=1
 let g:airline_enable_syntastic=1
 
