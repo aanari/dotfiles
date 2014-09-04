@@ -244,6 +244,11 @@ au FileType perl setl foldmethod=expr
 au FileType ruby setl sw=2 sts=2 et
 
 """"""""""""""""""""""""""""""
+" => C++
+""""""""""""""""""""""""""""""
+au FileType cpp setl sw=2 sts=2 et
+
+""""""""""""""""""""""""""""""
 " => Scala
 """"""""""""""""""""""""""""""
 au BufNewFile,BufRead *.scala setlocal filetype=scala
