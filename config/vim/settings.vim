@@ -239,6 +239,11 @@ au FileType perl setl foldexpr=PerlFold(v:lnum)
 au FileType perl setl foldmethod=expr
 
 """"""""""""""""""""""""""""""
+" => Ruby
+""""""""""""""""""""""""""""""
+au FileType ruby setl sw=2 sts=2 et
+
+""""""""""""""""""""""""""""""
 " => Scala
 """"""""""""""""""""""""""""""
 au BufNewFile,BufRead *.scala setlocal filetype=scala
