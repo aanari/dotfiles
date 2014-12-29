@@ -68,6 +68,7 @@ fresh claytron/pentadactyl-solarized colors/solarized-light.penta --file=~/.pent
 fresh seebi/tmux-colors-solarized tmuxcolors-light.conf --file=~/.tmux.conf
 fresh github/gitignore Global/OSX.gitignore --file=~/.gitignore
 fresh config/mutt --file=~/.mutt/
+fresh config/ipython --file=~/.ipython/
 fresh config/irssi --file=~/.irssi/
 fresh config/re.pl --file=~/.re.pl/
 fresh config/sqitch --file=~/.sqitch/
