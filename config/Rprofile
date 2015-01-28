@@ -58,7 +58,7 @@ sink("/dev/null")
 options(max.print = 1000)
 
 # Nicer prompt.
-options(prompt="R> ")
+options(prompt="ℛ ⟫ ")
 
 options(show.signif.stars=FALSE)
 options(stringsAsFactors=FALSE)
@@ -128,6 +128,7 @@ options(repos = Filter(function(x) x != "@CRAN@", getOption("repos")))
     "lme4",
     "lmtest",
     "lubridate",
+    "magrittr",
     "maps",
     "maptools",
     "MASS",
