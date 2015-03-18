@@ -107,6 +107,7 @@ options(repos = Filter(function(x) x != "@CRAN@", getOption("repos")))
     "fortunes",
     "gbm",
     "gdata",
+    "GGally",
     "ggmap",
     "ggplot2",
     "ggvis",
