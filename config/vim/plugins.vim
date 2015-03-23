@@ -79,7 +79,7 @@ let g:goyo_callbacks = [function('Goyo_before'), function('Goyo_after')]
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:syntastic_python_checkers=['pyflakes']
 let g:syntastic_enable_perl_checker=1
-let g:syntastic_perl_checkers=['perl','podchecker']
+let g:syntastic_perl_checkers=['perl']
 let g:syntastic_perl_lib_path=['lib','locallib/lib/perl5']
 let g:syntastic_cpp_compiler_options = '-std=c++1y'
 let g:syntastic_ignore_files=['\m\c\.t$']
