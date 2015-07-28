@@ -161,6 +161,7 @@ options(repos = Filter(function(x) x != "@CRAN@", getOption("repos")))
     "roxygen2",
     "rpart",
     "Rserve",
+    "RPostgreSQL",
     "RSQLite",
     "RTextTools",
     "sandwich",
