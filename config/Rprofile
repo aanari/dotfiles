@@ -170,7 +170,7 @@ options(repos = Filter(function(x) x != "@CRAN@", getOption("repos")))
     "shiny",
     "Sim.DiffProc",
     "slam",
-    "Snowball",
+    "SnowballC",
     "SOAR",
     "sp",
     "sqldf",
