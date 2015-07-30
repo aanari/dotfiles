@@ -178,7 +178,6 @@ options(repos = Filter(function(x) x != "@CRAN@", getOption("repos")))
     "stringr",
     "survey",
     "survival",
-    "swirl",
     "tau",
     "testthat",
     "tidyr",
