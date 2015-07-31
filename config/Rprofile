@@ -105,6 +105,7 @@ options(repos = Filter(function(x) x != "@CRAN@", getOption("repos")))
     "forecast",
     "foreign",
     "fortunes",
+    "fpc",
     "gbm",
     "gdata",
     "GGally",
