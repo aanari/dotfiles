@@ -147,6 +147,7 @@ options(repos = Filter(function(x) x != "@CRAN@", getOption("repos")))
     "PerformanceAnalytics",
     "plotrix",
     "proto",
+    "psych",
     "quadprog",
     "quantmod",
     "R.cache",
