@@ -1,2 +1,3 @@
-[[ -f ~/perl5/perlbrew/etc/perlbrew-completion.bash ]] && . ~/perl5/perlbrew/etc/perlbrew-completion.bash 
+[[ -f ~/perl5/perlbrew/etc/perlbrew-completion.bash ]] && . ~/perl5/perlbrew/etc/perlbrew-completion.bash
+. ~/.fresh/build/themes/powerline9k.zsh-theme
 eval "$(direnv hook zsh)"

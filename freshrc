@@ -18,7 +18,6 @@ fresh-options --file=~/.zshrc --marker
     fresh robbyrussell/oh-my-zsh lib/history.zsh
     fresh robbyrussell/oh-my-zsh lib/spectrum.zsh
     fresh robbyrussell/oh-my-zsh lib/theme-and-appearance.zsh
-    fresh shell/zsh/powerline.zsh
 
     fresh freshshell/fresh contrib/source-build.sh
 
@@ -53,6 +52,10 @@ fresh zsh-users/zsh-syntax-highlighting .version --file=vendor/.version
 fresh zsh-users/zsh-syntax-highlighting highlighters/main/main-highlighter.zsh --file=vendor/highlighters/main/main-highlighter.zsh
 fresh zsh-users/zsh-syntax-highlighting highlighters/brackets/brackets-highlighter.zsh --file=vendor/highlighters/brackets/brackets-highlighter.zsh
 fresh twe4ked/dotfiles shell/zsh/zsh-syntax-highlighting.zsh --file=~/.zshrc
+
+# zsh theme
+fresh shell/zsh/powerlevel9k.zsh-theme --file=themes/powerline9k.zsh-theme
+fresh bhilburn/powerlevel9k functions --file=themes/functions/
 
 # config
 fresh-options --file
