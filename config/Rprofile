@@ -98,7 +98,6 @@ options(repos = Filter(function(x) x != "@CRAN@", getOption("repos")))
 ##
 # Default packages.
 .env$packages <- c(
-    "plyr",
     "abind",
     "ape",
     "bitops",
