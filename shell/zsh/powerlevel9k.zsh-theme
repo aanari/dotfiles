@@ -16,6 +16,10 @@
 # theming with simple variables defined in your `~/.zshrc`.
 ################################################################
 
+export POWERLEVEL9K_SHORTEN_STRATEGY="truncate_from_right"
+export POWERLEVEL9K_COLOR_SCHEME="light"
+export POWERLEVEL9K_SHORTEN_DIR_LENGTH=4
+
 ## Turn on for Debugging
 #zstyle ':vcs_info:*+*:*' debug true
 #set -o xtrace
@@ -407,9 +411,9 @@ prompt_context() {
   if [[ "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
     if [[ $(print -P "%#") == '#' ]]; then
       # Shell runs as root
-      "$1_prompt_segment" "$0_ROOT" "$2" "$DEFAULT_COLOR" "yellow" "$USER@%m"
+      "$1_prompt_segment" "$0_ROOT" "$2" "$DEFAULT_COLOR" "yellow" "$USER"
     else
-      "$1_prompt_segment" "$0_DEFAULT" "$2" "$DEFAULT_COLOR" "011" "$USER@%m"
+      "$1_prompt_segment" "$0_DEFAULT" "$2" "$DEFAULT_COLOR" "011" "$USER"
     fi
   fi
 }
