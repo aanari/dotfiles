@@ -33,6 +33,20 @@
     else read.table(file = "clipboard", ...)
 }
 
+
+### function to produce nice plots
+### preserves most defaults through "..."
+### defaults labels to blank, axes to missing, makes points look nice
+plot.nice <- function(..., xlab="", ylab="", xaxt="n", yaxt="n", pch=21, bg="gray70") {
+    plot(..., xlab=xlab, ylab=ylab, xaxt=xaxt, yaxt=yaxt, pch=pch, bg=bg)
+}
+
+### override default mgp in par to make better ticks
+par.nice <- function(..., mgp=c(3,.5,0)) {
+    par(..., mgp=mgp)
+}
+
+
 ## Stolen from: https://gist.github.com/stephenturner/5700920
 # List all functions in a package.
 .env$lspkg <- function(package, all.names = FALSE, pattern) {
@@ -62,6 +76,7 @@ options(prompt="ℛ ⟫ ")
 
 options(show.signif.stars=FALSE)
 options(stringsAsFactors=FALSE)
+options(editor="vim")
 
 ##
 # Set GUI framework.
@@ -83,6 +98,7 @@ options(repos = Filter(function(x) x != "@CRAN@", getOption("repos")))
 ##
 # Default packages.
 .env$packages <- c(
+    "plyr",
     "abind",
     "ape",
     "bitops",
@@ -157,6 +173,7 @@ options(repos = Filter(function(x) x != "@CRAN@", getOption("repos")))
     "Rcpp",
     "RCurl",
     "reshape2",
+    "RGA",
     "rgl",
     "rJava",
     "RJSONIO",
@@ -212,8 +229,7 @@ if (interactive()) {
             Sys.setenv(R_LIBS_USER = lib.path)
         }
         if (!file.exists(lib.path)) {
-            dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE,
-                       mode = "755", showWarnings = FALSE)
+            dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE, mode = "755", showWarnings = FALSE)
         }
 
         # Install missing packages.
@@ -240,6 +256,13 @@ if (interactive()) {
 # Don't ask about saving workspace.
 q <- function (save = "no", ...) {
     quit(save = save, ...)
+}
+
+
+### Michael Gill's brilliant function to make transparent colors
+makeTransparent<-function(someColor, alpha) {
+    newColor<-col2rgb(someColor)
+    apply(newColor, 2, function(curcoldata){rgb(red=curcoldata[1], green=curcoldata[2], blue=curcoldata[3],alpha=alpha, maxColorValue=255)})
 }
 
 
