@@ -1,79 +1,61 @@
-update
-upgrade
+cask_args appdir: '/Applications'
+tap 'caskroom/cask'
 
-install ack
-install aspell
-install autoenv
-install autoconf
-install base64
-install bcrypt
-install boost
-install boot2docker
-install burl
-install coreutils
-install ctags
-install curl
-install dict
-install direnv
-install docker
-install dnscrypt-proxy
-install findutils
-install gawk
-install git
-install git-extras
-install gnu-getopt
-install gnu-indent
-install gnu-sed
-install gnu-tar
-install gnutls
-install hub
-install node
-install openvpn
-install pandoc
-install ranger
-install reattach-to-user-namespace
-install scala
-install ssh-copy-id
-install terminal-notifier
-install tmux
-install the_silver_searcher
-install typesafe-activator
-install wemux
-install wget
-install zsh
+brew 'ack'
+brew 'aspell'
+brew 'autoenv'
+brew 'autoconf'
+brew 'base64'
+brew 'bcrypt'
+brew 'boost'
+brew 'boot2docker'
+brew 'burl'
+brew 'coreutils'
+brew 'ctags'
+brew 'curl'
+brew 'dict'
+brew 'direnv'
+brew 'docker'
+brew 'dnscrypt-proxy'
+brew 'findutils'
+brew 'gawk'
+brew 'git'
+brew 'git-extras'
+brew 'gnu-getopt'
+brew 'gnu-indent'
+brew 'gnu-sed'
+brew 'gnu-tar'
+brew 'gnutls'
+brew 'hub'
+brew 'node'
+brew 'openvpn'
+brew 'pandoc'
+brew 'ranger'
+brew 'reattach-to-user-namespace'
+brew 'scala'
+brew 'ssh-copy-id'
+brew 'terminal-notifier'
+brew 'tmux'
+brew 'the_silver_searcher'
+brew 'typesafe-activator'
+brew 'wemux'
+brew 'wget'
+brew 'zsh'
 
-tap caskroom/cask
-install brew-cask
-
-cask install adium
-cask install bartender
-cask install bitcoin-core
-cask install caffeine
-cask install chromium
-cask install dropbox
-cask install evernote
-cask install flux
-cask install git-annex
-cask install github
-cask install google-chrome
-cask install iterm2
-cask install java
-cask install libreoffice
-cask install lighttable
-cask install little-snitch
-cask install onepassword
-cask install parallels
-cask install skitch
-cask install skype
-cask install testflight
-cask install the-unarchiver
-cask install transmit
-cask install truecrypt
-cask install u-torrent
-cask install vagrant
-cask install virtualbox
-cask install vlc
-cask install x-quartz
-
-cleanup
-doctor
+cask 'bartender'
+cask 'bitcoin-core'
+cask 'caffeine'
+cask 'chromium'
+cask 'dropbox'
+cask 'flux'
+cask 'git-annex'
+cask 'google-chrome'
+cask 'iterm2'
+cask 'java'
+cask 'skype'
+cask 'the-unarchiver'
+cask 'transmit'
+cask 'transmission'
+cask 'vagrant'
+cask 'vlc'
+cask 'xquartz'
