@@ -106,6 +106,7 @@ options(repos = Filter(function(x) x != "@CRAN@", getOption("repos")))
     "car",
     "caret",
     "caTools",
+    "choroplethr",
     "coda",
     "colorspace",
     "data.table",
