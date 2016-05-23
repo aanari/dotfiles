@@ -225,4 +225,3 @@ endif
 """"""""""""""""""""""""""""""
 vmap <leader>pt :!perltidy<cr>
 nmap <leader>pt :%! perltidy<cr>
-nmap <leader>t :!ctp %<cr>
