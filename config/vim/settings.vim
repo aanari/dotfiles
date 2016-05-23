@@ -263,25 +263,26 @@ let g:scala_sort_across_groups=1
 augroup lexical
   autocmd!
   autocmd FileType markdown,mkd call lexical#init()
-  autocmd FileType textile call lexical#init()
-  autocmd FileType text call lexical#init({ 'spell': 0 })
+  autocmd FileType textile      call lexical#init()
+  autocmd FileType text         call lexical#init({ 'spell': 0 })
 augroup END
 augroup litecorrect
-    autocmd!
-    autocmd FileType markdown,mkd call litecorrect#init()
-    autocmd FileType textile call litecorrect#init()
+  autocmd!
+  autocmd FileType markdown,mkd call litecorrect#init()
+  autocmd FileType textile      call litecorrect#init()
+  autocmd FileType text         call litecorrect#init()
 augroup END
 augroup pencil
   autocmd!
   autocmd FileType markdown,mkd call pencil#init()
+  autocmd FileType textile      call pencil#init()
   autocmd FileType text         call pencil#init()
 augroup END
 
 autocmd User GoyoEnter call <SID>goyo_enter()
 autocmd User GoyoLeave call <SID>goyo_leave()
 
-autocmd BufEnter *.md colorscheme PaperColor
-autocmd BufEnter *.md let g:airline_theme='PaperColor'
+autocmd BufEnter *.md colorscheme PaperColor|let g:airline_theme='PaperColor'|call airline#switch_matching_theme()
 
 let g:vim_markdown_folding_disabled=1
 let g:vim_markdown_frontmatter=1
