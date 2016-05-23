@@ -282,7 +282,7 @@ augroup END
 autocmd User GoyoEnter call <SID>goyo_enter()
 autocmd User GoyoLeave call <SID>goyo_leave()
 
-autocmd BufEnter *.md colorscheme PaperColor|let g:airline_theme='PaperColor'|call airline#switch_matching_theme()
+autocmd BufEnter *.md colorscheme PaperColor|let g:airline_theme='PaperColor'|call airline#switch_matching_theme()|set cmdheight=1
 
 let g:vim_markdown_folding_disabled=1
 let g:vim_markdown_frontmatter=1
