@@ -276,9 +276,13 @@ augroup pencil
   autocmd FileType markdown,mkd call pencil#init()
   autocmd FileType text         call pencil#init()
 augroup END
-au FileType markdown Goyo 72
+
 autocmd User GoyoEnter call <SID>goyo_enter()
 autocmd User GoyoLeave call <SID>goyo_leave()
+
+autocmd BufEnter *.md colorscheme PaperColor
+autocmd BufEnter *.md let g:airline_theme='PaperColor'
+
 let g:vim_markdown_folding_disabled=1
 let g:vim_markdown_frontmatter=1
 let g:pencil#wrapModeDefault = 'soft'
