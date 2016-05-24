@@ -260,12 +260,6 @@ let g:scala_sort_across_groups=1
 """"""""""""""""""""""""""""""
 " => Markdown
 """"""""""""""""""""""""""""""
-augroup lexical
-  autocmd!
-  autocmd FileType markdown,mkd call lexical#init()
-  autocmd FileType textile      call lexical#init()
-  autocmd FileType text         call lexical#init({ 'spell': 0 })
-augroup END
 augroup litecorrect
   autocmd!
   autocmd FileType markdown,mkd call litecorrect#init()
@@ -282,12 +276,11 @@ augroup END
 autocmd User GoyoEnter call <SID>goyo_enter()
 autocmd User GoyoLeave call <SID>goyo_leave()
 
-autocmd BufEnter *.md colorscheme PaperColor|let g:airline_theme='PaperColor'|call airline#switch_matching_theme()|set cmdheight=1
+autocmd BufEnter *.md colorscheme PaperColor|let g:airline_theme='PaperColor'|call airline#switch_matching_theme()|set cmdheight=1|setlocal spell
 
 let g:vim_markdown_folding_disabled=1
 let g:vim_markdown_frontmatter=1
 let g:pencil#wrapModeDefault = 'soft'
-let g:lexical#thesaurus_key = '<leader>t'
 
 """"""""""""""""""""""""""""""
 " => Functions
