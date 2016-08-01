@@ -2,7 +2,7 @@
 " => Ag
 """"""""""""""""""""""""""""""
 vnoremap <silent> gv :call VisualSelection('gv', '')<CR>
-map <leader>g :Ag 
+map <leader>g :Ag
 vnoremap <silent> <leader>r :call VisualSelection('replace', '')<CR>
 
 """"""""""""""""""""""""""""""
@@ -85,6 +85,12 @@ let g:syntastic_cpp_compiler_options = '-std=c++1y'
 let g:syntastic_ignore_files=['\m\c\.t$']
 let g:syntastic_error_symbol='✗'
 let g:syntastic_warning_symbol='⚠'
+let g:syntastic_javascript_checkers = ['eslint']
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => React
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:jsx_ext_required = 0
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Sprunge
