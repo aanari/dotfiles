@@ -100,6 +100,7 @@ options(repos = Filter(function(x) x != "@CRAN@", getOption("repos")))
 .env$packages <- c(
     "abind",
     "ape",
+    "base64enc",
     "bitops",
     "boot",
     "broom",
@@ -138,6 +139,7 @@ options(repos = Filter(function(x) x != "@CRAN@", getOption("repos")))
     "gtools",
     "Hmisc",
     "igraph",
+    "jpeg",
     "jsonlite",
     "knitr",
     "labeling",
@@ -163,6 +165,7 @@ options(repos = Filter(function(x) x != "@CRAN@", getOption("repos")))
     "parallel",
     "PerformanceAnalytics",
     "plotrix",
+    "png",
     "proto",
     "psych",
     "quadprog",

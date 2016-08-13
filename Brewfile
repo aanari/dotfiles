@@ -31,6 +31,8 @@ brew 'jq'
 brew 'node'
 brew 'openvpn'
 brew 'pandoc'
+brew 'postgresql'
+brew 'python'
 brew 'ranger'
 brew 'reattach-to-user-namespace'
 brew 'scala'
@@ -39,6 +41,7 @@ brew 'terminal-notifier'
 brew 'tmux'
 brew 'the_silver_searcher'
 brew 'typesafe-activator'
+brew 'vim', args: ['with-lua']
 brew 'wemux'
 brew 'wget'
 brew 'zsh'
@@ -60,3 +63,6 @@ cask 'transmission'
 cask 'vagrant'
 cask 'vlc'
 cask 'xquartz'
+
+brew tap homebrew/science
+brew install r
