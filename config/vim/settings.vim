@@ -225,6 +225,16 @@ au FileType javascript inoremap <buffer> $f //--- PH ---------------------------
 au FileType javascript setlocal tabstop=2 softtabstop=2 shiftwidth=2
 
 """"""""""""""""""""""""""""""
+" => HTML
+""""""""""""""""""""""""""""""
+au FileType html setlocal tabstop=2 softtabstop=2 shiftwidth=2
+
+""""""""""""""""""""""""""""""
+" => CSS
+""""""""""""""""""""""""""""""
+au FileType css setlocal tabstop=2 softtabstop=2 shiftwidth=2
+
+""""""""""""""""""""""""""""""
 " => SQL
 """"""""""""""""""""""""""""""
 au FileType sql setlocal tabstop=2 softtabstop=2 shiftwidth=2
