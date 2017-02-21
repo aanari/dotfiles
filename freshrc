@@ -69,7 +69,6 @@ fresh-options --file
 fresh-options
 fresh claytron/pentadactyl-solarized colors/solarized-light.penta --file=~/.pentadactyl/colors/solarized-light.penta
 fresh seebi/tmux-colors-solarized tmuxcolors-light.conf --file=~/.tmux.conf
-fresh github/gitignore Global/OSX.gitignore --file=~/.gitignore
 fresh config/mutt --file=~/.mutt/
 fresh config/ipython --file=~/.ipython/
 fresh config/irssi --file=~/.irssi/
@@ -78,14 +77,6 @@ fresh config/sqitch --file=~/.sqitch/
 fresh AndyA/dotfiles .perldb.d --file=~/.perldb.d/
 fresh henrik/dotfiles rubyrc --file=~/.pryrc --filter='cat; echo include RubyRC'
 fresh twe4ked/dotfiles config/ranger/rc.conf --file=~/.config/ranger/rc.conf
-
-# ~/.irbrc
-fresh-options --file=~/.irbrc
-    fresh twe4ked/dotfiles config/irb/encoding.rb
-    fresh jasoncodes/dotfiles config/irbrc
-    fresh twe4ked/dotfiles config/irb/prompt.rb
-    fresh-options
-fresh-options
 
 # ~/.vimrc
 fresh-options --file=~/.vimrc --marker=\"
