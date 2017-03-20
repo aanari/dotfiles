@@ -190,7 +190,6 @@ options(repos = Filter(function(x) x != "@CRAN@", getOption("repos")))
     "RTextTools",
     "sandwich",
     "scales",
-    "setwidth",
     "shiny",
     "Sim.DiffProc",
     "slam",
@@ -250,9 +249,6 @@ if (interactive()) {
             }
         }
     })
-
-    # Fix terminal width.
-    library("setwidth")
 }
 
 
