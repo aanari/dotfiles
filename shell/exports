@@ -2,3 +2,4 @@ export DOTFILES=~/.dotfiles                 # here
 export ARCHFLAGS='-arch x86_64'             # archflags
 export GREP_OPTIONS='--color=auto'          # double rainbow!
 export GH_LOGIN=aanari                      # used by git-go
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
