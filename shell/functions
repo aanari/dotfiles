@@ -22,55 +22,33 @@ function mkcd() {
     mkdir -p "$1" && cd "$1";
 }
 
-function ctp() {
-    `perl -pi -e 's/(logger:\s\")crowdtilt\"/$1file\"/;' ./environments/development.yml`
-    tmp="$(prove -MCarp::Always -Pretty -lvr -Ilocallib/lib/perl5 $1 > /dev/tty)"
-    retval=$?
-    title="✅  Test Succeeded"
-    if [ $retval -ne 0 ]; then title="❌  Test Failed"; fi
-    terminal-notifier -activate com.googlecode.iterm2 -title "$title" -message "$1"
+rawurlencode() {
+  local string="${1}"
+  local strlen=${#string}
+  local encoded=""
+  local pos c o
+
+  for (( pos=0 ; pos<strlen ; pos++ )); do
+     c=${string:$pos:1}
+     case "$c" in
+        [-_.~a-zA-Z0-9] ) o="${c}" ;;
+        * )               printf -v o '%%%02x' "'$c"
+     esac
+     encoded+="${o}"
+  done
+  echo "${encoded}"    # You can either set a return variable (FASTER) 
+  REPLY="${encoded}"   #+or echo the result (EASIER)... or both... :p
 }
 
+# Returns a string in which the sequences with percent (%) signs followed by
+# two hex digits have been replaced with literal characters.
+rawurldecode() {
 
-# Credit goes to DelvarWorld for the below - https://github.com/DelvarWorld
-# Generate git format string on the fly to get the right top level directory
+  # This is perhaps a risky gambit, but since all escape characters must be
+  # encoded, we can replace %NN with \xNN and pass the lot to printf -b, which
+  # will decode hex for us
 
-_gen_format_string() {
-    echo "<a href=\"https://github.com/Crowdtilt/`basename $(git rev-parse --show-toplevel)`/commit/%h\" style='font-family:\"Courier new\"; color:red; font-weight:bold; text-decoration:none'>%h</a> %s <span style=\"color:green\">(%cr)</span> &lt;<span style=\"color:blue; font-weight:bold;\">%an</span>&gt;<br />"
-}
+  printf -v REPLY '%b' "${1//%/\\x}" # You can either set a return variable (FASTER)
 
-# Generate the html output for this repo's deploy commits.
-# Change "origin" to upstream or whatever if you're forking
-_gen_html_output() {
-    (
-        origin="origin"
-        cd $2
-        git fetch $origin
-        format=`_gen_format_string`
-        output=`git log --no-merges $origin/master..$origin/dev --pretty=format:"$format" --abbrev-commit`
-        if [ -n "$output" ]; then
-            echo "<b style=\"font-size:16px;\">$3:</b><br /> <div class=\"anchor\"> <br />" >> $1
-            echo $output >> $file
-            echo "</div><br /><br />" >> $file
-        fi
-    )
-}
-
-gen_deploy_email () {
-    if [ -z $1 ]; then
-        echo "Usage: gen_deploy_email /path/to/crowdtilt/root"
-        return 1
-    fi
-
-    file="/tmp/deploys.html"
-    echo "<div style=\"font-family:sans-serif; font-size:13px;\">" > $file
-
-    # Start format
-    _gen_html_output "$file" "$1/crowdtilt-public-site" "Public Site"
-    _gen_html_output "$file" "$1/crowdtilt-internal-api" "API"
-    _gen_html_output "$file" "$1/crowdtilt-internal-admin-site" "Admin Site"
-
-    echo "</div>" >> $file
-
-    open $file
+  echo "${REPLY}"  #+or echo the result (EASIER)... or both... :p
 }
