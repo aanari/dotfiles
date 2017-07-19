@@ -131,6 +131,7 @@ options(repos = Filter(function(x) x != "@CRAN@", getOption("repos")))
     "ggmap",
     "ggplot2",
     "ggvis",
+    "ggthemes",
     "glmnet",
     "googleVis",
     "gplots",
