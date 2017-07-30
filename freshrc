@@ -116,7 +116,6 @@ fresh-options --bin
     fresh k4rthik/git-cal git-cal
     fresh LuRsT/hr hr
     fresh pengwynn/dotfiles bin/git-pr
-    fresh pengwynn/dotfiles bin/gxpr
     fresh pengwynn/dotfiles bin/termcolors
     fresh rtomayko/dotfiles bin/+x
     fresh rtomayko/dotfiles bin/addr
