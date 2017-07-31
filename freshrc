@@ -106,7 +106,6 @@ fresh-options --bin
     fresh benhoskings/dot-files files/bin/gbrt
     fresh defunkt/repl bin/repl
     fresh garybernhardt/dotfiles bin/git-churn
-    fresh git/git contrib/diff-highlight/diff-highlight
     fresh jamesottaway/dotfiles bin/ssid
     fresh jasoncodes/dotfiles bin/airport-bounce
     fresh jasoncodes/dotfiles bin/pidof
@@ -117,7 +116,6 @@ fresh-options --bin
     fresh k4rthik/git-cal git-cal
     fresh LuRsT/hr hr
     fresh pengwynn/dotfiles bin/git-pr
-    fresh pengwynn/dotfiles bin/gxpr
     fresh pengwynn/dotfiles bin/termcolors
     fresh rtomayko/dotfiles bin/+x
     fresh rtomayko/dotfiles bin/addr
