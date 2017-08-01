@@ -1,6 +1,12 @@
 [[ -f ~/perl5/perlbrew/etc/perlbrew-completion.bash ]] && . ~/perl5/perlbrew/etc/perlbrew-completion.bash
 . ~/.fresh/build/themes/powerline9k.zsh-theme
 
+if [[ "$(uname)" == "Darwin" ]]; then
+    eval `gdircolors ~/.dir_colors`
+elif [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
+    eval `dircolors ~/.dir_colors`
+fi
+
 zmodload zsh/terminfo
 bindkey "$terminfo[kcuu1]" history-substring-search-up
 bindkey "$terminfo[kcud1]" history-substring-search-down
