@@ -7,6 +7,10 @@ elif [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
     eval `dircolors ~/.dir_colors`
 fi
 
+zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
+autoload -Uz compinit
+compinit
+
 zmodload zsh/terminfo
 bindkey "$terminfo[kcuu1]" history-substring-search-up
 bindkey "$terminfo[kcud1]" history-substring-search-down
