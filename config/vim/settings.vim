@@ -54,9 +54,6 @@ let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
 """"""""""""""""""""""""""""""
 syntax enable
 
-let &colorcolumn=join(range(81,999),",")
-hi ColorColumn ctermbg=8
-
 try
     colorscheme solarized
 catch

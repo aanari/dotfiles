@@ -15,6 +15,11 @@ let g:bufExplorerSortBy='name'
 map <leader>o :BufExplorer<cr>
 
 """"""""""""""""""""""""""""""
+" => Colorizer
+""""""""""""""""""""""""""""""
+let g:colorizer_auto_filetype='css,html'
+
+""""""""""""""""""""""""""""""
 " => MRU
 """"""""""""""""""""""""""""""
 let MRU_Max_Entries = 400
