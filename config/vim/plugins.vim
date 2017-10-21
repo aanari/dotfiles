@@ -17,7 +17,7 @@ map <leader>o :BufExplorer<cr>
 """"""""""""""""""""""""""""""
 " => Colorizer
 """"""""""""""""""""""""""""""
-let g:colorizer_auto_filetype='css,html'
+let g:colorizer_auto_filetype='css,html,javascript,typescript'
 
 """"""""""""""""""""""""""""""
 " => MRU
@@ -77,7 +77,7 @@ map <leader>nf :NERDTreeFind<cr>
 """"""""""""""""""""""""""""""
 let g:airline_theme="solarized"
 let g:airline_powerline_fonts=1
-let g:airline_enable_syntastic=1
+let g:airline#extensions#syntastic#enabled = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Goyo
@@ -103,6 +103,11 @@ let g:goyo_callbacks = [function('Goyo_before'), function('Goyo_after')]
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Syntastic
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
+let g:syntastic_echo_current_error = 1
 let g:syntastic_python_checkers=['pyflakes']
 let g:syntastic_enable_perl_checker=1
 let g:syntastic_perl_checkers=['perl']
@@ -112,6 +117,12 @@ let g:syntastic_ignore_files=['\m\c\.t$']
 let g:syntastic_error_symbol='✗'
 let g:syntastic_warning_symbol='⚠'
 let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_typescript_checkers = ['tslint']
+function! SyntasticCheckHook(errors)
+    if !empty(a:errors)
+        let g:syntastic_loc_list_height = min([len(a:errors), 6])
+    endif
+endfunction
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => React

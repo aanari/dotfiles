@@ -27,8 +27,11 @@ else
     set wildignore+=.git\*,.hg\*,.svn\*
 endif
 
-set ruler
-set cmdheight=2
+set noruler
+set noshowmode
+set noshowcmd
+set cmdheight=1
+set laststatus=2
 set hid
 set backspace=eol,start,indent
 set whichwrap+=<,>,h,l
@@ -144,12 +147,6 @@ map <leader>tc :tabclose<cr>
 map <leader>tm :tabmove<cr>
 map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 map <leader>cd :cd %:p:h<cr>:pwd<cr>
-
-""""""""""""""""""""""""""""""
-" => Status line
-""""""""""""""""""""""""""""""
-set laststatus=2
-set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l
 
 """"""""""""""""""""""""""""""
 " => Spell checking
