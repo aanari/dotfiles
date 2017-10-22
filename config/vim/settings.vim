@@ -217,6 +217,7 @@ au FileType javascript imap <c-a> alert();<esc>hi
 au FileType javascript inoremap <buffer> $r return
 au FileType javascript inoremap <buffer> $f //--- PH ----------------------------------------------<esc>FP2xi
 au FileType javascript setlocal tabstop=2 softtabstop=2 shiftwidth=2
+au FileType json setlocal tabstop=2 softtabstop=2 shiftwidth=2
 let g:jsx_ext_required = 0
 
 """"""""""""""""""""""""""""""
