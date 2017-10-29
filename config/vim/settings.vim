@@ -217,8 +217,19 @@ au FileType javascript imap <c-a> alert();<esc>hi
 au FileType javascript inoremap <buffer> $r return
 au FileType javascript inoremap <buffer> $f //--- PH ----------------------------------------------<esc>FP2xi
 au FileType javascript setlocal tabstop=2 softtabstop=2 shiftwidth=2
+let g:vim_jsx_pretty_colorful_config = 1
+
+""""""""""""""""""""""""""""""
+" => JSON
+""""""""""""""""""""""""""""""
 au FileType json setlocal tabstop=2 softtabstop=2 shiftwidth=2
-let g:jsx_ext_required = 0
+
+""""""""""""""""""""""""""""""
+" => Typescript
+""""""""""""""""""""""""""""""
+au FileType typescript setlocal tabstop=2 softtabstop=2 shiftwidth=2
+au FileType typescript setlocal completeopt+=menu,preview
+let g:tsuquyomi_completion_detail = 1
 
 """"""""""""""""""""""""""""""
 " => HTML
