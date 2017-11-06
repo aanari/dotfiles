@@ -33,6 +33,8 @@ set noshowcmd
 set cmdheight=1
 set laststatus=2
 set hid
+set autoindent
+set smartindent
 set backspace=eol,start,indent
 set whichwrap+=<,>,h,l
 set ignorecase

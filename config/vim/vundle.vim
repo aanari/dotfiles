@@ -69,5 +69,5 @@ Plugin 'yegappan/mru'
 Plugin 'yko/mojo.vim'
 
 Plugin 'Quramy/tsuquyomi'
-Plugin 'maxmellon/vim-jsx-pretty'
-Plugin 'ianks/vim-tsx'
+Plugin 'MaxMEllon/vim-jsx-pretty'
+Plugin 'jason0x43/vim-js-indent'
