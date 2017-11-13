@@ -259,7 +259,6 @@ au Syntax * RainbowParenthesesLoadChevrons
 inoremap => =><Esc>:call tabularity#Align('=>')<cr>a
 au BufNewFile,BufRead *.t set filetype=perl
 au BufNewFile,BufRead *.tt set filetype=xml
-au FileType perl set complete-=i
 au FileType perl setl foldexpr=PerlFold(v:lnum)
 au FileType perl setl foldmethod=expr
 
