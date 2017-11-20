@@ -1,13 +1,14 @@
 \set QUIET ON
 
-\set HISTFILE ~/.psql_history- :HOST - :DBNAME
-\set HISTSIZE 2000
+\set ON_ERROR_ROLLBACK interactive
 \set COMP_KEYWORD_CASE upper
+\set HISTFILE ~/.psql_history- :DBNAME
+\set HISTSIZE 2000
 
 \x
 \pset linestyle unicode
 \pset border 2
-\pset null '[NULL]'
+\pset null '∅'
 \set PROMPT1 '%[%033[31;5m%]%x%[%033[0m%]%[%033[31;1m%]%n%[%033[33;1m%]@%[%033[32;1m%m%[%033[0m%] %[%033[34;1m%]%/%[%033[0m%] # '
 \set PROMPT2 '%033[33;1m >>> %033[0m%'
 \pset pager off
