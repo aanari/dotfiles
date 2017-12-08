@@ -232,6 +232,7 @@ au FileType json setlocal tabstop=2 softtabstop=2 shiftwidth=2
 au FileType typescript setlocal tabstop=2 softtabstop=2 shiftwidth=2
 au FileType typescript setlocal completeopt+=menu,preview
 let g:tsuquyomi_completion_detail = 1
+let g:tsuquyomi_use_vimproc=1
 
 """"""""""""""""""""""""""""""
 " => HTML
