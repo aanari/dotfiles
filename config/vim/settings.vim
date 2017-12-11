@@ -248,6 +248,9 @@ au FileType css setlocal tabstop=2 softtabstop=2 shiftwidth=2
 " => SQL
 """"""""""""""""""""""""""""""
 au FileType sql setlocal tabstop=2 softtabstop=2 shiftwidth=2
+let g:sql_type_default = 'pgsql'
+let g:dbext_default_profile_myDB='type=pgsql:host=localhost:user=geneangel:dsnname=geneangel:dbname=geneangel:passwd='
+let g:dbext_default_profile='geneangel'
 
 """"""""""""""""""""""""""""""
 " => Perl
