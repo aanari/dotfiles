@@ -119,7 +119,6 @@ fresh-options --bin
     fresh rtomayko/dotfiles bin/addr
     fresh rtomayko/dotfiles bin/served
     fresh rtomayko/dotfiles bin/lock-screen
-    fresh sivel/speedtest-cli speedtest_cli.py
     fresh thenigan/git-diffall git-diffall
     fresh twe4ked/dotfiles bin/build_status
     fresh twe4ked/dotfiles bin/add-keys
