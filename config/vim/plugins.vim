@@ -175,13 +175,12 @@ let g:script_runner_perl = 'perl -Mfeature=:5.10 -MData::Dump'
 """"""""""""""""""""""""""""""
 set rtp+=~/work/vimproc.vim/
 set rtp+=~/.cache/neobundle/tsuquyomi/
-set completeopt+=menuone
-inoremap <expr> <c-e> mucomplete#popup_exit("\<c-e>")
-inoremap <expr> <c-y> mucomplete#popup_exit("\<c-y>")
-inoremap <expr>  <cr> mucomplete#popup_exit("\<cr>")
-set completeopt+=noinsert
-set shortmess+=c   " Shut off completion messages
-set belloff+=ctrlg " If Vim beeps during completion
+set noshowmode shortmess+=c
+set noinfercase
+set completeopt-=preview
+set completeopt+=menuone,noinsert,noselect
+set belloff+=ctrlg
+let g:jedi#popup_on_dot = 0
 let g:mucomplete#enable_auto_at_startup = 1
 set complete-=i
 
