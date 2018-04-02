@@ -1,6 +1,8 @@
 [global_config]
   focus = system
+  tab_position = hidden
 [keybindings]
+  paste = <Ctrl>v
 [profiles]
   [[default]]
 
@@ -10,8 +12,13 @@
     foreground_color = "#002b36"
     cursor_color = "#002b36"
     show_titlebar = false
+    use_system_font = False
+    scrollback_lines = 5000
+    scrollbar_position = hidden
+    font = Meslo LG S DZ for Powerline Regular 9
     custom_command = TERM=xterm-256color zsh --login
     use_custom_command = true
+    scrollback_infinite = True
 
 [layouts]
   [[default]]
