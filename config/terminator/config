@@ -1,0 +1,25 @@
+[global_config]
+  focus = system
+[keybindings]
+[profiles]
+  [[default]]
+
+  [[solarized-light]]
+    palette = "#073642:#dc322f:#859900:#b58900:#268bd2:#d33682:#2aa198:#eee8d5:#002b36:#cb4b16:#586e75:#657b83:#839496:#6c71c4:#93a1a1:#fdf6e3"
+    background_color = "#eee8d5"
+    foreground_color = "#002b36"
+    cursor_color = "#002b36"
+    show_titlebar = false
+    custom_command = TERM=xterm-256color zsh --login
+    use_custom_command = true
+
+[layouts]
+  [[default]]
+    [[[child1]]]
+      type = Terminal
+      parent = window0
+      profile = solarized-light
+    [[[window0]]]
+      type = Window
+      parent = ""
+[plugins]
