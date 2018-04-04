@@ -4,7 +4,7 @@
 [keybindings]
   copy = <Control>c
   paste = <Control>v
-  search = <Control>f
+  search = <Control><Shift>f
 [profiles]
   [[default]]
 
