@@ -2,7 +2,9 @@
   focus = system
   tab_position = hidden
 [keybindings]
-  paste = <Ctrl>v
+  copy = <Control>c
+  paste = <Control>v
+  search = <Control>f
 [profiles]
   [[default]]
 
