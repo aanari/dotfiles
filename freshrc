@@ -32,7 +32,6 @@ fresh-options
 # ~/.zshenv
 fresh-options --file=~/.zshenv --marker
     fresh shell/\*
-    fresh foobacca/dotfiles shell/tmux
     fresh foobacca/dotfiles shell/aliases-dir
     fresh jasoncodes/dotfiles shell/aliases/\*
     fresh jasoncodes/dotfiles shell/editor.sh
