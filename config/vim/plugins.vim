@@ -20,6 +20,12 @@ map <leader>o :BufExplorer<cr>
 let g:colorizer_auto_filetype='css,html,javascript,typescript'
 
 """"""""""""""""""""""""""""""
+" => Prettier
+""""""""""""""""""""""""""""""
+let g:prettier#autoformat = 0
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue PrettierAsync
+
+""""""""""""""""""""""""""""""
 " => MRU
 """"""""""""""""""""""""""""""
 let MRU_Max_Entries = 400
