@@ -98,12 +98,12 @@ let g:goyo_callbacks = [function('Goyo_before'), function('Goyo_after')]
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_echo_current_error = 1
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_auto_jump = 3
-let g:syntastic_python_checkers=['pyflakes']
+let g:syntastic_python_checkers=['flake8']
 let g:syntastic_enable_perl_checker=1
 let g:syntastic_perl_checkers=['perl']
 let g:syntastic_perl_lib_path=['lib','locallib/lib/perl5']
