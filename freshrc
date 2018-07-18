@@ -51,8 +51,7 @@ fresh zsh-users/zsh-syntax-highlighting highlighters/brackets/brackets-highlight
 fresh twe4ked/dotfiles shell/zsh/zsh-syntax-highlighting.zsh --file=~/.zshrc
 
 # zsh theme
-fresh shell/zsh/powerlevel9k.zsh-theme --file=themes/powerline9k.zsh-theme
-fresh bhilburn/powerlevel9k functions --file=themes/functions/
+fresh denysdovhan/spaceship-prompt . --file=themes/spaceship-prompt/
 
 # config
 fresh-options --file
@@ -66,7 +65,7 @@ fresh-options --file
     fresh jasoncodes/dotfiles config/sqliterc
 fresh-options
 fresh claytron/pentadactyl-solarized colors/solarized-light.penta --file=~/.pentadactyl/colors/solarized-light.penta
-fresh seebi/tmux-colors-solarized tmuxcolors-light.conf --file=~/.tmux.conf
+fresh seebi/tmux-colors-solarized tmuxcolors-dark.conf --file=~/.tmux.conf
 fresh config/mutt --file=~/.mutt/
 fresh config/ipython --file=~/.ipython/
 fresh config/irssi --file=~/.irssi/
