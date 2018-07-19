@@ -1,6 +1,11 @@
 [[ -f ~/perl5/perlbrew/etc/perlbrew-completion.bash ]] && . ~/perl5/perlbrew/etc/perlbrew-completion.bash
 . ~/.fresh/build/themes/spaceship-prompt/spaceship.zsh
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=10'
+SPACESHIP_PACKAGE_SHOW=false
+SPACESHIP_VI_MODE_SHOW=false
+SPACESHIP_CHAR_SYMBOL="λ "
+SPACESHIP_BATTERY_SHOW=false
+SPACESHIP_VENV_GENERIC_NAMES=(virtualenv env venv .venv)
 
 if [[ "$(uname)" == "Darwin" ]]; then
     eval `gdircolors ~/.dir_colors`
