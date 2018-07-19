@@ -1,5 +1,6 @@
 [[ -f ~/perl5/perlbrew/etc/perlbrew-completion.bash ]] && . ~/perl5/perlbrew/etc/perlbrew-completion.bash
 . ~/.fresh/build/themes/spaceship-prompt/spaceship.zsh
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=10'
 
 if [[ "$(uname)" == "Darwin" ]]; then
     eval `gdircolors ~/.dir_colors`

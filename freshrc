@@ -42,6 +42,9 @@ fresh-options
 fresh zsh-users/zsh-completions src --file=completion/
 fresh freshshell/fresh contrib/completion/fresh-completion.zsh --file=completion/_fresh
 
+# zsh autosuggestions
+fresh zsh-users/zsh-autosuggestions zsh-autosuggestions.zsh --file=~/.zshrc
+
 # zsh syntax highlighting
 fresh zsh-users/zsh-syntax-highlighting zsh-syntax-highlighting.zsh --file=vendor/zsh-syntax-highlighting.zsh
 fresh zsh-users/zsh-syntax-highlighting .revision-hash --file=vendor/.revision-hash
