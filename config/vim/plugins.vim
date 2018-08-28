@@ -26,6 +26,13 @@ let g:prettier#autoformat = 0
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue PrettierAsync
 
 """"""""""""""""""""""""""""""
+" => Black
+""""""""""""""""""""""""""""""
+let g:black_linelength = 79
+let g:black_fast=1
+autocmd BufWritePre *.py execute ':Black'
+
+""""""""""""""""""""""""""""""
 " => MRU
 """"""""""""""""""""""""""""""
 let MRU_Max_Entries = 400
@@ -109,8 +116,9 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_echo_current_error = 1
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_auto_jump = 3
-let g:syntastic_python_checkers=['flake8']
 let g:syntastic_enable_perl_checker=1
+let g:syntastic_python_checkers=['flake8']
+let g:syntastic_python_flake8_args='--ignore=E501,E128,E225,W503'
 let g:syntastic_perl_checkers=['perl']
 let g:syntastic_perl_lib_path=['lib','locallib/lib/perl5']
 let g:syntastic_cpp_compiler_options = '-std=c++1y'
