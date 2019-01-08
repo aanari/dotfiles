@@ -117,9 +117,6 @@ fresh-options --bin
     fresh LuRsT/hr hr
     fresh pengwynn/dotfiles bin/git-pr
     fresh pengwynn/dotfiles bin/termcolors
-    fresh rtomayko/dotfiles bin/addr
-    fresh rtomayko/dotfiles bin/served
-    fresh rtomayko/dotfiles bin/lock-screen
     fresh thenigan/git-diffall git-diffall
     fresh twe4ked/dotfiles bin/build_status
     fresh twe4ked/dotfiles bin/add-keys
