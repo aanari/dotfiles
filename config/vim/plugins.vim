@@ -130,6 +130,7 @@ let g:syntastic_style_warning_symbol='⚠'
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_typescript_checkers = ['tsuquyomi', 'tslint']
 let g:syntastic_typescript_tsc_args = '--target ES5 --noEmit'
+let g:syntastic_swift_checkers = ['swiftpm', 'swiftlint']
 function! SyntasticCheckHook(errors)
     if !empty(a:errors)
         let g:syntastic_loc_list_height = min([len(a:errors), 6])
