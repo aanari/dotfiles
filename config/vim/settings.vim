@@ -227,6 +227,11 @@ let g:vim_jsx_pretty_colorful_config = 1
 au FileType json setlocal tabstop=2 softtabstop=2 shiftwidth=2
 
 """"""""""""""""""""""""""""""
+" => Swift
+""""""""""""""""""""""""""""""
+au FileType swift setlocal tabstop=2 softtabstop=2 shiftwidth=2
+
+""""""""""""""""""""""""""""""
 " => Typescript
 """"""""""""""""""""""""""""""
 au FileType typescript setlocal tabstop=2 softtabstop=2 shiftwidth=2
