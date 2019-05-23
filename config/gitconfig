@@ -26,6 +26,8 @@
     # Switch to a branch, creating it if necessary
 	go = checkout -B
 	# Show verbose output about tags, branches or remotes
+    # Find parent branch
+    parent = "!git show-branch -a | grep '\\*' | grep -v `git rev-parse --abbrev-ref HEAD` | head -n1"
 	tags = tag -l
 	branches = branch -a
 	remotes = remote -v

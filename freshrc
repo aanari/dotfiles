@@ -25,7 +25,6 @@ fresh-options --file=~/.zshrc --marker
     fresh sharat87/zsh-vim-mode zsh-vim-mode.plugin.zsh
     fresh zsh-users/zsh-history-substring-search zsh-history-substring-search.zsh
 
-    fresh akatov/dotfiles zshrc/dedup-path --ref=55e80fe
     fresh config/zshrc
 fresh-options
 
