@@ -7,6 +7,7 @@ else # OS X `ls`
 fi
 
 alias vi='vim'
+alias dc='docker-compose'
 alias deploy='gen_deploy_email /$HOME/Projects'
 alias speedtest='speedtest_cli.py'
 alias lock='lock-screen'

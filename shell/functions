@@ -5,6 +5,8 @@ gittags () {
 %Cred%h%Creset  %<(90)%s %C(green)%>(18)%cr%Creset   %C(bold blue)%>(18)%an%Creset%n' --abbrev-commit $b --; done;
 }
 
+
+
 function g() {
     if [ $# -gt 0 ];
     then
@@ -12,6 +14,10 @@ function g() {
     else
       git status --short --branch
     fi
+}
+
+function dds() {
+    docker-compose exec $1 python manage.py shell -i ipython
 }
 
 function manpdf() {
