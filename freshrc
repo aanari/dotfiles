@@ -67,6 +67,7 @@ fresh-options --file
     fresh jasoncodes/dotfiles config/sqliterc
 fresh-options
 fresh claytron/pentadactyl-solarized colors/solarized-light.penta --file=~/.pentadactyl/colors/solarized-light.penta
+fresh tmux-plugins/tmux-yank yank.tmux --file=~/.yank.tmux
 fresh seebi/tmux-colors-solarized tmuxcolors-dark.conf --file=~/.tmux.conf
 fresh config/mutt --file=~/.mutt/
 fresh config/ipython --file=~/.ipython/
