@@ -78,8 +78,6 @@ set ffs=unix,dos,mac
 
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=0
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=0
-au BufEnter * match ExtraWhitespace /\S\zs\s\+$/
-hi ExtraWhitespace ctermbg=0
 hi SignColumn ctermbg=0
 hi SyntasticErrorSign ctermfg=1 ctermbg=0
 hi SyntasticWarningSign ctermfg=3 ctermbg=0
