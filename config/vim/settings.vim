@@ -109,7 +109,6 @@ set wrap
 """"""""""""""""""""""""""""""
 map j gj
 map k gk
-map <space> /
 map <c-space> ?
 map <C-j> <C-W>j
 map <C-k> <C-W>k

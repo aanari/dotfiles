@@ -81,6 +81,15 @@ let g:ctrlp_custom_ignore = {
     \ }
 
 """"""""""""""""""""""""""""""
+" => NerdCommenter
+""""""""""""""""""""""""""""""
+autocmd! VimEnter * call s:fcy_nerdcommenter_map()
+function! s:fcy_nerdcommenter_map()
+	nmap <leader>cc <plug>NERDCommenterToggle
+	vmap <leader>cc <plug>NERDCommenterToggle gv
+endfunction
+
+""""""""""""""""""""""""""""""
 " => NerdTree
 """"""""""""""""""""""""""""""
 map <leader>nn :NERDTreeToggle<cr>
