@@ -51,6 +51,7 @@ set t_vb=
 set tm=500
 set foldcolumn=1
 set clipboard=unnamed
+set nu
 let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
 let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
 
@@ -79,10 +80,8 @@ set ffs=unix,dos,mac
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=0
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=0
 hi SignColumn ctermbg=0
-hi SyntasticErrorSign ctermfg=1 ctermbg=0
-hi SyntasticWarningSign ctermfg=3 ctermbg=0
-hi SyntasticErrorLine ctermbg=0
-hi SyntasticWarningLine ctermbg=0
+hi LineNr ctermbg=0
+hi CursorLineNr ctermbg=0
 
 """"""""""""""""""""""""""""""
 " => Backups
@@ -120,6 +119,7 @@ map! jk <esc>
 " => Highlight
 """"""""""""""""""""""""""""""
 map <silent> <leader><cr> :noh<cr>
+highlight EndOfBuffer ctermfg=black ctermbg=black
 
 """"""""""""""""""""""""""""""
 " => Buffers

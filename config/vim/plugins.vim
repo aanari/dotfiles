@@ -72,7 +72,6 @@ nnoremap <c-f> :Files<cr>
 " => Ctrl-P
 """"""""""""""""""""""""""""""
 let g:ctrlp_working_path_mode = 0
-map <leader>j :CtrlP<cr>
 map <c-b> :CtrlPBuffer<cr>
 let g:ctrlp_max_height = 20
 let g:ctrlp_custom_ignore = {
@@ -101,7 +100,7 @@ map <leader>nf :NERDTreeFind<cr>
 """"""""""""""""""""""""""""""
 let g:airline_theme="solarized"
 let g:airline_powerline_fonts=1
-let g:airline#extensions#syntastic#enabled = 1
+let g:airline#extensions#ale#enabled = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Goyo
@@ -125,35 +124,23 @@ endfunction
 let g:goyo_callbacks = [function('Goyo_before'), function('Goyo_after')]
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Syntastic
+" => ALE
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_echo_current_error = 1
-let g:syntastic_aggregate_errors = 1
-let g:syntastic_auto_jump = 3
-let g:syntastic_enable_perl_checker=1
-let g:syntastic_python_checkers=['flake8']
-let g:syntastic_python_flake8_args='--ignore=E501,E128,E225,W503'
-let g:syntastic_perl_checkers=['perl']
-let g:syntastic_perl_lib_path=['lib','locallib/lib/perl5']
-let g:syntastic_cpp_compiler_options = '-std=c++1y'
-let g:syntastic_ignore_files=['\m\c\.t$']
-let g:syntastic_error_symbol='✗'
-let g:syntastic_warning_symbol='⚠'
-let g:syntastic_style_error_symbol='✗'
-let g:syntastic_style_warning_symbol='⚠'
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_typescript_checkers = ['tsuquyomi', 'tslint']
-let g:syntastic_typescript_tsc_args = '--target ES5 --noEmit'
-let g:syntastic_swift_checkers = ['swiftpm', 'swiftlint']
-function! SyntasticCheckHook(errors)
-    if !empty(a:errors)
-        let g:syntastic_loc_list_height = min([len(a:errors), 6])
-    endif
-endfunction
+let g:ale_sign_column_always = 1
+let g:ale_sign_error='✗'
+let g:ale_sign_style_error='✗'
+let g:ale_sign_warning='⚠'
+let g:ale_sign_style_warning='⚠'
+hi ALEErrorSign ctermfg=1 ctermbg=0
+hi ALEStyleErrorSign ctermfg=1 ctermbg=0
+hi ALEWarningSign ctermfg=3 ctermbg=0
+hi ALEStyleWarningSign ctermfg=3 ctermbg=0
+hi ALEErrorLine ctermbg=0
+hi ALEStyleErrorLine ctermbg=0
+hi ALEWarningLine ctermbg=0
+hi ALEStyleWarningLine ctermbg=0
+nmap <leader>k <Plug>(ale_previous_wrap)
+nmap <leader>j <Plug>(ale_next_wrap)
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => React
