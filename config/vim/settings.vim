@@ -82,8 +82,6 @@ endif
 set encoding=utf8
 set ffs=unix,dos,mac
 
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=0
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=0
 hi SignColumn ctermbg=0
 hi LineNr ctermbg=0
 hi CursorLineNr ctermbg=0
