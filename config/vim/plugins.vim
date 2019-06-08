@@ -94,6 +94,7 @@ endfunction
 map <leader>nn :NERDTreeToggle<cr>
 map <leader>nb :NERDTreeFromBookmark
 map <leader>nf :NERDTreeFind<cr>
+let NERDTreeIgnore = ['\.pyc$', '__MACOSX', '__pycache__']
 
 """"""""""""""""""""""""""""""
 " => Airline
