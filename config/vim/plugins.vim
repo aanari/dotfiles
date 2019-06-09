@@ -327,6 +327,13 @@ let g:signify_sign_change            = '✹'
 let g:signify_sign_changedelete      = '≃'
 
 """"""""""""""""""""""""""""""
+" => Incsearch
+""""""""""""""""""""""""""""""
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
+
+""""""""""""""""""""""""""""""
 " => Custom
 """"""""""""""""""""""""""""""
 vmap <leader>pt :!perltidy<cr>
