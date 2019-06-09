@@ -88,7 +88,7 @@ augroup mycolors
     autocmd VimEnter,ColorScheme * :hi SignColumn ctermbg=0
     autocmd VimEnter,ColorScheme * :hi LineNr ctermbg=0
     autocmd VimEnter,ColorScheme * :hi CursorLineNr ctermbg=0
-    autocmd VimEnter,ColorScheme * :hi Comment cterm=italic
+    autocmd VimEnter,ColorScheme * :hi Comment cterm=italic ctermfg=240
     autocmd VimEnter,ColorScheme * :hi EndOfBuffer ctermfg=black ctermbg=black
 augroup END
 

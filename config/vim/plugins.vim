@@ -334,6 +334,20 @@ map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
 
 """"""""""""""""""""""""""""""
+" => Python Mode
+""""""""""""""""""""""""""""""
+let g:pymode_python = 'python3'
+let g:pymode_syntax = 1
+let g:pymode_syntax_slow_sync = 1
+let g:pymode_syntax_all = 1
+let g:pymode_syntax_highlight_equal_operator = 1
+augroup pyenhanced
+    autocmd!
+    autocmd VimEnter,ColorScheme * :hi pythonClass cterm=bold ctermfg=61
+    autocmd VimEnter,ColorScheme * :hi pythonDocstring cterm=italic ctermfg=240
+augroup END
+
+""""""""""""""""""""""""""""""
 " => Custom
 """"""""""""""""""""""""""""""
 vmap <leader>pt :!perltidy<cr>
