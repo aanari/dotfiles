@@ -1,6 +1,7 @@
 Plugin 'aanari/vim-sprunge'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'ambv/black'
+Plugin 'airblade/vim-rooter'
 Plugin 'ap/vim-css-color'
 Plugin 'atsepkov/vim-tabularity'
 Plugin 'bling/vim-airline'

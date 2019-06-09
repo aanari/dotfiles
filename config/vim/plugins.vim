@@ -233,6 +233,27 @@ else
 endif
 
 """"""""""""""""""""""""""""""
+" => Startify
+""""""""""""""""""""""""""""""
+let g:startify_files_number = 6
+let g:startify_list_order   = [
+      \ ['    My most recently used files in the current directory:'],
+      \ 'dir',
+      \ ['    My most recently used files:'],
+      \ 'files',
+      \ ['    These are my sessions:'],
+      \ 'sessions',
+      \ ]
+let g:startify_update_oldfiles        = 1
+let g:startify_disable_at_vimenter    = 0
+let g:startify_session_autoload       = 1
+let g:startify_session_persistence    = 1
+let g:startify_session_delete_buffers = 0
+let g:startify_change_to_dir          = 0
+let g:startify_change_to_vcs_root     = 0  " vim-rooter has same feature
+
+
+""""""""""""""""""""""""""""""
 " => Signify
 """"""""""""""""""""""""""""""
 let g:signify_update_on_focusgained  = 1
