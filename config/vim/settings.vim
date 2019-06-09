@@ -123,6 +123,7 @@ map! jk <esc>
 " => Highlight
 """"""""""""""""""""""""""""""
 map <silent> <leader><cr> :noh<cr>
+highlight Comment cterm=italic
 highlight EndOfBuffer ctermfg=black ctermbg=black
 
 """"""""""""""""""""""""""""""
