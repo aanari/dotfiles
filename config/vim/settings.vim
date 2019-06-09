@@ -12,6 +12,7 @@ let mapleader = ","
 let g:mapleader = ","
 
 nmap <leader>w :w!<cr>
+nmap <leader>q :wq!<cr>
 
 command W w !sudo tee % > /dev/null
 
@@ -164,7 +165,6 @@ map <leader>s? z=
 """"""""""""""""""""""""""""""
 map 0 ^
 noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
-map <leader>q :e ~/buffer<cr>
 map <leader>x :e ~/buffer.md<cr>
 map <leader>pp :setlocal paste!<cr>
 
