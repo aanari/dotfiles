@@ -125,25 +125,40 @@ let g:airline_powerline_fonts=1
 let g:airline#extensions#ale#enabled = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Limelight
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:limelight_conceal_ctermfg = 240
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Goyo
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:goyo_width=100
-let g:goyo_margin_top = 2
-let g:goyo_margin_bottom = 2
+let s:save_option = {}
 nnoremap <silent> <leader>z :Goyo<cr>
-function! Goyo_before()
-  let g:neocomplete#disable_auto_complete = 1
-  if exists('$TMUX')
-    silent !tmux set status off
+function! s:goyo_enter()
+  let s:save_option['showmode'] = &showmode
+  let s:save_option['showcmd'] = &showcmd
+  let s:save_option['scrolloff'] = &scrolloff
+  set noshowmode
+  set noshowcmd
+  set scrolloff=999
+  if exists(':Limelight') == 2
+    Limelight
+    let s:save_option['limelight'] = 1
   endif
 endfunction
-function! Goyo_after()
-  let g:neocomplete#disable_auto_complete = 0
-  if exists('$TMUX')
-    silent !tmux set status on
+
+function! s:goyo_leave()
+  let &showmode = s:save_option['showmode']
+  let &showcmd = s:save_option['showcmd']
+  let &scrolloff = s:save_option['scrolloff']
+  if get(s:save_option,'limelight', 0)
+    execute 'Limelight!'
   endif
 endfunction
-let g:goyo_callbacks = [function('Goyo_before'), function('Goyo_after')]
+augroup goyo_map
+  autocmd! User GoyoEnter nested call <SID>goyo_enter()
+  autocmd! User GoyoLeave nested call <SID>goyo_leave()
+augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => ALE
@@ -157,19 +172,19 @@ let g:ale_sign_info = '➤'
 augroup ALE_Settings
   autocmd!
   autocmd QuitPre * if empty(&buftype) | lclose | endif
-  autocmd ColorScheme *
-        \ hi link ALEVirtualTextError    SpellBad  |
-        \ hi link ALEVirtualTextWarning  SpellCap  |
-        \ hi link ALEVirtualTextInfo     SpellRare |
+  autocmd VimEnter,ColorScheme *
+        \ :hi link ALEVirtualTextError    SpellBad    |
+        \ :hi link ALEVirtualTextWarning  SpellCap    |
+        \ :hi link ALEVirtualTextInfo     SpellRare
+  autocmd VimEnter,ColorScheme * :hi ALEErrorSign ctermfg=1 ctermbg=0
+  autocmd VimEnter,ColorScheme * :hi ALEStyleErrorSign ctermfg=1 ctermbg=0
+  autocmd VimEnter,ColorScheme * :hi ALEWarningSign ctermfg=3 ctermbg=0
+  autocmd VimEnter,ColorScheme * :hi ALEStyleWarningSign ctermfg=3 ctermbg=0
+  autocmd VimEnter,ColorScheme * :hi ALEErrorLine ctermbg=0
+  autocmd VimEnter,ColorScheme * :hi ALEStyleErrorLine ctermbg=0
+  autocmd VimEnter,ColorScheme * :hi ALEWarningLine ctermbg=0
+  autocmd VimEnter,ColorScheme * :hi ALEStyleWarningLine ctermbg=0
 augroup END
-hi ALEErrorSign ctermfg=1 ctermbg=0
-hi ALEStyleErrorSign ctermfg=1 ctermbg=0
-hi ALEWarningSign ctermfg=3 ctermbg=0
-hi ALEStyleWarningSign ctermfg=3 ctermbg=0
-hi ALEErrorLine ctermbg=0
-hi ALEStyleErrorLine ctermbg=0
-hi ALEWarningLine ctermbg=0
-hi ALEStyleWarningLine ctermbg=0
 nmap <leader>k <Plug>(ale_previous_wrap)
 nmap <leader>j <Plug>(ale_next_wrap)
 
@@ -190,8 +205,11 @@ let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_auto_colors = 0
 let g:indent_guides_start_level = 2
 let g:indent_guides_guide_size = 1
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=0
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=0
+augroup Indent_Settings
+    autocmd!
+    autocmd VimEnter,ColorScheme * :hi IndentGuidesOdd ctermbg=0
+    autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=0
+augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => NeatFold

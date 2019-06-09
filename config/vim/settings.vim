@@ -83,9 +83,14 @@ endif
 set encoding=utf8
 set ffs=unix,dos,mac
 
-hi SignColumn ctermbg=0
-hi LineNr ctermbg=0
-hi CursorLineNr ctermbg=0
+augroup mycolors
+    autocmd!
+    autocmd VimEnter,ColorScheme * :hi SignColumn ctermbg=0
+    autocmd VimEnter,ColorScheme * :hi LineNr ctermbg=0
+    autocmd VimEnter,ColorScheme * :hi CursorLineNr ctermbg=0
+    autocmd VimEnter,ColorScheme * :hi Comment cterm=italic
+    autocmd VimEnter,ColorScheme * :hi EndOfBuffer ctermfg=black ctermbg=black
+augroup END
 
 """"""""""""""""""""""""""""""
 " => Backups
@@ -123,8 +128,6 @@ map! jk <esc>
 " => Highlight
 """"""""""""""""""""""""""""""
 map <silent> <leader><cr> :noh<cr>
-highlight Comment cterm=italic
-highlight EndOfBuffer ctermfg=black ctermbg=black
 
 """"""""""""""""""""""""""""""
 " => Buffers
@@ -307,9 +310,6 @@ augroup pencil
   autocmd FileType text         call pencil#init()
 augroup END
 
-autocmd User GoyoEnter call <SID>goyo_enter()
-autocmd User GoyoLeave call <SID>goyo_leave()
-
 autocmd BufEnter *.md colorscheme PaperColor|let g:airline_theme="papercolor"|call airline#switch_matching_theme()|set cmdheight=1|setlocal spell
 
 let g:vim_markdown_folding_disabled=1
@@ -319,25 +319,6 @@ let g:pencil#wrapModeDefault = 'soft'
 """"""""""""""""""""""""""""""
 " => Functions
 """"""""""""""""""""""""""""""
-
-function! s:goyo_enter()
-  let b:quitting = 0
-  let b:quitting_bang = 0
-  autocmd QuitPre <buffer> let b:quitting = 1
-  cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
-endfunction
-
-function! s:goyo_leave()
-  " Quit Vim if this is the only remaining buffer
-  if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
-    if b:quitting_bang
-      qa!
-    else
-      qa
-    endif
-  endif
-endfunction
-
 function! CmdLine(str)
     exe "menu Foo.Bar :" . a:str
     emenu Foo.Bar
