@@ -149,10 +149,19 @@ let g:goyo_callbacks = [function('Goyo_before'), function('Goyo_after')]
 " => ALE
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:ale_sign_column_always = 1
-let g:ale_sign_error='✗'
-let g:ale_sign_style_error='✗'
+let g:ale_sign_error='❌'
+let g:ale_sign_style_error='❌'
 let g:ale_sign_warning='⚠'
 let g:ale_sign_style_warning='⚠'
+let g:ale_sign_info = '➤'
+augroup ALE_Settings
+  autocmd!
+  autocmd QuitPre * if empty(&buftype) | lclose | endif
+  autocmd ColorScheme *
+        \ hi link ALEVirtualTextError    SpellBad  |
+        \ hi link ALEVirtualTextWarning  SpellCap  |
+        \ hi link ALEVirtualTextInfo     SpellRare |
+augroup END
 hi ALEErrorSign ctermfg=1 ctermbg=0
 hi ALEStyleErrorSign ctermfg=1 ctermbg=0
 hi ALEWarningSign ctermfg=3 ctermbg=0
