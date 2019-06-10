@@ -128,6 +128,16 @@ map! jk <esc>
 map <silent> <leader><cr> :noh<cr>
 
 """"""""""""""""""""""""""""""
+" => Matchparen
+""""""""""""""""""""""""""""""
+augroup insertMatch
+    au!
+    au BufReadPost * NoMatchParen
+    au InsertEnter * DoMatchParen
+    au InsertLeave * NoMatchParen
+augroup END
+
+""""""""""""""""""""""""""""""
 " => Buffers
 """"""""""""""""""""""""""""""
 map <leader>bd :Bclose<cr>
