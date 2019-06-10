@@ -163,17 +163,17 @@ augroup END
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => ALE
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:ale_echo_msg_format = '[%linter%] %s'
 let g:ale_virtualtext_cursor         = 1
 let g:ale_virtualtext_prefix         = '❯ '
 let g:ale_open_list                  = 0
 let g:ale_sign_column_always         = 1
-let g:ale_virtualtext_cursor         = 1
-let g:ale_virtualtext_prefix         = '❯ '
-let g:ale_open_list                  = 0
+let g:ale_echo_msg_error_str = '✖'
+let g:ale_echo_msg_warning_str = '⚠'
+let g:ale_echo_msg_info_str = '➤'
+let g:ale_echo_msg_format = '[%severity%%linter%] %s'
 let g:ale_sign_column_always = 1
-let g:ale_sign_error='❌'
-let g:ale_sign_style_error='❌'
+let g:ale_sign_error='✖'
+let g:ale_sign_style_error='✖'
 let g:ale_sign_warning='⚠'
 let g:ale_sign_style_warning='⚠'
 let g:ale_sign_info = '➤'
