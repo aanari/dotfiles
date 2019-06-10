@@ -88,6 +88,7 @@ Plugin 'w0rp/ale'
 Plugin 'xuhdev/vim-latex-live-preview'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'yegappan/mru'
+Plugin 'yuttie/comfortable-motion.vim'
 Plugin 'yko/mojo.vim'
 
 Plugin 'Quramy/tsuquyomi'
