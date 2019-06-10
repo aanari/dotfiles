@@ -48,6 +48,7 @@ set showmatch
 set mat=2
 set noerrorbells
 set novisualbell
+set noshowmatch
 set t_vb=
 set tm=500
 set foldcolumn=1
@@ -126,16 +127,6 @@ map! jk <esc>
 " => Highlight
 """"""""""""""""""""""""""""""
 map <silent> <leader><cr> :noh<cr>
-
-""""""""""""""""""""""""""""""
-" => Matchparen
-""""""""""""""""""""""""""""""
-augroup insertMatch
-    au!
-    au BufReadPost * NoMatchParen
-    au InsertEnter * DoMatchParen
-    au InsertLeave * NoMatchParen
-augroup END
 
 """"""""""""""""""""""""""""""
 " => Buffers
