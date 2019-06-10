@@ -49,6 +49,8 @@ set mat=2
 set noerrorbells
 set novisualbell
 set noshowmatch
+set splitbelow
+set splitright
 set t_vb=
 set tm=500
 set foldcolumn=1
@@ -119,14 +121,10 @@ set wrap
 """"""""""""""""""""""""""""""
 " => Movement
 """"""""""""""""""""""""""""""
-map j gj
-map k gk
-map <c-space> ?
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
-map! jk <esc>
+nnoremap <C-j> <C-W>j
+nnoremap <C-k> <C-W>k
+nnoremap <C-h> <C-W>h
+nnoremap <C-l> <C-W>l
 
 """"""""""""""""""""""""""""""
 " => Highlight
@@ -206,7 +204,6 @@ iab xdate <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
 let python_highlight_all = 1
 au FileType python setlocal completeopt-=preview
 au FileType python syn keyword pythonDecorator True None False self
-au FileType python map <buffer> F :set foldmethod=indent<cr>
 au FileType python inoremap <buffer> $r return
 au FileType python inoremap <buffer> $i import
 au FileType python inoremap <buffer> $p print
