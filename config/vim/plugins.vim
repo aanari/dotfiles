@@ -326,6 +326,7 @@ let g:pymode_syntax_slow_sync = 1
 let g:pymode_syntax_all = 1
 let g:pymode_syntax_highlight_equal_operator = 1
 let g:pymode_lint = 0
+let g:pymode_options_colorcolumn = 0
 augroup pyenhanced
     autocmd!
     autocmd VimEnter,ColorScheme * :hi link pythonDocstring Comment
