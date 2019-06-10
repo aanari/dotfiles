@@ -272,11 +272,6 @@ let g:dbext_default_profile='geneangel'
 """"""""""""""""""""""""""""""
 " => Perl
 """"""""""""""""""""""""""""""
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadBraces
-au Syntax * RainbowParenthesesLoadChevrons
 inoremap => =><Esc>:call tabularity#Align('=>')<cr>a
 au BufNewFile,BufRead *.t set filetype=perl
 au BufNewFile,BufRead *.tt set filetype=xml

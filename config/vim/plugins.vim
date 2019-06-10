@@ -217,31 +217,6 @@ augroup END
 let g:NeatFoldTextFancy = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Rainbow Parenthesis
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:rbpt_colorpairs = [
-    \ ['brown',       'RoyalBlue3'],
-    \ ['Darkblue',    'SeaGreen3'],
-    \ ['darkgray',    'DarkOrchid3'],
-    \ ['darkgreen',   'firebrick3'],
-    \ ['darkcyan',    'RoyalBlue3'],
-    \ ['darkred',     'SeaGreen3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['brown',       'firebrick3'],
-    \ ['gray',        'RoyalBlue3'],
-    \ ['Darkblue',    'firebrick3'],
-    \ ['darkgreen',   'RoyalBlue3'],
-    \ ['darkred',     'DarkOrchid3'],
-    \ ['red',         'firebrick3'],
-    \ ]
-let g:rbpt_max = 13
-let g:bold_parentheses = 1
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadBraces
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => ScriptRunner
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:script_runner_perl = 'perl -Mfeature=:5.10 -MData::Dump'
@@ -341,8 +316,10 @@ let g:pymode_syntax_all = 1
 let g:pymode_syntax_highlight_equal_operator = 1
 augroup pyenhanced
     autocmd!
-    autocmd VimEnter,ColorScheme * :hi pythonClass cterm=bold ctermfg=61
     autocmd VimEnter,ColorScheme * :hi link pythonDocstring Comment
+    autocmd VimEnter,ColorScheme * :hi pythonInclude cterm=italic guifg=#cb4b16
+    autocmd VimEnter,ColorScheme * :hi pythonClassParameters guifg=#6c71c4
+    autocmd VimEnter,ColorScheme * :hi pythonSelf guifg=#cb4b16
 augroup END
 
 """"""""""""""""""""""""""""""
