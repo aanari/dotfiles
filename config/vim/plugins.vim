@@ -184,14 +184,6 @@ augroup ALE_Settings
         \ :hi link ALEVirtualTextError    SpellBad    |
         \ :hi link ALEVirtualTextWarning  SpellCap    |
         \ :hi link ALEVirtualTextInfo     SpellRare
-  autocmd VimEnter,ColorScheme * :hi ALEErrorSign ctermfg=1 ctermbg=0
-  autocmd VimEnter,ColorScheme * :hi ALEStyleErrorSign ctermfg=1 ctermbg=0
-  autocmd VimEnter,ColorScheme * :hi ALEWarningSign ctermfg=3 ctermbg=0
-  autocmd VimEnter,ColorScheme * :hi ALEStyleWarningSign ctermfg=3 ctermbg=0
-  autocmd VimEnter,ColorScheme * :hi ALEErrorLine ctermbg=0
-  autocmd VimEnter,ColorScheme * :hi ALEStyleErrorLine ctermbg=0
-  autocmd VimEnter,ColorScheme * :hi ALEWarningLine ctermbg=0
-  autocmd VimEnter,ColorScheme * :hi ALEStyleWarningLine ctermbg=0
 augroup END
 nmap <leader>k <Plug>(ale_previous_wrap)
 nmap <leader>j <Plug>(ale_next_wrap)
@@ -314,7 +306,6 @@ let g:startify_session_delete_buffers = 0
 let g:startify_change_to_dir          = 0
 let g:startify_change_to_vcs_root     = 0  " vim-rooter has same feature
 
-
 """"""""""""""""""""""""""""""
 " => Signify
 """"""""""""""""""""""""""""""
@@ -325,6 +316,13 @@ let g:signify_sign_delete            = '✖'
 let g:signify_sign_delete_first_line = '▤'
 let g:signify_sign_change            = '✹'
 let g:signify_sign_changedelete      = '≃'
+augroup Signify_Settings
+    autocmd!
+    autocmd VimEnter,ColorScheme * :hi SignColumn guibg=#002b36
+    autocmd VimEnter,ColorScheme * :hi SignifySignAdd cterm=bold guibg=#002b36 guifg=#859900
+    autocmd VimEnter,ColorScheme * :hi SignifySignDelete cterm=bold guibg=#002b36 guifg=#cb4b16
+    autocmd VimEnter,ColorScheme * :hi SignifySignChange cterm=bold guibg=#002b36 guifg=#b58900
+augroup END
 
 """"""""""""""""""""""""""""""
 " => Incsearch
@@ -344,7 +342,7 @@ let g:pymode_syntax_highlight_equal_operator = 1
 augroup pyenhanced
     autocmd!
     autocmd VimEnter,ColorScheme * :hi pythonClass cterm=bold ctermfg=61
-    autocmd VimEnter,ColorScheme * :hi pythonDocstring cterm=italic ctermfg=240
+    autocmd VimEnter,ColorScheme * :hi link pythonDocstring Comment
 augroup END
 
 """"""""""""""""""""""""""""""

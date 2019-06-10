@@ -52,6 +52,7 @@ set t_vb=
 set tm=500
 set foldcolumn=1
 set clipboard=unnamed
+set termguicolors
 set nu
 if exists('$TMUX')
     let &t_SI = "\<Esc>Ptmux;\<Esc>\e[5 q\<Esc>\\"
@@ -67,11 +68,17 @@ endif
 syntax enable
 
 try
-    colorscheme solarized
+    colorscheme solarized8_flat
 catch
 endtry
 
 set background=dark
+let g:solarized_italics = 1
+let g:solarized_statusline = 'flat'
+let g:solarized_extra_hi_groups = 1
+
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 
 if has("gui_running")
     set guioptions-=T
@@ -82,15 +89,6 @@ endif
 
 set encoding=utf8
 set ffs=unix,dos,mac
-
-augroup mycolors
-    autocmd!
-    autocmd VimEnter,ColorScheme * :hi SignColumn ctermbg=0
-    autocmd VimEnter,ColorScheme * :hi LineNr ctermbg=0
-    autocmd VimEnter,ColorScheme * :hi CursorLineNr ctermbg=0
-    autocmd VimEnter,ColorScheme * :hi Comment cterm=italic ctermfg=240
-    autocmd VimEnter,ColorScheme * :hi EndOfBuffer ctermfg=black ctermbg=black
-augroup END
 
 """"""""""""""""""""""""""""""
 " => Backups
