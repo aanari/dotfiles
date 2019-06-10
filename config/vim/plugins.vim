@@ -25,6 +25,8 @@ let g:colorizer_auto_filetype='css,html,javascript,typescript'
 let g:comfortable_motion_no_default_key_mappings = 1
 let g:comfortable_motion_scroll_down_key = "j"
 let g:comfortable_motion_scroll_up_key = "k"
+let g:comfortable_motion_friction = 0.0
+let g:comfortable_motion_air_drag = 10.0
 nnoremap <silent> <C-d> :call comfortable_motion#flick(50)<CR>
 nnoremap <silent> <C-u> :call comfortable_motion#flick(-50)<CR>
 
