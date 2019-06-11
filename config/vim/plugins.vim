@@ -17,7 +17,7 @@ map <leader>o :BufExplorer<cr>
 """"""""""""""""""""""""""""""
 " => Colorizer
 """"""""""""""""""""""""""""""
-let g:colorizer_auto_filetype='css,html,javascript,typescript'
+let g:colorizer_auto_filetype='css,html,javascript,typescript,vim'
 
 """"""""""""""""""""""""""""""
 " => Comfortable Motion
@@ -344,9 +344,10 @@ let g:winresizer_horiz_resize = 1
 """"""""""""""""""""""""""""""
 " => HighlightedYank
 """"""""""""""""""""""""""""""
+let g:highlightedyank_highlight_duration = 400
 augroup pyenhanced
     autocmd!
-    autocmd VimEnter,ColorScheme * :hi HighlightedyankRegion guifg=#6c71c4
+    autocmd VimEnter,ColorScheme * :hi HighlightedyankRegion guifg=#eee8d5
 augroup END
 
 """"""""""""""""""""""""""""""
