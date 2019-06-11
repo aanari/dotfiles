@@ -342,6 +342,14 @@ let g:winresizer_vert_resize = 1
 let g:winresizer_horiz_resize = 1
 
 """"""""""""""""""""""""""""""
+" => HighlightedYank
+""""""""""""""""""""""""""""""
+augroup pyenhanced
+    autocmd!
+    autocmd VimEnter,ColorScheme * :hi HighlightedyankRegion guifg=#6c71c4
+augroup END
+
+""""""""""""""""""""""""""""""
 " => Custom
 """"""""""""""""""""""""""""""
 vmap <leader>pt :!perltidy<cr>
