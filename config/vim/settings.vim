@@ -95,7 +95,7 @@ set ffs=unix,dos,mac
 
 augroup Color_Settings
     autocmd!
-    autocmd VimEnter,ColorScheme * :hi EndOfBuffer guifg=#002b36 guibg=#002b36
+    autocmd ColorScheme * :hi EndOfBuffer guifg=#002b36 guibg=#002b36
 augroup END
 
 """"""""""""""""""""""""""""""

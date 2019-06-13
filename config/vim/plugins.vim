@@ -191,7 +191,7 @@ let g:ale_sign_info = '➤'
 augroup ALE_Settings
   autocmd!
   autocmd QuitPre * if empty(&buftype) | lclose | endif
-  autocmd VimEnter,ColorScheme *
+  autocmd ColorScheme *
         \ :hi link ALEVirtualTextError    SpellBad    |
         \ :hi link ALEVirtualTextWarning  SpellCap    |
         \ :hi link ALEVirtualTextInfo     SpellRare
@@ -205,11 +205,6 @@ nmap <leader>j <Plug>(ale_next_wrap)
 let g:jsx_ext_required = 0
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Sprunge
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:sprunge_cmd='nopaste'
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Indent guides
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:indent_guides_enable_on_vim_startup = 1
@@ -218,8 +213,8 @@ let g:indent_guides_start_level = 2
 let g:indent_guides_guide_size = 1
 augroup Indent_Settings
     autocmd!
-    autocmd VimEnter,ColorScheme * :hi IndentGuidesOdd ctermbg=0
-    autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=0
+    autocmd ColorScheme * :hi IndentGuidesOdd ctermbg=0
+    autocmd Colorscheme * :hi IndentGuidesEven ctermbg=0
 augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -304,10 +299,10 @@ let g:signify_sign_change            = '✹'
 let g:signify_sign_changedelete      = '≃'
 augroup Signify_Settings
     autocmd!
-    autocmd VimEnter,ColorScheme * :hi SignColumn guibg=#002b36
-    autocmd VimEnter,ColorScheme * :hi SignifySignAdd cterm=bold guibg=#002b36 guifg=#859900
-    autocmd VimEnter,ColorScheme * :hi SignifySignDelete cterm=bold guibg=#002b36 guifg=#cb4b16
-    autocmd VimEnter,ColorScheme * :hi SignifySignChange cterm=bold guibg=#002b36 guifg=#b58900
+    autocmd ColorScheme * :hi SignColumn guibg=#002b36
+    autocmd ColorScheme * :hi SignifySignAdd cterm=bold guibg=#002b36 guifg=#859900
+    autocmd ColorScheme * :hi SignifySignDelete cterm=bold guibg=#002b36 guifg=#cb4b16
+    autocmd ColorScheme * :hi SignifySignChange cterm=bold guibg=#002b36 guifg=#b58900
 augroup END
 
 """"""""""""""""""""""""""""""
@@ -327,12 +322,12 @@ let g:pymode_syntax_all = 1
 let g:pymode_syntax_highlight_equal_operator = 1
 let g:pymode_lint = 0
 let g:pymode_options_colorcolumn = 0
-augroup pyenhanced
+augroup Python_Settings
     autocmd!
-    autocmd VimEnter,ColorScheme * :hi link pythonDocstring Comment
-    autocmd VimEnter,ColorScheme * :hi pythonInclude cterm=italic guifg=#cb4b16
-    autocmd VimEnter,ColorScheme * :hi pythonClassParameters guifg=#6c71c4
-    autocmd VimEnter,ColorScheme * :hi pythonSelf guifg=#cb4b16
+    autocmd ColorScheme * :hi link pythonDocstring Comment
+    autocmd ColorScheme * :hi pythonInclude cterm=italic guifg=#cb4b16
+    " autocmd ColorScheme * :hi pythonClassParameters guifg=#6c71c4
+    autocmd ColorScheme * :highlight pythonSelf guifg=#cb4b16
 augroup END
 
 """"""""""""""""""""""""""""""
@@ -345,9 +340,22 @@ let g:winresizer_horiz_resize = 1
 " => HighlightedYank
 """"""""""""""""""""""""""""""
 let g:highlightedyank_highlight_duration = 400
-augroup pyenhanced
+augroup YankRing_Settings
     autocmd!
-    autocmd VimEnter,ColorScheme * :hi HighlightedyankRegion guifg=#eee8d5
+    autocmd ColorScheme * :hi HighlightedyankRegion guifg=#eee8d5
+augroup END
+
+""""""""""""""""""""""""""""""
+" => EasyMotion
+""""""""""""""""""""""""""""""
+let g:EasyMotion_do_mapping = 0
+let g:EasyMotion_smartcase = 1
+nmap s <Plug>(easymotion-overwin-f2)
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
+augroup EasyMotion_Settings
+    autocmd!
+    autocmd ColorScheme * :hi EasyMotionTarget guifg=#eee8d5
 augroup END
 
 """"""""""""""""""""""""""""""
@@ -355,3 +363,11 @@ augroup END
 """"""""""""""""""""""""""""""
 vmap <leader>pt :!perltidy<cr>
 nmap <leader>pt :%! perltidy<cr>
+
+""""""""""""""""""""""""""""""
+" => Re-apply the color-scheme again for custom colors
+""""""""""""""""""""""""""""""
+try
+    colorscheme solarized8_flat
+catch
+endtry
