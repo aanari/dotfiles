@@ -39,7 +39,6 @@ autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.gra
 """"""""""""""""""""""""""""""
 " => Black
 """"""""""""""""""""""""""""""
-let g:black_linelength = 79
 let g:black_fast=1
 autocmd BufWritePre *.py execute ':Black'
 
