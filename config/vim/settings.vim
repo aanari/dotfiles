@@ -306,8 +306,6 @@ augroup pencil
   autocmd FileType text         call pencil#init()
 augroup END
 
-autocmd BufEnter *.md colorscheme PaperColor|let g:airline_theme="papercolor"|call airline#switch_matching_theme()|set cmdheight=1|setlocal spell
-
 let g:vim_markdown_folding_disabled=1
 let g:vim_markdown_frontmatter=1
 let g:pencil#wrapModeDefault = 'soft'
