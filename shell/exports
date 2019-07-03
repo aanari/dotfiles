@@ -3,3 +3,5 @@ export ARCHFLAGS='-arch x86_64'             # archflags
 export GREP_OPTIONS='--color=auto'          # double rainbow!
 export GH_LOGIN=aanari                      # used by git-go
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
+export GOPATH=$HOME/go
+export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
