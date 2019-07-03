@@ -299,16 +299,8 @@ augroup litecorrect
   autocmd FileType textile      call litecorrect#init()
   autocmd FileType text         call litecorrect#init()
 augroup END
-augroup pencil
-  autocmd!
-  autocmd FileType markdown,mkd call pencil#init()
-  autocmd FileType textile      call pencil#init()
-  autocmd FileType text         call pencil#init()
-augroup END
-
 let g:vim_markdown_folding_disabled=1
 let g:vim_markdown_frontmatter=1
-let g:pencil#wrapModeDefault = 'soft'
 
 """"""""""""""""""""""""""""""
 " => Functions
