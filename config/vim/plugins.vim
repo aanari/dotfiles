@@ -204,17 +204,10 @@ nmap <leader>j <Plug>(ale_next_wrap)
 let g:jsx_ext_required = 0
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Indent guides
+" => Indent Lines
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:indent_guides_enable_on_vim_startup = 1
-let g:indent_guides_auto_colors = 0
-let g:indent_guides_start_level = 2
-let g:indent_guides_guide_size = 1
-augroup Indent_Settings
-    autocmd!
-    autocmd ColorScheme * :hi IndentGuidesOdd ctermbg=0
-    autocmd Colorscheme * :hi IndentGuidesEven ctermbg=0
-augroup END
+let g:indentLine_char_list = ['┊']
+let g:indentLine_showFirstIndentLevel = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => NeatFold
