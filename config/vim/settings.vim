@@ -48,12 +48,16 @@ set showmatch
 set mat=2
 set noerrorbells
 set novisualbell
+set nocursorcolumn
+set nocursorline
 set noshowmatch
 set splitbelow
 set splitright
 set t_vb=
 set tm=500
-set foldcolumn=1
+set ttyfast
+set ttyscroll=3
+set foldcolumn=0
 set clipboard=unnamed
 set termguicolors
 set nu
@@ -64,6 +68,8 @@ else
     let &t_SI = "\e[5 q"
     let &t_EI = "\e[2 q"
 endif
+
+set list listchars=tab:\┊\ " Indent guides with tabs
 
 """"""""""""""""""""""""""""""
 " => Colors and fonts
@@ -96,6 +102,7 @@ set ffs=unix,dos,mac
 augroup Color_Settings
     autocmd!
     autocmd ColorScheme * :hi EndOfBuffer guifg=#002b36 guibg=#002b36
+    autocmd ColorScheme * :hi SpecialKey guifg=#073642 guibg=#002b36
 augroup END
 
 """"""""""""""""""""""""""""""
