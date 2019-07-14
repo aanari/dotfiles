@@ -407,10 +407,12 @@ augroup EasyMotion_Settings
 augroup END
 
 """"""""""""""""""""""""""""""
-" => Custom
+" => Custom Filetypes
 """"""""""""""""""""""""""""""
-vmap <leader>pt :!perltidy<cr>
-nmap <leader>pt :%! perltidy<cr>
+augroup Custom_Filetypes
+  au!
+  autocmd BufNewFile,BufRead *.prisma   set syntax=graphql
+augroup END
 
 """"""""""""""""""""""""""""""
 " => Re-apply the color-scheme again for custom colors
