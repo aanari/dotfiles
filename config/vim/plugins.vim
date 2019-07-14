@@ -410,8 +410,8 @@ augroup END
 " => Custom Filetypes
 """"""""""""""""""""""""""""""
 augroup Custom_Filetypes
-  au!
-  autocmd BufNewFile,BufRead *.prisma   set syntax=graphql
+    au!
+    autocmd BufNewFile,BufRead *.prisma set syntax=graphql ts=2 sw=2 expandtab
 augroup END
 
 """"""""""""""""""""""""""""""
