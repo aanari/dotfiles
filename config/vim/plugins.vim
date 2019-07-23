@@ -34,7 +34,7 @@ nnoremap <silent> <C-u> :call comfortable_motion#flick(-50)<CR>
 " => Prettier
 """"""""""""""""""""""""""""""
 let g:prettier#autoformat = 0
-autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue PrettierAsync
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
 
 """"""""""""""""""""""""""""""
 " => Black
