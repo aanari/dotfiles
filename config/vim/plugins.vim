@@ -378,7 +378,7 @@ let g:winresizer_horiz_resize = 1
 """"""""""""""""""""""""""""""
 " => HighlightedYank
 """"""""""""""""""""""""""""""
-let g:highlightedyank_highlight_duration = 400
+let g:highlightedyank_highlight_duration = 250
 augroup YankRing_Settings
     autocmd!
     autocmd ColorScheme * :hi HighlightedyankRegion guifg=#eee8d5
