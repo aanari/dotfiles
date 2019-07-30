@@ -285,10 +285,10 @@ let g:signify_sign_change            = '✹'
 let g:signify_sign_changedelete      = '≃'
 augroup Signify_Settings
     autocmd!
-    autocmd ColorScheme * :hi SignColumn guibg=#002b36
-    autocmd ColorScheme * :hi SignifySignAdd cterm=bold guibg=#002b36 guifg=#859900
-    autocmd ColorScheme * :hi SignifySignDelete cterm=bold guibg=#002b36 guifg=#cb4b16
-    autocmd ColorScheme * :hi SignifySignChange cterm=bold guibg=#002b36 guifg=#b58900
+    autocmd ColorScheme * :hi SignColumn guibg=#073642
+    autocmd ColorScheme * :hi SignifySignAdd cterm=bold guibg=#073642 guifg=#859900
+    autocmd ColorScheme * :hi SignifySignDelete cterm=bold guibg=#073642 guifg=#cb4b16
+    autocmd ColorScheme * :hi SignifySignChange cterm=bold guibg=#073642 guifg=#b58900
 augroup END
 
 """"""""""""""""""""""""""""""
