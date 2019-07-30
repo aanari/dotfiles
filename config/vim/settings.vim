@@ -69,6 +69,8 @@ else
     let &t_EI = "\e[2 q"
 endif
 
+set fillchars+=vert:\  " Whitespace
+
 """"""""""""""""""""""""""""""
 " => Colors and fonts
 """"""""""""""""""""""""""""""
