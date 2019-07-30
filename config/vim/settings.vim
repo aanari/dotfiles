@@ -69,8 +69,6 @@ else
     let &t_EI = "\e[2 q"
 endif
 
-set list listchars=tab:\┊\ " Indent guides with tabs
-
 """"""""""""""""""""""""""""""
 " => Colors and fonts
 """"""""""""""""""""""""""""""

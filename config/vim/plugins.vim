@@ -204,15 +204,6 @@ nmap <leader>j <Plug>(ale_next_wrap)
 let g:jsx_ext_required = 0
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Indent Lines
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:indentLine_char_list = ['┊']
-let g:indentLine_first_char = '┊'
-let g:indentLine_showFirstIndentLevel = 1
-let g:indentLine_fileTypeExclude = ['startify']
-let g:indentLine_color_gui = '#073642'
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => NeatFold
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:NeatFoldTextFancy = 1
@@ -405,6 +396,14 @@ augroup EasyMotion_Settings
     autocmd!
     autocmd ColorScheme * :hi EasyMotionTarget guifg=#eee8d5
 augroup END
+""""""""""""""""""""""""""""""
+" => Conoline
+""""""""""""""""""""""""""""""
+let g:conoline_auto_enable = 1
+let g:conoline_color_normal_dark = 'guibg=#073642'
+let g:conoline_color_normal_nr_dark = 'guibg=#073642'
+let g:conoline_color_insert_dark = 'guibg=#073642'
+let g:conoline_color_insert_nr_dark = 'guibg=#073642'
 
 """"""""""""""""""""""""""""""
 " => Custom Filetypes
