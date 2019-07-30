@@ -1,7 +1,12 @@
 """"""""""""""""""""""""""""""
 " => General
 """"""""""""""""""""""""""""""
-set history =700
+if &history < 1000
+  set history=1000
+endif
+if &tabpagemax < 50
+  set tabpagemax=50
+endif
 
 filetype plugin indent on
 syntax enable
@@ -23,10 +28,21 @@ set wildmode=longest:full,list
 set wildmenu
 set wildignore+=.DS_Store,*.o,*.so,*~,*.pyc,*.class,*.swp,*.zip,*.pdf,.git\*,.hg\*,.svn\*,node_modules\*,*bower_components\*,*dist\*,*env\*,*venv\*,*.idea\*,*.pytest_cache\*,*__MACOSX\*,*__pycache__\*
 
+if !&scrolloff
+  set scrolloff=1
+endif
+if !&sidescrolloff
+  set sidescrolloff=5
+endif
+set display+=lastline
+
+if &encoding ==# 'latin1' && has('gui_running')
+  set encoding=utf-8
+endif
+
 set noruler
 set noshowmode
 set noshowcmd
-set display=lastline
 set cmdheight=1
 set laststatus=2
 set hid
@@ -122,7 +138,7 @@ set lbr
 set tw=500
 set ai
 set si
-set wrap
+"set wrap
 
 """"""""""""""""""""""""""""""
 " => Movement
@@ -155,7 +171,10 @@ autocmd BufReadPost *
      \ if line("'\"") > 0 && line("'\"") <= line("$") |
      \   exe "normal! g`\"" |
      \ endif
-set viminfo^=%
+if !empty(&viminfo)
+  set viminfo^=!
+endif
+set sessionoptions-=options
 try
   set switchbuf=useopen,usetab,newtab
   set stal=2
