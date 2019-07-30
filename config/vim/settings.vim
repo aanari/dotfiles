@@ -19,18 +19,14 @@ command W w !sudo tee % > /dev/null
 """"""""""""""""""""""""""""""
 " => User interface
 """"""""""""""""""""""""""""""
-set so=7
+set wildmode=longest:full,list
 set wildmenu
-set wildignore=*.o,*~,*.pyc
-if has("win16") || has("win32")
-    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
-else
-    set wildignore+=.git\*,.hg\*,.svn\*
-endif
+set wildignore+=.DS_Store,*.o,*.so,*~,*.pyc,*.class,*.swp,*.zip,*.pdf,.git\*,.hg\*,.svn\*,node_modules\*,*bower_components\*,*dist\*,*env\*,*venv\*,*.idea\*,*.pytest_cache\*,*__MACOSX\*,*__pycache__\*
 
 set noruler
 set noshowmode
 set noshowcmd
+set display=lastline
 set cmdheight=1
 set laststatus=2
 set hid
@@ -60,7 +56,10 @@ set ttyscroll=3
 set foldcolumn=0
 set clipboard=unnamed
 set termguicolors
-set nu
+set nu!
+set nonumber
+set nonu
+"set virtualedit=all
 if exists('$TMUX')
     let &t_SI = "\<Esc>Ptmux;\<Esc>\e[5 q\<Esc>\\"
     let &t_EI = "\<Esc>Ptmux;\<Esc>\e[2 q\<Esc>\\"
@@ -128,6 +127,14 @@ set wrap
 """"""""""""""""""""""""""""""
 " => Movement
 """"""""""""""""""""""""""""""
+nnoremap j jzz
+nnoremap k kzz
+vnoremap j jzz
+vnoremap k kzz
+
+nnoremap <silent> <C-d> 10jzz<CR>
+nnoremap <silent> <C-u> 10kzz<CR>
+
 nnoremap <C-j> <C-W>j
 nnoremap <C-k> <C-W>k
 nnoremap <C-h> <C-W>h
@@ -137,6 +144,7 @@ nnoremap <C-l> <C-W>l
 " => Highlight
 """"""""""""""""""""""""""""""
 map <silent> <leader><cr> :noh<cr>
+noremap <silent> <Space> :silent noh<Bar>echo<CR>
 
 """"""""""""""""""""""""""""""
 " => Buffers

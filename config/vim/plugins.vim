@@ -20,17 +20,6 @@ map <leader>o :BufExplorer<cr>
 let g:colorizer_auto_filetype='css,html,javascript,typescript,vim'
 
 """"""""""""""""""""""""""""""
-" => Comfortable Motion
-""""""""""""""""""""""""""""""
-let g:comfortable_motion_no_default_key_mappings = 1
-let g:comfortable_motion_scroll_down_key = "j"
-let g:comfortable_motion_scroll_up_key = "k"
-let g:comfortable_motion_friction = 0.0
-let g:comfortable_motion_air_drag = 10.0
-nnoremap <silent> <C-d> :call comfortable_motion#flick(50)<CR>
-nnoremap <silent> <C-u> :call comfortable_motion#flick(-50)<CR>
-
-""""""""""""""""""""""""""""""
 " => Prettier
 """"""""""""""""""""""""""""""
 let g:prettier#autoformat = 0
@@ -122,7 +111,9 @@ let g:NERDCustomDelimiters = {'c': { 'left': '//', 'leftAlt': '/*', 'rightAlt': 
 map <leader>nn :NERDTreeToggle<cr>
 map <leader>nb :NERDTreeFromBookmark
 map <leader>nf :NERDTreeFind<cr>
-let NERDTreeIgnore = ['\.pyc$', '__MACOSX', '__pycache__']
+"let NERDTreeIgnore = ['\.pyc$', '__MACOSX', '__pycache__', '\.git', 'env', 'venv', 'node_modules']
+let NERDTreeShowHidden = 1
+let NERDTreeRespectWildIgnore = 1
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
@@ -285,10 +276,10 @@ let g:signify_sign_change            = '✹'
 let g:signify_sign_changedelete      = '≃'
 augroup Signify_Settings
     autocmd!
-    autocmd ColorScheme * :hi SignColumn guibg=#073642
-    autocmd ColorScheme * :hi SignifySignAdd cterm=bold guibg=#073642 guifg=#859900
-    autocmd ColorScheme * :hi SignifySignDelete cterm=bold guibg=#073642 guifg=#cb4b16
-    autocmd ColorScheme * :hi SignifySignChange cterm=bold guibg=#073642 guifg=#b58900
+    autocmd ColorScheme * :hi SignColumn guibg=#002b36
+    autocmd ColorScheme * :hi SignifySignAdd cterm=bold guibg=#002b36 guifg=#859900
+    autocmd ColorScheme * :hi SignifySignDelete cterm=bold guibg=#002b36 guifg=#cb4b16
+    autocmd ColorScheme * :hi SignifySignChange cterm=bold guibg=#002b36 guifg=#b58900
 augroup END
 
 """"""""""""""""""""""""""""""
@@ -301,6 +292,7 @@ map g/ <Plug>(incsearch-stay)
 """"""""""""""""""""""""""""""
 " => Python Mode
 """"""""""""""""""""""""""""""
+let g:pymode_options = 0
 let g:pymode_python = 'python3'
 let g:pymode_syntax = 1
 let g:pymode_syntax_slow_sync = 1
@@ -312,7 +304,6 @@ augroup Python_Settings
     autocmd!
     autocmd ColorScheme * :hi link pythonDocstring Comment
     autocmd ColorScheme * :hi pythonInclude cterm=italic guifg=#cb4b16
-    " autocmd ColorScheme * :hi pythonClassParameters guifg=#6c71c4
     autocmd ColorScheme * :highlight pythonSelf guifg=#cb4b16
 augroup END
 
@@ -396,14 +387,6 @@ augroup EasyMotion_Settings
     autocmd!
     autocmd ColorScheme * :hi EasyMotionTarget guifg=#eee8d5
 augroup END
-""""""""""""""""""""""""""""""
-" => Conoline
-""""""""""""""""""""""""""""""
-let g:conoline_auto_enable = 1
-let g:conoline_color_normal_dark = 'guibg=#073642'
-let g:conoline_color_normal_nr_dark = 'guibg=#073642'
-let g:conoline_color_insert_dark = 'guibg=#073642'
-let g:conoline_color_insert_nr_dark = 'guibg=#073642'
 
 """"""""""""""""""""""""""""""
 " => Custom Filetypes
