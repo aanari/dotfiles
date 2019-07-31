@@ -127,8 +127,8 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 let g:airline_theme="solarized"
 let g:airline_powerline_fonts=1
 let g:airline_section_a=''
-let g:airline_section_x=''
 let g:airline_section_y=''
+let g:airline_section_z = airline#section#create(['%3p%%', ' %l', ':%v'])
 let g:airline_inactive_collapse=1
 let g:airline#extensions#obsession#enabled = 0
 let g:airline#extensions#whitespace#enabled = 0
