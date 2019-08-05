@@ -94,7 +94,6 @@ Plugin 'vim-scripts/YankRing.vim'
 Plugin 'vwxyutarooo/nerdtree-devicons-syntax'
 Plugin 'w0rp/ale'
 Plugin 'xuhdev/vim-latex-live-preview'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'yegappan/mru'
 Plugin 'yko/mojo.vim'
 
