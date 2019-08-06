@@ -1,0 +1,11 @@
+--max-columns=150
+--max-columns-preview
+
+--line-number
+--no-heading
+--fixed-strings
+--ignore-case
+--hidden
+--follow
+--glob '!{.git,node_modules}/*'
+--color "always"

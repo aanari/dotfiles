@@ -20,6 +20,7 @@ alias perlib="perl -Ilib -Ilocallib/lib/perl5 $1"
 alias dbdump='perl -Ilib -Ilocallib/lib/perl5 $HOME/Projects/crowdtilt-internal-api/db_scripts/dbicdump.pl -o 1'
 alias gitcleanup='git branch --merged | grep -v "\*" | xargs -n 1 git branch -d'
 alias realias='$EDITOR ~/.alias; source ~/.alias'
+alias rgg='rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" $1'
 
 alias sudo='nocorrect sudo'
 
