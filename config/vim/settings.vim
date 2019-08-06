@@ -75,6 +75,7 @@ set termguicolors
 set nu!
 set nonumber
 set nonu
+set foldlevelstart=1
 "set virtualedit=all
 if exists('$TMUX')
     let &t_SI = "\<Esc>Ptmux;\<Esc>\e[5 q\<Esc>\\"
@@ -151,6 +152,7 @@ vnoremap k kzz
 
 nnoremap <silent> <C-d> 10jzz<CR>
 nnoremap <silent> <C-u> 10kzz<CR>
+nnoremap <silent> <S-g> Gzz<CR>
 
 nnoremap <C-j> <C-W>j
 nnoremap <C-k> <C-W>k
