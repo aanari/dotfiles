@@ -183,15 +183,15 @@ let g:ale_virtualtext_cursor         = 1
 let g:ale_virtualtext_prefix         = '❯ '
 let g:ale_open_list                  = 0
 let g:ale_sign_column_always         = 1
-let g:ale_echo_msg_error_str = '✖'
-let g:ale_echo_msg_warning_str = '⚠'
+let g:ale_echo_msg_error_str = '✘'
+let g:ale_echo_msg_warning_str = '➤'
 let g:ale_echo_msg_info_str = '➤'
 let g:ale_echo_msg_format = '[%severity% %linter%] %s'
 let g:ale_sign_column_always = 1
-let g:ale_sign_error='✖'
-let g:ale_sign_style_error='✖'
-let g:ale_sign_warning='⚠'
-let g:ale_sign_style_warning='⚠'
+let g:ale_sign_error='✘'
+let g:ale_sign_style_error='✘'
+let g:ale_sign_warning='➤'
+let g:ale_sign_style_warning='➤'
 let g:ale_sign_info = '➤'
 augroup ALE_Settings
   autocmd!
@@ -285,16 +285,16 @@ let g:startify_change_to_vcs_root     = 0  " vim-rooter has same feature
 let g:signify_update_on_focusgained  = 1
 let g:signify_fold_context           = [0, 3]
 let g:signify_sign_add               = '✚'
-let g:signify_sign_delete            = '✖'
+let g:signify_sign_delete            = '✕'
 let g:signify_sign_delete_first_line = '▤'
 let g:signify_sign_change            = '✹'
 let g:signify_sign_changedelete      = '≃'
 augroup Signify_Settings
     autocmd!
-    autocmd ColorScheme * :hi SignColumn guibg=#002b36
-    autocmd ColorScheme * :hi SignifySignAdd cterm=bold guibg=#002b36 guifg=#859900
-    autocmd ColorScheme * :hi SignifySignDelete cterm=bold guibg=#002b36 guifg=#cb4b16
-    autocmd ColorScheme * :hi SignifySignChange cterm=bold guibg=#002b36 guifg=#b58900
+    autocmd ColorScheme * :hi SignColumn guibg=NONE
+    autocmd ColorScheme * :hi SignifySignAdd cterm=bold guibg=NONE guifg=#859900
+    autocmd ColorScheme * :hi SignifySignDelete cterm=bold guibg=NONE guifg=#cb4b16
+    autocmd ColorScheme * :hi SignifySignChange cterm=bold guibg=NONE guifg=#b58900
 augroup END
 
 """"""""""""""""""""""""""""""

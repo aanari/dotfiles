@@ -116,8 +116,9 @@ set ffs=unix,dos,mac
 
 augroup Color_Settings
     autocmd!
-    autocmd ColorScheme * :hi EndOfBuffer guifg=#002b36 guibg=#002b36
-    autocmd ColorScheme * :hi SpecialKey guifg=#073642 guibg=#002b36
+    autocmd ColorScheme * :hi Normal guibg=NONE
+    autocmd ColorScheme * :hi EndOfBuffer guifg=#002b36 guibg=NONE
+    autocmd ColorScheme * :hi SpecialKey guifg=#073642 guibg=NONE
 augroup END
 
 """"""""""""""""""""""""""""""
