@@ -144,31 +144,22 @@ set lbr
 set tw=500
 set ai
 set si
-"set wrap
+set wrap
 
 """"""""""""""""""""""""""""""
 " => Movement
 """"""""""""""""""""""""""""""
-nnoremap j jzz
-nnoremap k kzz
-vnoremap j jzz
-vnoremap k kzz
-
-nnoremap <silent> <C-d> 10jzz<CR>
-nnoremap <silent> <C-u> 10kzz<CR>
-nnoremap <silent> <S-g> Gzz<CR>
-
-nnoremap n nzz
-nnoremap N Nzz
-nnoremap * *zz
-nnoremap # #zz
-nnoremap g* g*zz
-nnoremap g# g#zz
+" nnoremap <silent> <C-d> 10jzz<CR>
+" nnoremap <silent> <C-u> 10kzz<CR>
+" nnoremap <silent> <S-g> Gzz<CR>
 
 nnoremap <C-j> <C-W>j
 nnoremap <C-k> <C-W>k
 nnoremap <C-h> <C-W>h
 nnoremap <C-l> <C-W>l
+
+nnoremap <expr> ' "'" . nr2char(getchar()) . "zz"
+nnoremap <expr> ` "`" . nr2char(getchar()) . "zz"
 
 """"""""""""""""""""""""""""""
 " => Highlight

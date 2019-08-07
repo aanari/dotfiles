@@ -96,6 +96,7 @@ Plugin 'w0rp/ale'
 Plugin 'xuhdev/vim-latex-live-preview'
 Plugin 'yegappan/mru'
 Plugin 'yko/mojo.vim'
+Plugin 'yuttie/comfortable-motion.vim'
 
 Plugin 'Quramy/tsuquyomi'
 Plugin 'mxw/vim-jsx'
