@@ -111,18 +111,20 @@ let g:NERDCustomDelimiters = {'c': { 'left': '//', 'leftAlt': '/*', 'rightAlt': 
 map <leader>nn :NERDTreeToggle<cr>
 map <leader>nb :NERDTreeFromBookmark
 map <leader>nf :NERDTreeFind<cr>
-let NERDTreeShowHidden = 1
+let NERDTreeShowHidden = 0
 let NERDTreeRespectWildIgnore = 1
 let NERDTreeHighlightCursorline = 0
 let NERDTreeAutoDeleteBuffer = 1
 let NERDTreeMinimalUI = 1
 let NERDTreeMinimalMenu = 1
+let NERDTreeHighlightCursorline = 1
 let g:NERDTreeWinSize = 40
 let NERDTreeDirArrows = 1
 let g:WebDevIconsNerdTreeBeforeGlyphPadding = ''
 let g:WebDevIconsUnicodeDecorateFolderNodes = v:true
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
+autocmd VimEnter * if argc() == 1 && !isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' | wincmd p | endif
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 """"""""""""""""""""""""""""""
@@ -197,9 +199,10 @@ augroup ALE_Settings
   autocmd!
   autocmd QuitPre * if empty(&buftype) | lclose | endif
   autocmd ColorScheme *
-        \ :hi link ALEVirtualTextError    SpellBad    |
-        \ :hi link ALEVirtualTextWarning  SpellCap    |
-        \ :hi link ALEVirtualTextInfo     SpellRare
+        \ :hi link ALEError           SpellBad    |
+        \ :hi link ALEWarning         SpellRare
+  autocmd ColorScheme * :hi ALEWarningSign gui=bold guifg=#d33682 guibg=#073642
+  autocmd ColorScheme * :hi ALEErrorSign gui=bold guifg=#dc322f guibg=#073642
 augroup END
 nmap <leader>k <Plug>(ale_previous_wrap)
 nmap <leader>j <Plug>(ale_next_wrap)
@@ -290,11 +293,11 @@ let g:signify_sign_delete_first_line = '▤'
 let g:signify_sign_change            = '✹'
 let g:signify_sign_changedelete      = '≃'
 augroup Signify_Settings
-    autocmd!
-    autocmd ColorScheme * :hi SignColumn guibg=NONE
-    autocmd ColorScheme * :hi SignifySignAdd cterm=bold guibg=NONE guifg=#859900
-    autocmd ColorScheme * :hi SignifySignDelete cterm=bold guibg=NONE guifg=#cb4b16
-    autocmd ColorScheme * :hi SignifySignChange cterm=bold guibg=NONE guifg=#b58900
+  autocmd!
+  autocmd ColorScheme * :hi SignColumn guibg=#073642
+  autocmd ColorScheme * :hi SignifySignAdd cterm=bold guibg=#073642 guifg=#859900
+  autocmd ColorScheme * :hi SignifySignDelete cterm=bold guibg=#073642 guifg=#cb4b16
+  autocmd ColorScheme * :hi SignifySignChange cterm=bold guibg=#073642 guifg=#b58900
 augroup END
 
 """"""""""""""""""""""""""""""
@@ -316,10 +319,10 @@ let g:pymode_syntax_highlight_equal_operator = 1
 let g:pymode_lint = 0
 let g:pymode_options_colorcolumn = 0
 augroup Python_Settings
-    autocmd!
-    autocmd ColorScheme * :hi link pythonDocstring Comment
-    autocmd ColorScheme * :hi pythonInclude cterm=italic guifg=#cb4b16
-    autocmd ColorScheme * :highlight pythonSelf guifg=#cb4b16
+  autocmd!
+  autocmd ColorScheme * :hi link pythonDocstring Comment
+  autocmd ColorScheme * :hi pythonInclude cterm=italic guifg=#cb4b16
+  autocmd ColorScheme * :hi pythonSelf guifg=#cb4b16
 augroup END
 
 """"""""""""""""""""""""""""""
@@ -385,10 +388,6 @@ let g:winresizer_horiz_resize = 1
 " => HighlightedYank
 """"""""""""""""""""""""""""""
 let g:highlightedyank_highlight_duration = 250
-augroup YankRing_Settings
-    autocmd!
-    autocmd ColorScheme * :hi HighlightedyankRegion guifg=#eee8d5
-augroup END
 
 """"""""""""""""""""""""""""""
 " => EasyMotion

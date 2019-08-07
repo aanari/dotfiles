@@ -75,7 +75,9 @@ set termguicolors
 set nu!
 set nonumber
 set nonu
-set foldlevelstart=1
+set foldlevelstart=2
+set cursorline
+set so=999
 "set virtualedit=all
 if exists('$TMUX')
     let &t_SI = "\<Esc>Ptmux;\<Esc>\e[5 q\<Esc>\\"
@@ -116,10 +118,12 @@ set encoding=utf8
 set ffs=unix,dos,mac
 
 augroup Color_Settings
-    autocmd!
-    autocmd ColorScheme * :hi Normal guibg=NONE
-    autocmd ColorScheme * :hi EndOfBuffer guifg=#002b36 guibg=NONE
-    autocmd ColorScheme * :hi SpecialKey guifg=#073642 guibg=NONE
+  autocmd!
+  autocmd ColorScheme * :hi! link Folded SignColumn
+  autocmd ColorScheme * :hi Normal guibg=NONE
+  autocmd ColorScheme * :hi EndOfBuffer guifg=NONE guibg=NONE guisp=NONE gui=NONE ctermfg=black ctermbg=black cterm=NONE
+  autocmd ColorScheme * :hi CursorLine guibg=#073642
+  autocmd ColorScheme * :hi! HighlightedyankRegion guifg=#eee8d5 guibg=NONE
 augroup END
 
 """"""""""""""""""""""""""""""
@@ -153,6 +157,13 @@ vnoremap k kzz
 nnoremap <silent> <C-d> 10jzz<CR>
 nnoremap <silent> <C-u> 10kzz<CR>
 nnoremap <silent> <S-g> Gzz<CR>
+
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap * *zz
+nnoremap # #zz
+nnoremap g* g*zz
+nnoremap g# g#zz
 
 nnoremap <C-j> <C-W>j
 nnoremap <C-k> <C-W>k
