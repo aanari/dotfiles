@@ -118,7 +118,7 @@ let g:NERDCustomDelimiters = {'c': { 'left': '//', 'leftAlt': '/*', 'rightAlt': 
 map <leader>nn :NERDTreeToggle<cr>
 map <leader>nb :NERDTreeFromBookmark
 map <leader>nf :NERDTreeFind<cr>
-let NERDTreeShowHidden = 0
+let NERDTreeShowHidden = 1
 let NERDTreeRespectWildIgnore = 1
 let NERDTreeHighlightCursorline = 0
 let NERDTreeAutoDeleteBuffer = 1
