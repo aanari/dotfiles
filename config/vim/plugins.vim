@@ -318,6 +318,8 @@ map g/ <Plug>(incsearch-stay)
 " => move
 """"""""""""""""""""""""""""""
 let g:move_key_modifier = 'C'
+let g:move_auto_indent = 0
+let g:move_past_end_of_line = 1
 
 """"""""""""""""""""""""""""""
 " => Python Mode
