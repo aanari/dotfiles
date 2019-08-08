@@ -6,13 +6,13 @@ map <leader>g :Ag
 vnoremap <silent> <leader>r :call VisualSelection('replace', '')<CR>
 
 """"""""""""""""""""""""""""""
-" => bufexplorer
+" => Buffergator
 """"""""""""""""""""""""""""""
-let g:bufExplorerDefaultHelp=0
-let g:bufExplorerShowRelativePath=1
-let g:bufExplorerFindActive=1
-let g:bufExplorerSortBy='name'
-map <leader>o :BufExplorer<cr>
+map <leader>o :BuffergatorOpen<cr>
+let g:buffergator_viewport_split_policy = "N"
+let g:buffergator_sort_regime = "basename"
+let g:buffergator_show_full_directory_path = 0
+let g:buffergator_suppress_keymaps = 1
 
 """"""""""""""""""""""""""""""
 " => Colorizer
@@ -138,10 +138,10 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 " => Airline
 """"""""""""""""""""""""""""""
 let g:airline_theme="solarized"
+let g:solarized_termcolors=256
 let g:airline_powerline_fonts=1
 let g:airline_section_a=''
 let g:airline_section_y=''
-let g:airline_section_z = airline#section#create(['%3p%%', ' %l', ':%v'])
 let g:airline_inactive_collapse=1
 let g:airline#extensions#obsession#enabled = 0
 let g:airline#extensions#whitespace#enabled = 0
@@ -315,6 +315,11 @@ map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
 
 """"""""""""""""""""""""""""""
+" => move
+""""""""""""""""""""""""""""""
+let g:move_key_modifier = 'C'
+
+""""""""""""""""""""""""""""""
 " => Python Mode
 """"""""""""""""""""""""""""""
 let g:pymode_options = 0
@@ -408,6 +413,11 @@ augroup EasyMotion_Settings
     autocmd!
     autocmd ColorScheme * :hi EasyMotionTarget guifg=#eee8d5
 augroup END
+
+""""""""""""""""""""""""""""""
+" => Rainbow Improved
+""""""""""""""""""""""""""""""
+let g:rainbow_active = 1
 
 """"""""""""""""""""""""""""""
 " => Custom Filetypes

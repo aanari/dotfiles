@@ -67,4 +67,6 @@
 	name = Ali Anari
 	email = ali@anari.io
 [credential]
-	helper = osxkeychain
+    helper = osxkeychain
+[github]
+    user = aanari
