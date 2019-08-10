@@ -140,12 +140,14 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 let g:airline_theme="solarized"
 let g:solarized_termcolors=256
 let g:airline_powerline_fonts=1
+let g:airline_left_sep = ''
+let g:airline_right_sep = ''
 let g:airline_section_a=''
 let g:airline_section_y=''
 let g:airline_inactive_collapse=1
-let g:airline#extensions#obsession#enabled = 0
-let g:airline#extensions#whitespace#enabled = 0
-let g:airline#extensions#hunks#enabled = 1
+let g:airline#extensions#obsession#enabled = 1
+let g:airline#extensions#whitespace#enabled = 1
+let g:airline#extensions#hunks#enabled = 0
 let g:airline#extensions#ale#enabled = 1
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 
@@ -184,6 +186,11 @@ augroup goyo_map
   autocmd! User GoyoEnter nested call <SID>goyo_enter()
   autocmd! User GoyoLeave nested call <SID>goyo_leave()
 augroup END
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => markdown
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:vim_markdown_folding_style_pythonic = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => ALE
@@ -408,9 +415,12 @@ let g:highlightedyank_highlight_duration = 250
 """"""""""""""""""""""""""""""
 let g:EasyMotion_do_mapping = 0
 let g:EasyMotion_smartcase = 1
+let g:EasyMotion_startofline = 0
 nmap s <Plug>(easymotion-overwin-f2)
+map <Leader>h <Plug>(easymotion-linebackward)
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
+map <Leader>l <Plug>(easymotion-lineforward)
 augroup EasyMotion_Settings
     autocmd!
     autocmd ColorScheme * :hi EasyMotionTarget guifg=#eee8d5

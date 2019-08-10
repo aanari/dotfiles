@@ -45,6 +45,7 @@ set noshowmode
 set noshowcmd
 set cmdheight=1
 set laststatus=2
+set conceallevel=2
 set hid
 set autoindent
 set smartindent
