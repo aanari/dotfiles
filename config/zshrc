@@ -27,4 +27,5 @@ bindkey "$terminfo[cud1]" history-substring-search-down
 
 eval "$(direnv hook zsh)"
 
+setupsolarized
 [[ -f /usr/local/bin/aws_zsh_completer.sh ]] && . /usr/local/bin/aws_zsh_completer.sh

@@ -6,6 +6,8 @@ fresh freshshell/fresh bin/fresh --bin
 # fresh plugins
 fresh freshshell/fresh-open bin/fresh-open --bin
 
+fresh seebi/dircolors-solarized . --file=~/dircolors-solarized/
+
 # ~/.zshrc
 fresh-options --file=~/.zshrc --marker
     fresh twe4ked/dotfiles shell/zsh/completion.zsh
@@ -24,7 +26,9 @@ fresh-options --file=~/.zshrc --marker
     fresh rupa/z z.sh
     fresh sharat87/zsh-vim-mode zsh-vim-mode.plugin.zsh
     fresh zsh-users/zsh-history-substring-search zsh-history-substring-search.zsh
-
+    fresh chrissicool/zsh-256color zsh-256color.plugin.zsh
+    fresh joel-porquet/zsh-dircolors-solarized zsh-dircolors-solarized.zsh
+    fresh desyncr/auto-ls auto-ls.zsh
     fresh config/zshrc
 fresh-options
 
