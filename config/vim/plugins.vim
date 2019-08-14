@@ -329,6 +329,11 @@ let g:move_auto_indent = 0
 let g:move_past_end_of_line = 1
 
 """"""""""""""""""""""""""""""
+" => tex-conceal
+""""""""""""""""""""""""""""""
+let g:tex_conceal="abdgm"
+
+""""""""""""""""""""""""""""""
 " => Python Mode
 """"""""""""""""""""""""""""""
 let g:pymode_options = 0
