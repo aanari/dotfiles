@@ -37,7 +37,7 @@ command W w !sudo tee % > /dev/null
 """"""""""""""""""""""""""""""
 " => User interface
 """"""""""""""""""""""""""""""
-set wildmode=longest:full,list
+set wildmode=longest:full,full
 set wildmenu
 set wildignore+=.DS_Store,*.o,*.so,*~,*.pyc,*.class,*.swp,*.zip,*.pdf,.git\*,.hg\*,.svn\*,node_modules\*,*bower_components\*,*dist\*,*env\*,*venv\*,*.idea\*,*.pytest_cache\*,*__MACOSX\*,*__pycache__\*
 
