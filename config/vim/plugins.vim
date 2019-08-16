@@ -18,6 +18,10 @@ let g:buffergator_suppress_keymaps = 1
 " => Colorizer
 """"""""""""""""""""""""""""""
 let g:colorizer_auto_filetype='css,html,javascript,typescript,vim'
+
+""""""""""""""""""""""""""""""
+" => Comfortable Motion
+""""""""""""""""""""""""""""""
 let g:comfortable_motion_no_default_key_mappings = 1
 let g:comfortable_motion_scroll_down_key = "j"
 let g:comfortable_motion_scroll_up_key = "k"
@@ -150,6 +154,11 @@ let g:airline#extensions#whitespace#enabled = 1
 let g:airline#extensions#hunks#enabled = 0
 let g:airline#extensions#ale#enabled = 1
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Table Mode
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:table_mode_corner='|'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Limelight
