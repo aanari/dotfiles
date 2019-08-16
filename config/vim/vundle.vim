@@ -1,4 +1,5 @@
 Plugin 'ambv/black'
+Plugin 'andymass/vim-matchup'
 Plugin 'ap/vim-css-color'
 Plugin 'arecarn/crunch.vim'
 Plugin 'atsepkov/vim-tabularity'
