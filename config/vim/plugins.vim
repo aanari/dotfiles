@@ -342,14 +342,22 @@ xmap  <Right> <Plug>(textmanip-move-right-r)
 let g:tex_conceal="abdgm"
 
 """"""""""""""""""""""""""""""
+" => pydocstring
+""""""""""""""""""""""""""""""
+nmap <silent> <C-_> <Plug>(pydocstring)
+
+""""""""""""""""""""""""""""""
 " => Python Mode
 """"""""""""""""""""""""""""""
 let g:pymode_options = 0
 let g:pymode_python = 'python3'
+let g:pymode_run = 0
+let g:pymode_breakpoint = 0
 let g:pymode_syntax = 1
 let g:pymode_syntax_slow_sync = 1
 let g:pymode_syntax_all = 1
 let g:pymode_syntax_highlight_equal_operator = 1
+let g:pymode_syntax_highlight_stars_operator = 1
 let g:pymode_lint = 0
 let g:pymode_options_colorcolumn = 0
 augroup Python_Settings
@@ -432,11 +440,11 @@ let g:highlightedyank_highlight_duration = 250
 
 """"""""""""""""""""""""""""""
 " => EasyMotion
-""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""
 let g:EasyMotion_do_mapping = 0
 let g:EasyMotion_smartcase = 1
 let g:EasyMotion_startofline = 0
-nmap s <Plug>(easymotion-overwin-f2)
+nmap t <Plug>(easymotion-overwin-f2)
 map <Leader>h <Plug>(easymotion-linebackward)
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
