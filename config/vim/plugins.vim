@@ -70,17 +70,6 @@ nnoremap <Leader>f :Find<Space>
 nnoremap <c-f> :Files<cr>
 
 """"""""""""""""""""""""""""""
-" => Ctrl-P
-""""""""""""""""""""""""""""""
-let g:ctrlp_working_path_mode = 0
-map <c-b> :CtrlPBuffer<cr>
-let g:ctrlp_max_height = 20
-let g:ctrlp_custom_ignore = {
-    \ 'dir':  '\v[\/](\.git|local|locallib|Crowdtilt\-Internal\-API\-0\.0100|emails|ebin)$',
-    \ 'file': '\v\.(exe|so|dll|tgz|gz|beam|.DS_Store)$',
-    \ }
-
-""""""""""""""""""""""""""""""
 " => NerdCommenter
 """"""""""""""""""""""""""""""
 autocmd! VimEnter * call s:fcy_nerdcommenter_map()
@@ -240,11 +229,6 @@ let g:jsx_ext_required = 0
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:NeatFoldTextFancy = 1
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => ScriptRunner
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:script_runner_perl = 'perl -Mfeature=:5.10 -MData::Dump'
-
 """"""""""""""""""""""""""""""
 " => MUcomplete
 """"""""""""""""""""""""""""""
@@ -252,8 +236,7 @@ set rtp+=~/work/vimproc.vim/
 set rtp+=~/.cache/neobundle/tsuquyomi/
 set noshowmode shortmess+=c
 set noinfercase
-set completeopt-=preview
-set completeopt+=menuone,noinsert,noselect
+set completeopt+=longest,menuone,noselect,noinsert
 set belloff+=ctrlg
 let g:jedi#popup_on_dot = 0
 let g:mucomplete#enable_auto_at_startup = 1
@@ -270,7 +253,7 @@ let g:clang_auto_select = 0
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => UltiSnip
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsExpandTrigger="<c-k>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:UltiSnipsEditSplit="vertical"
