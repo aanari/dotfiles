@@ -267,14 +267,11 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:UltiSnipsEditSplit="vertical"
 
 """"""""""""""""""""""""""""""
-" => YankRing
+" => yankstack
 """"""""""""""""""""""""""""""
-if has("win16") || has("win32")
-    " Don't do anything
-else
-    silent !mkdir ~/.vim/yankdir > /dev/null 2>&1
-    let g:yankring_history_dir = '~/.vim/yankdir'
-endif
+nmap Y y$
+nmap <leader>p <Plug>yankstack_substitute_older_paste
+nmap <leader>P <Plug>yankstack_substitute_newer_paste
 
 """"""""""""""""""""""""""""""
 " => Startify
