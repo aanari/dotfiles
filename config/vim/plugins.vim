@@ -37,12 +37,6 @@ let g:prettier#autoformat = 0
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
 
 """"""""""""""""""""""""""""""
-" => Black
-""""""""""""""""""""""""""""""
-let g:black_fast=1
-autocmd BufWritePre *.py execute ':Black'
-
-""""""""""""""""""""""""""""""
 " => MRU
 """"""""""""""""""""""""""""""
 let MRU_Max_Entries = 400
@@ -236,7 +230,7 @@ set rtp+=~/work/vimproc.vim/
 set rtp+=~/.cache/neobundle/tsuquyomi/
 set noshowmode shortmess+=c
 set noinfercase
-set completeopt+=longest,menuone,noselect,noinsert
+set completeopt+=menuone,noselect,noinsert
 set belloff+=ctrlg
 let g:jedi#popup_on_dot = 0
 let g:mucomplete#enable_auto_at_startup = 1
