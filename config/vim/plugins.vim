@@ -460,3 +460,6 @@ try
     colorscheme solarized8_flat
 catch
 endtry
+
+" Hide the tabline again after loading plugins for single default tab
+set showtabline&
