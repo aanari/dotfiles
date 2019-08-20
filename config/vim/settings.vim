@@ -343,7 +343,6 @@ au FileType scala setlocal tabstop=2 softtabstop=2 shiftwidth=2
 let g:scala_first_party_namespaces='\(controllers\|views\|models\|util\|de.\|relayr\)'
 let g:scala_sort_across_groups=1
 
-
 """"""""""""""""""""""""""""""
 " => GraphQL
 """"""""""""""""""""""""""""""
@@ -360,3 +359,9 @@ augroup litecorrect
 augroup END
 let g:vim_markdown_folding_disabled=1
 let g:vim_markdown_frontmatter=1
+
+""""""""""""""""""""""""""""""
+" => Terminal
+""""""""""""""""""""""""""""""
+tnoremap <C-n> <C-\><C-n>
+nnoremap <Leader><Cr> :ter ++curwin<Cr>
