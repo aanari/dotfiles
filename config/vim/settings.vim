@@ -269,7 +269,6 @@ au FileType python map <buffer> <leader>D ?def
 """"""""""""""""""""""""""""""
 " => Javascript
 """"""""""""""""""""""""""""""
-au FileType javascript call JavaScriptFold()
 au FileType javascript set nofoldenable
 au FileType javascript setl nocindent
 au FileType javascript imap <c-t> AJS.log();<esc>hi
