@@ -122,6 +122,14 @@ autocmd VimEnter * if argc() == 1 && !isdirectory(argv()[0]) && !exists("s:std_i
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 """"""""""""""""""""""""""""""
+" => TagBar
+""""""""""""""""""""""""""""""
+map <leader>mm :TagbarToggle<cr>
+let g:tagbar_autofocus = 1
+let g:tagbar_compact = 1
+let g:tagbar_width = 40
+
+""""""""""""""""""""""""""""""
 " => Airline
 """"""""""""""""""""""""""""""
 let g:airline_theme="solarized"
