@@ -130,6 +130,11 @@ let g:tagbar_compact = 1
 let g:tagbar_width = 40
 
 """"""""""""""""""""""""""""""
+" => Test
+""""""""""""""""""""""""""""""
+let test#strategy = "vimterminal"
+
+""""""""""""""""""""""""""""""
 " => Airline
 """"""""""""""""""""""""""""""
 let g:airline_theme="solarized"
