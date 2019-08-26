@@ -68,8 +68,8 @@ nnoremap <c-f> :Files<cr>
 """"""""""""""""""""""""""""""
 autocmd! VimEnter * call s:fcy_nerdcommenter_map()
 function! s:fcy_nerdcommenter_map()
-	nmap <leader>cc <plug>NERDCommenterToggle
-	vmap <leader>cc <plug>NERDCommenterToggle gv
+  nmap <leader>cc <plug>NERDCommenterToggle
+  vmap <leader>cc <plug>NERDCommenterToggle gv
 endfunction
 
 " Add extra space around delimiters when commenting, remove them when
@@ -142,8 +142,6 @@ let g:solarized_termcolors=256
 let g:airline_powerline_fonts=1
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
-let g:airline_section_a=''
-let g:airline_section_y=''
 let g:airline_inactive_collapse=1
 let g:airline#extensions#obsession#enabled = 1
 let g:airline#extensions#whitespace#enabled = 1
