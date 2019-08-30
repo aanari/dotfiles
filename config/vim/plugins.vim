@@ -245,7 +245,7 @@ set completeopt+=menuone,noselect,noinsert
 set belloff+=ctrlg
 let g:jedi#popup_on_dot = 0
 let g:mucomplete#enable_auto_at_startup = 1
-set complete-=i
+setglobal complete-=i
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => clang_complete
