@@ -5,4 +5,4 @@ export GH_LOGIN=aanari                      # used by git-go
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
 export GOPATH=$HOME/go
 export GO111MODULE=on
-export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
+export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin:/usr/share/swift/usr/bin
