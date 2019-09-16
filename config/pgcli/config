@@ -1,38 +1,48 @@
 # vi: ft=dosini
 [main]
-
-# Enables context sensitive auto-completion. If this is disabled the all
-# possible completions will be listed.
 smart_completion = True
-
-# Multi-line mode allows breaking up the sql statements into multiple lines. If
-# this is set to True, then the end of the statements must have a semi-colon.
-# If this is set to False then sql statements can't be split into multiple
-# lines. End of line (return) is considered as the end of the statement.
 multi_line = True
-
-# log_file location.
-log_file = ~/.pgcli.log
-
-# Default log level. Possible values: "CRITICAL", "ERROR", "WARNING", "INFO"
-# and "DEBUG".
+multi_line_mode = psql
+destructive_warning = True
+expand = False
+auto_expand = True
+wider_completion_menu = False
+log_file = default
 log_level = INFO
-
-# Timing of sql statments and table rendering.
 timing = True
-
-# Table format. Possible values: psql, plain, simple, grid, fancy_grid, pipe,
-# orgtbl, rst, mediawiki, html, latex, latex_booktabs.
-# Recommended: psql, fancy_grid and grid.
+keyword_casing = auto
+casing_file = default
 table_format = psql
-
-# Syntax Style. Possible values: manni, igor, xcode, vim, autumn, vs, rrt,
-# native, perldoc, borland, tango, emacs, friendly, monokai, paraiso-dark,
-# colorful, murphy, bw, pastie, paraiso-light, trac, default, fruity
-syntax_style = default
-
-# Enables vi-mode
+less_chatty = True
+syntax_style = monokai
+multiline_continuation_char = ''
+null_string = '∅'
 vi = True
+enable_pager = True
 
-# Named queries are queries you can rexecute by name
+[colors]
+Token.Menu.Completions.Completion.Current = 'bg:#e4e4e4 #002b36'
+Token.Menu.Completions.Completion = 'bg:#008888 #e4e4e4'
+Token.Menu.Completions.Meta.Current = 'bg:#44aaaa #002b36'
+Token.Menu.Completions.Meta = 'bg:#448888 #e4e4e4'
+Token.Menu.Completions.MultiColumnMeta = 'bg:#aaffff #002b36'
+Token.Menu.Completions.ProgressButton = 'bg:#003333'
+Token.Menu.Completions.ProgressBar = 'bg:#00aaaa'
+Token.SelectedText = '#e4e4e4 bg:#6666aa'
+Token.SearchMatch = '#e4e4e4 bg:#4444aa'
+Token.SearchMatch.Current = '#e4e4e4 bg:#44aa44'
+Token.Toolbar = 'bg:#073642 #aaaaaa'
+Token.Toolbar.Off = 'bg:#073642 #8a8a8a'
+Token.Toolbar.On = 'bg:#073642 #e4e4e4'
+Token.Toolbar.Search = 'noinherit bold'
+Token.Toolbar.Search.Text = 'nobold'
+Token.Toolbar.System = 'noinherit bold'
+Token.Toolbar.Arg = 'noinherit bold'
+Token.Toolbar.Arg.Text = 'nobold'
+Token.Toolbar.Transaction.Valid = 'bg:#073642 #859900 bold'
+Token.Toolbar.Transaction.Failed = 'bg:#073642 #d30102 bold'
+Token.Output.Header = "#00afaf bold"
+Token.Output.OddRow = ""
+Token.Output.EvenRow = ""
+
 [named queries]
