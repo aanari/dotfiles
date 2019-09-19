@@ -241,6 +241,7 @@ set rtp+=~/work/vimproc.vim/
 set rtp+=~/.cache/neobundle/tsuquyomi/
 set noshowmode shortmess+=c
 set noinfercase
+set completeopt-=preview
 set completeopt+=menuone,noselect,noinsert
 set belloff+=ctrlg
 let g:jedi#popup_on_dot = 0
