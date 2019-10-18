@@ -1,0 +1,5 @@
+startStyle:
+  foreground: yellow
+
+skipStyle:
+  foreground: lightYellow
