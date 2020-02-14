@@ -118,7 +118,6 @@ Plugin 'xolox/vim-misc'
 Plugin 'xolox/vim-easytags'
 Plugin 'yegappan/mru'
 Plugin 'yko/mojo.vim'
-Plugin 'yuttie/comfortable-motion.vim'
 
 Plugin 'Quramy/tsuquyomi'
 Plugin 'mxw/vim-jsx'
