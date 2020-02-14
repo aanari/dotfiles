@@ -82,8 +82,6 @@ set splitright
 set t_vb=
 set tm=500
 set ttyfast
-set ttyscroll=3
-set ttymouse=xterm
 set foldcolumn=0
 set clipboard=unnamed
 set termguicolors
