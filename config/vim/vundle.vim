@@ -1,3 +1,4 @@
+Plugin 'alvan/vim-closetag'
 Plugin 'andymass/vim-matchup'
 Plugin 'AndrewRadev/splitjoin.vim'
 Plugin 'ap/vim-css-color'

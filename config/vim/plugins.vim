@@ -15,6 +15,11 @@ let g:buffergator_show_full_directory_path = 0
 let g:buffergator_suppress_keymaps = 1
 
 """"""""""""""""""""""""""""""
+" => CloseTag
+""""""""""""""""""""""""""""""
+let g:closetag_xhtml_filetypes = 'xhtml,javascript.jsx,jsx,typescript.tsx,tsx'
+
+""""""""""""""""""""""""""""""
 " => Colorizer
 """"""""""""""""""""""""""""""
 let g:colorizer_auto_filetype='css,html,javascript,typescript,vim'
@@ -129,8 +134,6 @@ let test#strategy = "vimterminal"
 let g:airline_theme="solarized"
 let g:solarized_termcolors=256
 let g:airline_powerline_fonts=1
-let g:airline_left_sep = ''
-let g:airline_right_sep = ''
 let g:airline_inactive_collapse=1
 let g:airline#extensions#obsession#enabled = 1
 let g:airline#extensions#whitespace#enabled = 1
