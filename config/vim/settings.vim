@@ -83,6 +83,7 @@ set t_vb=
 set tm=500
 set ttyfast
 set ttyscroll=3
+set ttymouse=xterm
 set foldcolumn=0
 set clipboard=unnamed
 set termguicolors
@@ -92,6 +93,7 @@ set nonu
 set foldlevelstart=2
 set cursorline
 set so=999
+set belloff=all
 "set virtualedit=all
 if exists('$TMUX')
     let &t_SI = "\<Esc>Ptmux;\<Esc>\e[5 q\<Esc>\\"
