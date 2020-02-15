@@ -83,7 +83,7 @@ set t_vb=
 set tm=500
 set ttyfast
 set foldcolumn=0
-set clipboard=unnamed
+set clipboard=
 set termguicolors
 set nu!
 set nonumber
