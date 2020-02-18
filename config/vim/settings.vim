@@ -293,8 +293,26 @@ au FileType swift setlocal tabstop=2 softtabstop=2 shiftwidth=2
 """"""""""""""""""""""""""""""
 au FileType typescript setlocal tabstop=2 softtabstop=2 shiftwidth=2
 "au FileType typescript setlocal completeopt+=menu,preview
-let g:tsuquyomi_completion_detail = 0
+let g:tsuquyomi_completion_detail = 1
 let g:tsuquyomi_use_vimproc=1
+
+function! SynStack()
+  if !exists("*synstack")
+    return
+  endif
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
+
+function! SynGroup()
+    let l:s = synID(line('.'), col('.'), 1)
+    echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
+endfun
+
+augroup Typescript_Settings
+  autocmd!
+  autocmd ColorScheme * :hi typescriptDecorator cterm=italic gui=italic guifg=#cb4b16
+  autocmd ColorScheme * :hi typescriptImport cterm=italic gui=italic guifg=#cb4b16
+augroup END
 
 """"""""""""""""""""""""""""""
 " => HTML
