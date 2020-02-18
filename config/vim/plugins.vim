@@ -353,8 +353,9 @@ let g:pymode_options_colorcolumn = 0
 augroup Python_Settings
   autocmd!
   autocmd ColorScheme * :hi link pythonDocstring Comment
-  autocmd ColorScheme * :hi pythonInclude cterm=italic guifg=#cb4b16
-  autocmd ColorScheme * :hi pythonSelf guifg=#cb4b16
+  autocmd ColorScheme * :hi pythonInclude cterm=italic gui=italic guifg=#cb4b16
+  autocmd ColorScheme * :hi pythonSelf cterm=italic gui=italic guifg=#cb4b16
+  autocmd ColorScheme * :hi pythonDecorator cterm=italic gui=italic guifg=#cb4b16
 augroup END
 
 """"""""""""""""""""""""""""""

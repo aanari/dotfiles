@@ -256,7 +256,6 @@ iab xdate <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
 " => Python
 """"""""""""""""""""""""""""""
 let python_highlight_all = 1
-au FileType python syn keyword pythonDecorator True None False self
 au FileType python inoremap <buffer> $r return
 au FileType python inoremap <buffer> $i import
 au FileType python inoremap <buffer> $p print
