@@ -1,71 +1,95 @@
 module.exports = {
 
-  config: {
-    
-    fontSize: 12,
+    config: {
+        webGLRenderer: false,
 
-    fontFamily: '"Meslo LG S DZ for Powerline", Menlo, "DejaVu Sans Mono", Consolas, "Lucida Console", monospace',
+        fontSize: 12,
 
-    cursorColor: 'rgba(101, 123, 131, 0.5)',
+        fontFamily: '"FuraCode Nerd Font"',
 
-    cursorShape: 'BLOCK',
+        fontWeight: 'normal',
 
-    cursorBlink: true,
+        updateChannel: 'canary',
 
-    foregroundColor: '#657b83',
+        backgroundColor: '#002b36',
 
-    backgroundColor: '#fdf6e3',
+        foregroundColor: '#839496',
 
-    borderColor: '#333',
+        cursorShape: 'BLOCK',
 
-    css: '',
+        cursorBlink: true,
 
-    termCSS: '',
+        titleBarStyle: 'hidden',
 
-    showHamburgerMenu: false,
+        cursorColor: 'rgba(131, 148, 150, 0.5)',
 
-    showWindowControls: false,
+        selectionColor: 'rgba(7, 54, 66, 0.5)',
 
-    padding: '0px 4px',
+        borderColor: 'transparent',
 
-    colors: {
-      black: '#073642',
-      red: '#dc322f',
-      green: '#859900',
-      yellow: '#b58900',
-      blue: '#268bd2',
-      magenta: '#d33682',
-      cyan: '#2aa198',
-      white: '#eee8d5',
-      lightBlack: '#002b36',
-      lightRed: '#cb4b16',
-      lightGreen: '#586e75',
-      lightYellow: '#657b83',
-      lightBlue: '#839496',
-      lightMagenta: '#6c71c4',
-      lightCyan: '#93a1a1',
-      lightWhite: '#fdf6e3'
+        showHamburgerMenu: true,
+
+        showWindowControls: true,
+
+        padding: '2px 2px 0px 2px',
+
+        shell: '',
+
+        shellArgs: ['--login'],
+
+        scrollback: 10000,
+
+        env: {},
+
+        bell: false,
+
+        copyOnSelect: true,
+
+        defaultSSHApp: true,
+
+        quickEdit: false,
+
+        macOptionSelectionMode: 'vertical',
+
+        css: 'div.xterm-screen, canvas { width: 100% !important }',
+
+        termCSS: '::-webkit-scrollbar { display: none; }',
+
+        opacity: {
+            focus: 1,
+            blur: 0.96
+        },
+
+        colors: {
+            lightBlack: '#002b36',
+            black: '#073642',
+            lightGreen: '#859900',
+            lightYellow: '#b58900',
+            lightBlue: '#268bd2',
+            lightCyan: '#2aa198',
+            white: '#eee8d5',
+            lightWhite: '#fdf6e3',
+            yellow: '#b58900',
+            lightRed: '#cb4b16',
+            red: '#d30102',
+            magenta: '#d33682',
+            lightMagenta: '#6c71c4',
+            blue: '#268bd2',
+            cyan: '#2aa198',
+            green: '#859900'
+        }
     },
 
-    shell: '',
+    plugins: [
+        "hyperlinks",
+        "hyper-blink",
+        "hyper-font-ligatures",
+        "hyperterm-paste",
+        "hyper-pane",
+        "hyperminimal",
+        "hyper-font-smoothing",
+        "hyper-opacity"
+    ],
 
-    shellArgs: ['--login'],
-
-    env: {},
-
-    bell: 'SOUND',
-
-    copyOnSelect: false,
-
-    quickEdit: true
-
-  },
-
-  plugins: [
-    "hyperfull",
-    "hyperlinks"
-  ],
-
-  localPlugins: []
-
+    localPlugins: []
 };
