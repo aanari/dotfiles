@@ -1,7 +1,7 @@
 module.exports = {
 
   config: {
-    webGLRenderer: false,
+    webGLRenderer: true,
 
     fontSize: 12,
 
