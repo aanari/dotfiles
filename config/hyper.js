@@ -1,95 +1,97 @@
 module.exports = {
 
-    config: {
-        webGLRenderer: false,
+  config: {
+    webGLRenderer: false,
 
-        fontSize: 12,
+    fontSize: 12,
 
-        fontFamily: '"FuraCode Nerd Font"',
+    fontFamily: '"FuraCode Nerd Font"',
 
-        fontWeight: 'normal',
+    fontWeight: 'normal',
 
-        updateChannel: 'canary',
+    fontWeightBold: 'bold',
 
-        backgroundColor: '#002b36',
+    updateChannel: 'canary',
 
-        foregroundColor: '#839496',
+    backgroundColor: '#002b36',
 
-        cursorShape: 'BLOCK',
+    foregroundColor: '#839496',
 
-        cursorBlink: true,
+    cursorShape: 'BLOCK',
 
-        titleBarStyle: 'hidden',
+    cursorBlink: true,
 
-        cursorColor: 'rgba(131, 148, 150, 0.5)',
+    titleBarStyle: 'hidden',
 
-        selectionColor: 'rgba(7, 54, 66, 0.5)',
+    cursorColor: 'rgba(131, 148, 150, 0.5)',
 
-        borderColor: 'transparent',
+    selectionColor: 'rgba(7, 54, 66, 0.5)',
 
-        showHamburgerMenu: true,
+    borderColor: 'transparent',
 
-        showWindowControls: true,
+    showHamburgerMenu: true,
 
-        padding: '2px 2px 0px 2px',
+    showWindowControls: true,
 
-        shell: '',
+    padding: '2px 2px 0px 2px',
 
-        shellArgs: ['--login'],
+    shell: '',
 
-        scrollback: 10000,
+    shellArgs: ['--login'],
 
-        env: {},
+    scrollback: 10000,
 
-        bell: false,
+    env: {},
 
-        copyOnSelect: true,
+    bell: false,
 
-        defaultSSHApp: true,
+    copyOnSelect: true,
 
-        quickEdit: false,
+    defaultSSHApp: true,
 
-        macOptionSelectionMode: 'vertical',
+    quickEdit: false,
 
-        css: 'div.xterm-screen, canvas { width: 100% !important }',
+    macOptionSelectionMode: 'vertical',
 
-        termCSS: '::-webkit-scrollbar { display: none; }',
+    css: 'div.xterm-screen, canvas { width: 100% !important }',
 
-        opacity: {
-            focus: 1,
-            blur: 0.96
-        },
+    termCSS: '::-webkit-scrollbar { display: none; }',
 
-        colors: {
-            lightBlack: '#002b36',
-            black: '#073642',
-            lightGreen: '#859900',
-            lightYellow: '#b58900',
-            lightBlue: '#268bd2',
-            lightCyan: '#2aa198',
-            white: '#eee8d5',
-            lightWhite: '#fdf6e3',
-            yellow: '#b58900',
-            lightRed: '#cb4b16',
-            red: '#d30102',
-            magenta: '#d33682',
-            lightMagenta: '#6c71c4',
-            blue: '#268bd2',
-            cyan: '#2aa198',
-            green: '#859900'
-        }
+    opacity: {
+      focus: 1,
+      blur: 0.96
     },
 
-    plugins: [
-        "hyperlinks",
-        "hyper-blink",
-        "hyper-font-ligatures",
-        "hyperterm-paste",
-        "hyper-pane",
-        "hyperminimal",
-        "hyper-font-smoothing",
-        "hyper-opacity"
-    ],
+    colors: {
+      lightBlack: '#002b36',
+      black: '#073642',
+      lightGreen: '#859900',
+      lightYellow: '#b58900',
+      lightBlue: '#268bd2',
+      lightCyan: '#2aa198',
+      white: '#eee8d5',
+      lightWhite: '#fdf6e3',
+      yellow: '#b58900',
+      lightRed: '#cb4b16',
+      red: '#d30102',
+      magenta: '#d33682',
+      lightMagenta: '#6c71c4',
+      blue: '#268bd2',
+      cyan: '#2aa198',
+      green: '#859900'
+    }
+  },
 
-    localPlugins: []
+  plugins: [
+    "hyperlinks",
+    "hyper-blink",
+    "hyper-font-ligatures",
+    "hyperterm-paste",
+    "hyper-pane",
+    "hyperminimal",
+    "hyper-font-smoothing",
+    "hyper-opacity"
+  ],
+
+  localPlugins: []
 };
