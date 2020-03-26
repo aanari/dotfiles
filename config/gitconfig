@@ -35,8 +35,8 @@
 	credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
 	# Undo a `git push`
 	undopush = push -f origin HEAD^:master
-	# Pull a branch, rebase against master, then push
-	bump = !"git checkout $1; git pull origin $1; git rebase master; git push origin"
+	# Pull a branch, rebase against master, then push for each env
+	bump = !"git checkout $1; git pull origin $1; git rebase ${2:-'master'}; git push origin"
 #[include]
 #    path = .gitconfig.local
 [core]
