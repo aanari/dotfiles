@@ -425,6 +425,11 @@ function! s:build_go_files()
 endfunction
 
 """"""""""""""""""""""""""""""
+" => Vim Rust
+""""""""""""""""""""""""""""""
+let g:rustfmt_autosave = 1
+
+""""""""""""""""""""""""""""""
 " => WinResizer
 """"""""""""""""""""""""""""""
 let g:winresizer_vert_resize = 1
