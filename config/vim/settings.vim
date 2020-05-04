@@ -85,9 +85,7 @@ set ttyfast
 set foldcolumn=0
 set clipboard=
 set termguicolors
-set nu!
-set nonumber
-set nonu
+set nu
 set foldlevelstart=2
 set cursorline
 set so=999
@@ -137,6 +135,8 @@ augroup Color_Settings
   autocmd ColorScheme * :hi Normal guibg=NONE
   autocmd ColorScheme * :hi EndOfBuffer guifg=NONE guibg=NONE guisp=NONE gui=NONE ctermfg=black ctermbg=black cterm=NONE
   autocmd ColorScheme * :hi CursorLine guibg=#073642
+  autocmd ColorScheme * :hi CursorLineNr guibg=#073642
+  autocmd ColorScheme * :hi LineNr guibg=#073642
   autocmd ColorScheme * :hi! HighlightedyankRegion guifg=#eee8d5 guibg=NONE
   autocmd ColorScheme * :hi ExtraWhitespace guibg=#dc322f
 augroup END
