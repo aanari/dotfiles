@@ -1,11 +1,5 @@
 # vim: set ft=sh:
 
-if ls --color > /dev/null 2>&1; then # GNU `ls`
-	colorflag="--color"
-else # OS X `ls`
-	colorflag="-G"
-fi
-
 alias vi='vim'
 alias dc='docker-compose'
 alias deploy='gen_deploy_email /$HOME/Projects'
@@ -21,6 +15,19 @@ alias dbdump='perl -Ilib -Ilocallib/lib/perl5 $HOME/Projects/crowdtilt-internal-
 alias gitcleanup='git branch --merged | grep -v "\*" | xargs -n 1 git branch -d'
 alias realias='$EDITOR ~/.alias; source ~/.alias'
 alias rgg='rg --pretty --heading --fixed-strings --smart-case --hidden --follow --glob "!.git/*" $1'
+
+# ls aliases
+alias ls='lsd'
+alias l='ls -l'
+alias la='ls -a'
+alias lla='ls -la'
+alias lt='ls --tree'
+
+# cd aliases
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
 
 alias sudo='nocorrect sudo'
 
