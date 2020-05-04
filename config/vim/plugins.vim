@@ -445,6 +445,11 @@ let g:winresizer_vert_resize = 1
 let g:winresizer_horiz_resize = 1
 
 """"""""""""""""""""""""""""""
+" => EasyTags
+""""""""""""""""""""""""""""""
+let g:easytags_suppress_ctags_warning = 1
+
+""""""""""""""""""""""""""""""
 " => HighlightedYank
 """"""""""""""""""""""""""""""
 let g:highlightedyank_highlight_duration = 250
