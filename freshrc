@@ -28,7 +28,7 @@ fresh-options --file=~/.zshrc --marker
     fresh zsh-users/zsh-history-substring-search zsh-history-substring-search.zsh
     fresh chrissicool/zsh-256color zsh-256color.plugin.zsh
     fresh joel-porquet/zsh-dircolors-solarized zsh-dircolors-solarized.zsh
-    fresh desyncr/auto-ls auto-ls.zsh
+    fresh aanari/auto-ls auto-ls.zsh
     fresh config/zshrc
 fresh-options
 

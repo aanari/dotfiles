@@ -27,6 +27,9 @@ bindkey "$terminfo[cud1]" history-substring-search-down
 
 eval "$(direnv hook zsh)"
 
+export BAT_THEME="Solarized (dark)"
+export AUTO_LS_COMMANDS=(lsd git-status)
+alias cat='bat'
 alias ls='lsd'
 
 setupsolarized
