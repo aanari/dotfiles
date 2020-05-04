@@ -428,6 +428,15 @@ endfunction
 " => Vim Rust
 """"""""""""""""""""""""""""""
 let g:rustfmt_autosave = 1
+let g:racer_experimental_completer = 1
+let g:racer_insert_paren = 1
+
+augroup Racer
+  autocmd!
+  autocmd FileType rust nmap <Leader>s <Plug>(rust-def-split)
+  autocmd FileType rust nmap <Leader>v <Plug>(rust-def-vertical)
+  autocmd FileType rust nmap <Leader>d <Plug>(rust-doc)
+augroup END
 
 """"""""""""""""""""""""""""""
 " => WinResizer
