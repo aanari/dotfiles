@@ -6,7 +6,9 @@
     # Crowdtilt deploy log
     dl = log --pretty=format:'%h %ad %an %s' --decorate --no-merges --date=short
 	# View the current working tree status using the short format
-	s = status -s
+    s = status -s
+    # View the current working tree status for all files, using the short format
+	sa = status -su
 	# Diff
 	d = diff --patch-with-stat
     # Fetch all
