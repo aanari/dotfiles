@@ -20,7 +20,7 @@ alias rgg='rg --pretty --heading --fixed-strings --smart-case --hidden --follow 
 alias ls='lsd'
 alias l='ls -l'
 alias la='ls -a'
-alias lla='ls -la'
+alias ll='ls -la'
 alias lt='ls --tree'
 
 # cd aliases
