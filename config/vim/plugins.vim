@@ -108,12 +108,22 @@ let NERDTreeMinimalMenu = 1
 let NERDTreeHighlightCursorline = 1
 let g:NERDTreeWinSize = 40
 let NERDTreeDirArrows = 1
+let NERDTreeDirArrowExpandable = "\u00a0"
+let NERDTreeDirArrowCollapsible = "\u00a0"
 let g:WebDevIconsNerdTreeBeforeGlyphPadding = ''
 let g:WebDevIconsUnicodeDecorateFolderNodes = v:true
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
 autocmd VimEnter * if argc() == 1 && !isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' | wincmd p | endif
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+augroup nerdtree
+  autocmd!
+  autocmd FileType nerdtree syntax clear NERDTreeFlags
+  autocmd FileType nerdtree syntax match hideBracketsInNerdTree "\]" contained conceal containedin=ALL
+  autocmd FileType nerdtree syntax match hideBracketsInNerdTree "\[" contained conceal containedin=ALL
+  autocmd FileType nerdtree setlocal conceallevel=3
+  autocmd FileType nerdtree setlocal concealcursor=nvic
+augroup END
 
 """"""""""""""""""""""""""""""
 " => TagBar
@@ -474,6 +484,11 @@ augroup END
 " => Rainbow Improved
 """"""""""""""""""""""""""""""
 let g:rainbow_active = 1
+let g:rainbow_conf = {
+\	'separately': {
+\		'nerdtree': 0,
+\	}
+\}
 
 """"""""""""""""""""""""""""""
 " => Custom Filetypes
