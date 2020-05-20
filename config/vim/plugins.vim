@@ -132,6 +132,7 @@ map <leader>mm :TagbarToggle<cr>
 let g:tagbar_autofocus = 1
 let g:tagbar_compact = 1
 let g:tagbar_width = 40
+let g:tagbar_iconchars = [' ', ' ']
 let g:tagbar_type_typescript = {
   \ 'ctagstype': 'typescript',
   \ 'kinds': [
