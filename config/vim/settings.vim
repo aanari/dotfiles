@@ -292,9 +292,8 @@ au FileType swift setlocal tabstop=2 softtabstop=2 shiftwidth=2
 " => Typescript
 """"""""""""""""""""""""""""""
 au FileType typescript setlocal tabstop=2 softtabstop=2 shiftwidth=2
-"au FileType typescript setlocal completeopt+=menu,preview
 let g:tsuquyomi_completion_detail = 1
-let g:tsuquyomi_use_vimproc=1
+let g:tsuquyomi_use_vimproc=0
 
 function! SynStack()
   if !exists("*synstack")
@@ -310,6 +309,7 @@ endfun
 
 augroup Typescript_Settings
   autocmd!
+  autocmd FileType typescript nmap <C-S> <Plug>(TsuquyomiSplitDefinition)
   autocmd ColorScheme * :hi typescriptDecorator cterm=italic gui=italic guifg=#cb4b16
   autocmd ColorScheme * :hi typescriptImport cterm=italic gui=italic guifg=#cb4b16
 augroup END
