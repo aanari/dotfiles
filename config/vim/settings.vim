@@ -90,7 +90,7 @@ set foldlevelstart=2
 set cursorline
 set so=999
 set belloff=all
-set updatetime=500
+set updatetime=1000
 "set virtualedit=all
 if exists('$TMUX')
     let &t_SI = "\<Esc>Ptmux;\<Esc>\e[5 q\<Esc>\\"
