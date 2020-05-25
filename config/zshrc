@@ -1,4 +1,4 @@
-[[ -f ~/perl5/perlbrew/etc/perlbrew-completion.bash ]] && . ~/perl5/perlbrew/etc/perlbrew-completion.bash
+[[ -f ~/.fresh/build/shell.sh ]] && . ~/.fresh/build/shell.sh
 . ~/.fresh/build/themes/spaceship-prompt/spaceship.zsh
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=10'
 SPACESHIP_PACKAGE_SHOW=false

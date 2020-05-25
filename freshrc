@@ -114,7 +114,6 @@ fresh-options --bin
     fresh akatov/dotfiles bin/currency_convert
     fresh defunkt/repl bin/repl
     fresh garybernhardt/dotfiles bin/git-churn
-    fresh jamesottaway/dotfiles bin/ssid
     fresh jasoncodes/dotfiles bin/airport-bounce
     fresh jasoncodes/dotfiles bin/pidof
     fresh jasoncodes/dotfiles bin/loop
