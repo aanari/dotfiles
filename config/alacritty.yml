@@ -1,0 +1,44 @@
+env:
+  TERM: xterm-256color-italic
+
+font:
+  size: 10.0
+  normal:
+    family: PragmataProMonoLiga Nerd Font
+    style: Medium
+  bold:
+    family: PragmataProMonoLiga Nerd Font
+  italic:
+    family: PragmataProMonoLiga Nerd Font
+
+background_opacity: 0.96
+
+# Colors (Modified Solarized Dark)
+colors:
+  primary:
+    background: '#002b36'
+    foreground: '#839496'
+
+  cursor:
+    text:   '#002b36'
+    cursor: '#839496'
+
+  normal:
+    black:   '#073642'
+    red:     '#dc322f'
+    green:   '#859900'
+    yellow:  '#b58900'
+    blue:    '#268bd2'
+    magenta: '#d33682'
+    cyan:    '#2aa198'
+    white:   '#eee8d5'
+
+  bright:
+    black:   '#002B36'
+    red:     '#cb4b16'
+    green:   '#859900'
+    yellow:  '#b58900'
+    blue:    '#268bd2'
+    magenta: '#6c71c4'
+    cyan:    '#2aa198'
+    white:   '#fdf6e3'
