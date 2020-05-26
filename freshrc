@@ -80,6 +80,7 @@ fresh config/nvim --file=~/.config/nvim/
 fresh config/ptpython --file=~/.ptpython/
 fresh config/re.pl --file=~/.re.pl/
 fresh config/sqitch --file=~/.sqitch/
+fresh config/stripe --file=~/.stripe/
 fresh config/terminator/config --file=~/.config/terminator/config
 fresh AndyA/dotfiles .perldb.d --file=~/.perldb.d/
 fresh henrik/dotfiles rubyrc --file=~/.pryrc --filter='cat; echo include RubyRC'

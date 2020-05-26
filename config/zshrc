@@ -13,9 +13,9 @@ elif [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
     eval `dircolors ~/.dir_colors`
 fi
 
+fpath=(~/.stripe $fpath)
 zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
-autoload -Uz compinit
-compinit
+autoload -Uz compinit && compinit -i
 
 unsetopt BG_NICE
 
