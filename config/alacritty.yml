@@ -10,7 +10,7 @@ font:
   italic:
     family: PragmataProMonoLiga Nerd Font
 
-background_opacity: 0.96
+background_opacity: 0.86
 
 # Colors (Modified Solarized Dark)
 colors:
