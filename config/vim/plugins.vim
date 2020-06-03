@@ -241,6 +241,10 @@ let g:ale_sign_style_error='✘'
 let g:ale_sign_warning='➤'
 let g:ale_sign_style_warning='➤'
 let g:ale_sign_info = '➤'
+let g:ale_fixers = {}
+let g:ale_fixers.javascript = ['eslint']
+let g:ale_fixers.typescript = ['eslint']
+let g:ale_fix_on_save = 1
 augroup ALE_Settings
   autocmd!
   autocmd QuitPre * if empty(&buftype) | lclose | endif
