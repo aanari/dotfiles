@@ -25,6 +25,11 @@ let g:closetag_xhtml_filetypes = 'xhtml,javascript.jsx,jsx,typescript.tsx,tsx'
 let g:colorizer_auto_filetype='css,html,javascript,typescript,vim'
 
 """"""""""""""""""""""""""""""
+" => Deoplete
+""""""""""""""""""""""""""""""
+let g:deoplete#enable_at_startup = 1
+
+""""""""""""""""""""""""""""""
 " => Prettier
 """"""""""""""""""""""""""""""
 let g:prettier#autoformat = 0
@@ -266,20 +271,6 @@ let g:jsx_ext_required = 0
 " => NeatFold
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:NeatFoldTextFancy = 1
-
-""""""""""""""""""""""""""""""
-" => MUcomplete
-""""""""""""""""""""""""""""""
-set rtp+=~/work/vimproc.vim/
-set rtp+=~/.cache/neobundle/tsuquyomi/
-set noshowmode shortmess+=c
-set noinfercase
-set completeopt-=preview
-set completeopt+=menuone,noselect,noinsert
-set belloff+=ctrlg
-let g:jedi#popup_on_dot = 0
-let g:mucomplete#enable_auto_at_startup = 1
-setglobal complete-=i
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => clang_complete
