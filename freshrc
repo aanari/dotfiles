@@ -71,6 +71,7 @@ fresh-options --file
 fresh-options
 fresh claytron/pentadactyl-solarized colors/solarized-light.penta --file=~/.pentadactyl/colors/solarized-light.penta
 fresh tmux-plugins/tmux-yank yank.tmux --file=~/.yank.tmux
+fresh config/comfortable-swipe.conf --file=~/.config/comfortable-swipe.conf
 fresh config/pgcli --file=~/.config/pgcli/
 fresh config/flake8 --file=~/.config/flake8
 fresh config/mutt --file=~/.mutt/
