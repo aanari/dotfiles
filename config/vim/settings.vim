@@ -1,6 +1,11 @@
 """"""""""""""""""""""""""""""
 " => General
 """"""""""""""""""""""""""""""
+set listchars=tab:\┆\ ,trail:-,extends:>,conceal:*,precedes:<,nbsp:·
+set showbreak=↳
+autocmd BufNewFile,BufRead * call matchadd('SpecialKey', '\s\+')
+autocmd BufNewFile,BufRead * call matchadd('NonText', '\n\+')
+
 if &history < 1000
   set history=1000
 endif

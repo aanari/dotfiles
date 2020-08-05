@@ -1,75 +1,75 @@
 [alias]
-	# View the SHA, description, and history graph of the latest 20 commits
+    # View the SHA, description, and history graph of the latest 20 commits
     #
     #l = log --pretty=oneline -n 20 --graph
     l = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit
     # Crowdtilt deploy log
     dl = log --pretty=format:'%h %ad %an %s' --decorate --no-merges --date=short
-	# View the current working tree status using the short format
+    # View the current working tree status using the short format
     s = status -s
     # View the current working tree status for all files, using the short format
-	sa = status -su
-	# Diff
-	d = diff --patch-with-stat
+    sa = status -su
+    # Diff
+    d = diff --patch-with-stat
     # Fetch all
     f = fetch --all
-	# Pull in remote changes for the current repository and all its submodules
+    # Pull in remote changes for the current repository and all its submodules
     p = !"git pull; git submodule foreach git pull origin master"
     # Rebase
     r = rebase
     # Tickets
     t = "for-each-ref --sort=-committerdate refs/heads/ --format='%1B[1;33m%(objectname:short) %1B[0;31m[%(refname:short)]%1B[m  %(subject)'"
-	# Clone a repository including all submodules
-	c = clone --recursive
-	# Commit all changes
-	ca = !git add -A && git commit -av
+    # Clone a repository including all submodules
+    c = clone --recursive
+    # Commit all changes
+    ca = !git add -A && git commit -av
     # Checkout a branch
-	co = checkout
+    co = checkout
     # Switch to a branch, creating it if necessary
-	go = checkout -B
-	# Show verbose output about tags, branches or remotes
+    go = checkout -B
+    # Show verbose output about tags, branches or remotes
     # Find parent branch
     parent = "!git show-branch -a | grep '\\*' | grep -v `git rev-parse --abbrev-ref HEAD` | head -n1"
-	tags = tag -l
-	branches = branch -a
-	remotes = remote -v
-	# Credit an author on the latest commit
-	credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
-	# Undo a `git push`
-	undopush = push -f origin HEAD^:master
-	# Pull a branch, rebase against master, then push for each env
-	bump = !"git checkout $1; git pull origin $1; git rebase ${2:-'master'}; git push origin"
+    tags = tag -l
+    branches = branch -a
+    remotes = remote -v
+    # Credit an author on the latest commit
+    credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
+    # Undo a `git push`
+    undopush = push -f origin HEAD^:master
+    # Pull a branch, rebase against master, then push for each env
+    bump = !"git checkout $1; git pull origin $1; git rebase ${2:-'master'}; git push origin"
 #[include]
 #    path = .gitconfig.local
 [core]
-	# Use custom `.gitignore`
-	excludesfile = ~/.gitignore
+    # Use custom `.gitignore`
+    excludesfile = ~/.gitignore
 [color]
-	ui = auto
+    ui = auto
 [color "branch"]
-	current = yellow reverse
-	local = yellow
-	remote = green
+    current = yellow reverse
+    local = yellow
+    remote = green
 [color "diff"]
-	meta = yellow bold
-	frag = magenta bold
-	old = red bold
-	new = green bold
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
 [color "status"]
-	added = yellow
-	changed = green
-	untracked = cyan
+    added = yellow
+    changed = green
+    untracked = cyan
 [merge]
     log = true
     conflictstyle = diff3
       tool = vimdiff
 # Use `origin` as the default remote on the `master` branch in all cases
 [branch "master"]
-	remote = origin
-	merge = refs/heads/master
+    remote = origin
+    merge = refs/heads/master
 [user]
-	name = Ali Anari
-	email = ali@anari.io
+    name = Ali Anari
+    email = ali@anari.io
 [github]
     user = aanari
 [credential]
