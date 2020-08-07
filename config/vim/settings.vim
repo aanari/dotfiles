@@ -380,3 +380,8 @@ let g:vim_markdown_frontmatter=1
 """"""""""""""""""""""""""""""
 tnoremap <C-n> <C-\><C-n>
 nnoremap <Leader>e :ter<Cr>
+
+""""""""""""""""""""""""""""""
+" => Tex
+""""""""""""""""""""""""""""""
+let g:tex_flavor = 'latex'
