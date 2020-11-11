@@ -58,3 +58,11 @@ rawurldecode() {
 
   echo "${REPLY}"  #+or echo the result (EASIER)... or both... :p
 }
+
+function gcert() {
+  if [[ -n $TMUX ]]; then
+    eval $(tmux show-environment -s)
+  fi
+
+  command gcert "$@"
+}
