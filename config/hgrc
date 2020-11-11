@@ -1,2 +1,5 @@
 [ui]
 merge = vimdiff
+
+[extensions]
+beautifygraph =
