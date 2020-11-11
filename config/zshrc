@@ -34,3 +34,4 @@ alias ls='lsd'
 
 setupsolarized
 [[ -f /usr/local/bin/aws_zsh_completer.sh ]] && . /usr/local/bin/aws_zsh_completer.sh
+[[ -f /etc/bash_completion.d/hgd ]] && . /etc/bash_completion.d/hgd
