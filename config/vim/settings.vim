@@ -26,9 +26,6 @@ augroup checktime
     autocmd BufEnter        * silent! checktime
     autocmd CursorHold      * silent! checktime
     autocmd CursorHoldI     * silent! checktime
-    "these two _may_ slow things down. Remove if they do.
-    autocmd CursorMoved     * silent! checktime
-    autocmd CursorMovedI    * silent! checktime
   endif
 augroup END
 
@@ -151,8 +148,8 @@ set fillchars+=vert:\  " Whitespace
 set timeout ttimeout
 set timeoutlen=500   " Time out on mappings
 set ttimeoutlen=10   " Time out on key codes
-set updatetime=100   " Idle time to write swap and trigger CursorHold
-set redrawtime=1500  " Time in milliseconds for stopping display redraw
+set updatetime=500   " Idle time to write swap and trigger CursorHold
+set redrawtime=1000  " Time in milliseconds for stopping display redraw
 
 """"""""""""""""""""""""""""""
 " => Colors and fonts
