@@ -128,4 +128,3 @@ Plugin 'yko/mojo.vim'
 
 Plugin 'mxw/vim-jsx'
 Plugin 'jason0x43/vim-js-indent'
-Plugin 'prettier/vim-prettier'

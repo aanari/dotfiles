@@ -30,12 +30,6 @@ let g:colorizer_auto_filetype='css,html,javascript,typescript,vim'
 let g:deoplete#enable_at_startup = 1
 
 """"""""""""""""""""""""""""""
-" => Prettier
-""""""""""""""""""""""""""""""
-let g:prettier#autoformat = 0
-autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
-
-""""""""""""""""""""""""""""""
 " => MRU
 """"""""""""""""""""""""""""""
 let MRU_Max_Entries = 400
@@ -247,8 +241,8 @@ let g:ale_sign_warning='➤'
 let g:ale_sign_style_warning='➤'
 let g:ale_sign_info = '➤'
 let g:ale_fixers = {}
-let g:ale_fixers.javascript = ['eslint']
-let g:ale_fixers.typescript = ['eslint']
+let g:ale_fixers.javascript = ['eslint', 'prettier']
+let g:ale_fixers.typescript = ['eslint', 'prettier']
 let g:ale_fix_on_save = 1
 augroup ALE_Settings
   autocmd!

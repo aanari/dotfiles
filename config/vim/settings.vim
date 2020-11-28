@@ -7,8 +7,8 @@ let g:indentguides_tabchar = '┆'
 autocmd BufNewFile,BufRead * call matchadd('SpecialKey', '\s\+')
 autocmd BufNewFile,BufRead * call matchadd('NonText', '\n\+')
 
-if &history < 1000
-  set history=1000
+if &history < 2000
+  set history=2000
 endif
 if &tabpagemax < 50
   set tabpagemax=50
@@ -59,16 +59,18 @@ if &encoding ==# 'latin1' && has('gui_running')
   set encoding=utf-8
 endif
 
+set mouse=nv
+set report=0
+set hidden
 set noruler
 set noshowmode
 set noshowcmd
 set cmdheight=1
 set laststatus=2
-set conceallevel=2
 set hid
 set autoindent
 set smartindent
-set backspace=eol,start,indent
+set backspace=indent,eol,start
 set whichwrap+=<,>,h,l
 set ignorecase
 set smartcase
@@ -77,27 +79,36 @@ set incsearch
 set lazyredraw
 set magic
 set showmatch
+set matchpairs+=<:>
+set matchtime=1
 set mat=2
 set noerrorbells
 set novisualbell
 set nocursorcolumn
 set nocursorline
-set noshowmatch
 set splitbelow
 set splitright
 set t_vb=
-set tm=500
 set ttyfast
 set foldcolumn=0
-set clipboard=unnamedplus
 set termguicolors
 set nu
 set foldlevelstart=2
 set cursorline
 set so=999
 set belloff=all
-set updatetime=1000
-"set virtualedit=all
+set virtualedit=block
+set synmaxcol=2500
+set diffopt=filler,iwhite
+set switchbuf=useopen,vsplit
+set completeopt=menu,menuone
+set completeopt+=noselect,noinsert
+
+if has('vim_starting')
+    set encoding=utf-8
+    scriptencoding utf-8
+endif
+
 if exists('$TMUX')
     let &t_SI = "\<Esc>Ptmux;\<Esc>\e[5 q\<Esc>\\"
     let &t_EI = "\<Esc>Ptmux;\<Esc>\e[2 q\<Esc>\\"
@@ -106,7 +117,42 @@ else
     let &t_EI = "\e[2 q"
 endif
 
+if exists('+completepopup')
+	set completeopt+=popup
+	set completepopup=height:4,width:60,highlight:InfoPopup
+endif
+
+if has('clipboard')
+    set clipboard& clipboard+=unnamedplus
+endif
+
+if has('conceal') && v:version >= 703
+	" For snippet_complete marker
+	set conceallevel=2 concealcursor=niv
+endif
+
+if exists('+previewpopup')
+	set previewpopup=height:10,width:60
+endif
+
+if executable('rg')
+	set grepformat=%f:%l:%m
+	let &grepprg = 'rg --vimgrep' . (&smartcase ? ' --smart-case' : '')
+elseif executable('ag')
+	set grepformat=%f:%l:%m
+	let &grepprg = 'ag --vimgrep' . (&smartcase ? ' --smart-case' : '')
+endif
+
 set fillchars+=vert:\  " Whitespace
+
+""""""""""""""""""""""""""""""
+" => Timing
+""""""""""""""""""""""""""""""
+set timeout ttimeout
+set timeoutlen=500   " Time out on mappings
+set ttimeoutlen=10   " Time out on key codes
+set updatetime=100   " Idle time to write swap and trigger CursorHold
+set redrawtime=1500  " Time in milliseconds for stopping display redraw
 
 """"""""""""""""""""""""""""""
 " => Colors and fonts
@@ -133,7 +179,6 @@ if has("gui_running")
     set guitablabel=%M\ %t
 endif
 
-set encoding=utf8
 set ffs=unix,dos,mac
 
 augroup Color_Settings
@@ -147,6 +192,14 @@ augroup Color_Settings
   autocmd ColorScheme * :hi! HighlightedyankRegion guifg=#eee8d5 guibg=NONE
   autocmd ColorScheme * :hi ExtraWhitespace guibg=#dc322f
 augroup END
+
+set title
+" Title length.
+set titlelen=95
+" " Title string.
+let &g:titlestring="
+      \ %{expand('%:p:~:.')}%(%m%r%w%)
+      \ %<\[%{fnamemodify(getcwd(), ':~')}\] - Neovim"
 
 """"""""""""""""""""""""""""""
 " => Backups
@@ -162,11 +215,17 @@ set expandtab
 set smarttab
 set shiftwidth=4
 set tabstop=4
+set softtabstop=-1
+set shiftround
 set lbr
 set tw=500
 set ai
 set si
 set wrap
+
+if exists('+previewpopup')
+    set previewpopup=height:10,width:60
+endif
 
 """"""""""""""""""""""""""""""
 " => Movement
@@ -202,11 +261,6 @@ if !empty(&viminfo)
   set viminfo^=!
 endif
 set sessionoptions-=options
-try
-  set switchbuf=useopen,usetab,newtab
-  set stal=2
-catch
-endtry
 
 """"""""""""""""""""""""""""""
 " => Tabs
