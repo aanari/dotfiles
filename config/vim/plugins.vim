@@ -109,8 +109,15 @@ let g:NERDTreeWinSize = 40
 let NERDTreeDirArrows = 1
 let NERDTreeDirArrowExpandable = "\u00a0"
 let NERDTreeDirArrowCollapsible = "\u00a0"
+let g:NERDTreePatternMatchHighlightColor = {}
+let g:NERDTreePatternMatchHighlightColor['.*\.proto'] = "bbbbbb"
 let g:WebDevIconsNerdTreeBeforeGlyphPadding = ''
 let g:WebDevIconsUnicodeDecorateFolderNodes = v:true
+let g:WebDevIconsDisableDefaultFolderSymbolColorFromNERDTreeDir = 1
+let g:WebDevIconsDisableDefaultFileSymbolColorFromNERDTreeFile = 1
+let g:NERDTreeFileExtensionHighlightFullName = 1
+let g:NERDTreeExactMatchHighlightFullName = 1
+let g:NERDTreePatternMatchHighlightFullName = 1
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
 autocmd VimEnter * if argc() == 1 && !isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' | wincmd p | endif
