@@ -1,6 +1,7 @@
 # vim: set ft=sh:
 
-alias vi='vim'
+alias vi='nvim'
+alias vimdiff='nvim -d'
 alias dc='docker-compose'
 alias deploy='gen_deploy_email /$HOME/Projects'
 alias speedtest='speedtest_cli.py'

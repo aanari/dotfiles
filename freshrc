@@ -36,7 +36,6 @@ fresh-options
 fresh-options --file=~/.zshenv --marker
     fresh shell/\*
     fresh jasoncodes/dotfiles shell/aliases/\*
-    fresh jasoncodes/dotfiles shell/editor.sh
     fresh jasoncodes/dotfiles shell/config/filters.sh
 fresh-options
 
