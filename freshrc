@@ -60,7 +60,6 @@ fresh denysdovhan/spaceship-prompt . --file=themes/spaceship-prompt/
 # config
 fresh-options --file
     fresh config/\*
-    fresh AndyA/dotfiles .mostrc
     fresh jasoncodes/dotfiles config/hushlogin
     fresh jasoncodes/dotfiles config/inputrc
     fresh jasoncodes/dotfiles config/gemrc
