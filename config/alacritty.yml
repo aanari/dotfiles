@@ -2,7 +2,7 @@ env:
   TERM: xterm-256color-italic
 
 font:
-  size: 10.0
+  size: 9.0
   normal:
     family: PragmataProMonoLiga Nerd Font
   bold:
