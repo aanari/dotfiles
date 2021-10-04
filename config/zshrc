@@ -13,6 +13,7 @@ zinit light b4b4r07/enhancd
 zinit light junegunn/fzf
 zinit light Peltoche/lsd
 
+# syntax, completions, suggestions
 zinit wait lucid for \
  atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
     zdharma/fast-syntax-highlighting \
@@ -21,12 +22,13 @@ zinit wait lucid for \
  atload"!_zsh_autosuggest_start" \
     zsh-users/zsh-autosuggestions
 
-zinit ice wait"2" as"command" from"gh-r" lucid \
-  mv"zoxide*/zoxide -> zoxide" \
-  atclone"./zoxide init zsh > init.zsh" \
-  atpull"%atclone" src"init.zsh" nocompile'!'
-zinit light ajeetdsouza/zoxide
+# z, z tab completion
+zinit ice wait blockf lucid
+zinit light rupa/z
+zinit ice wait lucid
+zinit light changyuheng/fz
 
+# direnv
 zinit as"program" make'!' atclone'./direnv hook zsh > zhook.zsh' \
   atpull'%atclone' pick"direnv" src"zhook.zsh" for \
   direnv/direnv
