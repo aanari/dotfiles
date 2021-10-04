@@ -1,37 +1,31 @@
-[[ -f ~/.fresh/build/shell.sh ]] && . ~/.fresh/build/shell.sh
-. ~/.fresh/build/themes/spaceship-prompt/spaceship.zsh
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=10'
-SPACESHIP_PACKAGE_SHOW=false
-SPACESHIP_VI_MODE_SHOW=false
-SPACESHIP_CHAR_SYMBOL="λ "
-SPACESHIP_BATTERY_SHOW=false
-SPACESHIP_VENV_GENERIC_NAMES=(virtualenv env venv .venv)
-
-if [[ "$(uname)" == "Darwin" ]]; then
-    eval `gdircolors ~/.dir_colors`
-elif [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
-    eval `dircolors ~/.dir_colors`
+# Source Prezto.
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-fpath=(~/.stripe $fpath)
-zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
-autoload -Uz compinit && compinit -i
+[[ -f ~/.fresh/build/shell.sh ]] && . ~/.fresh/build/shell.sh
 
-unsetopt BG_NICE
+# Customize to your needs...
+source ~/.zinit/bin/zinit.zsh
 
-zmodload zsh/terminfo
-bindkey "$terminfo[kcuu1]" history-substring-search-up
-bindkey "$terminfo[kcud1]" history-substring-search-down
-bindkey "$terminfo[cuu1]" history-substring-search-up
-bindkey "$terminfo[cud1]" history-substring-search-down
+# Plugins
+zinit light b4b4r07/enhancd
+zinit light junegunn/fzf
+zinit light Peltoche/lsd
 
-eval "$(direnv hook zsh)"
+zinit ice wait lucid atload'_zsh_autosuggest_start'
+zinit light zsh-users/zsh-autosuggestions
 
-export BAT_THEME="Solarized (dark)"
-export AUTO_LS_COMMANDS=(lsd git-status)
-alias cat='bat'
-alias ls='lsd'
+zinit ice wait"2" as"command" from"gh-r" lucid \
+  mv"zoxide*/zoxide -> zoxide" \
+  atclone"./zoxide init zsh > init.zsh" \
+  atpull"%atclone" src"init.zsh" nocompile'!'
+zinit light ajeetdsouza/zoxide
 
-setupsolarized
-[[ -f /usr/local/bin/aws_zsh_completer.sh ]] && . /usr/local/bin/aws_zsh_completer.sh
-[[ -f /etc/bash_completion.d/hgd ]] && . /etc/bash_completion.d/hgd
+zinit as"program" make'!' atclone'./direnv hook zsh > zhook.zsh' \
+  atpull'%atclone' pick"direnv" src"zhook.zsh" for \
+  direnv/direnv
+
+# Misc
+alias ls="lsd"
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=23'

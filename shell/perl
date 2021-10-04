@@ -1,4 +1,0 @@
-export PERL5LIB="$HOME/Projects/Business-BalancedPayments/lib:$HOME/Projects/crowdtilt-internal-api/lib:$HOME/Projects/crowdtilt-internal-api/locallib/lib/perl5"
-export NOPASTE_SERVICES=Dancebin
-export TEST_PGDB=1
-export TEST_PRETTY_COLOR_NAME=bright_black

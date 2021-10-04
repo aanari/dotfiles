@@ -16,9 +16,9 @@ alias dbdump='perl -Ilib -Ilocallib/lib/perl5 $HOME/Projects/crowdtilt-internal-
 alias gitcleanup='git branch --merged | grep -v "\*" | xargs -n 1 git branch -d'
 alias realias='$EDITOR ~/.alias; source ~/.alias'
 alias rgg='rg --pretty --heading --fixed-strings --smart-case --hidden --follow --glob "!.git/*" $1'
+alias g='git'
 
 # ls aliases
-alias ls='lsd'
 alias l='ls -l'
 alias la='ls -a'
 alias ll='ls -la'

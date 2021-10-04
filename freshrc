@@ -8,55 +8,12 @@ fresh freshshell/fresh-open bin/fresh-open --bin
 
 fresh seebi/dircolors-solarized . --file=~/dircolors-solarized/
 
-# ~/.zshrc
-fresh-options --file=~/.zshrc --marker
-    fresh twe4ked/dotfiles shell/zsh/completion.zsh
-    fresh twe4ked/dotfiles shell/zsh/title.zsh
-    fresh twe4ked/dotfiles shell/zsh/aliases.zsh
-    fresh twe4ked/dotfiles shell/zsh/zshrc
-    fresh twe4ked/dotfiles shell/zsh/keybindings.zsh
-    fresh robbyrussell/oh-my-zsh lib/git.zsh
-    fresh robbyrussell/oh-my-zsh lib/grep.zsh
-    fresh robbyrussell/oh-my-zsh lib/history.zsh
-    fresh robbyrussell/oh-my-zsh lib/spectrum.zsh
-    fresh robbyrussell/oh-my-zsh lib/theme-and-appearance.zsh
-
-    fresh freshshell/fresh contrib/source-build.sh
-
-    fresh rupa/z z.sh
-    fresh sharat87/zsh-vim-mode zsh-vim-mode.plugin.zsh
-    fresh zsh-users/zsh-history-substring-search zsh-history-substring-search.zsh
-    fresh chrissicool/zsh-256color zsh-256color.plugin.zsh
-    fresh joel-porquet/zsh-dircolors-solarized zsh-dircolors-solarized.zsh
-    fresh aanari/auto-ls auto-ls.zsh
-    fresh jeffreytse/zsh-vi-mode zsh-vi-mode.zsh
-    fresh config/zshrc
-fresh-options
-
 # ~/.zshenv
 fresh-options --file=~/.zshenv --marker
     fresh shell/\*
     fresh jasoncodes/dotfiles shell/aliases/\*
     fresh jasoncodes/dotfiles shell/config/filters.sh
 fresh-options
-
-# zsh completions
-fresh zsh-users/zsh-completions src --file=completion/
-fresh freshshell/fresh contrib/completion/fresh-completion.zsh --file=completion/_fresh
-
-# zsh autosuggestions
-fresh zsh-users/zsh-autosuggestions zsh-autosuggestions.zsh --file=~/.zshrc
-
-# zsh syntax highlighting
-fresh zsh-users/zsh-syntax-highlighting zsh-syntax-highlighting.zsh --file=vendor/zsh-syntax-highlighting.zsh
-fresh zsh-users/zsh-syntax-highlighting .revision-hash --file=vendor/.revision-hash
-fresh zsh-users/zsh-syntax-highlighting .version --file=vendor/.version
-fresh zsh-users/zsh-syntax-highlighting highlighters/main/main-highlighter.zsh --file=vendor/highlighters/main/main-highlighter.zsh
-fresh zsh-users/zsh-syntax-highlighting highlighters/brackets/brackets-highlighter.zsh --file=vendor/highlighters/brackets/brackets-highlighter.zsh
-fresh shell/zsh/zsh-syntax-highlighting.zsh --file=~/.zshrc
-
-# zsh theme
-fresh denysdovhan/spaceship-prompt . --file=themes/spaceship-prompt/
 
 # config
 fresh-options --file
