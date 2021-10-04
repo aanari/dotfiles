@@ -8,6 +8,9 @@ fresh freshshell/fresh-open bin/fresh-open --bin
 
 fresh seebi/dircolors-solarized . --file=~/dircolors-solarized/
 
+# ~/.zinit
+fresh zdharma/zinit . --file=~/.zinit/bin/
+
 # ~/.zshenv
 fresh-options --file=~/.zshenv --marker
     fresh shell/\*
