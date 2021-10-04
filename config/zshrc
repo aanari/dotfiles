@@ -29,3 +29,4 @@ zinit as"program" make'!' atclone'./direnv hook zsh > zhook.zsh' \
 # Misc
 alias ls="lsd"
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=23'
+export EDITOR='nvim'
