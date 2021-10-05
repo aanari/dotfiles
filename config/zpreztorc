@@ -127,7 +127,7 @@ zstyle ':prezto:module:prompt' pwd-length 'long'
 
 # Set the prompt to display the return code along with an indicator for non-zero
 # return codes. This is not supported by all prompts.
-# zstyle ':prezto:module:prompt' show-return-val 'yes'
+zstyle ':prezto:module:prompt' show-return-val 'no'
 
 #
 # Python
