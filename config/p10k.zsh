@@ -487,7 +487,7 @@
   # Show status of repositories of these types. You can add svn and/or hg if you are
   # using them. If you do, your prompt may become slow even when your current directory
   # isn't in an svn or hg reposotiry.
-  typeset -g POWERLEVEL9K_VCS_BACKENDS=(git hg)
+  typeset -g POWERLEVEL9K_VCS_BACKENDS=(git)
 
   # These settings are used for repositories other than Git or when gitstatusd fails and
   # Powerlevel10k has to fall back to using vcs_info.
