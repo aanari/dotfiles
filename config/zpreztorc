@@ -33,13 +33,18 @@ zstyle ':prezto:load' pmodule \
   'environment' \
   'git' \
   'terminal' \
+  'archive' \
   'editor' \
   'history' \
   'directory' \
   'spectrum' \
   'utility' \
   'completion' \
+  'python' \
+  'tmux' \
+  'syntax-highlighting' \
   'history-substring-search' \
+  'autosuggestions' \
   'prompt'
 
 #
@@ -68,7 +73,7 @@ zstyle ':prezto:module:editor' key-bindings 'vi'
 zstyle ':prezto:module:editor' dot-expansion 'yes'
 
 # Allow the zsh prompt context to be shown.
-#zstyle ':prezto:module:editor' ps-context 'yes'
+zstyle ':prezto:module:editor' ps-context 'no'
 
 #
 # Git
@@ -118,7 +123,7 @@ zstyle ':prezto:module:editor' dot-expansion 'yes'
 # Set the prompt theme to load.
 # Setting it to 'random' loads a random theme.
 # Auto set to 'off' on dumb terminals.
-zstyle ':prezto:module:prompt' theme 'sorin'
+zstyle ':prezto:module:prompt' theme 'powerlevel10k'
 
 # Set the working directory prompt display length.
 # By default, it is set to 'short'. Set it to 'long' (without '~' expansion)
@@ -134,10 +139,10 @@ zstyle ':prezto:module:prompt' show-return-val 'no'
 #
 
 # Auto switch the Python virtualenv on directory change.
-# zstyle ':prezto:module:python:virtualenv' auto-switch 'yes'
+zstyle ':prezto:module:python:virtualenv' auto-switch 'yes'
 
 # Automatically initialize virtualenvwrapper if pre-requisites are met.
-# zstyle ':prezto:module:python:virtualenv' initialize 'yes'
+zstyle ':prezto:module:python:virtualenv' initialize 'yes'
 
 #
 # Ruby
@@ -208,16 +213,16 @@ zstyle ':prezto:module:terminal:multiplexer-title' format '%s'
 #
 
 # Auto start a session when Zsh is launched in a local terminal.
-# zstyle ':prezto:module:tmux:auto-start' local 'yes'
+zstyle ':prezto:module:tmux:auto-start' local 'no'
 
 # Auto start a session when Zsh is launched in a SSH connection.
-# zstyle ':prezto:module:tmux:auto-start' remote 'yes'
+zstyle ':prezto:module:tmux:auto-start' remote 'no'
 
 # Integrate with iTerm2.
 zstyle ':prezto:module:tmux:iterm' integrate 'yes'
 
 # Set the default session name:
-zstyle ':prezto:module:tmux:session' name 'YOUR DEFAULT SESSION NAME'
+# zstyle ':prezto:module:tmux:session' name 'YOUR DEFAULT SESSION NAME'
 
 #
 # Utility
