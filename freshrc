@@ -35,7 +35,6 @@ fresh config/flake8 --file=~/.config/flake8
 fresh config/mutt --file=~/.mutt/
 fresh config/ipython --file=~/.ipython/
 fresh config/irssi --file=~/.irssi/
-fresh config/nvim --file=~/.config/nvim/
 fresh config/ptpython --file=~/.ptpython/
 fresh config/re.pl --file=~/.re.pl/
 fresh config/sqitch --file=~/.sqitch/
