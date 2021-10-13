@@ -39,6 +39,8 @@
     undopush = push -f origin HEAD^:master
     # Pull a branch, rebase against master, then push for each env
     bump = !"git checkout $1; git pull origin $1; git rebase ${2:-'master'}; git push origin"
+    # Amend a commit in place, without having to rebase HEAD~2
+    amend  = commit --amend --no-edit
 #[include]
 #    path = .gitconfig.local
 [core]
