@@ -77,6 +77,7 @@ fresh-options --bin
     fresh jasoncodes/dotfiles bin/vimdiff
     fresh jasoncodes/dotfiles bin/vol
     fresh jasoncodes/dotfiles bin/wemux/\*
+    fresh junegunn/fzf bin/fzf-tmux
     fresh k4rthik/git-cal git-cal
     fresh LuRsT/hr hr
     fresh pengwynn/dotfiles bin/git-pr
