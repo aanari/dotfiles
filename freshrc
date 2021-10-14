@@ -6,7 +6,8 @@ fresh freshshell/fresh bin/fresh --bin
 # fresh plugins
 fresh freshshell/fresh-open bin/fresh-open --bin
 
-fresh seebi/dircolors-solarized . --file=~/dircolors-solarized/
+# dircolors
+fresh arcticicestudio/nord-dircolors src/dir_colors --file=~/.dir_colors
 
 # ~/.zinit
 fresh zdharma/zinit . --file=~/.zinit/bin/

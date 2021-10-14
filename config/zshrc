@@ -43,6 +43,9 @@ zinit as"program" make'!' atclone'./direnv hook zsh > zhook.zsh' \
   atpull'%atclone' pick"direnv" src"zhook.zsh" for \
   direnv/direnv
 
+# dircolors
+test -r ~/.dir_colors && eval $(dircolors ~/.dir_colors)
+
 # Misc
 alias ls="lsd"
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=23'
