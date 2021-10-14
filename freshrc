@@ -15,8 +15,6 @@ fresh zdharma/zinit . --file=~/.zinit/bin/
 # ~/.zshenv
 fresh-options --file=~/.zshenv --marker
     fresh shell/\*
-    fresh jasoncodes/dotfiles shell/aliases/\*
-    fresh jasoncodes/dotfiles shell/config/filters.sh
 fresh-options
 
 # config

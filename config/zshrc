@@ -47,7 +47,7 @@ zinit as"program" make'!' atclone'./direnv hook zsh > zhook.zsh' \
 test -r ~/.dir_colors && eval $(dircolors ~/.dir_colors)
 
 # Misc
-alias ls="lsd"
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=23'
+alias ls="exa"
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=08'
 export EDITOR='nvim'
 unsetopt PATH_DIRS
