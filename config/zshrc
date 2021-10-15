@@ -19,7 +19,7 @@ fi
 source ~/.zinit/bin/zinit.zsh
 
 # Plugins
-zinit pack for fzf
+zinit pack=bgn for fzf
 zinit light b4b4r07/enhancd
 zinit light junegunn/fzf
 zinit light Peltoche/lsd
