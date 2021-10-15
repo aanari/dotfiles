@@ -18,8 +18,13 @@ fi
 # Customize to your needs...
 source ~/.zinit/bin/zinit.zsh
 
+# zinit annexes
+zinit light-mode for \
+    zinit-zsh/z-a-bin-gem-node \
+    zinit-zsh/z-a-patch-dl
+
 # Plugins
-zinit pack=bgn for fzf
+zinit pack="bgn-binary+keys" for fzf
 zinit light b4b4r07/enhancd
 zinit light junegunn/fzf
 zinit light Peltoche/lsd
@@ -39,6 +44,14 @@ zinit ice wait blockf lucid
 zinit light rupa/z
 zinit ice wait lucid
 zinit light changyuheng/fz
+
+zinit wait"1" lucid from"gh-r" as"null" for \
+     sbin"**/bat"  @sharkdp/bat \
+     sbin"**/exa"  ogham/exa
+
+# yank, clipboard
+zinit ice as"program" pick"yank" make
+zinit light mptre/yank
 
 # direnv
 zinit as"program" make'!' atclone'./direnv hook zsh > zhook.zsh' \
@@ -64,6 +77,9 @@ test -r ~/.dir_colors && eval $(dircolors ~/.dir_colors)
 source ~/.fzf.sh
 
 # Misc
+alias cat="bat"
+alias ll='ls -alh'
+alias la='ls -a'
 alias ls="exa"
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=08'
 export EDITOR='nvim'
