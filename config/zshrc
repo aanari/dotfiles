@@ -19,9 +19,11 @@ fi
 source ~/.zinit/bin/zinit.zsh
 
 # Plugins
+zinit pack for fzf
 zinit light b4b4r07/enhancd
 zinit light junegunn/fzf
 zinit light Peltoche/lsd
+zinit light Aloxaf/fzf-tab
 
 # syntax, completions, suggestions
 zinit wait lucid for \
@@ -43,8 +45,23 @@ zinit as"program" make'!' atclone'./direnv hook zsh > zhook.zsh' \
   atpull'%atclone' pick"direnv" src"zhook.zsh" for \
   direnv/direnv
 
+# fzf-tab configuration
+# disable sort when completing `git checkout`
+zstyle ':completion:*:git-checkout:*' sort false
+# set descriptions format to enable group support
+zstyle ':completion:*:descriptions' format '[%d]'
+# set list-colors to enable filename colorizing
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# preview directory's content with exa when completing cd
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+# switch group using `,` and `.`
+zstyle ':fzf-tab:*' switch-group ',' '.'
+
 # dircolors
 test -r ~/.dir_colors && eval $(dircolors ~/.dir_colors)
+
+# fzf
+source ~/.fzf.sh
 
 # Misc
 alias ls="exa"
