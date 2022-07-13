@@ -57,6 +57,38 @@ zinit as"program" make'!' atclone'./direnv hook zsh > zhook.zsh' \
   atpull'%atclone' pick"direnv" src"zhook.zsh" for \
   direnv/direnv
 
+# pyenv
+zinit ice wait lucid depth'1' \
+    atclone'PYENV_ROOT="${HOME}/.pyenv" ./libexec/pyenv init - > zpyenv.zsh' \
+    atinit'export PYENV_ROOT="${HOME}/.pyenv"' atpull"%atclone" \
+    as'command' pick'bin/pyenv' src"zpyenv.zsh" compile'{zpyenv,completions/*}.zsh' nocompile'!' \
+    atload'
+    eval "$(pyenv init --path)"
+    eval "$(pyenv init -)"
+    # make zsh completion works no need source in zshrc. #1644
+    # https://github.com/pyenv/pyenv/pull/1644
+    _pyenv_new() {
+        local -a comples
+        if [ "${#words}" -eq 2 ]; then
+            comples=($(pyenv commands))
+        else
+            comples=($(pyenv completions ${words[2,-2]}))
+        fi
+        _describe -t comples 'comples' comples
+    }
+    compdef _pyenv_new pyenv' \
+    id-as'pyenv'
+zinit light pyenv/pyenv
+
+zinit ice wait lucid depth'1' \
+    atclone'PYENV_ROOT="${HOME}/.pyenv" ./bin/pyenv-virtualenv-init - > zpyenv-virtualenv.zsh' \
+    atinit'export PYENV_ROOT="${HOME}/.pyenv"' atpull"%atclone" \
+    as'command' pick'bin/*' src"zpyenv-virtualenv.zsh" compile'*.zsh' nocompile'!' \
+    atload'
+    eval "$(pyenv init -)"' \
+    id-as'pyenv-virtualenv'
+zinit light pyenv/pyenv-virtualenv
+
 # fzf-tab configuration
 # disable sort when completing `git checkout`
 zstyle ':completion:*:git-checkout:*' sort false
