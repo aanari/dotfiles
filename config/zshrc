@@ -89,6 +89,10 @@ zinit ice wait lucid depth'1' \
     id-as'pyenv-virtualenv'
 zinit light pyenv/pyenv-virtualenv
 
+# poetry
+zinit ice pick'poetry.zsh'
+zinit light sudosubin/zsh-poetry
+
 # fzf-tab configuration
 # disable sort when completing `git checkout`
 zstyle ':completion:*:git-checkout:*' sort false
