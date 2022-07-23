@@ -68,7 +68,6 @@ fresh c9s/perlomni.vim bin/grep-pattern.pl --bin=~/.vim/bin/grep-pattern.pl
 # bin
 fresh-options --bin
     fresh bin/\*
-    fresh akatov/dotfiles bin/currency_convert
     fresh defunkt/repl bin/repl
     fresh garybernhardt/dotfiles bin/git-churn
     fresh jasoncodes/dotfiles bin/airport-bounce
