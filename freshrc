@@ -51,7 +51,6 @@ fresh-options --file=~/.vimrc --marker=\"
     fresh config/vim/settings.vim
     fresh config/vim/plugins.vim
 fresh-options
-fresh git://gist.github.com/4273473.git dancer.snippets --file=~/.vim/UltiSnips/dancer.snippets
 fresh config/vim/after/syntax/markdown.vim --file=~/.vim/after/syntax/markdown.vim
 fresh config/vim/ftplugin/python.vim --file=~/.vim/after/ftplugin/python.vim
 fresh config/vim/ftplugin/perl.vim --file=~/.vim/after/ftplugin/perl.vim
