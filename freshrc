@@ -65,6 +65,9 @@ fresh vim-perl/vim-perl contrib/try-tiny.vim --file=~/.vim/after/syntax/perl/try
 fresh c9s/perlomni.vim bin/grep-objvar.pl --bin=~/.vim/bin/grep-objvar.pl
 fresh c9s/perlomni.vim bin/grep-pattern.pl --bin=~/.vim/bin/grep-pattern.pl
 
+# ~/.config/nvim/lua/custom
+fresh config/nvchad --file=~/.config/nvim/lua/custom/
+
 # bin
 fresh-options --bin
     fresh bin/\*
