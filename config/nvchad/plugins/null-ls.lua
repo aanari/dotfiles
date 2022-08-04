@@ -9,7 +9,10 @@ local b = null_ls.builtins
 local sources = {
   b.formatting.black,
   b.formatting.clang_format,
-  b.formatting.isort,
+  b.formatting.gofmt,
+  b.formatting.goimports,
+  b.formatting.jq,
+  b.diagnostics.protoc_gen_lint,
   b.formatting.rustfmt,
   b.formatting.stylua,
   b.formatting.prettierd.with {
