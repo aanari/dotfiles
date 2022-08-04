@@ -84,6 +84,20 @@ return {
     end
   },
 
+  ["ellisonleao/glow.nvim"] = {},
+
+  ["petertriho/nvim-scrollbar"] = {
+    config = function()
+      require("scrollbar").setup()
+    end
+  },
+
+  ["max397574/better-escape.nvim"] = {
+    config = function()
+      require("better_escape").setup()
+    end
+  },
+
   ["ruifm/gitlinker.nvim"] = {
      opts = {
        action_callback = function(url)
