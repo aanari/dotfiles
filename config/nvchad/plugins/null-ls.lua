@@ -15,9 +15,7 @@ local sources = {
   b.diagnostics.protoc_gen_lint,
   b.formatting.rustfmt,
   b.formatting.stylua,
-  b.formatting.prettierd.with {
-     filetypes = { "html", "json", "markdown", "scss", "css", "typescript" },
-  },
+  b.formatting.prettier,
   b.diagnostics.eslint.with {
      command = "eslint_d",
   },
