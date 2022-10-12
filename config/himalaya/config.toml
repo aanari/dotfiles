@@ -1,0 +1,19 @@
+display-name = "Anari"
+downloads-dir = "~/Downloads"
+signature = "Regards,"
+
+[gmail]
+default = true
+email = "ali@anari.io"
+
+backend = "imap" # imap, maildir or notmuch
+imap-host = "imap.gmail.com"
+imap-port = 993
+imap-login = "aanari123456789@gmail.com"
+imap-passwd-cmd = "pass show Email/Anari"
+
+sender = "smtp" # smtp or sendmail
+smtp-host = "smtp.gmail.com"
+smtp-port = 465
+smtp-login = "aanari123456789@gmail.com"
+smtp-passwd-cmd = "pass show Email/Anari"

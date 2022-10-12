@@ -68,6 +68,9 @@ fresh c9s/perlomni.vim bin/grep-pattern.pl --bin=~/.vim/bin/grep-pattern.pl
 # ~/.config/nvim/lua/custom
 fresh config/nvchad --file=~/.config/nvim/lua/custom/
 
+# ~/.config/himalaya
+fresh config/himalaya --file=~/.config/himalaya/
+
 # bin
 fresh-options --bin
     fresh bin/\*
