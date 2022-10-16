@@ -1,0 +1,10 @@
+# vim: filetype=muttrc
+
+source ~/.config/neomutt/settings
+source ~/.config/neomutt/colors
+source ~/.config/neomutt/mappings
+
+# Accounts
+
+source ~/.neomutt/accounts/anari
+folder-hook $folder 'source ~/.neomutt/accounts/anari'
