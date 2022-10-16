@@ -1,5 +1,15 @@
 local M = {}
 
+M.general = {
+  n = {
+    [";"] = { ":", "command mode", opts = { nowait = true } },
+  },
+
+  i = {
+    ["jk"] = { "<ESC>", "escape vim" },
+  },
+}
+
 M.truzen = {
   n = {
     ["<leader>ta"] = { "<cmd> TZAtaraxis <CR>", "   truzen ataraxis" },
@@ -14,7 +24,7 @@ M.treesitter = {
   },
 }
 
-M.shade = {
+M.lazygit = {
   n = {
     ["<leader>lz"] = {
       function()
@@ -22,6 +32,13 @@ M.shade = {
       end,
       "nvterm lazygit",
     },
+  },
+}
+
+M.navigation = {
+  n = {
+    ["H"] = { "^", "beginning of line" },
+    ["L"] = { "$", "end of line" },
     ["<C-h>"] = {
       ":lua require'nvim-tmux-navigation'.NvimTmuxNavigateLeft()<cr>",
       "tmux navigate left",

@@ -1,4 +1,6 @@
 return {
+  ["nvim-orgmode/orgmode"] = {},
+
 	-- autoclose tags in html, jsx etc
 	["windwp/nvim-ts-autotag"] = {
 		ft = { "html", "javascriptreact" },
@@ -33,15 +35,6 @@ return {
 		cmd = "TSCaptureUnderCursor",
 		config = function()
 			require("nvim-treesitter.configs").setup()
-		end,
-	},
-
-	-- notes stuff
-	["nvim-neorg/neorg"] = {
-		ft = "norg",
-		after = "nvim-treesitter",
-		config = function()
-			require("custom.plugins.neorg")
 		end,
 	},
 
