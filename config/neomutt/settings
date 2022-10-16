@@ -58,7 +58,8 @@ set charset = "utf-8"
 set arrow_cursor = "no" # Change `color indicator` depending 
 
 # Index options
-set index_format="%?M? ↳&%4? %Z  %-20.20n  %D  %s"
+set index_format="%?M? ↳&? %Z  %-20.20n  %D  %s"
+
 set to_chars=""
 
 # Pager View Options
