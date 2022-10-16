@@ -6,5 +6,5 @@ source ~/.config/neomutt/mappings
 
 # Accounts
 
-source ~/.neomutt/accounts/anari
-folder-hook $folder 'source ~/.neomutt/accounts/anari'
+source ~/.neomutt/accounts/personal
+folder-hook $folder 'source ~/.neomutt/accounts/personal'

@@ -51,7 +51,7 @@ bind editor ^T complete
 
 # Press E to archive
 # macro index,pager E ":set confirmappend=no delete=yes<enter><clear-flag>N<enter><save-message>=Archive<enter><sync-mailbox>:set confirmappend=yes delete=ask-yes<enter>"
-macro index,pager E "<save-message>=Archive<enter>"
+macro index,pager E "<save-message>=[Gmail]/All Mail<enter>"
 
 # Press A to add contact to Khard address book
 macro index,pager A \
@@ -59,4 +59,5 @@ macro index,pager A \
     "add the sender email address to khard"
 
 ## Shortcuts
-macro index,pager <f2> '<sync-mailbox><enter-command>source ~/.neomutt/accounts/anari<enter><change-folder>!<enter>'
+macro index,pager <f2> '<sync-mailbox><enter-command>source ~/.neomutt/accounts/personal<enter><change-folder>!<enter>'
+macro index,pager <f3> '<sync-mailbox><enter-command>source ~/.neomutt/accounts/work<enter><change-folder>!<enter>'
