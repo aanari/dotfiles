@@ -82,8 +82,7 @@ set attach_format = "%u%D  %T%-75.75d %?T?%&   ? %5s · %m/%M"
 # Sidebar options
 set sidebar_folder_indent = no
 set sidebar_indent_string = ' - '
-set sidebar_width = 10
-# set sidebar_format = '%B%?F? %?N?%N/?%S'
+set sidebar_width = 12
 set sidebar_format = '%D%?F? %?N?%N/?%S' # changed %B to %D to show named-mailbox
 set sidebar_non_empty_mailbox_only = yes
 set sidebar_short_path = yes

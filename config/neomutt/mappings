@@ -32,8 +32,8 @@ bind editor <Tab> complete-query
 
 
 # sidebar mappings
-bind index,pager \Ck sidebar-prev
-bind index,pager \Cj sidebar-next
+bind index,pager K sidebar-prev
+bind index,pager J sidebar-next
 bind index,pager \Co sidebar-open
 bind index,pager \Cp sidebar-prev-new
 bind index,pager \Cn sidebar-next-new
