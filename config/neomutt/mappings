@@ -49,10 +49,9 @@ bind index <space> collapse-thread
 bind editor <Tab> complete-query
 bind editor ^T complete
 
-# Press E or Y to archive
-macro index,pager E "<save-message>=[Gmail]/All Mail<enter><sync-mailbox>" "Archive message"
-macro index Y "<tag-thread><tag-prefix><save-message>=[Gmail]/All Mail<enter><sync-mailbox>" "Archive thread"
-macro pager Y "<exit><tag-thread><tag-prefix><save-message>=[Gmail]/All Mail<enter><sync-mailbox><display-message>" "Archive thread"
+# Press E to read and archive thread
+macro index E "<tag-thread><tag-prefix><clear-flag>N<tag-prefix><save-message>=[Gmail]/All Mail<enter>" "Archive thread"
+macro pager E "<exit><tag-thread><tag-prefix><clear-flag>N<tag-prefix><save-message>=[Gmail]/All Mail<enter>" "Archive thread"
 
 # Folder navigation macros
 macro index,pager gi "<change-folder>=INBOX<enter>" "Go to Inbox"
