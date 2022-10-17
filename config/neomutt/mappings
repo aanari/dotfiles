@@ -35,8 +35,8 @@ bind editor <Tab> complete-query
 bind index,pager K sidebar-prev
 bind index,pager J sidebar-next
 bind index,pager \Co sidebar-open
-bind index,pager \Cp sidebar-prev-new
-bind index,pager \Cn sidebar-next-new
+bind index,pager \Cp sidebar-prev
+bind index,pager \Cn sidebar-next
 bind index,pager B sidebar-toggle-visible
 
 # global index and pager shortcuts
@@ -49,9 +49,9 @@ bind index <space> collapse-thread
 bind editor <Tab> complete-query
 bind editor ^T complete
 
-# Press E to archive
-# macro index,pager E ":set confirmappend=no delete=yes<enter><clear-flag>N<enter><save-message>=Archive<enter><sync-mailbox>:set confirmappend=yes delete=ask-yes<enter>"
-macro index,pager E "<save-message>=[Gmail]/All Mail<enter>"
+# Press E or Y to archive
+macro index,pager E "<save-message>=[Gmail]/All Mail<enter>" "Archive message"
+macro index,pager Y "<tag-thread><tag-prefix><save-message>=[Gmail]/All Mail<enter>" "Archive thread"
 
 # Press A to add contact to Khard address book
 macro index,pager A \
