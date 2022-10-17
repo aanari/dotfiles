@@ -4,9 +4,9 @@
 bind attach <return> view-mailcap
 bind attach l view-mailcap
 bind editor <space> noop
+bind index,pager g noop
 bind pager c imap-fetch-mail
 bind index G last-entry
-bind index g noop
 bind index gg first-entry
 bind pager,attach h exit
 bind pager j next-line
@@ -50,8 +50,16 @@ bind editor <Tab> complete-query
 bind editor ^T complete
 
 # Press E or Y to archive
-macro index,pager E "<save-message>=[Gmail]/All Mail<enter>" "Archive message"
-macro index,pager Y "<tag-thread><tag-prefix><save-message>=[Gmail]/All Mail<enter>" "Archive thread"
+macro index,pager E "<save-message>=[Gmail]/All Mail<enter><sync-mailbox>" "Archive message"
+macro index,pager Y "<tag-thread><tag-prefix><save-message>=[Gmail]/All Mail<enter><sync-mailbox>" "Archive thread"
+
+# Folder navigation macros
+macro index,pager gi "<change-folder>=INBOX<enter>" "Go to Inbox"
+macro index,pager gc "<change-folder>=Code<enter>" "Go to Code"
+macro index,pager ga "<change-folder>=[Gmail]/All Mail<enter>" "Go to Archive"
+macro index,pager gs "<change-folder>=[Gmail]/Sent Mail<enter>" "Go to Sent"
+macro index,pager gd "<change-folder>=[Gmail]/Drafts<enter>" "Go to Drafts"
+macro index,pager gt "<change-folder>=[Gmail]/Trash<enter>" "Go to Trash"
 
 # Press A to add contact to Khard address book
 macro index,pager A \

@@ -3,7 +3,7 @@
 # set editor to neovim
 set editor = "nvim"
 
-set my_name = "Gideon Wolfe"
+set my_name = "Ali Anari"
 # set imap_check_subscribed
 
 # Set preffered view modes
@@ -38,6 +38,7 @@ set beep_new             # bell on new mails
 set pipe_decode          # strip headers and eval mimes when piping
 set thorough_search      # strip headers and eval mimes before searching
 set timeout = 0
+set delete = yes
 
 # status bar, date format, finding stuff etc.
 set date_format = "%h %d %I:%M%p" # man strftime for arguments
@@ -80,11 +81,12 @@ set compose_format = "[ %l] [ %a]%>─"
 set attach_format = "%u%D  %T%-75.75d %?T?%&   ? %5s · %m/%M"
 
 # Sidebar options
+set sidebar_visible = yes
 set sidebar_folder_indent = no
 set sidebar_indent_string = ' - '
 set sidebar_width = 31
 set sidebar_format = '%D%?F? %?N?%N/?%S' # changed %B to %D to show named-mailbox
-set sidebar_non_empty_mailbox_only = yes
+set sidebar_non_empty_mailbox_only = no
 set sidebar_short_path = yes
 set sidebar_component_depth = 0
 
