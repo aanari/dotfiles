@@ -51,7 +51,8 @@ bind editor ^T complete
 
 # Press E or Y to archive
 macro index,pager E "<save-message>=[Gmail]/All Mail<enter><sync-mailbox>" "Archive message"
-macro index,pager Y "<tag-thread><tag-prefix><save-message>=[Gmail]/All Mail<enter><sync-mailbox>" "Archive thread"
+macro index Y "<tag-thread><tag-prefix><save-message>=[Gmail]/All Mail<enter><sync-mailbox>" "Archive thread"
+macro pager Y "<exit><tag-thread><tag-prefix><save-message>=[Gmail]/All Mail<enter><sync-mailbox><display-message>" "Archive thread"
 
 # Folder navigation macros
 macro index,pager gi "<change-folder>=INBOX<enter>" "Go to Inbox"
