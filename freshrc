@@ -33,6 +33,7 @@ fresh config/pgcli --file=~/.config/pgcli/
 fresh config/flake8 --file=~/.config/flake8
 fresh config/lemonade.toml --file=~/.config/lemonade.toml
 fresh config/neomutt --file=~/.config/neomutt/
+fresh config/browsh --file=~/.config/browsh/
 fresh config/ipython --file=~/.ipython/
 fresh config/irssi --file=~/.irssi/
 fresh config/ptpython --file=~/.ptpython/

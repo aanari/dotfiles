@@ -1,10 +1,13 @@
 # HTML
-# Opens HTML in w3m in separate window but unsupported in pager
-# text/html; w3m -I %{charset} -T text/html; 
-# Opens HTML as plaintext 
-text/html; w3m -I %{charset} -T text/html; copiousoutput;
+text/html; brow.sh http://localhost:20015/file://%s; copiousoutput;
 text/plain; nvim %s
 
-#Images
+# Documents
+application/pdf; pdftotext -layout %s -; copiousoutput;
+application/postscript ; /usr/bin/xdg-open %s ; copiousoutput
+application/msword; pandoc --from docx --to plain %s; copiousoutput
+application/rtf; pandoc --from rtf --to plain %s; copiousoutput
+
+# Images
 image/png; /usr/bin/feh %s
 image/jpeg; /usr/bin/feh %s
