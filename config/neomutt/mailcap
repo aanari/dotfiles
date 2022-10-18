@@ -9,5 +9,5 @@ application/msword; pandoc --from docx --to plain %s; copiousoutput
 application/rtf; pandoc --from rtf --to plain %s; copiousoutput
 
 # Images
-image/png; /usr/bin/feh %s
-image/jpeg; /usr/bin/feh %s
+image/png; feh %s
+image/jpeg; feh %s
