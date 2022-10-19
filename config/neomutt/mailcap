@@ -1,5 +1,5 @@
 # HTML
-text/html; brow.sh http://localhost:20015/file://%s; copiousoutput;
+text/html; w3m -I %{charset} -T text/html; copiousoutput;
 text/plain; nvim %s
 
 # Documents
