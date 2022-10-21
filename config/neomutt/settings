@@ -4,6 +4,7 @@
 set editor = "nvim"
 
 set my_name = "Ali Anari"
+set imap_poll_timeout = 0
 # set imap_check_subscribed
 
 # Set preffered view modes
