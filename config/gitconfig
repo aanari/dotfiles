@@ -14,7 +14,7 @@
     # Fetch all
     f = fetch --all
     # Pull in remote changes for the current repository and all its submodules
-    p = !"git pull; git submodule foreach git pull origin master"
+    p = !"git pull; git submodule foreach git pull origin main"
     # Rebase
     r = rebase
     # Tickets
@@ -36,9 +36,9 @@
     # Credit an author on the latest commit
     credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
     # Undo a `git push`
-    undopush = push -f origin HEAD^:master
-    # Pull a branch, rebase against master, then push for each env
-    bump = !"git checkout $1; git pull origin $1; git rebase ${2:-'master'}; git push origin"
+    undopush = push -f origin HEAD^:main
+    # Pull a branch, rebase against main, then push for each env
+    bump = !"git checkout $1; git pull origin $1; git rebase ${2:-'main'}; git push origin"
     # Amend a commit in place, without having to rebase HEAD~2
     amend  = commit --amend --no-edit
 #[include]
@@ -65,10 +65,10 @@
     log = true
     conflictstyle = diff3
       tool = vimdiff
-# Use `origin` as the default remote on the `master` branch in all cases
-[branch "master"]
+# Use `origin` as the default remote on the `main` branch in all cases
+[branch "main"]
     remote = origin
-    merge = refs/heads/master
+    merge = refs/heads/main
 [user]
     name = Ali Anari
     email = ali@anari.io
