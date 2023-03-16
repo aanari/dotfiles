@@ -93,6 +93,11 @@ zinit light pyenv/pyenv-virtualenv
 zinit ice pick'poetry.zsh'
 zinit light sudosubin/zsh-poetry
 
+# nvm
+export NVM_COMPLETION=true
+export NVM_SYMLINK_CURRENT="true"
+zinit wait lucid light-mode for lukechilds/zsh-nvm
+
 # fzf-tab configuration
 # disable sort when completing `git checkout`
 zstyle ':completion:*:git-checkout:*' sort false
