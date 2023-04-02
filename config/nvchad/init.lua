@@ -1,43 +1,27 @@
--- commands
 
-local opt_local = vim.opt_local
+require "custom.commands"
+require "custom.autocmds"
 
--- autocmds
--- pretty up norg ft!
-autocmd("FileType", {
-  pattern = "norg",
-  callback = function()
-    opt_local.number = false
-    opt_local.cole = 1
-    opt_local.foldlevel = 10
-    opt_local.foldenable = false
-    opt_local.signcolumn = "yes:2"
-  end,
-})
+vim.opt.title = true
 
 vim.cmd [[
   set clipboard+=unnamedplus
 ]]
 
 local function copy(lines, _)
-  vim.fn.OSCYankString(table.concat(lines, "\n"))
+  require('osc52').copy(table.concat(lines, '\n'))
 end
 
 local function paste()
-  return {
-    vim.fn.split(vim.fn.getreg(''), '\n'),
-    vim.fn.getregtype('')
-  }
+  return {vim.fn.split(vim.fn.getreg(''), '\n'), vim.fn.getregtype('')}
 end
 
 vim.g.clipboard = {
-  name = "osc52",
-  copy = {
-    ["+"] = copy,
-    ["*"] = copy
-  },
-  paste = {
-    ["+"] = paste,
-    ["*"] = paste
-  }
+  name = 'osc52',
+  copy = {['+'] = copy, ['*'] = copy},
+  paste = {['+'] = paste, ['*'] = paste},
 }
+
+-- Now the '+' register will copy to system clipboard using OSC52
+vim.keymap.set('n', '<leader>c', '"+y')
+vim.keymap.set('n', '<leader>cc', '"+yy')
