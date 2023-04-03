@@ -53,7 +53,7 @@ return {
 		"karb94/neoscroll.nvim",
 		keys = { "<C-d>", "<C-u>" },
 		config = function()
-			require("neoscroll").setup()
+      require("neoscroll").setup({ easing_function = "quadratic"})
 		end,
 	},
 
