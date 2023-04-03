@@ -25,3 +25,11 @@ vim.g.clipboard = {
 -- Now the '+' register will copy to system clipboard using OSC52
 vim.keymap.set('n', '<leader>c', '"+y')
 vim.keymap.set('n', '<leader>cc', '"+yy')
+
+vim.api.nvim_set_hl(0, 'TSRainbowRed', {fg = '#be6069'})
+vim.api.nvim_set_hl(0, 'TSRainbowYellow', {fg = '#ebca8a'})
+vim.api.nvim_set_hl(0, 'TSRainbowBlue', {fg = '#81a0c0'})
+vim.api.nvim_set_hl(0, 'TSRainbowOrange', {fg = '#b48dac'})
+vim.api.nvim_set_hl(0, 'TSRainbowGreen', {fg = '#a3bd8b'})
+vim.api.nvim_set_hl(0, 'TSRainbowViolet', {fg = '#88bfcf'})
+vim.api.nvim_set_hl(0, 'TSRainbowCyan', {fg = '#e5e8ef'})
