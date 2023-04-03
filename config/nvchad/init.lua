@@ -34,3 +34,4 @@ vim.api.nvim_set_hl(0, "TSRainbowViolet", { fg = "#88bfcf" })
 vim.api.nvim_set_hl(0, "TSRainbowCyan", { fg = "#e5e8ef" })
 
 vim.opt.cursorline = true
+vim.opt.cursorcolumn = false
