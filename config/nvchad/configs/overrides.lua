@@ -4,20 +4,29 @@ local M = {}
 
 M.treesitter = {
 	ensure_installed = {
-		"vim",
-		"html",
+		"bash",
+		"c",
 		"css",
+		"go",
+		"html",
 		"javascript",
 		"json",
-		"toml",
-		"markdown",
-		"c",
-		"go",
-		"bash",
 		"lua",
+		"markdown",
+		"markdown_inline",
+		"python",
+		"query",
+		"regex",
+		"toml",
 		"tsx",
 		"typescript",
-		"python",
+		"vim",
+		"yaml",
+		"awk",
+		"cpp",
+		"dockerfile",
+		"scss",
+		"sql",
 	},
 	rainbow = {
 		enable = true,
@@ -52,31 +61,24 @@ M.nvimtree = {
 
 M.mason = {
 	ensure_installed = {
-		-- python
-		"pylint",
-		"pyright",
-
-		-- lua stuff
-		"lua-language-server",
-		"stylua",
-
-		-- web dev
-		"css-lsp",
-		"html-lsp",
-		"typescript-language-server",
-		"deno",
-		"prettier",
-		-- "emmet-ls",
-		"json-lsp",
-		"tailwindcss-language-server",
-
-		-- shell
-		"shfmt",
-		"shellcheck",
 		"bash-language-server",
-
-		"clangd",
 		"clang-format",
+		"clangd",
+		"css-lsp",
+		"deno",
+		"html-lsp",
+		"json-lsp",
+		"lua-language-server",
+		"prettier",
+		"pyright",
+		"shellcheck",
+		"shfmt",
+		"stylua",
+		"tailwindcss-language-server",
+		"typescript-language-server",
+		"goimports-reviser",
+		"protolint",
+		"shellharden",
 	},
 }
 

@@ -37,13 +37,13 @@ return {
 
 	-- override default configs
 	{ "nvim-tree/nvim-tree.lua", opts = overrides.nvimtree },
-	{
-    "nvim-treesitter/nvim-treesitter",
-    opts = overrides.treesitter,
-    dependencies = {
-      'HiPhish/nvim-ts-rainbow2',
-    }
-  },
+	require("neoscroll").setup()({
+		"nvim-treesitter/nvim-treesitter",
+		opts = overrides.treesitter,
+		dependencies = {
+			"HiPhish/nvim-ts-rainbow2",
+		},
+	}),
 
 	{ "williamboman/mason.nvim", opts = overrides.mason },
 
@@ -53,7 +53,7 @@ return {
 		"karb94/neoscroll.nvim",
 		keys = { "<C-d>", "<C-u>" },
 		config = function()
-      require("neoscroll").setup({ easing_function = "quadratic"})
+			require("neoscroll").setup({ easing_function = "quadratic" })
 		end,
 	},
 
@@ -141,7 +141,7 @@ return {
 
 	{
 		"melkster/modicator.nvim",
-    lazy = false,
+		lazy = false,
 		init = function()
 			vim.o.number = true
 			vim.o.cursorline = true
