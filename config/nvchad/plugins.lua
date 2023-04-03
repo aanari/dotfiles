@@ -50,14 +50,6 @@ return {
 
 	--------------------------------------------- custom plugins ----------------------------------------------
 
-	{
-		"karb94/neoscroll.nvim",
-		keys = { "<C-d>", "<C-u>" },
-		config = function()
-			require("neoscroll").setup({ easing_function = "quadratic" })
-		end,
-	},
-
 	-- autoclose tags in html, jsx only
 	{
 		"windwp/nvim-ts-autotag",
@@ -214,5 +206,33 @@ return {
 			return ret
 		end,
 		opts = { labeled_modes = "nx" },
+	},
+
+	{
+		"echasnovski/mini.indentscope",
+		version = false, -- wait till new 0.7.0 release to put it back on semver
+		event = { "BufReadPre", "BufNewFile" },
+		opts = {
+			-- symbol = "▏",
+			symbol = "│",
+			options = { try_as_border = true },
+			draw = {
+				delay = 0,
+				animation = function()
+					return 0
+				end,
+			},
+		},
+		init = function()
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy", "mason" },
+				callback = function()
+					vim.b.miniindentscope_disable = true
+				end,
+			})
+		end,
+		config = function(_, opts)
+			require("mini.indentscope").setup(opts)
+		end,
 	},
 }
