@@ -235,4 +235,9 @@ return {
 			require("mini.indentscope").setup(opts)
 		end,
 	},
+
+	{
+		"tummetott/reticle.nvim",
+		event = "VeryLazy",
+	},
 }

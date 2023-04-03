@@ -32,3 +32,5 @@ vim.api.nvim_set_hl(0, "TSRainbowOrange", { fg = "#b48dac" })
 vim.api.nvim_set_hl(0, "TSRainbowGreen", { fg = "#a3bd8b" })
 vim.api.nvim_set_hl(0, "TSRainbowViolet", { fg = "#88bfcf" })
 vim.api.nvim_set_hl(0, "TSRainbowCyan", { fg = "#e5e8ef" })
+
+vim.opt.cursorline = true

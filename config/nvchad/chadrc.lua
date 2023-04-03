@@ -7,6 +7,8 @@ M.ui = {
 	theme = "nord",
 	hl_override = {
 		Comment = { italic = true },
+		CursorLine = { bg = "#272b35" },
+		CursorColumn = { bg = "#272b35" },
 	},
 	-- transparency = true,
 
