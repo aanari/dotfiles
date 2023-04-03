@@ -37,13 +37,14 @@ return {
 
 	-- override default configs
 	{ "nvim-tree/nvim-tree.lua", opts = overrides.nvimtree },
-	require("neoscroll").setup()({
+
+  {
 		"nvim-treesitter/nvim-treesitter",
 		opts = overrides.treesitter,
 		dependencies = {
 			"HiPhish/nvim-ts-rainbow2",
 		},
-	}),
+	},
 
 	{ "williamboman/mason.nvim", opts = overrides.mason },
 
