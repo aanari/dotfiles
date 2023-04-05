@@ -130,7 +130,7 @@ return {
 	{
 		"f-person/git-blame.nvim",
 		config = function()
-			vim.g.gitblame_message_template = "      <author>, <date> • <summary>"
+			vim.g.gitblame_message_template = "          <author>, <date> • <summary>"
 			vim.g.gitblame_date_format = "%r"
 			vim.g.gitblame_ignored_filetypes = { "NvimTree", "netrw", "packer" }
 			vim.g.gitblame_set_extmark_options = {
@@ -239,5 +239,12 @@ return {
 	{
 		"tummetott/reticle.nvim",
 		event = "VeryLazy",
+	},
+
+	{
+		"kevinhwang91/nvim-hlslens",
+		config = function()
+			require("hlslens").setup()
+		end,
 	},
 }
