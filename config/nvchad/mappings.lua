@@ -1,21 +1,50 @@
 local M = {}
 
 M.disabled = {
-  n = {
-    ["<C-h>"] = "",
-    ["<C-l>"] = "",
-    ["<C-j>"] = "",
-    ["<C-k>"] = "",
-  },
+	n = {
+		["<C-h>"] = "",
+		["<C-l>"] = "",
+		["<C-j>"] = "",
+		["<C-k>"] = "",
+	},
 }
 
 M.general = {
 	n = {
+		-- Easy command mode
 		[";"] = { ":", "command mode", opts = { nowait = true } },
+
+		-- Keep cursor in the center line when C-D / C-U
+		["<C-d>"] = { "<C-d>zz", opts = { silent = true } },
+		["<C-u>"] = { "<C-u>zz", opts = { silent = true } },
+		-- Keep cursor in the center line when going through search results
+		["n"] = { "nzzzv", opts = { silent = true } },
+		["N"] = { "Nzzzv", opts = { silent = true } },
+		-- disable annoying command line typo
+		["q:"] = { ":q", opts = { silent = true } },
 	},
 
 	i = {
+		-- Escape insert
 		["jk"] = { "<ESC>", "escape insert mode" },
+		-- Easy insertion of a trailing ; or , from insert mode
+		[";;"] = { "<Esc>A;", opts = { silent = true } },
+		[",,"] = { "<Esc>A,", opts = { silent = true } },
+	},
+
+	v = {
+		-- Move lines in Visual Mode
+		["<S-Down>"] = { ":m '>+1<CR>gv=gv", opts = { silent = true } },
+		["<S-Up>"] = { ":m '<-2<CR>gv=gv", opts = { silent = true } },
+		["J"] = { ":m '>+1<CR>gv=gv", opts = { silent = true } },
+		["K"] = { ":m '<-2<CR>gv=gv", opts = { silent = true } },
+		-- Reselect visual selection after indenting
+		["<"] = { "<gv", opts = { silent = true } },
+		[">"] = { ">gv", opts = { silent = true } },
+		-- Maintain the cursor position when yanking a visual selection
+		["y"] = { "myy`y", opts = { silent = true } },
+		-- Paste replace visual selection without coping it.
+		["p"] = { '"_dP', opts = { silent = true } },
 	},
 }
 
@@ -45,19 +74,19 @@ M.navigation = {
 }
 
 M.navigator = {
-  n = {
+	n = {
 
-    ["<C-h>"] = { "<cmd> NavigatorLeft <CR>", "navigate left" },
-    ["<C-j>"] = { "<cmd> NavigatorDown <CR>", "navigate down" },
-    ["<C-k>"] = { "<cmd> NavigatorUp <CR>", "navigate up" },
-    ["<C-l>"] = { "<cmd> NavigatorRight <CR>", "navigate right" },
-  },
-  t = {
-    ["<C-h>"] = { "<cmd> NavigatorLeft <CR>", "navigate left" },
-    ["<C-j>"] = { "<cmd> NavigatorDown <CR>", "navigate down" },
-    ["<C-k>"] = { "<cmd> NavigatorUp <CR>", "navigate up" },
-    ["<C-l>"] = { "<cmd> NavigatorRight <CR>", "navigate right" },
-  },
+		["<C-h>"] = { "<cmd> NavigatorLeft <CR>", "navigate left" },
+		["<C-j>"] = { "<cmd> NavigatorDown <CR>", "navigate down" },
+		["<C-k>"] = { "<cmd> NavigatorUp <CR>", "navigate up" },
+		["<C-l>"] = { "<cmd> NavigatorRight <CR>", "navigate right" },
+	},
+	t = {
+		["<C-h>"] = { "<cmd> NavigatorLeft <CR>", "navigate left" },
+		["<C-j>"] = { "<cmd> NavigatorDown <CR>", "navigate down" },
+		["<C-k>"] = { "<cmd> NavigatorUp <CR>", "navigate up" },
+		["<C-l>"] = { "<cmd> NavigatorRight <CR>", "navigate right" },
+	},
 }
 
 return M
