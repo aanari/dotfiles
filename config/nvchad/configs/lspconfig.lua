@@ -15,6 +15,7 @@ local servers = {
 	"unocss",
 	"bashls",
 	"stylelint_lsp",
+	"tailwindcss",
 }
 
 for _, lsp in ipairs(servers) do
