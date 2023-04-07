@@ -22,4 +22,8 @@ return {
 	TSEmphasis = { bold = true, italic = true },
 	TSFunction = { bold = true, italic = true },
 	TSUnderline = { underline = true },
+	TSInclude = { bold = true, italic = true },
+	TSConstructor = { bold = true },
+	TSKeywordFunction = { bold = true, italic = true },
+	TSRepeat = { italic = true, bold = true },
 }
