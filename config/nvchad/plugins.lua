@@ -77,19 +77,10 @@ return {
 	},
 
 	{
-		"alexghergh/nvim-tmux-navigation",
-		keys = { "<C-h>", "<C-j>", "<C-k>", "<C-l", "<C-\\>", "C-Space" },
+		"numToStr/Navigator.nvim",
+		cmd = { "NavigatorLeft", "NavigatorRight", "NavigatorUp", "NavigatorDown" },
 		config = function()
-			require("nvim-tmux-navigation").setup({
-				keybindings = {
-					left = "<C-h>",
-					down = "<C-j>",
-					up = "<C-k>",
-					right = "<C-l>",
-					last_active = "<C-\\>",
-					next = "<C-Space>",
-				},
-			})
+			require("Navigator").setup()
 		end,
 	},
 
@@ -245,6 +236,92 @@ return {
 		"kevinhwang91/nvim-hlslens",
 		config = function()
 			require("hlslens").setup()
+		end,
+	},
+
+	{
+		"RRethy/vim-illuminate",
+		event = { "BufReadPost", "BufNewFile" },
+		opts = { delay = 200 },
+		config = function()
+			require("illuminate").configure({ filetypes_denylist = { "NvimTree", "dirvish", "fugitive" } })
+
+			local function map(key, dir, buffer)
+				vim.keymap.set("n", key, function()
+					require("illuminate")["goto_" .. dir .. "_reference"](false)
+				end, { desc = dir:sub(1, 1):upper() .. dir:sub(2) .. " Reference", buffer = buffer })
+			end
+
+			map("]]", "next")
+			map("[[", "prev")
+
+			-- also set it after loading ftplugins, since a lot overwrite [[ and ]]
+			vim.api.nvim_create_autocmd("FileType", {
+				callback = function()
+					local buffer = vim.api.nvim_get_current_buf()
+					map("]]", "next", buffer)
+					map("[[", "prev", buffer)
+				end,
+			})
+		end,
+		keys = {
+			{ "]]", desc = "Next Reference" },
+			{ "[[", desc = "Prev Reference" },
+		},
+	},
+
+	{
+		"echasnovski/mini.animate",
+		event = "VeryLazy",
+		opts = function()
+			-- don't use animate when scrolling with the mouse
+			local mouse_scrolled = false
+			for _, scroll in ipairs({ "Up", "Down" }) do
+				local key = "<ScrollWheel" .. scroll .. ">"
+				vim.keymap.set({ "", "i" }, key, function()
+					mouse_scrolled = true
+					return key
+				end, { expr = true })
+			end
+
+			local animate = require("mini.animate")
+			return {
+				resize = {
+					timing = animate.gen_timing.linear({ duration = 100, unit = "total" }),
+				},
+				scroll = {
+					timing = animate.gen_timing.linear({ duration = 150, unit = "total" }),
+					subscroll = animate.gen_subscroll.equal({
+						predicate = function(total_scroll)
+							if mouse_scrolled then
+								mouse_scrolled = false
+								return false
+							end
+							return total_scroll > 1
+						end,
+					}),
+				},
+			}
+		end,
+		config = function(_, opts)
+			require("mini.animate").setup(opts)
+		end,
+	},
+
+	{
+		"stevearc/dressing.nvim",
+		lazy = true,
+		init = function()
+			---@diagnostic disable-next-line: duplicate-set-field
+			vim.ui.select = function(...)
+				require("lazy").load({ plugins = { "dressing.nvim" } })
+				return vim.ui.select(...)
+			end
+			---@diagnostic disable-next-line: duplicate-set-field
+			vim.ui.input = function(...)
+				require("lazy").load({ plugins = { "dressing.nvim" } })
+				return vim.ui.input(...)
+			end
 		end,
 	},
 }

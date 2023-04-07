@@ -1,5 +1,14 @@
 local M = {}
 
+M.disabled = {
+  n = {
+    ["<C-h>"] = "",
+    ["<C-l>"] = "",
+    ["<C-j>"] = "",
+    ["<C-k>"] = "",
+  },
+}
+
 M.general = {
 	n = {
 		[";"] = { ":", "command mode", opts = { nowait = true } },
@@ -33,6 +42,22 @@ M.navigation = {
 		["H"] = { "^", "beginning of line" },
 		["L"] = { "$", "end of line" },
 	},
+}
+
+M.navigator = {
+  n = {
+
+    ["<C-h>"] = { "<cmd> NavigatorLeft <CR>", "navigate left" },
+    ["<C-j>"] = { "<cmd> NavigatorDown <CR>", "navigate down" },
+    ["<C-k>"] = { "<cmd> NavigatorUp <CR>", "navigate up" },
+    ["<C-l>"] = { "<cmd> NavigatorRight <CR>", "navigate right" },
+  },
+  t = {
+    ["<C-h>"] = { "<cmd> NavigatorLeft <CR>", "navigate left" },
+    ["<C-j>"] = { "<cmd> NavigatorDown <CR>", "navigate down" },
+    ["<C-k>"] = { "<cmd> NavigatorUp <CR>", "navigate up" },
+    ["<C-l>"] = { "<cmd> NavigatorRight <CR>", "navigate right" },
+  },
 }
 
 return M
