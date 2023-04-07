@@ -10,12 +10,16 @@ return {
 
 	Type = { italic = true },
 	SpecialComment = { italic = true },
+	TSConditional = { italic = true },
 	TSAttribute = { italic = true },
+	TSMethod = { italic = true },
 	TSParameter = { italic = true },
+	TSKeywordOperator = { italic = true },
 	TSLabel = { italic = true },
 	TSVariableBuiltin = { italic = true },
 	TSTagAttribute = { italic = true },
-	TSStrong = { bold = true, underline = true },
-	TSEmphasis = { bold = true },
+	TSStrong = { bold = true, italic = true },
+	TSEmphasis = { bold = true, italic = true },
+	TSFunction = { bold = true, italic = true },
 	TSUnderline = { underline = true },
 }
