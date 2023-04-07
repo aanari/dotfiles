@@ -1,7 +1,7 @@
 return {
 	Comment = { italic = true },
 	Conditional = { italic = true },
-	Function = { italic = true },
+	Function = { italic = true, bold = true },
 	CursorLine = { bg = "#272b35" },
 	CursorColumn = { bg = "#272b35" },
 
@@ -15,4 +15,7 @@ return {
 	TSLabel = { italic = true },
 	TSVariableBuiltin = { italic = true },
 	TSTagAttribute = { italic = true },
+	TSStrong = { bold = true, underline = true },
+	TSEmphasis = { bold = true },
+	TSUnderline = { underline = true },
 }
