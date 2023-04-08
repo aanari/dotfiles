@@ -169,37 +169,6 @@ return {
 	},
 
 	{
-		"ggandor/leap.nvim",
-		keys = {
-			{ "s", mode = { "n", "x", "o" }, desc = "Leap forward to" },
-			{ "S", mode = { "n", "x", "o" }, desc = "Leap backward to" },
-			{ "gs", mode = { "n", "x", "o" }, desc = "Leap from windows" },
-		},
-		config = function(_, opts)
-			local leap = require("leap")
-			for k, v in pairs(opts) do
-				leap.opts[k] = v
-			end
-			leap.add_default_mappings(true)
-			vim.keymap.del({ "x", "o" }, "x")
-			vim.keymap.del({ "x", "o" }, "X")
-		end,
-	},
-
-	{
-		"ggandor/flit.nvim",
-		keys = function()
-			---@type LazyKeys[]
-			local ret = {}
-			for _, key in ipairs({ "f", "F", "t", "T" }) do
-				ret[#ret + 1] = { key, mode = { "n", "x", "o" }, desc = key }
-			end
-			return ret
-		end,
-		opts = { labeled_modes = "nx" },
-	},
-
-	{
 		"echasnovski/mini.indentscope",
 		version = false, -- wait till new 0.7.0 release to put it back on semver
 		event = { "BufReadPre", "BufNewFile" },
@@ -242,9 +211,12 @@ return {
 	{
 		"RRethy/vim-illuminate",
 		event = { "BufReadPost", "BufNewFile" },
-		opts = { delay = 200 },
 		config = function()
-			require("illuminate").configure({ filetypes_denylist = { "NvimTree", "dirvish", "fugitive" } })
+			require("illuminate").configure({
+				filetypes_denylist = { "NvimTree", "dirvish", "fugitive" },
+				delay = 0,
+				under_cursor = false,
+			})
 
 			local function map(key, dir, buffer)
 				vim.keymap.set("n", key, function()
@@ -348,6 +320,15 @@ return {
 			require("nvim-surround").setup({
 				-- Configuration here, or leave empty to use defaults
 			})
+		end,
+	},
+
+	{
+		"phaazon/hop.nvim",
+		branch = "v2",
+		cmd = "HopWord",
+		config = function()
+			require("hop").setup()
 		end,
 	},
 }

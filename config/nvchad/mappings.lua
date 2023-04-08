@@ -89,4 +89,11 @@ M.navigator = {
 	},
 }
 
+M.hop = {
+	n = {
+		["f"] = { "<cmd> lua require'hop'.hint_char1() <CR>", "Hop 1 char" },
+		["F"] = { "<cmd> lua require'hop'.hint_char2() <CR>", "Hop 2 char" },
+	},
+}
+
 return M
