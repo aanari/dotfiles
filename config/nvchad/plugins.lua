@@ -339,4 +339,9 @@ return {
 			require("sentiment").setup({})
 		end,
 	},
+
+	{
+		"xiyaowong/virtcolumn.nvim",
+		event = "BufReadPre",
+	},
 }

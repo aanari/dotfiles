@@ -3,6 +3,9 @@ require("custom.autocmds")
 
 vim.opt.title = true
 
+vim.g.virtcolumn_char = "┊"
+vim.opt.colorcolumn="80,120"
+
 vim.cmd([[
   set clipboard+=unnamedplus
 ]])
