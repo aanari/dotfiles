@@ -11,9 +11,6 @@ M.disabled = {
 
 M.general = {
 	n = {
-		-- Easy command mode
-		[";"] = { ":", "command mode", opts = { nowait = true } },
-
 		-- Keep cursor in the center line when C-D / C-U
 		["<C-d>"] = { "<C-d>zz", opts = { silent = true } },
 		["<C-u>"] = { "<C-u>zz", opts = { silent = true } },
@@ -22,14 +19,33 @@ M.general = {
 		["N"] = { "Nzzzv", opts = { silent = true } },
 		-- disable annoying command line typo
 		["q:"] = { ":q", opts = { silent = true } },
+		-- Easy replacement of a trailing ; or ,
+		[";;"] = {
+			function()
+				require("chartoggle").toggle(";")
+			end,
+		},
+		[",,"] = {
+			function()
+				require("chartoggle").toggle(",")
+			end,
+		},
 	},
 
 	i = {
 		-- Escape insert
 		["jk"] = { "<ESC>", "escape insert mode" },
-		-- Easy insertion of a trailing ; or , from insert mode
-		[";;"] = { "<Esc>A;", opts = { silent = true } },
-		[",,"] = { "<Esc>A,", opts = { silent = true } },
+		-- Easy replacement of a trailing ; or ,
+		[";;"] = {
+			function()
+				require("chartoggle").toggle(";")
+			end,
+		},
+		[",,"] = {
+			function()
+				require("chartoggle").toggle(",")
+			end,
+		},
 	},
 
 	v = {

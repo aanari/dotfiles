@@ -344,4 +344,9 @@ return {
 		"xiyaowong/virtcolumn.nvim",
 		event = "BufReadPre",
 	},
+
+	{
+		"saifulapm/chartoggle.nvim",
+		event = "BufEnter",
+	},
 }
