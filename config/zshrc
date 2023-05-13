@@ -23,8 +23,8 @@ source "${ZINIT_HOME}/zinit.zsh"
 
 # zinit annexes
 zinit light-mode for \
-    zinit-zsh/z-a-bin-gem-node \
-    zinit-zsh/z-a-patch-dl
+    zdharma-continuum/zinit-annex-bin-gem-node\
+    zdharma-continuum/zinit-annex-patch-dl
 
 # Plugins
 zinit pack="bgn-binary+keys" for fzf
