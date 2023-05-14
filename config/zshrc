@@ -48,8 +48,13 @@ zinit ice wait lucid
 zinit light changyuheng/fz
 
 zinit wait"1" lucid from"gh-r" as"null" for \
-     sbin"**/bat"  @sharkdp/bat \
-     sbin"**/exa"  ogham/exa
+     sbin"**/bat"         @sharkdp/bat \
+     sbin"**/fd"          @sharkdp/fd \
+     sbin"**/hyperfine"   @sharkdp/hyperfine \
+     sbin"**/rg"          @BurntSushi/ripgrep \
+     sbin"**/delta"       @dandavison/delta \
+     sbin"**/dust"        @bootandy/dust \
+     sbin"**/just"        @casey/just
 
 # yank, clipboard
 zinit ice as"program" pick"yank" make

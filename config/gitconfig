@@ -3,7 +3,7 @@
     #
     #l = log --pretty=oneline -n 20 --graph
     l = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit
-    # Crowdtilt deploy log
+    # deploy log
     dl = log --pretty=format:'%h %ad %an %s' --decorate --no-merges --date=short
     # View the current working tree status using the short format
     s = status -s
@@ -41,38 +41,34 @@
     bump = !"git checkout $1; git pull origin $1; git rebase ${2:-'main'}; git push origin"
     # Amend a commit in place, without having to rebase HEAD~2
     amend  = commit --amend --no-edit
-#[include]
-#    path = .gitconfig.local
+
 [core]
-    # Use custom `.gitignore`
-    excludesfile = ~/.gitignore
-[color]
-    ui = auto
-[color "branch"]
-    current = yellow reverse
-    local = yellow
-    remote = green
-[color "diff"]
-    meta = yellow bold
-    frag = magenta bold
-    old = red bold
-    new = green bold
-[color "status"]
-    added = yellow
-    changed = green
-    untracked = cyan
+    pager = delta
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true
+    side-by-side = true
+    line-number = true
+
 [merge]
-    log = true
     conflictstyle = diff3
-      tool = vimdiff
-# Use `origin` as the default remote on the `main` branch in all cases
+
+[diff]
+    colorMoved = default
+
 [branch "main"]
     remote = origin
     merge = refs/heads/main
+
 [user]
     name = Ali Anari
     email = ali@anari.io
+
 [github]
     user = aanari
+
 [credential]
     helper = store
