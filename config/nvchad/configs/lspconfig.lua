@@ -5,6 +5,7 @@ local lspconfig = require("lspconfig")
 local servers = {
 	"html",
 	"cssls",
+	"dartls",
 	"emmet_ls",
 	"clangd",
 	"gopls",

@@ -8,6 +8,7 @@ local sources = {
 	format.isort,
 	format.gofmt,
 	format.goimports_reviser,
+	format.dart_format,
 	format.jq,
 	format.protolint,
 	format.shellharden,
