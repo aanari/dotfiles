@@ -7,6 +7,7 @@ local servers = {
 	"cssls",
 	"emmet_ls",
 	"clangd",
+	"dartls",
 	"gopls",
 	"rls",
 	"pyright",

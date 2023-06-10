@@ -6,6 +6,7 @@ local lint = null_ls.builtins.diagnostics
 local sources = {
 	format.black,
 	format.isort,
+	format.dart_format,
 	format.gofmt,
 	format.goimports_reviser,
 	format.jq,
