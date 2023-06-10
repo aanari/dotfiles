@@ -9,6 +9,7 @@ M.treesitter = {
 		"c",
 		"cpp",
 		"css",
+		"dart",
 		"dockerfile",
 		"go",
 		"html",
