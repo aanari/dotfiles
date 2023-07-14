@@ -132,3 +132,6 @@ alias ls="lsd"
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=08'
 export EDITOR='nvim'
 unsetopt PATH_DIRS
+
+# direnv hook
+eval "$(direnv hook zsh)"
