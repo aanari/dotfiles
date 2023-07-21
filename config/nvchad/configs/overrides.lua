@@ -48,9 +48,19 @@ M.treesitter = {
 }
 
 M.nvimtree = {
+	actions = {
+		open_file = {
+			resize_window = true,
+		},
+	},
+
 	filters = {
-		dotfiles = true,
-		custom = { "node_modules" },
+		dotfiles = false,
+		custom = { "node_modules", "env", "venv" },
+	},
+
+	view = {
+		adaptive_size = true,
 	},
 
 	git = {
