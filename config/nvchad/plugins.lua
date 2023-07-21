@@ -134,10 +134,11 @@ return {
 
 	{
 		"melkster/modicator.nvim",
-		lazy = false,
+    dependencies = 'NvChad/base46',
 		init = function()
 			vim.o.number = true
 			vim.o.cursorline = true
+			vim.o.termguicolors = true
 		end,
 		config = function()
 			require("modicator").setup()
