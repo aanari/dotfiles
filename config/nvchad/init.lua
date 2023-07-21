@@ -4,11 +4,22 @@ require("custom.autocmds")
 vim.opt.title = true
 
 vim.g.virtcolumn_char = "┊"
-vim.opt.colorcolumn="80,120"
+vim.opt.colorcolumn = "80,120"
 
 vim.cmd([[
   set clipboard+=unnamedplus
 ]])
+
+if vim.fn.has("wsl") == 1 then
+	vim.api.nvim_create_autocmd("TextYankPost", {
+
+		group = vim.api.nvim_create_augroup("Yank", { clear = true }),
+
+		callback = function()
+			vim.fn.system("clip.exe", vim.fn.getreg('"'))
+		end,
+	})
+end
 
 local function copy(lines, _)
 	require("osc52").copy(table.concat(lines, "\n"))
