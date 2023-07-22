@@ -27,7 +27,7 @@ draw_bold_text_with_bright_colors: true
 custom_cursor_colors: true
 
 font:
-  size: 12.0
+  size: 14.0
   offset:
     x: 0
     y: 0
@@ -35,16 +35,16 @@ font:
     x: 0
     y: 0
   normal:
-    family: IosevkaTermCurlySlab Nerd Font
+    family: PragmataProMonoLiga Nerd Font
     style: Regular
   bold:
-    family: IosevkaTermCurlySlab Nerd Font
+    family: PragmataProMonoLiga Nerd Font
     style: Bold
   italic:
-    family: IosevkaTermCurlySlab Nerd Font
+    family: PragmataProMonoLiga Nerd Font
     style: Italic
   bold_italic:
-    family: IosevkaTermCurlySlab Nerd Font
+    family: PragmataProMonoLiga Nerd Font
     style: Bold Italic
 
 key_bindings:

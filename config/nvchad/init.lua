@@ -29,6 +29,8 @@ local function paste()
 	return { vim.fn.split(vim.fn.getreg(""), "\n"), vim.fn.getregtype("") }
 end
 
+vim.opt.guifont = { "PragmataProMonoLiga Nerd Font", "h13" }
+
 vim.g.clipboard = {
 	name = "osc52",
 	copy = { ["+"] = copy, ["*"] = copy },
