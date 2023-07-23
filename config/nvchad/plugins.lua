@@ -134,7 +134,7 @@ return {
 
 	{
 		"melkster/modicator.nvim",
-    dependencies = 'NvChad/base46',
+		dependencies = "NvChad/base46",
 		init = function()
 			vim.o.number = true
 			vim.o.cursorline = true
@@ -359,5 +359,10 @@ return {
 			require("treesj").setup({--[[ your config ]]
 			})
 		end,
+	},
+
+	{
+		"weilbith/nvim-code-action-menu",
+		cmd = "CodeActionMenu",
 	},
 }
