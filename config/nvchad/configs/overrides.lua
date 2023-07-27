@@ -45,6 +45,9 @@ M.treesitter = {
 			tsx = "rainbow-tags",
 		},
 	},
+	autotag = {
+		enable = true,
+	}
 }
 
 M.nvimtree = {

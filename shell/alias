@@ -17,6 +17,8 @@ alias gitcleanup='git branch --merged | grep -v "\*" | xargs -n 1 git branch -d'
 alias realias='$EDITOR ~/.alias; source ~/.alias'
 alias rgg='rg --pretty --heading --fixed-strings --smart-case --hidden --follow --glob "!.git/*" $1'
 alias g='git'
+alias lg='lazygit'
+alias ldc='lazydocker'
 
 # ls aliases
 alias l='ls -l'

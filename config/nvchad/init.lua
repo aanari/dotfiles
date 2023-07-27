@@ -6,40 +6,7 @@ vim.opt.title = true
 vim.g.virtcolumn_char = "┊"
 vim.opt.colorcolumn = "80,120"
 
-vim.cmd([[
-  set clipboard+=unnamedplus
-]])
-
-if vim.fn.has("wsl") == 1 then
-	vim.api.nvim_create_autocmd("TextYankPost", {
-
-		group = vim.api.nvim_create_augroup("Yank", { clear = true }),
-
-		callback = function()
-			vim.fn.system("clip.exe", vim.fn.getreg('"'))
-		end,
-	})
-end
-
-local function copy(lines, _)
-	require("osc52").copy(table.concat(lines, "\n"))
-end
-
-local function paste()
-	return { vim.fn.split(vim.fn.getreg(""), "\n"), vim.fn.getregtype("") }
-end
-
 vim.opt.guifont = { "PragmataProMonoLiga Nerd Font", "h13" }
-
-vim.g.clipboard = {
-	name = "osc52",
-	copy = { ["+"] = copy, ["*"] = copy },
-	paste = { ["+"] = paste, ["*"] = paste },
-}
-
--- Now the '+' register will copy to system clipboard using OSC52
-vim.keymap.set("n", "<leader>c", '"+y')
-vim.keymap.set("n", "<leader>cc", '"+yy')
 
 vim.api.nvim_set_hl(0, "TSRainbowRed", { fg = "#be6069" })
 vim.api.nvim_set_hl(0, "TSRainbowYellow", { fg = "#ebca8a" })
@@ -78,3 +45,19 @@ vim.api.nvim_set_keymap("n", "<Leader>l", "<Cmd>noh<CR>", kopts)
 vim.api.nvim_set_hl(0, "IlluminatedWordText", { link = "Visual" })
 vim.api.nvim_set_hl(0, "IlluminatedWordRead", { link = "Visual" })
 vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { link = "Visual" })
+
+-- Clipboard yanker
+local status_ok, osc52 = pcall(require, "osc52")
+if not status_ok then
+  return
+end
+
+osc52.setup {
+  max_length = 0, -- Maximum length of selection (0 for no limit)
+  silent = false, -- Disable message on successful copy
+  trim = false, -- Trim text before copy
+}
+
+vim.keymap.set("n", "<leader>y", osc52.copy_operator, { expr = true })
+vim.keymap.set("n", "<leader>yy", "<leader>y_", { remap = true })
+vim.keymap.set("x", "<leader>y", osc52.copy_visual)

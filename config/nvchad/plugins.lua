@@ -43,6 +43,7 @@ return {
 		opts = overrides.treesitter,
 		dependencies = {
 			"HiPhish/nvim-ts-rainbow2",
+			"windwp/nvim-ts-autotag",
 		},
 	},
 
@@ -85,16 +86,6 @@ return {
 	},
 
 	{
-		"ojroques/nvim-osc52",
-		lazy = false,
-		config = function()
-			require("osc52").setup({
-				silent = true,
-			})
-		end,
-	},
-
-	{
 		"ruifm/gitlinker.nvim",
 		lazy = false,
 		config = function()
@@ -104,6 +95,14 @@ return {
 					require("osc52").copy(url)
 				end,
 			})
+		end,
+	},
+
+	{
+		"nmac427/guess-indent.nvim",
+		event = "VeryLazy",
+		config = function()
+			require("guess-indent").setup({})
 		end,
 	},
 
