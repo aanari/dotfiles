@@ -125,6 +125,7 @@ test -r ~/.dir_colors && eval $(dircolors ~/.dir_colors)
 source ~/.fzf.sh
 
 # Misc
+export GIT_PAGER="delta"
 alias cat="bat"
 alias ll='ls -alh'
 alias la='ls -a'
