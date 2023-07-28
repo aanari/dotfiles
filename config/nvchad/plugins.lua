@@ -348,6 +348,12 @@ return {
 	{
 		"saifulapm/chartoggle.nvim",
 		event = "BufEnter",
+		config = function()
+			require("chartoggle").setup({
+				leader = "<leader>",
+				keys = { ",", ";" },
+			})
+		end,
 	},
 
 	{
@@ -363,5 +369,13 @@ return {
 	{
 		"weilbith/nvim-code-action-menu",
 		cmd = "CodeActionMenu",
+	},
+
+	{
+		"jghauser/mkdir.nvim",
+		event = { "FileWritePre", "BufWritePre" },
+		config = function()
+			require("mkdir")
+		end,
 	},
 }
