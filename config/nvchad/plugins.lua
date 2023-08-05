@@ -7,12 +7,12 @@ return {
 		"hrsh7th/nvim-cmp",
 		opts = {
 			sources = {
-				-- trigger_characters is for unocss lsp
-				{ name = "nvim_lsp", trigger_characters = { "-" } },
+				{ name = "nvim_lsp" },
 				{ name = "luasnip" },
 				{ name = "buffer" },
 				{ name = "nvim_lua" },
 				{ name = "path" },
+				{ name = "copilot" },
 			},
 		},
 	},
@@ -25,6 +25,12 @@ return {
 				"jose-elias-alvarez/null-ls.nvim",
 				config = function()
 					require("custom.configs.null-ls")
+				end,
+			},
+			{
+				"zbirenbaum/copilot-cmp",
+				config = function()
+					require("copilot_cmp").setup()
 				end,
 			},
 		},
@@ -415,28 +421,11 @@ return {
 		build = ":Copilot auth",
 		opts = {
 			suggestion = {
-				enabled = true,
-				auto_trigger = true,
-				keymap = {
-					accept = "<Tab>",
-					close = "<Esc>",
-					next = "<C-J>",
-					prev = "<C-K>",
-					select = "<CR>",
-					dismiss = "<C-X>",
-				},
+				enabled = false,
 			},
 			panel = {
 				enabled = false,
 			},
 		},
-	},
-
-	{
-		"zbirenbaum/copilot-cmp",
-		dependencies = {
-			"hrsh7th/nvim-cmp",
-		},
-		config = true,
 	},
 }
