@@ -364,4 +364,33 @@ return {
 		"weilbith/nvim-code-action-menu",
 		cmd = "CodeActionMenu",
 	},
+
+	{
+		"jackMort/ChatGPT.nvim",
+		cmd = {
+			"ChatGPT",
+			"ChatGPTActAs",
+			"ChatGPTCompleteCode",
+			"ChatGPTEditWithInstructions",
+			"ChatGPTRun",
+		},
+		dependencies = {
+			"MunifTanjim/nui.nvim",
+			"nvim-lua/plenary.nvim",
+			"nvim-telescope/telescope.nvim",
+		},
+		config = function()
+			require("chatgpt").setup({
+				openai_params = {
+					model = "gpt-4",
+					max_tokens = 4093,
+					frequency_penalty = 0,
+					presence_penalty = 0,
+					temperature = 0,
+					top_p = 1,
+					n = 1,
+				},
+			})
+		end,
+	},
 }

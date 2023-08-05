@@ -24,11 +24,20 @@ M.general = {
 			function()
 				require("chartoggle").toggle(";")
 			end,
+			"Toggle ; at the end of the line",
 		},
 		[",,"] = {
 			function()
 				require("chartoggle").toggle(",")
 			end,
+			"Toggle , at the end of the line",
+		},
+		-- ChatGPT
+		["<leader>gpt"] = {
+			function()
+				require("chatgpt").openChat()
+			end,
+			"Open ChatGPT window",
 		},
 	},
 
@@ -40,11 +49,13 @@ M.general = {
 			function()
 				require("chartoggle").toggle(";")
 			end,
+			"Toggle ; at the end of the line",
 		},
 		[",,"] = {
 			function()
 				require("chartoggle").toggle(",")
 			end,
+			"Toggle , at the end of the line",
 		},
 	},
 
