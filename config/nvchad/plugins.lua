@@ -393,15 +393,19 @@ return {
 		},
 		config = function()
 			require("chatgpt").setup({
+				chat = {
+					welcome_message = "",
+				},
 				openai_params = {
 					model = "gpt-4",
-					max_tokens = 4093,
+					max_tokens = 4000,
 					frequency_penalty = 0,
 					presence_penalty = 0,
 					temperature = 0,
 					top_p = 1,
 					n = 1,
 				},
+				actions_paths = { "~/.config/nvim/lua/custom/configs/actions.json" },
 			})
 		end,
 	},

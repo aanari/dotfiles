@@ -33,7 +33,7 @@ M.general = {
 			"Toggle , at the end of the line",
 		},
 		-- ChatGPT
-		["<leader>gpt"] = {
+		["<leader>gp"] = {
 			function()
 				require("chatgpt").openChat()
 			end,
@@ -72,6 +72,67 @@ M.general = {
 		["y"] = { "myy`y", opts = { silent = true } },
 		-- Paste replace visual selection without coping it.
 		["p"] = { '"_dP', opts = { silent = true } },
+		-- ChatGPT
+		["<leader>gpc"] = {
+			function()
+				vim.cmd.ChatGPTRun("code")
+			end,
+			"Complete Code",
+		},
+		["<leader>gpd"] = {
+			function()
+				vim.cmd.ChatGPTRun("docstring")
+			end,
+			"Docstring",
+		},
+		["<leader>gpg"] = {
+			function()
+				vim.cmd.ChatGPTRun("grammar")
+			end,
+			"Correct Grammar",
+		},
+		["<leader>gpk"] = {
+			function()
+				vim.cmd.ChatGPTRun("keywords")
+			end,
+			"Extract Keywords",
+		},
+		["<leader>gpt"] = {
+			function()
+				vim.cmd.ChatGPTRun("tests")
+			end,
+			"Add Tests",
+		},
+		["<leader>gpo"] = {
+			function()
+				vim.cmd.ChatGPTRun("optimize")
+			end,
+			"Optimize Code",
+		},
+		["<leader>gps"] = {
+			function()
+				vim.cmd.ChatGPTRun("summarize")
+			end,
+			"Summarize Content",
+		},
+		["<leader>gpb"] = {
+			function()
+				vim.cmd.ChatGPTRun("bugs")
+			end,
+			"Fix Bugs",
+		},
+		["<leader>gpe"] = {
+			function()
+				vim.cmd.ChatGPTRun("explain")
+			end,
+			"Explain Code",
+		},
+		["<leader>gpa"] = {
+			function()
+				vim.cmd.ChatGPTRun("analyze")
+			end,
+			"Analyze Code",
+		},
 	},
 }
 
