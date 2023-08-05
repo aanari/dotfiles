@@ -407,4 +407,36 @@ return {
 			require("mkdir")
 		end,
 	},
+
+	{
+		"zbirenbaum/copilot.lua",
+		cmd = "Copilot",
+		event = "InsertEnter",
+		build = ":Copilot auth",
+		opts = {
+			suggestion = {
+				enabled = true,
+				auto_trigger = true,
+				keymap = {
+					accept = "<Tab>",
+					close = "<Esc>",
+					next = "<C-J>",
+					prev = "<C-K>",
+					select = "<CR>",
+					dismiss = "<C-X>",
+				},
+			},
+			panel = {
+				enabled = false,
+			},
+		},
+	},
+
+	{
+		"zbirenbaum/copilot-cmp",
+		dependencies = {
+			"hrsh7th/nvim-cmp",
+		},
+		config = true,
+	},
 }
