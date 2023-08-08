@@ -5,7 +5,6 @@ vim.opt.title = true
 
 vim.g.virtcolumn_char = "┊"
 vim.opt.colorcolumn = "80,120"
-
 vim.opt.guifont = { "PragmataProMonoLiga Nerd Font", "h13" }
 
 vim.api.nvim_set_hl(0, "TSRainbowRed", { fg = "#e8646a" })
@@ -45,6 +44,17 @@ vim.api.nvim_set_keymap("n", "<Leader>l", "<Cmd>noh<CR>", kopts)
 vim.api.nvim_set_hl(0, "IlluminatedWordText", { bg = "#22282a" })
 vim.api.nvim_set_hl(0, "IlluminatedWordRead", { bg = "#22282a" })
 vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { bg = "#22282a" })
+
+-- Highlight on yank
+-- See `:help vim.highlight.on_yank()`
+local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
+vim.api.nvim_create_autocmd("TextYankPost", {
+	callback = function()
+		vim.highlight.on_yank({ higroup = "IlluminatedWordText", timeout = 150 })
+	end,
+	group = highlight_group,
+	pattern = "*",
+})
 
 -- Clipboard yanker
 local status_ok, osc52 = pcall(require, "osc52")
