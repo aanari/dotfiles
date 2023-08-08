@@ -21,7 +21,7 @@ M.override = {
 
 	CursorLine = { bg = "#171a1c" },
 	CursorColumn = { bg = "#171a1c" },
-	Visual = { fg = "#0c0e0f", bg = "#edeff0" },
+	Visual = { fg = "#0c0e0f", bg = "#bac1c5" },
 
 	NvimTreeOpenedFolderName = { bold = true, italic = true },
 	NvimTreeOpenedFile = { bold = true, italic = true },

@@ -81,7 +81,7 @@ colors:
     cursor: '0xedeff0'
   selection:
     text: '0x0c0e0f'
-    background: '0xedeff0'
+    background: '0xbac1c5'
 
   # Normal colors
   normal:
