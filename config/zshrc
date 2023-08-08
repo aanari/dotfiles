@@ -32,6 +32,9 @@ zinit light b4b4r07/enhancd
 zinit light Peltoche/lsd
 zinit light Aloxaf/fzf-tab
 
+zinit ice depth=1
+zinit light jeffreytse/zsh-vi-mode
+
 # syntax, completions, suggestions
 zinit wait lucid for \
  atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
@@ -131,6 +134,7 @@ alias ll='ls -alh'
 alias la='ls -a'
 alias ls="lsd"
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=08'
+ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BLINKING_BEAM
 export EDITOR='nvim'
 unsetopt PATH_DIRS
 
