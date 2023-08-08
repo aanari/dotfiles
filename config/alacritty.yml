@@ -73,6 +73,16 @@ colors:
     background: '0x0c0e0f'
     foreground: '0xedeff0'
 
+  cursor:
+    text: '0x232526'
+    cursor: '0xedeff0'
+  vi_mode_cursor:
+    text: '0x232526'
+    cursor: '0xedeff0'
+  selection:
+    text: '0x0c0e0f'
+    background: '0xedeff0'
+
   # Normal colors
   normal:
     black:   '0x232526'
