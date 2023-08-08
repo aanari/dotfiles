@@ -112,6 +112,7 @@ return {
 
 	{
 		"melkster/modicator.nvim",
+		event = "VeryLazy",
 		dependencies = "NvChad/base46",
 		init = function()
 			vim.o.number = true
@@ -119,7 +120,15 @@ return {
 			vim.o.termguicolors = true
 		end,
 		config = function()
-			require("modicator").setup()
+			require("modicator").setup({
+				highlights = {
+					-- Default options for bold/italic
+					defaults = {
+						bold = true,
+						italic = false,
+					},
+				},
+			})
 		end,
 	},
 
