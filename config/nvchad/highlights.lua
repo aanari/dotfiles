@@ -1,26 +1,27 @@
 local M = {}
 
 M.override = {
-  Include = { italic = true },
-  ['@include'] = { italic = true },
+	Include = { italic = true },
+	["@include"] = { italic = true },
 
-  ['@method'] = { bold = true },
+	["@method"] = { bold = true },
 
 	Comment = { italic = true },
-	SpecialComment = { link = 'Comment' },
-	['@comment'] = { link = 'Comment' },
+	SpecialComment = { link = "Comment" },
+	["@comment"] = { link = "Comment" },
 
 	Conditional = { italic = true },
-	['@conditional'] = { link = 'Conditional' },
+	["@conditional"] = { link = "Conditional" },
 
 	Function = { italic = true, bold = true },
-	['@function'] = { link = 'Function' },
+	["@function"] = { link = "Function" },
 
 	Type = { italic = true },
-	['@type'] = { link = 'Type' },
+	["@type"] = { link = "Type" },
 
 	CursorLine = { bg = "#171a1c" },
 	CursorColumn = { bg = "#171a1c" },
+	Visual = { fg = "#0c0e0f", bg = "#edeff0" },
 
 	NvimTreeOpenedFolderName = { bold = true, italic = true },
 	NvimTreeOpenedFile = { bold = true, italic = true },
@@ -45,8 +46,6 @@ M.override = {
 	TSRepeat = { italic = true, bold = true },
 }
 
-M.add = {
-
-}
+M.add = {}
 
 return M
