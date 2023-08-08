@@ -2,7 +2,7 @@ require("custom.commands")
 require("custom.autocmds")
 
 vim.opt.title = true
-
+vim.o.swapfile = false
 vim.g.virtcolumn_char = "┊"
 vim.opt.colorcolumn = "80,120"
 vim.opt.guifont = { "PragmataProMonoLiga Nerd Font", "h13" }
@@ -20,6 +20,12 @@ vim.api.nvim_set_hl(0, "HlSearchLensNear", { fg = "#0c0e0f", bg = "#ECD28B" })
 
 vim.opt.cursorline = true
 vim.opt.cursorcolumn = false
+vim.opt.termguicolors = true
+vim.opt.guicursor = {
+  [[n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50]],
+  [[a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor]],
+  [[sm:block-blinkwait175-blinkoff150-blinkon175]],
+}
 
 local kopts = { noremap = true, silent = true }
 
