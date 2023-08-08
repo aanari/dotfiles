@@ -19,8 +19,8 @@ M.override = {
 	Type = { italic = true },
 	['@type'] = { link = 'Type' },
 
-	CursorLine = { bg = "#272b35" },
-	CursorColumn = { bg = "#272b35" },
+	CursorLine = { bg = "#171a1c" },
+	CursorColumn = { bg = "#171a1c" },
 
 	NvimTreeOpenedFolderName = { bold = true, italic = true },
 	NvimTreeOpenedFile = { bold = true, italic = true },

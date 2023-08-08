@@ -8,16 +8,16 @@ vim.opt.colorcolumn = "80,120"
 
 vim.opt.guifont = { "PragmataProMonoLiga Nerd Font", "h13" }
 
-vim.api.nvim_set_hl(0, "TSRainbowRed", { fg = "#be6069" })
-vim.api.nvim_set_hl(0, "TSRainbowYellow", { fg = "#ebca8a" })
-vim.api.nvim_set_hl(0, "TSRainbowBlue", { fg = "#81a0c0" })
-vim.api.nvim_set_hl(0, "TSRainbowOrange", { fg = "#b48dac" })
-vim.api.nvim_set_hl(0, "TSRainbowGreen", { fg = "#a3bd8b" })
-vim.api.nvim_set_hl(0, "TSRainbowViolet", { fg = "#88bfcf" })
-vim.api.nvim_set_hl(0, "TSRainbowCyan", { fg = "#e5e8ef" })
-vim.api.nvim_set_hl(0, "HlSearchNear", { fg = "#2E3440", bg = "#EBCB8B" })
-vim.api.nvim_set_hl(0, "HlSearchLens", { fg = "#2E3440", bg = "#88bfcf" })
-vim.api.nvim_set_hl(0, "HlSearchLensNear", { fg = "#2E3440", bg = "#EBCB8B" })
+vim.api.nvim_set_hl(0, "TSRainbowRed", { fg = "#e8646a" })
+vim.api.nvim_set_hl(0, "TSRainbowYellow", { fg = "#e79881" })
+vim.api.nvim_set_hl(0, "TSRainbowBlue", { fg = "#709ad2" })
+vim.api.nvim_set_hl(0, "TSRainbowOrange", { fg = "#c58cec" })
+vim.api.nvim_set_hl(0, "TSRainbowGreen", { fg = "#81c19b" })
+vim.api.nvim_set_hl(0, "TSRainbowViolet", { fg = "#70b8ca" })
+vim.api.nvim_set_hl(0, "TSRainbowCyan", { fg = "#f2f4f5" })
+vim.api.nvim_set_hl(0, "HlSearchNear", { fg = "#0c0e0f", bg = "#e79881" })
+vim.api.nvim_set_hl(0, "HlSearchLens", { fg = "#0c0e0f", bg = "#70b8ca" })
+vim.api.nvim_set_hl(0, "HlSearchLensNear", { fg = "#0c0e0f", bg = "#e79881" })
 
 vim.opt.cursorline = true
 vim.opt.cursorcolumn = false

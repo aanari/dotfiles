@@ -86,19 +86,6 @@ return {
 	},
 
 	{
-		"ruifm/gitlinker.nvim",
-		lazy = false,
-		config = function()
-			require("gitlinker").setup({
-				action_callback = function(url)
-					vim.api.nvim_command("let @\" = '" .. url .. "'")
-					require("osc52").copy(url)
-				end,
-			})
-		end,
-	},
-
-	{
 		"nmac427/guess-indent.nvim",
 		event = "VeryLazy",
 		config = function()
@@ -115,20 +102,6 @@ return {
 				width = 120,
 			})
 		end,
-	},
-
-	{
-		"f-person/git-blame.nvim",
-		config = function()
-			vim.g.gitblame_message_template = "          <author>, <date> • <summary>"
-			vim.g.gitblame_date_format = "%r"
-			vim.g.gitblame_ignored_filetypes = { "NvimTree", "netrw", "packer" }
-			vim.g.gitblame_set_extmark_options = {
-				hl_mode = "combine",
-				priority = 10000,
-			}
-		end,
-		event = "BufEnter",
 	},
 
 	{
@@ -377,5 +350,19 @@ return {
 		config = function()
 			require("mkdir")
 		end,
+	},
+
+	{
+		"ruifm/gitlinker.nvim",
+		event = "BufRead",
+		dependencies = { "nvim-lua/plenary.nvim" },
+		opts = {
+			action_callback = function(url)
+				-- yank to unnamed register
+				vim.api.nvim_command("let @\" = '" .. url .. "'")
+				-- copy to the system clipboard using OSC52
+				vim.fn.OSCYankString(url)
+			end,
+		},
 	},
 }

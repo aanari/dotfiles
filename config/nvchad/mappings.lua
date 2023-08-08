@@ -101,4 +101,15 @@ M.hop = {
 	},
 }
 
+M.gitsigns = {
+	n = {
+		["<leader>gb"] = {
+			function()
+				package.loaded.gitsigns.blame_line()
+			end,
+			"Blame line",
+		},
+	},
+}
+
 return M
