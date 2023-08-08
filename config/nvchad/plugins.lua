@@ -7,12 +7,12 @@ return {
 		"hrsh7th/nvim-cmp",
 		opts = {
 			sources = {
-				-- trigger_characters is for unocss lsp
-				{ name = "nvim_lsp", trigger_characters = { "-" } },
+				{ name = "nvim_lsp" },
 				{ name = "luasnip" },
 				{ name = "buffer" },
 				{ name = "nvim_lua" },
 				{ name = "path" },
+				{ name = "copilot" },
 			},
 		},
 	},
@@ -25,6 +25,12 @@ return {
 				"jose-elias-alvarez/null-ls.nvim",
 				config = function()
 					require("custom.configs.null-ls")
+				end,
+			},
+			{
+				"zbirenbaum/copilot-cmp",
+				config = function()
+					require("copilot_cmp").setup()
 				end,
 			},
 		},
@@ -345,6 +351,39 @@ return {
 	},
 
 	{
+		"jackMort/ChatGPT.nvim",
+		cmd = {
+			"ChatGPT",
+			"ChatGPTActAs",
+			"ChatGPTCompleteCode",
+			"ChatGPTEditWithInstructions",
+			"ChatGPTRun",
+		},
+		dependencies = {
+			"MunifTanjim/nui.nvim",
+			"nvim-lua/plenary.nvim",
+			"nvim-telescope/telescope.nvim",
+		},
+		config = function()
+			require("chatgpt").setup({
+				chat = {
+					welcome_message = "",
+				},
+				openai_params = {
+					model = "gpt-3.5-turbo-16k",
+					max_tokens = 4000,
+					frequency_penalty = 0,
+					presence_penalty = 0,
+					temperature = 0,
+					top_p = 1,
+					n = 1,
+				},
+				actions_paths = { "~/.config/nvim/lua/custom/configs/actions.json" },
+			})
+		end,
+	},
+
+	{
 		"jghauser/mkdir.nvim",
 		event = { "FileWritePre", "BufWritePre" },
 		config = function()
@@ -363,6 +402,21 @@ return {
 				-- copy to the system clipboard using OSC52
 				vim.fn.OSCYankString(url)
 			end,
+		},
+	},
+
+	{
+		"zbirenbaum/copilot.lua",
+		cmd = "Copilot",
+		event = "InsertEnter",
+		build = ":Copilot auth",
+		opts = {
+			suggestion = {
+				enabled = false,
+			},
+			panel = {
+				enabled = false,
+			},
 		},
 	},
 }
