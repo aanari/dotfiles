@@ -258,22 +258,6 @@ return {
 	},
 
 	{
-		"utilyre/barbecue.nvim",
-		name = "barbecue",
-		version = "*",
-		event = "BufReadPre",
-		dependencies = {
-			"SmiteshP/nvim-navic",
-			"nvim-tree/nvim-web-devicons", -- optional dependency
-		},
-		config = function()
-			require("barbecue").setup({
-				create_autocmd = true,
-			})
-		end,
-	},
-
-	{
 		"kylechui/nvim-surround",
 		version = "*", -- Use for stability; omit to use `main` branch for the latest features
 		event = "VeryLazy",

@@ -1,6 +1,7 @@
 require("custom.commands")
 require("custom.autocmds")
 
+vim.opt.updatetime = 200
 vim.opt.title = true
 vim.o.swapfile = false
 vim.g.virtcolumn_char = "┊"
