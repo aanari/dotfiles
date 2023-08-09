@@ -401,4 +401,16 @@ return {
 			},
 		},
 	},
+
+	{
+		"gelguy/wilder.nvim",
+		event = "CmdlineEnter",
+		build = ":UpdateRemotePlugins",
+		config = function()
+			local wilder = require("wilder")
+			wilder.setup({
+				modes = { ":", "/", "?" },
+			})
+		end,
+	},
 }

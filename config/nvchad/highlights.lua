@@ -47,6 +47,8 @@ M.override = {
 	TSRepeat = { italic = true, bold = true },
 }
 
-M.add = {}
+M.add = {
+	MsgArea = { fg = "#505253" },
+}
 
 return M
