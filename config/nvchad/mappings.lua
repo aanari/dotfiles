@@ -11,6 +11,7 @@ M.disabled = {
 
 M.general = {
 	n = {
+		["<Esc>"] = { ":noh <CR>", "Clear highlights", opts = { silent = true } },
 		-- Keep cursor in the center line when C-D / C-U
 		["<C-d>"] = { "<C-d>zz", opts = { silent = true } },
 		["<C-u>"] = { "<C-u>zz", opts = { silent = true } },
