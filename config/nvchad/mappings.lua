@@ -154,6 +154,16 @@ M.nvterm = {
 	},
 }
 
+M.flutter = {
+	n = {
+		["<leader>Fe"] = { ":FlutterEmulators<cr>", "Flutter Emulators" },
+		["<leader>Fr"] = { ":FlutterRun<cr>", "Flutter Run" },
+		["<leader>Fq"] = { ":FlutterQuit<cr>", "Flutter Quit" },
+		["<leader>FR"] = { ":FlutterRestart<cr>", "Flutter Restart" },
+		["<leader>FC"] = { ":FlutterLogClear<cr>", "Flutter Clear Log" },
+	},
+}
+
 M.navigation = {
 	n = {
 		["H"] = { "^", "beginning of line" },
