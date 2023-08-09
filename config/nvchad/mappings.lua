@@ -144,6 +144,7 @@ M.nvterm = {
 
 M.flutter = {
 	n = {
+		["<leader>Fd"] = { ":FlutterOpenDevTools<cr>", "Flutter Dev Tools" },
 		["<leader>Fe"] = { ":FlutterEmulators<cr>", "Flutter Emulators" },
 		["<leader>Fr"] = { ":FlutterRun<cr>", "Flutter Run" },
 		["<leader>Fq"] = { ":FlutterQuit<cr>", "Flutter Quit" },

@@ -4,8 +4,6 @@ require("custom.autocmds")
 vim.opt.updatetime = 200
 vim.opt.title = true
 vim.o.swapfile = false
-vim.g.virtcolumn_char = "┊"
-vim.opt.colorcolumn = "80,120"
 vim.opt.guifont = { "PragmataProMonoLiga Nerd Font", "h13" }
 
 vim.api.nvim_set_hl(0, "TSRainbowRed", { fg = "#e8646a" })
