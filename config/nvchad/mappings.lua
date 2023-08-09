@@ -45,19 +45,6 @@ M.general = {
 	i = {
 		-- Escape insert
 		["jk"] = { "<ESC>", "escape insert mode" },
-		-- Easy replacement of a trailing ; or ,
-		[";;"] = {
-			function()
-				require("chartoggle").toggle(";")
-			end,
-			"Toggle ; at the end of the line",
-		},
-		[",,"] = {
-			function()
-				require("chartoggle").toggle(",")
-			end,
-			"Toggle , at the end of the line",
-		},
 	},
 
 	v = {
