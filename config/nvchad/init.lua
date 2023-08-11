@@ -28,9 +28,6 @@ vim.opt.guicursor = {
 
 local kopts = { noremap = true, silent = true }
 
-vim.cmd(
-  [[ set scl=no ]]
-)
 vim.api.nvim_set_keymap(
 	"n",
 	"n",
