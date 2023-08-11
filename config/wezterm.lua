@@ -141,6 +141,11 @@ return {
 			mods = "CTRL|SHIFT",
 			action = wezterm.action({ CopyTo = "ClipboardAndPrimarySelection" }),
 		},
+		{ mods = "CTRL", key = "-", action = "DecreaseFontSize" },
+		{ mods = "CTRL", key = "=", action = "IncreaseFontSize" },
+		{ mods = "CTRL", key = "0", action = "ResetFontSize" },
+		{ key = "F11", action = "ToggleFullScreen" },
+		{ mods = "CTRL|SHIFT", key = "F", action = wezterm.action({ Search = { CaseSensitiveString = "" } }) },
 	},
 
 	-- Aesthetic Night Colorscheme
