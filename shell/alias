@@ -2,6 +2,7 @@
 
 alias vi='nvim'
 alias vimdiff='nvim -d'
+alias nvs='nvim --headless --listen localhost:6666'
 alias dc='docker compose'
 alias deploy='gen_deploy_email /$HOME/Projects'
 alias speedtest='speedtest_cli.py'
