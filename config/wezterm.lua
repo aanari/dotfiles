@@ -8,8 +8,6 @@ end
 local font_name = "PragmataProMonoLiga Nerd Font"
 
 return {
-	default_domain = "WSL:Ubuntu-20.04",
-
 	-- OpenGL for GPU acceleration, Software for CPU
 	front_end = "OpenGL",
 
