@@ -122,6 +122,10 @@ M.general = {
 			"Analyze Code",
 		},
 	},
+
+	t = {
+		["<C-a>"] = { vim.api.nvim_replace_termcodes("<C-\\><C-N>", true, true, true), "Escape terminal mode" },
+	},
 }
 
 M.treesitter = {

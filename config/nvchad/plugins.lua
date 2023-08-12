@@ -450,4 +450,16 @@ return {
 			require("flutter-tools").setup({})
 		end,
 	},
+
+	{
+		"chomosuke/term-edit.nvim",
+		event = "TermOpen",
+	},
+
+	{
+		"willothy/flatten.nvim",
+		config = true,
+		lazy = false,
+		priority = 1001,
+	},
 }
