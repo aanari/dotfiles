@@ -175,15 +175,12 @@ return {
 		brights = { "#2c2e2f", "#e8646a", "#81c19b", "#e79881", "#709ad2", "#c58cec", "#70b8ca", "#f2f4f5" },
 		indexed = { [136] = "#edeff0" },
 		tab_bar = {
-			active_tab = {
-				bg_color = "#0c0e0f",
-				fg_color = "#edeff0",
-				italic = true,
-			},
-			inactive_tab = { bg_color = "#090909", fg_color = "#0c0e0f" },
-			inactive_tab_hover = { bg_color = "#151515", fg_color = "#090909" },
-			new_tab = { bg_color = "#151515", fg_color = "#090909" },
-			new_tab_hover = { bg_color = "#6791c9", fg_color = "#090909" },
+			active_tab = { bg_color = "#0c0e0f", fg_color = "#edeff0" },
+			inactive_tab = { bg_color = "#0c0e0f", fg_color = "#333333" },
+			inactive_tab_hover = { bg_color = "#0c0e0f", fg_color = "#444444" },
+			new_tab = { bg_color = "#0c0e0f", fg_color = "#333333" },
+			new_tab_hover = { bg_color = "#0c0e0f", fg_color = "#444444" },
+			inactive_tab_edge = "#333333",
 		},
 	},
 
