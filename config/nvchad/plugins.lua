@@ -501,4 +501,12 @@ return {
 		lazy = false,
 		priority = 1001,
 	},
+
+	{
+		"DanilaMihailov/beacon.nvim",
+		cond = function()
+			return not vim.g.neovide
+		end,
+		event = "WinEnter",
+	},
 }
