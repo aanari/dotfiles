@@ -432,11 +432,6 @@ return {
 	},
 
 	{
-		"xiyaowong/virtcolumn.nvim",
-		event = "BufReadPre",
-	},
-
-	{
 		"saifulapm/chartoggle.nvim",
 		event = "BufEnter",
 		config = function()
@@ -618,4 +613,6 @@ return {
 		"kdheepak/lazygit.nvim",
 		cmd = "LazyGit",
 	},
+
+	{ "farmergreg/vim-lastplace", event = { "BufReadPre" } },
 }
