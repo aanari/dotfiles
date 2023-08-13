@@ -16,6 +16,8 @@ M.general = {
 			function()
 				if vim.bo.buftype == "terminal" then
 					vim.cmd("startinsert!")
+				else
+					vim.cmd("noh")
 				end
 			end,
 			opts = { silent = true },
@@ -180,7 +182,6 @@ M.navigation = {
 
 M.navigator = {
 	n = {
-
 		["<C-h>"] = { "<cmd> NavigatorLeft <CR>", "navigate left" },
 		["<C-j>"] = { "<cmd> NavigatorDown <CR>", "navigate down" },
 		["<C-k>"] = { "<cmd> NavigatorUp <CR>", "navigate up" },
@@ -202,6 +203,12 @@ M.gitsigns = {
 			end,
 			"Blame line",
 		},
+	},
+}
+
+M.lazygit = {
+	n = {
+		["<leader>gg"] = { ":LazyGit<cr>", "Lazy Git" },
 	},
 }
 

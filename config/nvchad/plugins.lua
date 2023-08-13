@@ -571,4 +571,9 @@ return {
 		config = true,
 		event = { "WinNew" },
 	},
+
+	{
+		"kdheepak/lazygit.nvim",
+		cmd = "LazyGit",
+	},
 }
