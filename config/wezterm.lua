@@ -135,8 +135,18 @@ return {
 			action = wezterm.action({ PasteFrom = "Clipboard" }),
 		},
 		{
+			key = "v",
+			mods = "SUPER",
+			action = wezterm.action({ PasteFrom = "Clipboard" }),
+		},
+		{
 			key = "c",
 			mods = "CTRL|SHIFT",
+			action = wezterm.action({ CopyTo = "ClipboardAndPrimarySelection" }),
+		},
+		{
+			key = "c",
+			mods = "SUPER",
 			action = wezterm.action({ CopyTo = "ClipboardAndPrimarySelection" }),
 		},
 		{ mods = "CTRL", key = "-", action = "DecreaseFontSize" },
