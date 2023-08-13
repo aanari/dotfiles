@@ -3,6 +3,8 @@ local overrides = require("custom.configs.overrides")
 return {
 
 	----------------------------------------- default plugins ------------------------------------------
+	"tpope/vim-sleuth",
+
 	{
 		"hrsh7th/nvim-cmp",
 		opts = {
@@ -33,6 +35,8 @@ return {
 					require("copilot_cmp").setup()
 				end,
 			},
+			{ "j-hui/fidget.nvim", tag = "legacy", opts = {} },
+			"folke/neodev.nvim",
 		},
 
 		config = function()

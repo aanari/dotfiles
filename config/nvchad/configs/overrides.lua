@@ -48,6 +48,8 @@ M.treesitter = {
 	autotag = {
 		enable = true,
 	},
+	highlight = { enable = true },
+	indent = { enable = true },
 	incremental_selection = {
 		enable = true,
 		keymaps = {
@@ -65,20 +67,16 @@ M.nvimtree = {
 			resize_window = true,
 		},
 	},
-
 	filters = {
 		dotfiles = false,
 		custom = { "node_modules", "env", "venv" },
 	},
-
 	view = {
 		adaptive_size = true,
 	},
-
 	git = {
 		enable = true,
 	},
-
 	renderer = {
 		highlight_git = true,
 		icons = {

@@ -1,9 +1,14 @@
 require("custom.commands")
 require("custom.autocmds")
 
+vim.o.mouse = 'a'
+vim.o.clipboard = 'unnamedplus'
+vim.o.breakindent = true
 vim.o.swapfile = false
 vim.o.showmode = false
+vim.o.completeopt = 'menuone,noselect'
 vim.opt.updatetime = 200
+vim.opt.timeoutlen = 300
 vim.opt.title = true
 vim.opt.shortmess:append('A')  -- Ignores swapfiles when opening file
 vim.opt.shortmess:append('s')  -- Disable 'Search hit BOTTOM, continuing at TOP'
