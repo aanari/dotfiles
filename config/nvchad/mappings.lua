@@ -33,13 +33,6 @@ M.general = {
 			end,
 			"Toggle , at the end of the line",
 		},
-		-- ChatGPT
-		["<leader>gp"] = {
-			function()
-				require("chatgpt").openChat()
-			end,
-			"Open ChatGPT window",
-		},
 	},
 
 	i = {
@@ -60,7 +53,24 @@ M.general = {
 		["y"] = { "myy`y", opts = { silent = true } },
 		-- Paste replace visual selection without coping it.
 		["p"] = { '"_dP', opts = { silent = true } },
+	},
+
+	t = {
+		["<C-a>"] = { vim.api.nvim_replace_termcodes("<C-\\><C-N>", true, true, true), "Escape terminal mode" },
+	},
+}
+
+M.chatgpt = {
+	n = {
 		-- ChatGPT
+		["<leader>gp"] = {
+			function()
+				require("chatgpt").openChat()
+			end,
+			"Open ChatGPT window",
+		},
+	},
+	v = {
 		["<leader>gpc"] = {
 			function()
 				vim.cmd.ChatGPTRun("code")
@@ -121,10 +131,6 @@ M.general = {
 			end,
 			"Analyze Code",
 		},
-	},
-
-	t = {
-		["<C-a>"] = { vim.api.nvim_replace_termcodes("<C-\\><C-N>", true, true, true), "Escape terminal mode" },
 	},
 }
 
