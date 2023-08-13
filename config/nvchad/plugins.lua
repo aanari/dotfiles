@@ -50,6 +50,18 @@ return {
 		dependencies = {
 			"HiPhish/nvim-ts-rainbow2",
 			"windwp/nvim-ts-autotag",
+			"nvim-treesitter/nvim-treesitter-textobjects",
+			"nvim-treesitter/nvim-treesitter-refactor",
+			{
+				"David-Kunz/treesitter-unit",
+      -- stylua: ignore
+      keys = {
+        { mode = "x", "iu", ':lua require"treesitter-unit".select()<CR>',          { desc = "select in unit" } },
+        { mode = "x", "au", ':lua require"treesitter-unit".select(true)<CR>',      { desc = "select around unit" } },
+        { mode = "o", "iu", ':<c-u>lua require"treesitter-unit".select()<CR>',     { desc = "select in unit" } },
+        { mode = "o", "au", ':<c-u>lua require"treesitter-unit".select(true)<CR>', { desc = "select around unit" } },
+      },
+			},
 		},
 	},
 
