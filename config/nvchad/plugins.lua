@@ -284,6 +284,16 @@ return {
 	},
 
 	{
+		"machakann/vim-sandwich",
+		event = "VeryLazy",
+		keys = {
+			{ "sa", desc = "Add surrounding", mode = { "n", "v" } },
+			{ "sd", desc = "Delete surrounding" },
+			{ "sr", desc = "Replace surrounding" },
+		},
+	},
+
+	{
 		"folke/flash.nvim",
 		event = "VeryLazy",
 		opts = {},
@@ -441,56 +451,34 @@ return {
 	},
 
 	{
-		"gelguy/wilder.nvim",
-		event = "CmdlineEnter",
-		build = ":UpdateRemotePlugins",
-		dependencies = { "nixprime/cpsm", "romgrk/fzy-lua-native" },
-		config = function()
-			local wilder = require("wilder")
-			wilder.setup({
-				modes = { ":", "/", "?" },
-			})
-
-			local gradient = {
-				"#f4468f",
-				"#fd4a85",
-				"#ff507a",
-				"#ff566f",
-				"#ff5e63",
-				"#ff6658",
-				"#ff704e",
-				"#ff7a45",
-				"#ff843d",
-				"#ff9036",
-				"#f89b31",
-				"#efa72f",
-				"#e6b32e",
-				"#dcbe30",
-				"#d2c934",
-				"#c8d43a",
-				"#bfde43",
-				"#b6e84e",
-				"#aff05b",
-			}
-
-			for i, fg in ipairs(gradient) do
-				gradient[i] =
-					wilder.make_hl("WilderGradient" .. i, "Pmenu", { { a = 1 }, { a = 1 }, { foreground = fg } })
-			end
-
-			wilder.set_option(
-				"renderer",
-				wilder.wildmenu_renderer({
-					highlights = {
-						gradient = gradient, -- must be set
-						-- selected_gradient key can be set to apply gradient highlighting for the selected candidate.
-					},
-					highlighter = wilder.highlighter_with_gradient({
-						wilder.basic_highlighter(), -- or wilder.lua_fzy_highlighter(),
-					}),
-				})
-			)
-		end,
+		"folke/noice.nvim",
+		event = "VeryLazy",
+		opts = {
+			lsp = {
+				-- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+				override = {
+					["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+					["vim.lsp.util.stylize_markdown"] = true,
+					["cmp.entry.get_documentation"] = true,
+				},
+			},
+			-- you can enable a preset for easier configuration
+			presets = {
+				bottom_search = true, -- use a classic bottom cmdline for search
+				command_palette = true, -- position the cmdline and popupmenu together
+				long_message_to_split = true, -- long messages will be sent to a split
+				inc_rename = false, -- enables an input dialog for inc-rename.nvim
+				lsp_doc_border = false, -- add a border to hover docs and signature help
+			},
+		},
+	},
+	dependencies = {
+		-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+		"MunifTanjim/nui.nvim",
+		-- OPTIONAL:
+		--   `nvim-notify` is only needed, if you want to use the notification view.
+		--   If not available, we use `mini` as the fallback
+		"rcarriga/nvim-notify",
 	},
 
 	{

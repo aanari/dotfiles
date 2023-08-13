@@ -1,19 +1,19 @@
 require("custom.commands")
 require("custom.autocmds")
 
-vim.o.mouse = 'a'
-vim.o.clipboard = 'unnamedplus'
+vim.o.mouse = "a"
+vim.o.clipboard = "unnamedplus"
 vim.o.breakindent = true
 vim.o.swapfile = false
 vim.o.showmode = false
-vim.o.completeopt = 'menuone,noselect'
+vim.o.completeopt = "menuone,noselect"
 vim.opt.updatetime = 200
 vim.opt.timeoutlen = 300
 vim.opt.title = true
-vim.opt.shortmess:append('A')  -- Ignores swapfiles when opening file
-vim.opt.shortmess:append('s')  -- Disable 'Search hit BOTTOM, continuing at TOP'
-vim.opt.shortmess:append('cS') -- Disable "[1/5]", "Pattern not found", etc.
-vim.opt.shortmess:append('FW') -- Disable message after editing/writing file
+vim.opt.shortmess:append("A") -- Ignores swapfiles when opening file
+vim.opt.shortmess:append("s") -- Disable 'Search hit BOTTOM, continuing at TOP'
+vim.opt.shortmess:append("cS") -- Disable "[1/5]", "Pattern not found", etc.
+vim.opt.shortmess:append("FW") -- Disable message after editing/writing file
 vim.opt.guifont = { "PragmataProMonoLiga Nerd Font", "h13" }
 
 vim.api.nvim_set_hl(0, "TSRainbowRed", { fg = "#e8646a" })
@@ -31,9 +31,9 @@ vim.opt.cursorline = true
 vim.opt.cursorcolumn = false
 vim.opt.termguicolors = true
 vim.opt.guicursor = {
-  [[n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50]],
-  [[a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor]],
-  [[sm:block-blinkwait175-blinkoff150-blinkon175]],
+	[[n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50]],
+	[[a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor]],
+	[[sm:block-blinkwait175-blinkoff150-blinkon175]],
 }
 
 local kopts = { noremap = true, silent = true }
