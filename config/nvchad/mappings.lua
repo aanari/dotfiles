@@ -43,6 +43,7 @@ M.general = {
 			end,
 			"Toggle , at the end of the line",
 		},
+		["<leader>qf"] = { ":TroubleToggle<cr>", "Quick Fix" },
 	},
 
 	i = {

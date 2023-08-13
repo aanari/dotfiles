@@ -70,7 +70,6 @@ return {
 	},
 
 	{ "williamboman/mason.nvim", opts = overrides.mason },
-
 	--------------------------------------------- custom plugins ----------------------------------------------
 
 	-- autoclose tags in html, jsx only
@@ -93,7 +92,7 @@ return {
 
 	{
 		"folke/trouble.nvim",
-		cmd = "Trouble",
+		event = "VeryLazy",
 		config = function()
 			require("trouble").setup()
 		end,
