@@ -492,7 +492,11 @@ return {
 
 	{
 		"chomosuke/term-edit.nvim",
-		event = "TermOpen",
+		ft = "neoterm",
+		version = "1.*",
+		opts = {
+			prompt_end = "❯ ",
+		},
 	},
 
 	{
