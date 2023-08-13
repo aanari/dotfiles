@@ -6,7 +6,6 @@ vim.o.clipboard = "unnamedplus"
 vim.o.breakindent = true
 vim.o.swapfile = false
 vim.o.showmode = false
-vim.o.completeopt = "menuone,noselect"
 vim.opt.updatetime = 200
 vim.opt.timeoutlen = 300
 vim.opt.title = true

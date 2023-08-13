@@ -7,16 +7,98 @@ return {
 
 	{
 		"hrsh7th/nvim-cmp",
-		opts = {
-			sources = {
-				{ name = "nvim_lsp" },
-				{ name = "luasnip" },
-				{ name = "buffer" },
-				{ name = "nvim_lua" },
-				{ name = "path" },
-				{ name = "copilot" },
+		event = "InsertEnter",
+		dependencies = {
+			"hrsh7th/cmp-nvim-lsp-signature-help",
+			"hrsh7th/cmp-nvim-lsp",
+			"hrsh7th/cmp-buffer",
+			"hrsh7th/cmp-path",
+			"saadparwaiz1/cmp_luasnip",
+			"hrsh7th/cmp-nvim-lua",
+			"windwp/nvim-autopairs",
+			"onsails/lspkind-nvim",
+			{
+				"zbirenbaum/copilot-cmp",
+				config = function()
+					require("copilot_cmp").setup()
+				end,
 			},
 		},
+		config = function()
+			local cmp = require("cmp")
+			local lsp_kind = require("lspkind")
+			local cmp_next = function(fallback)
+				if cmp.visible() then
+					cmp.select_next_item()
+				elseif require("luasnip").expand_or_jumpable() then
+					vim.fn.feedkeys(
+						vim.api.nvim_replace_termcodes("<Plug>luasnip-expand-or-jump", true, true, true),
+						""
+					)
+				else
+					fallback()
+				end
+			end
+			local cmp_prev = function(fallback)
+				if cmp.visible() then
+					cmp.select_prev_item()
+				elseif require("luasnip").jumpable(-1) then
+					vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-jump-prev", true, true, true), "")
+				else
+					fallback()
+				end
+			end
+			lsp_kind.init()
+			cmp.setup({
+				enabled = true,
+				preselect = cmp.PreselectMode.None,
+				window = {
+					completion = cmp.config.window.bordered({
+						winhighlight = "Normal:Normal,FloatBorder:LspBorderBG,CursorLine:PmenuSel,Search:None",
+					}),
+					documentation = cmp.config.window.bordered({
+						winhighlight = "Normal:Normal,FloatBorder:LspBorderBG,CursorLine:PmenuSel,Search:None",
+					}),
+				},
+				view = {
+					entries = "bordered",
+				},
+				snippet = {
+					expand = function(args)
+						require("luasnip").lsp_expand(args.body)
+					end,
+				},
+				mapping = {
+					["<C-d>"] = cmp.mapping.scroll_docs(-4),
+					["<C-f>"] = cmp.mapping.scroll_docs(4),
+					["<S-Space>"] = cmp.mapping.complete(),
+					["<C-e>"] = cmp.mapping.close(),
+					["<CR>"] = cmp.mapping.confirm({
+						behavior = cmp.ConfirmBehavior.Replace,
+						select = true,
+					}),
+					["<tab>"] = cmp_next,
+					["<down>"] = cmp_next,
+					["<C-p>"] = cmp_prev,
+					["<up>"] = cmp_prev,
+					["<C-n>"] = cmp_next,
+				},
+				sources = {
+					{ name = "nvim_lsp_signature_help", group_index = 1 },
+					{ name = "luasnip", max_item_count = 5, group_index = 1 },
+					{ name = "nvim_lsp", max_item_count = 20, group_index = 1 },
+					{ name = "nvim_lua", group_index = 1 },
+					{ name = "path", group_index = 2 },
+					{ name = "buffer", keyword_length = 2, max_item_count = 5, group_index = 2 },
+					{ name = "copilot", group_index = 1 },
+				},
+			})
+			local presentAutopairs, cmp_autopairs = pcall(require, "nvim-autopairs.completion.cmp")
+			if not presentAutopairs then
+				return
+			end
+			cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done({ map_char = { tex = "" } }))
+		end,
 	},
 
 	{
@@ -448,37 +530,6 @@ return {
 				enabled = false,
 			},
 		},
-	},
-
-	{
-		"folke/noice.nvim",
-		event = "VeryLazy",
-		opts = {
-			lsp = {
-				-- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-				override = {
-					["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-					["vim.lsp.util.stylize_markdown"] = true,
-					["cmp.entry.get_documentation"] = true,
-				},
-			},
-			-- you can enable a preset for easier configuration
-			presets = {
-				bottom_search = true, -- use a classic bottom cmdline for search
-				command_palette = true, -- position the cmdline and popupmenu together
-				long_message_to_split = true, -- long messages will be sent to a split
-				inc_rename = false, -- enables an input dialog for inc-rename.nvim
-				lsp_doc_border = false, -- add a border to hover docs and signature help
-			},
-		},
-	},
-	dependencies = {
-		-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-		"MunifTanjim/nui.nvim",
-		-- OPTIONAL:
-		--   `nvim-notify` is only needed, if you want to use the notification view.
-		--   If not available, we use `mini` as the fallback
-		"rcarriga/nvim-notify",
 	},
 
 	{
