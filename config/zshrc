@@ -41,12 +41,6 @@ zinit wait lucid for \
  atload"!_zsh_autosuggest_start" \
     zsh-users/zsh-autosuggestions
 
-# z, z tab completion
-zinit ice wait blockf lucid
-zinit light rupa/z
-zinit ice wait lucid
-zinit light changyuheng/fz
-
 zinit wait"1" lucid from"gh-r" as"null" for \
      sbin"**/bat"         @sharkdp/bat \
      sbin"**/fd"          @sharkdp/fd \
@@ -59,6 +53,13 @@ zinit wait"1" lucid from"gh-r" as"null" for \
 # yank, clipboard
 zinit ice as"program" pick"yank" make
 zinit light mptre/yank
+
+# fzf-fasd
+zinit ice as"program" make
+zinit light "clvv/fasd"
+# Setup fasd
+eval "$(fasd --init auto)"
+zinit light "wookayin/fzf-fasd"  
 
 # direnv
 zinit as"program" make'!' atclone'./direnv hook zsh > zhook.zsh' \
