@@ -615,4 +615,66 @@ return {
 	},
 
 	{ "farmergreg/vim-lastplace", event = { "BufReadPre" } },
+
+	{
+		"monaqa/dial.nvim",
+		keys = {
+			{
+				"<leader>di",
+				function()
+					return require("dial.map").inc_normal()
+				end,
+				expr = true,
+			},
+			{
+				"<leader>dd",
+				function()
+					return require("dial.map").dec_normal()
+				end,
+				expr = true,
+			},
+			{
+				"<leader>di",
+				function()
+					return require("dial.map").inc_visual()
+				end,
+				mode = "v",
+				expr = true,
+			},
+			{
+				"<leader>dd",
+				function()
+					return require("dial.map").dec_visual()
+				end,
+				mode = "v",
+				expr = true,
+			},
+		},
+		config = function()
+			local augend = require("dial.augend")
+			require("dial.config").augends:register_group({
+				default = {
+					augend.integer.alias.decimal,
+					augend.constant.alias.bool,
+					augend.constant.new({
+						elements = { "True", "False" },
+						word = true,
+						cyclic = true,
+					}),
+					augend.semver.alias.semver,
+					augend.date.alias["%Y/%m/%d"], -- date (2022/02/20, etc.)
+					augend.constant.new({
+						elements = { "and", "or" },
+						word = true,
+						cyclic = true,
+					}),
+					augend.constant.new({
+						elements = { "&&", "||" },
+						word = false,
+						cyclic = true,
+					}),
+				},
+			})
+		end,
+	},
 }
