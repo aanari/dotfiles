@@ -1,74 +1,107 @@
 [alias]
-    # View the SHA, description, and history graph of the latest 20 commits
-    #
-    #l = log --pretty=oneline -n 20 --graph
-    l = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit
-    # deploy log
-    dl = log --pretty=format:'%h %ad %an %s' --decorate --no-merges --date=short
-    # View the current working tree status using the short format
-    s = status -s
-    # View the current working tree status for all files, using the short format
-    sa = status -su
-    # Diff
-    d = diff --patch-with-stat
-    # Fetch all
-    f = fetch --all
-    # Pull in remote changes for the current repository and all its submodules
-    p = !"git pull; git submodule foreach git pull origin main"
-    # Rebase
-    r = rebase
-    # Tickets
-    t = "for-each-ref --sort=-committerdate refs/heads/ --format='%1B[1;33m%(objectname:short) %1B[0;31m[%(refname:short)]%1B[m  %(subject)'"
-    # Clone a repository including all submodules
-    c = clone --recursive
-    # Commit all changes
-    ca = !git add -A && git commit -av
-    # Checkout a branch
-    co = checkout
-    # Switch to a branch, creating it if necessary
-    go = checkout -B
-    # Show verbose output about tags, branches or remotes
-    # Find parent branch
-    parent = "!git show-branch -a | grep '\\*' | grep -v `git rev-parse --abbrev-ref HEAD` | head -n1"
-    tags = tag -l
-    branches = branch -a
-    remotes = remote -v
-    # Credit an author on the latest commit
-    credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
-    # Undo a `git push`
-    undopush = push -f origin HEAD^:main
-    # Pull a branch, rebase against main, then push for each env
-    bump = !"git checkout $1; git pull origin $1; git rebase ${2:-'main'}; git push origin"
-    # Amend a commit in place, without having to rebase HEAD~2
-    amend  = commit --amend --no-edit
-
-[core]
-    pager = delta
+  # View the SHA, description, and history graph of commits
+  l = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+  # deploy log
+  dl = log --pretty=format:'%h %ad %an %s' --decorate --no-merges --date=short
+  # View the current working tree status using the short format
+  s = status -s
+  # View the current working tree status for all files, using the short format
+  sa = status -su
+  # Diff
+  d = diff --patch-with-stat
+  # Fetch all
+  f = fetch --all
+  # Pull in remote changes for the current repository and all its submodules
+  p = !"git pull; git submodule foreach git pull origin main"
+  # Rebase
+  r = rebase
+  # Tickets
+  t = "for-each-ref --sort=-committerdate refs/heads/ --format='%1B[1;33m%(objectname:short) %1B[0;31m[%(refname:short)]%1B[m  %(subject)'"
+  # Clone a repository including all submodules
+  c = clone --recursive
+  # Commit all changes
+  ca = !git add -A && git commit -av
+  # Checkout a branch
+  co = checkout
+  # Switch to a branch, creating it if necessary
+  go = checkout -B
+  # Show verbose output about tags, branches or remotes
+  # Find parent branch
+  parent = "!git show-branch -a | grep '\\*' | grep -v `git rev-parse --abbrev-ref HEAD` | head -n1"
+  tags = tag -l
+  branches = branch -a
+  remotes = remote -v
+  # Credit an author on the latest commit
+  credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
+  # Not  quite as common as an amend, but still common
+  undo = reset --soft HEAD^
+  # Undo a `git push`
+  undopush = push -f origin HEAD^:main
+  # Pull a branch, rebase against main, then push for each env
+  bump = !"git checkout $1; git pull origin $1; git rebase ${2:-'main'}; git push origin"
+  # Amend a commit in place, without having to rebase HEAD~2
+  amend  = commit --amend --no-edit
+  # https://git-scm.com/docs/git-fetch#git-fetch--p
+  prune = fetch --prune
+  # Grab those pesky un-added files
+  stash-all = stash save --include-untracked
 
 [interactive]
-    diffFilter = delta --color-only
-
-[delta]
-    navigate = true
-    side-by-side = true
-    line-number = true
+  diffFilter = delta --color-only
 
 [merge]
-    conflictstyle = diff3
+  ff = only
+  conflictstyle = diff3
+
+[push]
+  default = simple
+  followTags = true
 
 [diff]
-    colorMoved = default
+  colorMoved = default
 
 [branch "main"]
-    remote = origin
-    merge = refs/heads/main
+  remote = origin
+  merge = refs/heads/main
 
 [user]
-    name = Ali Anari
-    email = ali@anari.io
+  name = Ali Anari
+  email = ali@anari.io
+
+[status]
+  showUntrackedFiles = all
 
 [github]
-    user = aanari
+  user = aanari
 
 [credential]
-    helper = store
+  helper = store
+
+[transfer]
+  fsckobjects = true
+
+[pager]
+  diff = delta
+  log = delta
+  reflog = delta
+  show = delta
+  tag = delta
+  branch = delta
+
+[delta]
+  features = side-by-side line-numbers decorations
+  syntax-theme = Dracula
+  plus-style = syntax "#003800"
+  minus-style = syntax "#3f0001"
+
+[delta "decorations"]
+  commit-decoration-style = bold yellow box ul
+  file-style = bold yellow ul
+  file-decoration-style = none
+  hunk-header-decoration-style = cyan box ul
+
+[delta "line-numbers"]
+  line-numbers-left-style = cyan
+  line-numbers-right-style = cyan
+  line-numbers-minus-style = 124
+  line-numbers-plus-style = 28
