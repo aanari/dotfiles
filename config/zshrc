@@ -36,6 +36,10 @@ zinit light Aloxaf/fzf-tab
 zinit ice depth=1
 zinit light jeffreytse/zsh-vi-mode
 
+# tldr
+zinit ice wait"2" as"command" pick"tldr" lucid
+zinit light raylee/tldr
+
 # syntax, completions, suggestions
 zinit wait lucid for \
  atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
