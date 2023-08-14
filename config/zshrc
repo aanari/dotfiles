@@ -40,6 +40,12 @@ zinit light jeffreytse/zsh-vi-mode
 zinit ice wait"2" as"command" pick"tldr" lucid
 zinit light raylee/tldr
 
+# git-cal
+zinit wait"2" lucid as"null" \
+ atclone'perl Makefile.PL PREFIX=$ZPFX' \
+ atpull'%atclone' make sbin"git-cal" for \
+    k4rthik/git-cal
+
 # syntax, completions, suggestions
 zinit wait lucid for \
  atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
