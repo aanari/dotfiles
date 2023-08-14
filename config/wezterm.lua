@@ -16,12 +16,12 @@ return {
 	font_rules = {
 		{
 			italic = true,
-			font = font_with_fallback(font_name, { italic = true }),
+			intensity = "Bold",
+			font = font_with_fallback(font_name, { italic = true, bold = true }),
 		},
 		{
 			italic = true,
-			intensity = "Bold",
-			font = font_with_fallback(font_name, { italic = true, bold = true }),
+			font = font_with_fallback(font_name, { italic = true }),
 		},
 		{
 			intensity = "Bold",
