@@ -1,3 +1,1 @@
-[[ -f ~/.rvm/scripts/rvm ]] && . ~/.rvm/scripts/rvm
-[[ -f ~/perl5/perlbrew/etc/bashrc ]] && . ~/perl5/perlbrew/etc/bashrc
 [[ -d ~/.source ]] && for f in ~/.source/*; do source $f; done

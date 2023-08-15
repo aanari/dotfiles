@@ -1,3 +1,8 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+if [[ -r "${XDG_CACHE_HOME:-${HOME}/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
@@ -95,6 +100,9 @@ zstyle ':fzf-tab:*' switch-group ',' '.'
 # dircolors
 test -r ~/.dir_colors && eval $(dircolors ~/.dir_colors)
 
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# powerlevel10k
 # fzf
 source ~/.fzf.sh
 
