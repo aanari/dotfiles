@@ -50,7 +50,13 @@ return {
 			end
 			lsp_kind.init()
 			cmp.setup({
-				enabled = true,
+				enabled = function()
+					local buftype = vim.api.nvim_buf_get_option(0, "buftype")
+					if buftype == "prompt" then
+						return false
+					end
+					return true
+				end,
 				preselect = cmp.PreselectMode.None,
 				window = {
 					completion = cmp.config.window.bordered({
