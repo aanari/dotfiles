@@ -26,6 +26,7 @@ vim.api.nvim_set_hl(0, "HlSearchNear", { fg = "#0c0e0f", bg = "#ECD28B" })
 vim.api.nvim_set_hl(0, "HlSearchLens", { fg = "#0c0e0f", bg = "#e79881" })
 vim.api.nvim_set_hl(0, "HlSearchLensNear", { fg = "#0c0e0f", bg = "#ECD28B" })
 
+vim.opt.signcolumn = "yes:1"
 vim.opt.cursorline = true
 vim.opt.cursorcolumn = false
 vim.opt.termguicolors = true

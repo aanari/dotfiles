@@ -5,7 +5,7 @@ local lint = null_ls.builtins.diagnostics
 local code = null_ls.builtins.code_actions
 
 local sources = {
-  -- Formatting
+	-- Formatting
 	format.isort,
 	format.black,
 	format.gofmt,
@@ -37,7 +37,7 @@ local sources = {
 	format.shfmt,
 	format.yamlfmt,
 
-  -- Diagnostics
+	-- Diagnostics
 	lint.stylelint.with({
 		filetypes = {
 			"css",
@@ -59,9 +59,9 @@ local sources = {
 		extra_args = { "--dialect", "postgres" },
 	}),
 
-  -- Code Actions
-  code.gitsigns,
-  code.gitrebase,
+	-- Code Actions
+	code.gitsigns,
+	code.gitrebase,
 }
 
 null_ls.setup({
