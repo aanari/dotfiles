@@ -2,28 +2,20 @@ local null_ls = require("null-ls")
 
 local format = null_ls.builtins.formatting
 local lint = null_ls.builtins.diagnostics
+local code = null_ls.builtins.code_actions
 
 local sources = {
-	format.black,
+  -- Formatting
 	format.isort,
+	format.black,
 	format.gofmt,
 	format.goimports_reviser,
 	format.dart_format,
+	format.fixjson,
 	format.jq,
 	format.protolint,
+	format.clang_format,
 	format.shellharden,
-	lint.stylelint.with({
-		filetypes = {
-			"css",
-			"scss",
-		},
-	}),
-	lint.protoc_gen_lint,
-	lint.eslint_d.with({
-		condition = function(utils)
-			return utils.root_has_file(".eslintrc.js")
-		end,
-	}),
 	format.deno_fmt,
 	format.prettier.with({
 		filetypes = {
@@ -43,13 +35,33 @@ local sources = {
 	}),
 	format.stylua,
 	format.shfmt,
+	format.yamlfmt,
+
+  -- Diagnostics
+	lint.stylelint.with({
+		filetypes = {
+			"css",
+			"scss",
+		},
+	}),
+	lint.protoc_gen_lint,
+	lint.eslint_d.with({
+		condition = function(utils)
+			return utils.root_has_file(".eslintrc.js")
+		end,
+	}),
+	lint.flake8,
+	lint.tsc,
 	lint.shellcheck.with({ diagnostics_format = "#{m} [#{c}]" }),
 	lint.clang_check,
-	format.clang_format,
 	lint.yamllint,
 	lint.sqlfluff.with({
-		extra_args = { "--dialect", "postgres" }, -- change to your dialect
+		extra_args = { "--dialect", "postgres" },
 	}),
+
+  -- Code Actions
+  code.gitsigns,
+  code.gitrebase,
 }
 
 null_ls.setup({
