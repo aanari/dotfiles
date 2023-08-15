@@ -68,7 +68,7 @@ null_ls.setup({
 	debug = true,
 	sources = sources,
 	on_attach = function()
-		vim.api.nvim_create_autocmd("BufWritePost", {
+		vim.api.nvim_create_autocmd("BufWritePre", {
 			callback = function()
 				vim.lsp.buf.format()
 			end,

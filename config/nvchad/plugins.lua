@@ -16,6 +16,7 @@ return {
 			"saadparwaiz1/cmp_luasnip",
 			"hrsh7th/cmp-nvim-lua",
 			"windwp/nvim-autopairs",
+			"hrsh7th/cmp-cmdline",
 			"onsails/lspkind-nvim",
 			{
 				"zbirenbaum/copilot-cmp",
@@ -104,6 +105,15 @@ return {
 				return
 			end
 			cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done({ map_char = { tex = "" } }))
+			-- Enable command-line completion
+			cmp.setup.cmdline(":", {
+				sources = {
+					{ name = "cmdline", keyword_length = 2 },
+				},
+				formatting = {
+					fields = { "abbr" },
+				},
+			})
 		end,
 	},
 

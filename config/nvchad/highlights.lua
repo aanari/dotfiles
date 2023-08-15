@@ -48,7 +48,7 @@ M.override = {
 }
 
 M.add = {
-	MsgArea = { fg = "#505253" },
+	MsgArea = { fg = "#5C91CE", bold = true },
 }
 
 return M
