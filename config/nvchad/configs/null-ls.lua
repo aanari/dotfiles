@@ -12,13 +12,35 @@ local sources = {
 	format.jq,
 	format.protolint,
 	format.shellharden,
-	format.stylelint,
+	lint.stylelint.with({
+		filetypes = {
+			"css",
+			"scss",
+		},
+	}),
 	lint.protoc_gen_lint,
-	lint.eslint.with({
-		command = "eslint_d",
+	lint.eslint_d.with({
+		condition = function(utils)
+			return utils.root_has_file(".eslintrc.js")
+		end,
 	}),
 	format.deno_fmt,
-	format.prettier.with({ filetypes = { "html", "markdown", "css" } }),
+	format.prettier.with({
+		filetypes = {
+			"javascript",
+			"typescript",
+			"css",
+			"scss",
+			"html",
+			"json",
+			"yaml",
+			"markdown",
+			"graphql",
+			"md",
+			"txt",
+		},
+		only_local = "node_modules/.bin",
+	}),
 	format.stylua,
 	format.shfmt,
 	lint.shellcheck.with({ diagnostics_format = "#{m} [#{c}]" }),
