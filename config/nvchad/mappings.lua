@@ -46,7 +46,7 @@ M.general = {
 		["<leader>qf"] = { ":TroubleToggle<cr>", "Quick Fix" },
 		["<leader>fm"] = {
 			function()
-				vim.lsp.buf.format({ async = true, timeout_ms = 2500 })
+				vim.lsp.buf.format({ async = true, timeout_ms = 5000 })
 			end,
 			"LSP formatting",
 		},
