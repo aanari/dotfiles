@@ -5,6 +5,5 @@ git:
   merging:
     args: '-no-ff'
   paging:
-    colorArg: never
+    colorArg: always
     pager: delta --dark --paging=never
-    useConfig: false
