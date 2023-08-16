@@ -179,15 +179,6 @@ return {
 		end,
 	},
 
-	-- get highlight group under cursor
-	{
-		"nvim-treesitter/playground",
-		cmd = "TSCaptureUnderCursor",
-		config = function()
-			require("nvim-treesitter.configs").setup()
-		end,
-	},
-
 	{
 		"folke/trouble.nvim",
 		event = "VeryLazy",
