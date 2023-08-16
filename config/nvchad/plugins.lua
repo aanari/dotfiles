@@ -233,15 +233,7 @@ return {
 			vim.o.termguicolors = true
 		end,
 		config = function()
-			require("modicator").setup({
-				highlights = {
-					-- Default options for bold/italic
-					defaults = {
-						bold = true,
-						italic = false,
-					},
-				},
-			})
+			require("modicator").setup({})
 		end,
 	},
 
@@ -270,8 +262,9 @@ return {
 	},
 
 	{
-		"tummetott/reticle.nvim",
-		event = "VeryLazy",
+		"nvim-zh/colorful-winsep.nvim",
+		config = true,
+		event = { "WinNew" },
 	},
 
 	{
@@ -578,9 +571,12 @@ return {
 	},
 
 	{
-		"nvim-zh/colorful-winsep.nvim",
-		config = true,
-		event = { "WinNew" },
+		"levouh/tint.nvim",
+		event = "VeryLazy",
+		opts = {
+			darken = -45,
+			saturation = 0.4,
+		},
 	},
 
 	{

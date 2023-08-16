@@ -20,8 +20,6 @@ M.override = {
 	["@type"] = { link = "Type" },
 
 	CursorReset = { fg = "#ffffff", bg = "#ffffff" },
-	CursorLine = { bg = "#22272a" },
-	CursorColumn = { bg = "#22272a" },
 	Visual = { fg = "#0c0e0f", bg = "#bac1c5" },
 
 	NvimTreeOpenedFolderName = { bold = true, italic = true },
