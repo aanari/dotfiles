@@ -3,20 +3,21 @@ local capabilities = require("plugins.configs.lspconfig").capabilities
 
 local lspconfig = require("lspconfig")
 local servers = {
-	"html",
-	"cssls",
-	"emmet_ls",
-	"clangd",
-	"dartls",
-	"gopls",
-	"rls",
-	"pyright",
-	"jsonls",
-	"tsserver",
-	"unocss",
 	"bashls",
+	"clangd",
+	"cssls",
+	"dartls",
+	"emmet_ls",
+	"gopls",
+	"html",
+	"jsonls",
+	"pyright",
+	"rls",
 	"stylelint_lsp",
 	"tailwindcss",
+	"tsserver",
+	"unocss",
+	"yamlls",
 }
 
 for _, lsp in ipairs(servers) do

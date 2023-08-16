@@ -1,3 +1,10 @@
+# yaml-language-server: $schema=https://json.schemastore.org/lazygit.json
+os:
+  copyToClipboardCmd: printf "\033]52;c;$(printf {{text}} | base64)\a" > /dev/tty
 git:
-  pull:
-    mode: 'rebase'
+  merging:
+    args: '-no-ff'
+  paging:
+    colorArg: never
+    pager: delta --dark --paging=never
+    useConfig: false
