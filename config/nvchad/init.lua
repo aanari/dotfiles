@@ -23,8 +23,6 @@ vim.api.nvim_set_hl(0, "TSRainbowGreen", { fg = "#81c19b" })
 vim.api.nvim_set_hl(0, "TSRainbowViolet", { fg = "#70b8ca" })
 vim.api.nvim_set_hl(0, "TSRainbowCyan", { fg = "#f2f4f5" })
 vim.api.nvim_set_hl(0, "HlSearchNear", { fg = "#0c0e0f", bg = "#ECD28B" })
-vim.api.nvim_set_hl(0, "HlSearchLens", { fg = "#0c0e0f", bg = "#e79881" })
-vim.api.nvim_set_hl(0, "HlSearchLensNear", { fg = "#0c0e0f", bg = "#ECD28B" })
 
 vim.opt.signcolumn = "yes:1"
 vim.opt.cursorline = true
@@ -35,26 +33,6 @@ vim.opt.guicursor = {
 	[[a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor]],
 	[[sm:block-blinkwait175-blinkoff150-blinkon175]],
 }
-
-local kopts = { noremap = true, silent = true }
-
-vim.api.nvim_set_keymap(
-	"n",
-	"n",
-	[[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
-	kopts
-)
-vim.api.nvim_set_keymap(
-	"n",
-	"N",
-	[[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
-	kopts
-)
-vim.api.nvim_set_keymap("n", "*", [[*<Cmd>lua require('hlslens').start()<CR>]], kopts)
-vim.api.nvim_set_keymap("n", "#", [[#<Cmd>lua require('hlslens').start()<CR>]], kopts)
-vim.api.nvim_set_keymap("n", "g*", [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
-vim.api.nvim_set_keymap("n", "g#", [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
-vim.api.nvim_set_keymap("n", "<Leader>l", "<Cmd>noh<CR>", kopts)
 
 vim.api.nvim_set_hl(0, "IlluminatedWordText", { bg = "#22282a" })
 vim.api.nvim_set_hl(0, "IlluminatedWordRead", { bg = "#22282a" })

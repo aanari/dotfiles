@@ -275,14 +275,6 @@ return {
 	},
 
 	{
-		"kevinhwang91/nvim-hlslens",
-		event = "VeryLazy",
-		config = function()
-			require("hlslens").setup()
-		end,
-	},
-
-	{
 		"stevearc/dressing.nvim",
 		lazy = true,
 		init = function()
