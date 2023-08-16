@@ -1,3 +1,5 @@
+# vim: set ft=sh:
+
 xml() {
   xmllint -format - | if [ -t 1 ] && which pygmentize &> /dev/null; then
     pygmentize -l xml

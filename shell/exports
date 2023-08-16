@@ -1,6 +1,15 @@
-export DOTFILES=~/.dotfiles                 # here
-export ARCHFLAGS='-arch x86_64'             # archflags
-export GH_LOGIN=aanari                      # used by git-go
+# vim: set ft=sh:
+
+# XDG_CONFIG_HOME, XDG_DATA_HOME, and XDG_CACHE_HOME are not usually set for
+# macOS
+if [[ $(uname -a | grep -i darwin) ]]; then
+	export XDG_CONFIG_HOME="$HOME/.config"
+	export XDG_CACHE_HOME="$HOME/.cache"
+	export XDG_DATA_HOME="$HOME/.local/share"
+fi
+export DOTFILES=~/.dotfiles     # here
+export ARCHFLAGS='-arch x86_64' # archflags
+export GH_LOGIN=aanari          # used by git-go
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
 export GOPATH=$HOME/go
 export GOROOT=/usr/local/go

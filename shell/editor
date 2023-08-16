@@ -1,2 +1,4 @@
+# vim: set ft=sh:
+
 export EDITOR='nvim'
 export GIT_EDITOR='nvim'
