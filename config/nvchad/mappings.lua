@@ -44,6 +44,12 @@ M.general = {
 			"Toggle , at the end of the line",
 		},
 		["<leader>qf"] = { ":TroubleToggle<cr>", "Quick Fix" },
+		["<leader>fm"] = {
+			function()
+				vim.lsp.buf.format({ async = true, timeout_ms = 2500 })
+			end,
+			"LSP formatting",
+		},
 	},
 
 	i = {

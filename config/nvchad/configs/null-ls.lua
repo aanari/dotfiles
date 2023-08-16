@@ -65,7 +65,6 @@ local sources = {
 }
 
 null_ls.setup({
-	debug = true,
 	sources = sources,
 	on_attach = function()
 		vim.api.nvim_create_autocmd("BufWritePre", {
