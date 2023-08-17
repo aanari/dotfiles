@@ -25,7 +25,7 @@ vim.api.nvim_set_hl(0, "RainbowDelimiterCyan", { fg = "#67AFC1" })
 
 vim.api.nvim_set_hl(0, "HlSearchNear", { fg = "#0c0e0f", bg = "#f6dc95" })
 
-vim.opt.signcolumn = "yes:1"
+vim.opt.signcolumn = "number"
 vim.opt.cursorline = true
 vim.opt.cursorcolumn = false
 vim.opt.termguicolors = true
