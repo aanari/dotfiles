@@ -17,6 +17,7 @@ local sources = {
 	format.clang_format,
 	format.shellharden,
 	format.deno_fmt,
+	format.rubyfmt,
 	format.prettier.with({
 		filetypes = {
 			"javascript",
@@ -69,7 +70,7 @@ null_ls.setup({
 	on_attach = function()
 		vim.api.nvim_create_autocmd("BufWritePre", {
 			callback = function()
-				vim.lsp.buf.format({ timeout_ms = 5000 })
+				vim.lsp.buf.format({})
 			end,
 		})
 	end,

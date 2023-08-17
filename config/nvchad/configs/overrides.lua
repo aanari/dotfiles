@@ -21,6 +21,7 @@ M.treesitter = {
 		"python",
 		"query",
 		"regex",
+		"ruby",
 		"scss",
 		"sql",
 		"toml",
@@ -35,15 +36,6 @@ M.treesitter = {
 		"jsonc",
 		"rust",
 		"vue",
-	},
-	rainbow = {
-		enable = true,
-		query = {
-			"rainbow-parens",
-			html = "rainbow-tags",
-			javascript = "rainbow-tags-react",
-			tsx = "rainbow-tags",
-		},
 	},
 	autotag = {
 		enable = true,
@@ -108,6 +100,7 @@ M.mason = {
 		"prettier",
 		"protolint",
 		"pyright",
+		"rubyfmt",
 		"shellcheck",
 		"shellharden",
 		"shfmt",
