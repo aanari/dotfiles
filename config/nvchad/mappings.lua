@@ -220,4 +220,14 @@ M.lazygit = {
 	},
 }
 
+M.telescope = {
+	n = {
+		["<leader>fz"] = { "<cmd> Telescope grep_string <CR>", "Grep under cursor" },
+	},
+
+	v = {
+		["<leader>fz"] = { "y<ESC>:Telescope live_grep default_text=<c-r>0<CR>" },
+	},
+}
+
 return M
