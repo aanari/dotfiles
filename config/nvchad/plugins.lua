@@ -143,6 +143,15 @@ return {
 		end,
 	},
 
+	-- get highlight group under cursor
+	{
+		"nvim-treesitter/playground",
+		cmd = "TSCaptureUnderCursor",
+		config = function()
+			require("nvim-treesitter.configs").setup()
+		end,
+	},
+
 	-- override default configs
 	{ "nvim-tree/nvim-tree.lua", opts = overrides.nvimtree },
 
@@ -558,15 +567,6 @@ return {
 				callback = scrollbar.clear,
 			})
 		end,
-	},
-
-	{
-		"levouh/tint.nvim",
-		event = "VeryLazy",
-		opts = {
-			darken = -45,
-			saturation = 0.4,
-		},
 	},
 
 	{

@@ -45,10 +45,10 @@ M.treesitter = {
 	incremental_selection = {
 		enable = true,
 		keymaps = {
-			init_selection = "<C-space>",
-			node_incremental = "<C-space>",
+			init_selection = "<CR>",
+			node_incremental = "<CR>",
 			scope_incremental = false,
-			node_decremental = "<bs>",
+			node_decremental = "<BS>",
 		},
 	},
 }
@@ -91,6 +91,7 @@ M.mason = {
 		"fixjson",
 		"flake8",
 		"goimports-reviser",
+		"graphql-language-service-cli",
 		"html-lsp",
 		"isort",
 		"jq",
@@ -107,6 +108,7 @@ M.mason = {
 		"sqlfluff",
 		"stylua",
 		"tailwindcss-language-server",
+		"tree-sitter-cli",
 		"typescript-language-server",
 		"yaml-language-server",
 		"yamlfmt",

@@ -12,6 +12,7 @@ M.disabled = {
 M.general = {
 	n = {
 		["<Esc>"] = { ":noh <CR>", "Clear highlights", opts = { silent = true } },
+		["<BS>"] = { ":noh <CR>", "Clear highlights", opts = { silent = true } },
 		["<CR>"] = {
 			function()
 				if vim.bo.buftype == "terminal" then
