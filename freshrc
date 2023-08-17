@@ -14,28 +14,31 @@ fresh zdharma/zinit . --file=~/.zinit/bin/
 
 # ~/.zshenv
 fresh-options --file=~/.zshenv --marker
-    fresh shell/\*
+fresh shell/\*
 fresh-options
 
 # config
 fresh-options --file
-    fresh config/\*
-    fresh jasoncodes/dotfiles config/hushlogin
-    fresh jasoncodes/dotfiles config/inputrc
-    fresh jasoncodes/dotfiles config/gemrc
-    fresh jasoncodes/dotfiles config/screenrc
-    fresh jasoncodes/dotfiles config/sqliterc
+fresh config/\*
+fresh jasoncodes/dotfiles config/hushlogin
+fresh jasoncodes/dotfiles config/inputrc
+fresh jasoncodes/dotfiles config/gemrc
+fresh jasoncodes/dotfiles config/screenrc
+fresh jasoncodes/dotfiles config/sqliterc
 fresh-options
 fresh claytron/pentadactyl-solarized colors/solarized-light.penta --file=~/.pentadactyl/colors/solarized-light.penta
 fresh tmux-plugins/tpm . --file=~/.tmux/plugins/tpm/
-fresh config/comfortable-swipe.conf --file=~/.config/comfortable-swipe.conf
-fresh config/pgcli --file=~/.config/pgcli/
-fresh config/flake8 --file=~/.config/flake8
-fresh config/lemonade.toml --file=~/.config/lemonade.toml
-fresh config/neomutt --file=~/.config/neomutt/
 fresh config/browsh --file=~/.config/browsh/
+fresh config/comfortable-swipe.conf --file=~/.config/comfortable-swipe.conf
+fresh config/delta.gitconfig --file=~/.config/delta.gitconfig
+fresh config/flake8 --file=~/.config/flake8
 fresh config/ipython --file=~/.ipython/
 fresh config/irssi --file=~/.irssi/
+fresh config/lazydocker/config.yml --file=~/.config/lazydocker/config.yml
+fresh config/lazygit/config.yml --file=~/.config/lazygit/config.yml
+fresh config/lemonade.toml --file=~/.config/lemonade.toml
+fresh config/neomutt --file=~/.config/neomutt/
+fresh config/pgcli --file=~/.config/pgcli/
 fresh config/ptpython --file=~/.ptpython/
 fresh config/re.pl --file=~/.re.pl/
 fresh config/sqitch --file=~/.sqitch/
@@ -46,11 +49,11 @@ fresh twe4ked/dotfiles config/ranger/rc.conf --file=~/.config/ranger/rc.conf
 
 # ~/.vimrc
 fresh-options --file=~/.vimrc --marker=\"
-    fresh config/vim/vundle_before.vim
-    fresh config/vim/vundle.vim
-    fresh config/vim/vundle_after.vim
-    fresh config/vim/settings.vim
-    fresh config/vim/plugins.vim
+fresh config/vim/vundle_before.vim
+fresh config/vim/vundle.vim
+fresh config/vim/vundle_after.vim
+fresh config/vim/settings.vim
+fresh config/vim/plugins.vim
 fresh-options
 fresh config/vim/after/syntax/markdown.vim --file=~/.vim/after/syntax/markdown.vim
 fresh config/vim/ftplugin/python.vim --file=~/.vim/after/ftplugin/python.vim
@@ -74,28 +77,28 @@ fresh config/himalaya --file=~/.config/himalaya/
 
 # bin
 fresh-options --bin
-    fresh bin/\*
-    fresh defunkt/repl bin/repl
-    fresh garybernhardt/dotfiles bin/git-churn
-    fresh jasoncodes/dotfiles bin/airport-bounce
-    fresh jasoncodes/dotfiles bin/pidof
-    fresh jasoncodes/dotfiles bin/loop
-    fresh jasoncodes/dotfiles bin/vimdiff
-    fresh jasoncodes/dotfiles bin/vol
-    fresh jasoncodes/dotfiles bin/wemux/\*
-    fresh junegunn/fzf bin/fzf-tmux
-    fresh k4rthik/git-cal git-cal
-    fresh LuRsT/hr hr
-    fresh pengwynn/dotfiles bin/git-pr
-    fresh pengwynn/dotfiles bin/termcolors
-    fresh thenigan/git-diffall git-diffall
-    fresh twe4ked/dotfiles bin/build_status
-    fresh twe4ked/dotfiles bin/add-keys
-    fresh twe4ked/catacomb bin/catacomb
+fresh bin/\*
+fresh defunkt/repl bin/repl
+fresh garybernhardt/dotfiles bin/git-churn
+fresh jasoncodes/dotfiles bin/airport-bounce
+fresh jasoncodes/dotfiles bin/pidof
+fresh jasoncodes/dotfiles bin/loop
+fresh jasoncodes/dotfiles bin/vimdiff
+fresh jasoncodes/dotfiles bin/vol
+fresh jasoncodes/dotfiles bin/wemux/\*
+fresh junegunn/fzf bin/fzf-tmux
+fresh k4rthik/git-cal git-cal
+fresh LuRsT/hr hr
+fresh pengwynn/dotfiles bin/git-pr
+fresh pengwynn/dotfiles bin/termcolors
+fresh thenigan/git-diffall git-diffall
+fresh twe4ked/dotfiles bin/build_status
+fresh twe4ked/dotfiles bin/add-keys
+fresh twe4ked/catacomb bin/catacomb
 fresh-options
 
 fresh_after_build() {
-    if which chflags &> /dev/null; then
-        chflags hidden ~/bin
-    fi
+	if which chflags &>/dev/null; then
+		chflags hidden ~/bin
+	fi
 }

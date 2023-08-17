@@ -6,6 +6,14 @@ return {
 	"tpope/vim-sleuth",
 
 	{
+		"mfussenegger/nvim-treehopper",
+		keys = {
+			{ "m", ":<C-U>lua require('tsht').nodes()<CR>", mode = "o" },
+			{ "m", ":lua require('tsht').nodes()<CR>", mode = "v" },
+		},
+	},
+
+	{
 		"hrsh7th/nvim-cmp",
 		event = "InsertEnter",
 		dependencies = {
@@ -143,6 +151,15 @@ return {
 		end,
 	},
 
+	-- get highlight group under cursor
+	{
+		"nvim-treesitter/playground",
+		cmd = "TSCaptureUnderCursor",
+		config = function()
+			require("nvim-treesitter.configs").setup()
+		end,
+	},
+
 	-- override default configs
 	{ "nvim-tree/nvim-tree.lua", opts = overrides.nvimtree },
 
@@ -150,10 +167,10 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 		opts = overrides.treesitter,
 		dependencies = {
-			"HiPhish/nvim-ts-rainbow2",
 			"windwp/nvim-ts-autotag",
 			"nvim-treesitter/nvim-treesitter-textobjects",
 			"nvim-treesitter/nvim-treesitter-refactor",
+			"hiphish/rainbow-delimiters.nvim",
 			{
 				"David-Kunz/treesitter-unit",
       -- stylua: ignore
@@ -176,15 +193,6 @@ return {
 		event = "InsertEnter",
 		config = function()
 			require("nvim-ts-autotag").setup()
-		end,
-	},
-
-	-- get highlight group under cursor
-	{
-		"nvim-treesitter/playground",
-		cmd = "TSCaptureUnderCursor",
-		config = function()
-			require("nvim-treesitter.configs").setup()
 		end,
 	},
 
@@ -233,15 +241,7 @@ return {
 			vim.o.termguicolors = true
 		end,
 		config = function()
-			require("modicator").setup({
-				highlights = {
-					-- Default options for bold/italic
-					defaults = {
-						bold = true,
-						italic = false,
-					},
-				},
-			})
+			require("modicator").setup({})
 		end,
 	},
 
@@ -270,8 +270,9 @@ return {
 	},
 
 	{
-		"tummetott/reticle.nvim",
-		event = "VeryLazy",
+		"nvim-zh/colorful-winsep.nvim",
+		config = true,
+		event = { "WinNew" },
 	},
 
 	{
@@ -350,51 +351,9 @@ return {
 	},
 
 	{
-		"folke/flash.nvim",
-		event = "VeryLazy",
-		opts = {},
-		keys = {
-			{
-				"s",
-				mode = { "n", "x", "o" },
-				function()
-					require("flash").jump()
-				end,
-				desc = "Flash",
-			},
-			{
-				"S",
-				mode = { "n", "o", "x" },
-				function()
-					require("flash").treesitter()
-				end,
-				desc = "Flash Treesitter",
-			},
-			{
-				"r",
-				mode = "o",
-				function()
-					require("flash").remote()
-				end,
-				desc = "Remote Flash",
-			},
-			{
-				"R",
-				mode = { "o", "x" },
-				function()
-					require("flash").treesitter_search()
-				end,
-				desc = "Treesitter Search",
-			},
-			{
-				"<c-s>",
-				mode = { "c" },
-				function()
-					require("flash").toggle()
-				end,
-				desc = "Toggle Flash Search",
-			},
-		},
+		"phaazon/hop.nvim",
+		branch = "v2",
+		opts = { keys = "etovxqpdygfblzhckisuran" },
 	},
 
 	{
@@ -575,12 +534,6 @@ return {
 				callback = scrollbar.clear,
 			})
 		end,
-	},
-
-	{
-		"nvim-zh/colorful-winsep.nvim",
-		config = true,
-		event = { "WinNew" },
 	},
 
 	{

@@ -12,6 +12,7 @@ M.disabled = {
 M.general = {
 	n = {
 		["<Esc>"] = { ":noh <CR>", "Clear highlights", opts = { silent = true } },
+		["<BS>"] = { ":noh <CR>", "Clear highlights", opts = { silent = true } },
 		["<CR>"] = {
 			function()
 				if vim.bo.buftype == "terminal" then
@@ -44,6 +45,12 @@ M.general = {
 			"Toggle , at the end of the line",
 		},
 		["<leader>qf"] = { ":TroubleToggle<cr>", "Quick Fix" },
+		["<leader>fm"] = {
+			function()
+				vim.lsp.buf.format({ async = true, timeout_ms = 5000 })
+			end,
+			"LSP formatting",
+		},
 	},
 
 	i = {
@@ -210,6 +217,16 @@ M.gitsigns = {
 M.lazygit = {
 	n = {
 		["<leader>gg"] = { ":LazyGit<cr>", "Lazy Git" },
+	},
+}
+
+M.telescope = {
+	n = {
+		["<leader>fz"] = { "<cmd> Telescope grep_string <CR>", "Grep under cursor" },
+	},
+
+	v = {
+		["<leader>fz"] = { "y<ESC>:Telescope live_grep default_text=<c-r>0<CR>" },
 	},
 }
 

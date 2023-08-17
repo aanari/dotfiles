@@ -17,6 +17,7 @@ local sources = {
 	format.clang_format,
 	format.shellharden,
 	format.deno_fmt,
+	format.rubyfmt,
 	format.prettier.with({
 		filetypes = {
 			"javascript",
@@ -60,17 +61,19 @@ local sources = {
 	}),
 
 	-- Code Actions
-	code.gitsigns,
-	code.gitrebase,
+	code.eslint_d.with({
+		condition = function(utils)
+			return utils.root_has_file(".eslintrc.js")
+		end,
+	}),
 }
 
 null_ls.setup({
-	debug = true,
 	sources = sources,
 	on_attach = function()
 		vim.api.nvim_create_autocmd("BufWritePre", {
 			callback = function()
-				vim.lsp.buf.format()
+				vim.lsp.buf.format({})
 			end,
 		})
 	end,

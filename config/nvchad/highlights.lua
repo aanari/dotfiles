@@ -19,13 +19,15 @@ M.override = {
 	Type = { italic = true },
 	["@type"] = { link = "Type" },
 
+	CursorLine = { bg = "#22272a" },
 	CursorReset = { fg = "#ffffff", bg = "#ffffff" },
-	CursorLine = { bg = "#171a1c" },
-	CursorColumn = { bg = "#171a1c" },
 	Visual = { fg = "#0c0e0f", bg = "#bac1c5" },
 
+	NvimTreeCursorLine = { bg = "#22272a", bold = true },
 	NvimTreeOpenedFolderName = { bold = true, italic = true },
 	NvimTreeOpenedFile = { bold = true, italic = true },
+
+	TelescopeSelection = { bg = "#22272a", bold = true },
 
 	TSComment = { italic = true },
 	TSConditional = { italic = true },
