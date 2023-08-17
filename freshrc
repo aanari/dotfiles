@@ -34,6 +34,7 @@ fresh config/delta.gitconfig --file=~/.config/delta.gitconfig
 fresh config/flake8 --file=~/.config/flake8
 fresh config/ipython --file=~/.ipython/
 fresh config/irssi --file=~/.irssi/
+fresh config/lazydocker/config.yml --file=~/.config/lazydocker/config.yml
 fresh config/lazygit/config.yml --file=~/.config/lazygit/config.yml
 fresh config/lemonade.toml --file=~/.config/lemonade.toml
 fresh config/neomutt --file=~/.config/neomutt/
