@@ -61,8 +61,11 @@ local sources = {
 	}),
 
 	-- Code Actions
-	code.gitsigns,
-	code.gitrebase,
+	code.eslint_d.with({
+		condition = function(utils)
+			return utils.root_has_file(".eslintrc.js")
+		end,
+	}),
 }
 
 null_ls.setup({
