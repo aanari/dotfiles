@@ -30,7 +30,7 @@ vim.api.nvim_set_hl(0, "DiagnosticUnderlineHint", { underdashed = true })
 
 vim.api.nvim_set_hl(0, "HlSearchNear", { fg = "#0c0e0f", bg = "#f6dc95" })
 
-vim.opt.signcolumn = "number"
+vim.opt.signcolumn = "no"
 vim.opt.cursorline = true
 vim.opt.cursorcolumn = false
 vim.opt.termguicolors = true
