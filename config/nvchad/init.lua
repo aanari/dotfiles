@@ -23,6 +23,11 @@ vim.api.nvim_set_hl(0, "RainbowDelimiterGreen", { fg = "#81c19b" })
 vim.api.nvim_set_hl(0, "RainbowDelimiterViolet", { fg = "#c58cec" })
 vim.api.nvim_set_hl(0, "RainbowDelimiterCyan", { fg = "#67AFC1" })
 
+vim.api.nvim_set_hl(0, "DiagnosticUnderlineError", { undercurl = true })
+vim.api.nvim_set_hl(0, "DiagnosticUnderlineWarn", { undercurl = true })
+vim.api.nvim_set_hl(0, "DiagnosticUnderlineInfo", { underdashed = true })
+vim.api.nvim_set_hl(0, "DiagnosticUnderlineHint", { underdashed = true })
+
 vim.api.nvim_set_hl(0, "HlSearchNear", { fg = "#0c0e0f", bg = "#f6dc95" })
 
 vim.opt.signcolumn = "yes:1"

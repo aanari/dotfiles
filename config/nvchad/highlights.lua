@@ -5,6 +5,7 @@ M.override = {
 	["@include"] = { italic = true },
 
 	["@method"] = { bold = true },
+	["@error"] = { undercurl = true },
 
 	Comment = { italic = true },
 	SpecialComment = { link = "Comment" },
