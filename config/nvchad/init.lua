@@ -61,6 +61,11 @@ osc52.setup({
 	trim = false, -- Trim text before copy
 })
 
+-- TODO: Clean up these key mappings
+-- Yanking
 vim.keymap.set("n", "<leader>y", osc52.copy_operator, { expr = true })
 vim.keymap.set("n", "<leader>yy", "<leader>y_", { remap = true })
 vim.keymap.set("x", "<leader>y", osc52.copy_visual)
+-- Hopping
+vim.keymap.set("n", "S", "<cmd>lua require'hop'.hint_char2()<cr>", {})
+vim.keymap.set("n", "s", "<cmd>lua require'hop'.hint_patterns({}, vim.fn['getreg']('/'))<cr>", {})
