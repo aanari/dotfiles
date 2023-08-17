@@ -35,9 +35,11 @@ gui:
   showFileTree: true
   showRandomTip: true
   showCommandLog: true
-  showBottomLine: true
+  showBottomLine: false
   commandLogSize: 8
-  splitDiff: auto
+  splitDiff: always
+  nerdFontsVersion: "3"
+  border: single
 git:
   paging:
     colorArg: always

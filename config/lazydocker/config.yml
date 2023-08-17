@@ -1,6 +1,8 @@
 # yaml-language-server: $schema=https://json.schemastore.org/lazydocker.json
 gui:
   scrollHeight: 2
+  sidePanelWidth: 0.333
+  showBottomLine: false
   theme:
     activeBorderColor:
       - 'green'
