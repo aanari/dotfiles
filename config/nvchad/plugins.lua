@@ -170,6 +170,7 @@ return {
 			"windwp/nvim-ts-autotag",
 			"nvim-treesitter/nvim-treesitter-textobjects",
 			"nvim-treesitter/nvim-treesitter-refactor",
+			"hiphish/rainbow-delimiters.nvim",
 			{
 				"David-Kunz/treesitter-unit",
       -- stylua: ignore

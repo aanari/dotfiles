@@ -15,14 +15,15 @@ vim.opt.shortmess:append("cS") -- Disable "[1/5]", "Pattern not found", etc.
 vim.opt.shortmess:append("FW") -- Disable message after editing/writing file
 vim.opt.guifont = { "PragmataProMonoLiga Nerd Font", "h13" }
 
-vim.api.nvim_set_hl(0, "TSRainbowRed", { fg = "#e8646a" })
-vim.api.nvim_set_hl(0, "TSRainbowYellow", { fg = "#e79881" })
-vim.api.nvim_set_hl(0, "TSRainbowBlue", { fg = "#709ad2" })
-vim.api.nvim_set_hl(0, "TSRainbowOrange", { fg = "#c58cec" })
-vim.api.nvim_set_hl(0, "TSRainbowGreen", { fg = "#81c19b" })
-vim.api.nvim_set_hl(0, "TSRainbowViolet", { fg = "#70b8ca" })
-vim.api.nvim_set_hl(0, "TSRainbowCyan", { fg = "#f2f4f5" })
-vim.api.nvim_set_hl(0, "HlSearchNear", { fg = "#0c0e0f", bg = "#ECD28B" })
+vim.api.nvim_set_hl(0, "RainbowDelimiterRed", { fg = "#e8646a" })
+vim.api.nvim_set_hl(0, "RainbowDelimiterYellow", { fg = "#ecd28b" })
+vim.api.nvim_set_hl(0, "RainbowDelimiterBlue", { fg = "#709ad2" })
+vim.api.nvim_set_hl(0, "RainbowDelimiterOrange", { fg = "#E89982" })
+vim.api.nvim_set_hl(0, "RainbowDelimiterGreen", { fg = "#81c19b" })
+vim.api.nvim_set_hl(0, "RainbowDelimiterViolet", { fg = "#c58cec" })
+vim.api.nvim_set_hl(0, "RainbowDelimiterCyan", { fg = "#67AFC1" })
+
+vim.api.nvim_set_hl(0, "HlSearchNear", { fg = "#0c0e0f", bg = "#f6dc95" })
 
 vim.opt.signcolumn = "yes:1"
 vim.opt.cursorline = true
