@@ -1,5 +1,6 @@
 # yaml-language-server: $schema=https://json.schemastore.org/lazygit.json
 gui:
+  mainPanelSplitMode: vertical
   authorColors: {}
   branchColors: {}
   scrollHeight: 2
@@ -8,7 +9,6 @@ gui:
   skipStashWarning: false
   sidePanelWidth: 0.3333
   expandFocusedSidePanel: false
-  mainPanelSplitMode: flexible
   language: auto
   timeFormat: 02 Jan 06 15:04 MST
   theme:
