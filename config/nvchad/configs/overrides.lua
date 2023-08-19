@@ -99,6 +99,7 @@ M.mason = {
 		"jsonlint",
 		"lua-language-server",
 		"prettier",
+		"prettierd",
 		"protolint",
 		"pyright",
 		"rubyfmt",
