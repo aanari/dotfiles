@@ -5,6 +5,27 @@ return {
 	----------------------------------------- default plugins ------------------------------------------
 	"tpope/vim-sleuth",
 
+	"tversteeg/registers.nvim",
+
+	{
+		"ojroques/vim-oscyank",
+		event = "VeryLazy",
+		dependencies = {
+			"ojroques/nvim-osc52",
+		},
+		config = function()
+			vim.api.nvim_create_autocmd("TextYankPost", {
+				group = vim.api.nvim_create_augroup("highlight_yank", { clear = true }),
+				callback = function()
+					vim.highlight.on_yank({ higroup = "IlluminatedWordText", timeout = 200 })
+					if vim.v.event.operator == "y" and vim.v.event.regname == "" then
+						vim.cmd([[OSCYankRegister]])
+					end
+				end,
+			})
+		end,
+	},
+
 	{
 		"mfussenegger/nvim-treehopper",
 		keys = {

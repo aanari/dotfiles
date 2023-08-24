@@ -2,7 +2,6 @@ require("custom.commands")
 require("custom.autocmds")
 
 vim.o.mouse = "a"
-vim.o.clipboard = "unnamedplus"
 vim.o.breakindent = true
 vim.o.swapfile = false
 vim.o.showmode = false
@@ -44,34 +43,6 @@ vim.api.nvim_set_hl(0, "IlluminatedWordText", { bg = "#22282a" })
 vim.api.nvim_set_hl(0, "IlluminatedWordRead", { bg = "#22282a" })
 vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { bg = "#22282a" })
 
--- Highlight on yank
--- See `:help vim.highlight.on_yank()`
-local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
-vim.api.nvim_create_autocmd("TextYankPost", {
-	callback = function()
-		vim.highlight.on_yank({ higroup = "IlluminatedWordText", timeout = 150 })
-	end,
-	group = highlight_group,
-	pattern = "*",
-})
-
--- Clipboard yanker
-local status_ok, osc52 = pcall(require, "osc52")
-if not status_ok then
-	return
-end
-
-osc52.setup({
-	max_length = 0, -- Maximum length of selection (0 for no limit)
-	silent = false, -- Disable message on successful copy
-	trim = false, -- Trim text before copy
-})
-
--- TODO: Clean up these key mappings
--- Yanking
-vim.keymap.set("n", "<leader>y", osc52.copy_operator, { expr = true })
-vim.keymap.set("n", "<leader>yy", "<leader>y_", { remap = true })
-vim.keymap.set("x", "<leader>y", osc52.copy_visual)
 -- Hopping
 vim.keymap.set("n", "S", "<cmd>lua require'hop'.hint_char2()<cr>", {})
 vim.keymap.set("n", "s", "<cmd>lua require'hop'.hint_patterns({}, vim.fn['getreg']('/'))<cr>", {})
