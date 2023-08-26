@@ -6,7 +6,11 @@
 sudo -v
 
 # Keep-alive: update existing `sudo` time stamp until `.macos` has finished
-while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+while true; do
+	sudo -n true
+	sleep 60
+	kill -0 "$$" || exit
+done 2>/dev/null &
 
 ###############################################################################
 # General UI/UX                                                               #
@@ -29,7 +33,7 @@ defaults write com.apple.universalaccess reduceTransparency -bool true
 
 # Menu bar: hide the Time Machine, Volume, and User icons
 for domain in ~/Library/Preferences/ByHost/com.apple.systemuiserver.*; do
-	defaults write "${domain}" dontAutoLoad -array \
+	defaults write "$domain" dontAutoLoad -array \
 		"/System/Library/CoreServices/Menu Extras/TimeMachine.menu" \
 		"/System/Library/CoreServices/Menu Extras/Volume.menu" \
 		"/System/Library/CoreServices/Menu Extras/User.menu"
@@ -91,10 +95,10 @@ defaults write com.apple.helpviewer DevMode -bool true
 sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
 
 # Never go into computer sleep mode
-sudo systemsetup -setcomputersleep Off > /dev/null
+sudo systemsetup -setcomputersleep Off >/dev/null
 
 # Disable Notification Center and remove the menu bar icon
-launchctl unload -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist 2> /dev/null
+launchctl unload -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist 2>/dev/null
 
 # Disable smart quotes as they’re annoying when typing code
 defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
@@ -151,7 +155,7 @@ defaults write com.apple.universalaccess closeViewZoomFollowsFocus -bool true
 defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 
 # Set a blazingly fast keyboard repeat rate
-defaults write NSGlobalDomain InitialKeyRepeat -int 10
+defaults write NSGlobalDomain InitialKeyRepeat -int 12
 defaults write NSGlobalDomain KeyRepeat -int 1
 
 # Set language and text formats
@@ -160,7 +164,7 @@ defaults write NSGlobalDomain KeyRepeat -int 1
 defaults write NSGlobalDomain AppleLanguages -array "en"
 defaults write NSGlobalDomain AppleLocale -string "en_US@currency=USD"
 
-sudo systemsetup -settimezone "America/Los_Angeles" > /dev/null
+sudo systemsetup -settimezone "America/Los_Angeles" >/dev/null
 
 # Disable auto-correct
 defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
@@ -289,7 +293,7 @@ sudo chflags nohidden /Volumes
 
 # Remove Dropbox’s green checkmark icons in Finder
 file=/Applications/Dropbox.app/Contents/Resources/emblem-dropbox-uptodate.icns
-[ -e "${file}" ] && mv -f "${file}" "${file}.bak"
+[ -e "$file" ] && mv -f "$file" "${file}.bak"
 
 # Expand the following File Info panes:
 # “General”, “Open with”, and “Sharing & Permissions”
@@ -536,11 +540,11 @@ defaults write com.apple.spotlight orderedItems -array \
 	'{"enabled" = 0;"name" = "MENU_WEBSEARCH";}' \
 	'{"enabled" = 0;"name" = "MENU_SPOTLIGHT_SUGGESTIONS";}'
 # Load new settings before rebuilding the index
-killall mds > /dev/null 2>&1
+killall mds >/dev/null 2>&1
 # Make sure indexing is enabled for the main volume
-sudo mdutil -i on / > /dev/null
+sudo mdutil -i on / >/dev/null
 # Rebuild the index from scratch
-sudo mdutil -E / > /dev/null
+sudo mdutil -E / >/dev/null
 
 ###############################################################################
 # Terminal & iTerm 2                                                          #
@@ -564,7 +568,7 @@ defaults write com.googlecode.iterm2 PromptOnQuit -bool false
 defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
 
 # Disable local Time Machine backups
-hash tmutil &> /dev/null && sudo tmutil disablelocal
+hash tmutil &>/dev/null && sudo tmutil disablelocal
 
 ###############################################################################
 # Activity Monitor                                                            #
@@ -749,6 +753,6 @@ for app in "Activity Monitor" "Address Book" "Calendar" "Contacts" "cfprefsd" \
 	"Dock" "Finder" "Google Chrome" "Google Chrome Canary" "Mail" "Messages" \
 	"Opera" "Photos" "Safari" "SizeUp" "Spectacle" "SystemUIServer" "Terminal" \
 	"Transmission" "Tweetbot" "Twitter" "iCal"; do
-	killall "${app}" &> /dev/null
+	killall "$app" &>/dev/null
 done
 echo "Done. Note that some of these changes require a logout/restart to take effect."
