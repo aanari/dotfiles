@@ -8,6 +8,12 @@ return {
 	"tversteeg/registers.nvim",
 
 	{
+		"chrisgrieser/nvim-early-retirement",
+		config = true,
+		event = "VeryLazy",
+	},
+
+	{
 		"ojroques/nvim-bufdel",
 		event = "VeryLazy",
 	},
