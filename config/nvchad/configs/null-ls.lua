@@ -25,7 +25,6 @@ local sources = {
 	format.protolint,
 	format.clang_format,
 	format.shellharden,
-	format.deno_fmt,
 	format.rubyfmt,
 	format.eslint_d.with({
 		condition = root_has_file(eslint_root_files),
@@ -50,9 +49,7 @@ local sources = {
 	}),
 	lint.protoc_gen_lint,
 	lint.eslint_d.with({
-		condition = function(utils)
-			return utils.root_has_file(".eslintrc.js")
-		end,
+		condition = root_has_file(eslint_root_files),
 	}),
 	lint.flake8,
 	lint.tsc,
@@ -65,21 +62,28 @@ local sources = {
 
 	-- Code Actions
 	code.eslint_d.with({
-		condition = function(utils)
-			return utils.root_has_file(".eslintrc.js")
-		end,
+		condition = root_has_file(eslint_root_files),
 	}),
 }
 
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 null_ls.setup({
 	sources = sources,
-	on_attach = function(_, bufnr)
-		vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-		vim.api.nvim_create_autocmd("BufWritePre", {
-			callback = function()
-				vim.lsp.buf.format({})
-			end,
-		})
+	on_attach = function(current_client, bufnr)
+		if current_client.supports_method("textDocument/formatting") then
+			vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+			vim.api.nvim_create_autocmd("BufWritePre", {
+				group = augroup,
+				buffer = bufnr,
+				callback = function()
+					vim.lsp.buf.format({
+						filter = function(client)
+							return client.name == "null-ls"
+						end,
+						bufnr = bufnr,
+					})
+				end,
+			})
+		end
 	end,
 })

@@ -7,7 +7,6 @@ local servers = {
 	"clangd",
 	"cssls",
 	"dartls",
-	"emmet_ls",
 	"gopls",
 	"html",
 	"jsonls",

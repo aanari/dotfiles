@@ -45,10 +45,10 @@ M.treesitter = {
 	incremental_selection = {
 		enable = true,
 		keymaps = {
-			init_selection = "<CR>",
-			node_incremental = "<CR>",
-			scope_incremental = false,
-			node_decremental = "<BS>",
+			init_selection = '<c-space>',
+			node_incremental = '<c-space>',
+			scope_incremental = '<c-s>',
+			node_decremental = '<M-space>',
 		},
 	},
 }
@@ -107,6 +107,7 @@ M.mason = {
 		"shellharden",
 		"shfmt",
 		"sqlfluff",
+		"stylelint-lsp",
 		"stylua",
 		"tailwindcss-language-server",
 		"tree-sitter-cli",
