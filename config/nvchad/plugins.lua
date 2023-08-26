@@ -8,6 +8,11 @@ return {
 	"tversteeg/registers.nvim",
 
 	{
+		"ojroques/nvim-bufdel",
+		event = "VeryLazy",
+	},
+
+	{
 		"ojroques/vim-oscyank",
 		event = "VeryLazy",
 		dependencies = {
