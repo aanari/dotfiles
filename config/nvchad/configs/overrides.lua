@@ -107,6 +107,7 @@ M.mason = {
 		"shellharden",
 		"shfmt",
 		"sqlfluff",
+		"stylelint",
 		"stylua",
 		"tailwindcss-language-server",
 		"tree-sitter-cli",
