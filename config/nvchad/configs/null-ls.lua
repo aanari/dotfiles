@@ -25,7 +25,6 @@ local sources = {
 	format.protolint,
 	format.clang_format,
 	format.shellharden,
-	format.deno_fmt,
 	format.rubyfmt,
 	format.eslint_d.with({
 		condition = root_has_file(eslint_root_files),
@@ -50,9 +49,7 @@ local sources = {
 	}),
 	lint.protoc_gen_lint,
 	lint.eslint_d.with({
-		condition = function(utils)
-			return utils.root_has_file(".eslintrc.js")
-		end,
+		condition = root_has_file(eslint_root_files),
 	}),
 	lint.flake8,
 	lint.tsc,
@@ -65,9 +62,7 @@ local sources = {
 
 	-- Code Actions
 	code.eslint_d.with({
-		condition = function(utils)
-			return utils.root_has_file(".eslintrc.js")
-		end,
+		condition = root_has_file(eslint_root_files),
 	}),
 }
 
