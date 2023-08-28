@@ -49,7 +49,7 @@ git:
     signOff: false
   merging:
     manualCommit: false
-    args: ""
+    args: "-no-ff"
   skipHookPrefix: WIP
   autoFetch: true
   autoRefresh: true
@@ -58,7 +58,7 @@ git:
   overrideGpg: false
   disableForcePushing: false
   commitPrefixes: {}
-  parseEmoji: false
+  parseEmoji: true
   log:
     order: topo-order
     showGraph: when-maximised
