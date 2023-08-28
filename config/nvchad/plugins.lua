@@ -423,7 +423,7 @@ return {
 	},
 
 	{
-		"jackMort/ChatGPT.nvim",
+		"aanari/ChatGPT.nvim",
 		cmd = {
 			"ChatGPT",
 			"ChatGPTActAs",
@@ -442,8 +442,8 @@ return {
 					welcome_message = "",
 				},
 				openai_params = {
-					model = "gpt-3.5-turbo-16k",
-					max_tokens = 4000,
+					model = "openai/gpt-4-32k",
+					max_tokens = 12000,
 					frequency_penalty = 0,
 					presence_penalty = 0,
 					temperature = 0,
