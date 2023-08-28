@@ -441,6 +441,17 @@ return {
 				chat = {
 					welcome_message = "",
 				},
+				popup_layout = {
+					default = "center",
+					center = {
+						width = "90%",
+						height = "90%",
+					},
+					right = {
+						width = "30%",
+						width_settings_open = "50%",
+					},
+				},
 				openai_params = {
 					model = "openai/gpt-4-32k",
 					max_tokens = 12000,

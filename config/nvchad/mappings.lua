@@ -149,6 +149,12 @@ M.chatgpt = {
 			end,
 			"Analyze Code",
 		},
+		["<leader>gpE"] = {
+			function()
+				require("chatgpt").edit_with_instructions()
+			end,
+			"Edit Code",
+		},
 	},
 }
 
