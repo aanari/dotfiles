@@ -22,4 +22,4 @@ export NNN_PLUG="p:preview-tui;j:autojump;c:fzcd"
 export NNN_FIFO="/tmp/nnn.fifo"
 export ZVM_LINE_INIT_MODE="i"
 export SPLIT="v"
-export PATH=/usr/local/flutter/bin:$PATH:$HOME/.local/bin:$HOME/.cargo/bin:/usr/local/go/bin:$GOPATH/bin:/usr/share/swift/usr/bin
+export PATH=/usr/local/flutter/bin:$PATH:$HOME/.local/bin:$HOME/.pub-cache/bin:$HOME/.cargo/bin:/usr/local/go/bin:$GOPATH/bin:/usr/share/swift/usr/bin
