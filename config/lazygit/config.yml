@@ -201,7 +201,7 @@ keybinding:
     bulkMenu: b
 os:
   editPreset: "nvim"
-  copyToClipboardCmd: printf "\033]52;c;$(printf {{text}} | base64)\a" > /dev/tty
+  copyToClipboardCmd: printf "$(printf {{text}} | yanker)\a" > /dev/tty
 disableStartupPopups: false
 customCommands:
   - key: "b"
