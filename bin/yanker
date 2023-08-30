@@ -43,6 +43,17 @@ test -n "$DISPLAY" && alive xhost && {
   maybe xsel -i -b || maybe xclip -sel c
 }
 
+# copy for OSX, WSL2
+if known pbcopy; then
+  if known reattach-to-user-namespace; then
+    exec reattach-to-user-namespace /usr/bin/pbcopy "$@"
+  else
+    exec /usr/bin/pbcopy "$@"
+  fi
+elif known clip.exe; then
+  input clip.exe
+fi
+
 # copy via OSC 52
 printf_escape() {
   esc=$1
