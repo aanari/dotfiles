@@ -19,21 +19,20 @@ return {
 	},
 
 	{
-		"ojroques/vim-oscyank",
+		"ojroques/nvim-osc52",
 		event = "VeryLazy",
-		dependencies = {
-			"ojroques/nvim-osc52",
+		opts = {
+			silent = true,
 		},
-		config = function()
-			vim.api.nvim_create_autocmd("TextYankPost", {
-				group = vim.api.nvim_create_augroup("highlight_yank", { clear = true }),
-				callback = function()
-					vim.highlight.on_yank({ higroup = "IlluminatedWordText", timeout = 200 })
-					if vim.v.event.operator == "y" and vim.v.event.regname == "" then
-						vim.cmd([[OSCYankRegister]])
-					end
-				end,
-			})
+		config = function(_, opts)
+			require("osc52").setup(opts)
+			local function copy()
+				if vim.v.event.operator == "y" and (vim.v.event.regname == "" or vim.v.event.regname == "+") then
+					require("osc52").copy_register("+")
+					vim.highlight.on_yank({ higroup = "Visual", timeout = 100 })
+				end
+			end
+			vim.api.nvim_create_autocmd("TextYankPost", { callback = copy })
 		end,
 	},
 
