@@ -7,7 +7,7 @@ gui:
   scrollPastBottom: true
   mouseEvents: true
   skipStashWarning: false
-  sidePanelWidth: 0.3333
+  sidePanelWidth: 0.25
   expandFocusedSidePanel: false
   language: auto
   timeFormat: 02 Jan 06 15:04 MST
