@@ -13,8 +13,28 @@ defaults write -g KeyRepeat -int 1
 # Dock
 ###############################################################################
 
-# Dock: instantly leap into view rather than slide
-defaults write com.apple.dock autohide-time-modifier -int 0; killall Dock
+# Change minimize/maximize window effect
+defaults write com.apple.dock mineffect -string "scale"
+
+# Minimize windows into their application’s icon
+defaults write com.apple.dock minimize-to-application -bool true
+
+# Enable spring loading for all Dock items
+defaults write com.apple.dock enable-spring-load-actions-on-all-items -bool true
+
+# Don’t animate opening applications from the Dock
+defaults write com.apple.dock launchanim -bool false
+
+# Remove the auto-hiding Dock delay
+defaults write com.apple.dock autohide-delay -float 0
+
+# Remove the animation when hiding/showing the Dock
+defaults write com.apple.dock autohide-time-modifier -float 0
+
+# Automatically hide and show the Dock
+defaults write com.apple.dock autohide -bool true
+
+killall Dock
 
 ###############################################################################
 # Finder                                                                      #
