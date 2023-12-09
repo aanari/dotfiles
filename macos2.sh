@@ -10,6 +10,13 @@ defaults write -g InitialKeyRepeat -int 12
 defaults write -g KeyRepeat -int 1
 
 ###############################################################################
+# Dock
+###############################################################################
+
+# Dock: instantly leap into view rather than slide
+defaults write com.apple.dock autohide-time-modifier -int 0; killall Dock
+
+###############################################################################
 # Finder                                                                      #
 ###############################################################################
 
