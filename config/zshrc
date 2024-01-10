@@ -76,9 +76,9 @@ eval "$(fasd --init auto)"
 zinit light "wookayin/fzf-fasd"  
 
 # direnv
-zinit as"program" make'!' atclone'./direnv hook zsh > zhook.zsh' \
-  atpull'%atclone' pick"direnv" src"zhook.zsh" for \
-  direnv/direnv
+#zinit as"program" make'!' atclone'./direnv hook zsh > zhook.zsh' \
+#  atpull'%atclone' pick"direnv" src"zhook.zsh" for \
+#  direnv/direnv
 
 # fzf-tab configuration
 # disable sort when completing `git checkout`
