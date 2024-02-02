@@ -1,0 +1,165 @@
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[colors.bright]
+black = "0x2c2e2f"
+blue = "0x709ad2"
+cyan = "0x70b8ca"
+green = "0x81c19b"
+magenta = "0xc58cec"
+red = "0xe8646a"
+white = "0xf2f4f5"
+yellow = "0xe79881"
+
+[colors.cursor]
+cursor = "0xedeff0"
+text = "0x232526"
+
+[colors.normal]
+black = "0x232526"
+blue = "0x6791c9"
+cyan = "0x67afc1"
+green = "0x78b892"
+magenta = "0xbc83e3"
+red = "0xdf5b61"
+white = "0xe4e6e7"
+yellow = "0xde8f78"
+
+[colors.primary]
+background = "0x0c0e0f"
+foreground = "0xedeff0"
+
+[colors.selection]
+background = "0xbac1c5"
+text = "0x0c0e0f"
+
+[colors.vi_mode_cursor]
+cursor = "0xedeff0"
+text = "0x232526"
+
+[font]
+size = 14.0
+
+[font.bold]
+family = "PragmataProMonoLiga Nerd Font"
+style = "Bold"
+
+[font.bold_italic]
+family = "PragmataProMonoLiga Nerd Font"
+style = "Bold Italic"
+
+[font.glyph_offset]
+x = 0
+y = 0
+
+[font.italic]
+family = "PragmataProMonoLiga Nerd Font"
+style = "Italic"
+
+[font.normal]
+family = "PragmataProMonoLiga Nerd Font"
+style = "Regular"
+
+[font.offset]
+x = 0
+y = 0
+
+[[keyboard.bindings]]
+action = "Paste"
+key = "V"
+mods = "Control|Shift"
+
+[[keyboard.bindings]]
+action = "Copy"
+key = "C"
+mods = "Control|Shift"
+
+[[keyboard.bindings]]
+action = "PasteSelection"
+key = "Insert"
+mods = "Shift"
+
+[[keyboard.bindings]]
+action = "ResetFontSize"
+key = "Key0"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "IncreaseFontSize"
+key = "Equals"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "IncreaseFontSize"
+key = "Plus"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "DecreaseFontSize"
+key = "Minus"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "ToggleFullscreen"
+key = "F11"
+mods = "None"
+
+[[keyboard.bindings]]
+action = "Paste"
+key = "Paste"
+mods = "None"
+
+[[keyboard.bindings]]
+action = "Copy"
+key = "Copy"
+mods = "None"
+
+[[keyboard.bindings]]
+action = "ClearLogNotice"
+key = "L"
+mods = "Control"
+
+[[keyboard.bindings]]
+chars = "\f"
+key = "L"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "ScrollPageUp"
+key = "PageUp"
+mode = "~Alt"
+mods = "None"
+
+[[keyboard.bindings]]
+action = "ScrollPageDown"
+key = "PageDown"
+mode = "~Alt"
+mods = "None"
+
+[[keyboard.bindings]]
+action = "ScrollToTop"
+key = "Home"
+mode = "~Alt"
+mods = "Shift"
+
+[[keyboard.bindings]]
+action = "ScrollToBottom"
+key = "End"
+mode = "~Alt"
+mods = "Shift"
+
+[scrolling]
+history = 10000
+
+[selection]
+save_to_clipboard = true
+semantic_escape_chars = ",│`|:\"' ()[]{}<>\t"
+
+[window]
+dynamic_padding = true
+dynamic_title = true
+option_as_alt = "Both"
+
+[window.padding]
+x = 2
+y = 0
