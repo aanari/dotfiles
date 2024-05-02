@@ -46,9 +46,6 @@
   # Grab those pesky un-added files
   stash-all = stash save --include-untracked
 
-[include]
-  path = ~/.config/delta.gitconfig
-
 [interactive]
   diffFilter = delta --color-only
 
@@ -92,5 +89,5 @@
   branch = delta
 
 [delta]
-  features = yoru
   navigate = true
+  light = true
