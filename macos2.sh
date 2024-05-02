@@ -8,6 +8,8 @@ sudo nvram SystemAudioVolume=" "
 # Keyboard repeat rate
 defaults write -g InitialKeyRepeat -int 12
 defaults write -g KeyRepeat -int 1
+# Press and hold for keyboard
+defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 
 ###############################################################################
 # Dock
