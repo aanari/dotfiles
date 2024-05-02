@@ -1,41 +1,79 @@
-[colors]
-draw_bold_text_with_bright_colors = true
-
-[colors.bright]
-black = "0x2c2e2f"
-blue = "0x709ad2"
-cyan = "0x70b8ca"
-green = "0x81c19b"
-magenta = "0xc58cec"
-red = "0xe8646a"
-white = "0xf2f4f5"
-yellow = "0xe79881"
-
-[colors.cursor]
-cursor = "0xedeff0"
-text = "0x232526"
-
-[colors.normal]
-black = "0x232526"
-blue = "0x6791c9"
-cyan = "0x67afc1"
-green = "0x78b892"
-magenta = "0xbc83e3"
-red = "0xdf5b61"
-white = "0xe4e6e7"
-yellow = "0xde8f78"
-
+# Default colors
 [colors.primary]
-background = "0x0c0e0f"
-foreground = "0xedeff0"
+background = '#EFF1F5' # base
+foreground = '#4C4F69' # text
+# Bright and dim foreground colors
+dim_foreground = '#4C4F69' # text
+bright_foreground = '#4C4F69' # text
 
-[colors.selection]
-background = "0xbac1c5"
-text = "0x0c0e0f"
+# Cursor colors
+[colors.cursor]
+text = '#EFF1F5' # base
+cursor = '#DC8A78' # rosewater
 
 [colors.vi_mode_cursor]
-cursor = "0xedeff0"
-text = "0x232526"
+text = '#EFF1F5' # base
+cursor = '#7287FD' # lavender
+
+# Search colors
+[colors.search.matches]
+foreground = '#EFF1F5' # base
+background = '#6C6F85' # subtext0
+
+[colors.search.focused_match]
+foreground = '#EFF1F5' # base
+background = '#40A02B' # green
+
+[colors.footer_bar]
+foreground = '#EFF1F5' # base
+background = '#6C6F85' # subtext0
+
+# Keyboard regex hints
+[colors.hints.start]
+foreground = '#EFF1F5' # base
+background = '#DF8E1D' # yellow
+
+[colors.hints.end]
+foreground = '#EFF1F5' # base
+background = '#6C6F85' # subtext0
+
+# Selection colors
+[colors.selection]
+text = '#EFF1F5' # base
+background = '#DC8A78' # rosewater
+
+# Normal colors
+[colors.normal]
+black = '#5C5F77' # subtext1
+red = '#D20F39' # red
+green = '#40A02B' # green
+yellow = '#DF8E1D' # yellow
+blue = '#1E66F5' # blue
+magenta = '#EA76CB' # pink
+cyan = '#179299' # teal
+white = '#ACB0BE' # surface2
+
+# Bright colors
+[colors.bright]
+black = '#6C6F85' # subtext0
+red = '#D20F39' # red
+green = '#40A02B' # green
+yellow = '#DF8E1D' # yellow
+blue = '#1E66F5' # blue
+magenta = '#EA76CB' # pink
+cyan = '#179299' # teal
+white = '#BCC0CC' # surface1
+
+# Dim colors
+[colors.dim]
+black = '#5C5F77' # subtext1
+red = '#D20F39' # red
+green = '#40A02B' # green
+yellow = '#DF8E1D' # yellow
+blue = '#1E66F5' # blue
+magenta = '#EA76CB' # pink
+cyan = '#179299' # teal
+white = '#ACB0BE' # surface2
 
 [font]
 size = 14.0
