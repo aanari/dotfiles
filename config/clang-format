@@ -3,4 +3,5 @@ Language: Cpp
 BasedOnStyle: Google
 DerivePointerAlignment: false
 PointerAlignment: Left
+ColumnLimit: 120
 ...
