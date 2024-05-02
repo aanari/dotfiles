@@ -37,6 +37,7 @@ fresh config/irssi --file=~/.irssi/
 fresh config/lazydocker/config.yml --file=~/.config/lazydocker/config.yml
 fresh config/lazygit/config.yml --file=~/.config/lazygit/config.yml
 fresh config/lemonade.toml --file=~/.config/lemonade.toml
+fresh config/lsd --file=~/.config/lsd/
 fresh config/neomutt --file=~/.config/neomutt/
 fresh config/pgcli --file=~/.config/pgcli/
 fresh config/ptpython --file=~/.ptpython/

@@ -1,0 +1,7 @@
+user: 25        # inverted from 230
+group: 68       # inverted from 187
+size:
+  none: 10          # inverted from 245
+  small: 26         # inverted from 229
+  medium: 39        # inverted from 216
+  large: 83         # inverted from 172
