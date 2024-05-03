@@ -22,7 +22,7 @@ M.override = {
 
 	CursorLine = { bg = "#eef0f1" },
 	CursorReset = { fg = "#ffffff", bg = "#ffffff" },
-	Visual = { fg = "#0c0e0f", bg = "#bac1c5" },
+	Visual = { bg = "#E5EBF1" },
 
 	NvimTreeCursorLine = { bg = "#eef0f1", bold = true },
 	NvimTreeOpenedFolderName = { bold = true, italic = true },
@@ -52,6 +52,7 @@ M.override = {
 
 M.add = {
 	MsgArea = { fg = "#5C91CE", bold = true },
+	HighlightYank = { bg = "#ffff99" },
 }
 
 return M
