@@ -29,7 +29,7 @@ return {
 			local function copy()
 				if vim.v.event.operator == "y" and (vim.v.event.regname == "" or vim.v.event.regname == "+") then
 					require("osc52").copy_register("+")
-					vim.highlight.on_yank({ higroup = "Visual", timeout = 100 })
+					vim.highlight.on_yank({ higroup = "HighlightYank", timeout = 100 })
 				end
 			end
 			vim.api.nvim_create_autocmd("TextYankPost", { callback = copy })
