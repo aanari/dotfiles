@@ -1,0 +1,10 @@
+theme = primary
+font-family = "PragmataProMonoLiga Nerd Font"
+font-size = 14
+font-thicken = true
+clipboard-read = allow
+clipboard-write = allow
+clipboard-trim-trailing-spaces = true
+confirm-close-surface = false
+macos-icon = "chalkboard"
+auto-update = "download"
