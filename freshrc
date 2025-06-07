@@ -101,6 +101,9 @@ fresh twe4ked/dotfiles bin/add-keys
 fresh twe4ked/catacomb bin/catacomb
 fresh-options
 
+# claude
+fresh claude/settings.json --file=~/.claude/settings.json
+
 fresh_after_build() {
 	if which chflags &>/dev/null; then
 		chflags hidden ~/bin
