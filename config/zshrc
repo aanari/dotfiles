@@ -31,7 +31,6 @@ zinit light-mode for \
 
 # Plugins
 zinit pack="bgn-binary+keys" for fzf
-zinit light b4b4r07/enhancd
 zinit light Peltoche/lsd
 zinit light Aloxaf/fzf-tab
 
