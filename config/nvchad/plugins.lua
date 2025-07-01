@@ -161,10 +161,10 @@ return {
 			{
 				-- format & linting
 				"nvimtools/none-ls.nvim",
-        dependencies = {
-          "nvimtools/none-ls-extras.nvim",
-          "gbprod/none-ls-shellcheck.nvim",
-        },
+				dependencies = {
+					"nvimtools/none-ls-extras.nvim",
+					"gbprod/none-ls-shellcheck.nvim",
+				},
 				config = function()
 					require("custom.configs.null-ls")
 				end,

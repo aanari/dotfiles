@@ -11,14 +11,17 @@ M.ui = {
 
 M.mappings = require("custom.mappings")
 
-local function lspSymbol(name, icon)
-	local hl = "DiagnosticSign" .. name
-	vim.fn.sign_define(hl, { text = icon, numhl = hl, texthl = hl })
-end
+local icons = {
+	[vim.diagnostic.severity.ERROR] = "'",
+	[vim.diagnostic.severity.WARN] = "󰀦",
+	[vim.diagnostic.severity.INFO] = "󰌶",
+	[vim.diagnostic.severity.HINT] = "󱞩",
+}
 
-lspSymbol("Error", "\u{f146}")
-lspSymbol("Warn", "\u{f14a}")
-lspSymbol("Info", "\u{f14d}")
-lspSymbol("Hint", "\u{f0fd}")
+vim.diagnostic.config({
+	signs = {
+		text = icons,
+	},
+})
 
 return M
