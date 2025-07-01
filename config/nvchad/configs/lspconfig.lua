@@ -15,7 +15,7 @@ local servers = {
 	"rls",
 	"stylelint_lsp",
 	"tailwindcss",
-	"tsserver",
+	"ts_ls",
 	"unocss",
 	"yamlls",
 }

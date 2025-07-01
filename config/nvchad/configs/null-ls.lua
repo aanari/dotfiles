@@ -3,6 +3,7 @@ local null_ls = require("null-ls")
 local format = null_ls.builtins.formatting
 local lint = null_ls.builtins.diagnostics
 local code = null_ls.builtins.code_actions
+local eslint_d = require("none-ls.diagnostics.eslint_d")
 
 local root_has_file = function(files)
 	return function(utils)
@@ -20,13 +21,11 @@ local sources = {
 	format.gofmt,
 	format.goimports_reviser,
 	format.dart_format,
-	format.fixjson,
-	format.jq,
 	format.protolint,
 	format.clang_format,
 	format.shellharden,
 	format.rubyfmt,
-	format.eslint_d.with({
+	eslint_d.with({
 		condition = root_has_file(eslint_root_files),
 	}),
 	format.prettierd.with({
@@ -47,21 +46,18 @@ local sources = {
 			"scss",
 		},
 	}),
-	lint.protoc_gen_lint,
-	lint.eslint_d.with({
+	eslint_d.with({
 		condition = root_has_file(eslint_root_files),
 	}),
-	lint.flake8,
-	lint.tsc,
-	lint.shellcheck.with({ diagnostics_format = "#{m} [#{c}]" }),
-	lint.clang_check,
+  require("none-ls-shellcheck.diagnostics"),
+  require("none-ls-shellcheck.code_actions"),
 	lint.yamllint,
 	lint.sqlfluff.with({
 		extra_args = { "--dialect", "postgres" },
 	}),
 
 	-- Code Actions
-	code.eslint_d.with({
+	eslint_d.with({
 		condition = root_has_file(eslint_root_files),
 	}),
 }

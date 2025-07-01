@@ -136,7 +136,6 @@ return {
 					{ name = "nvim_lua", group_index = 1 },
 					{ name = "path", group_index = 2 },
 					{ name = "buffer", keyword_length = 2, max_item_count = 5, group_index = 2 },
-					{ name = "copilot", group_index = 1, priority = 100 },
 				},
 			})
 			local presentAutopairs, cmp_autopairs = pcall(require, "nvim-autopairs.completion.cmp")
@@ -161,15 +160,13 @@ return {
 		dependencies = {
 			{
 				-- format & linting
-				"jose-elias-alvarez/null-ls.nvim",
+				"nvimtools/none-ls.nvim",
+        dependencies = {
+          "nvimtools/none-ls-extras.nvim",
+          "gbprod/none-ls-shellcheck.nvim",
+        },
 				config = function()
 					require("custom.configs.null-ls")
-				end,
-			},
-			{
-				"zbirenbaum/copilot-cmp",
-				config = function()
-					require("copilot_cmp").setup()
 				end,
 			},
 			{ "j-hui/fidget.nvim", tag = "legacy", opts = {} },
@@ -536,46 +533,6 @@ return {
 			return not vim.g.neovide
 		end,
 		event = "WinEnter",
-	},
-
-	{
-		"Xuyuanp/scrollbar.nvim",
-		event = "WinScrolled",
-		init = function() end,
-		config = function()
-			local scrollbar = require("scrollbar")
-
-			vim.g.scrollbar_right_offset = 0
-			vim.g.scrollbar_excluded_filetypes = { "NvimTree" }
-			vim.g.scrollbar_highlight = {
-				head = "Scrollbar",
-				body = "Scrollbar",
-				tail = "Scrollbar",
-			}
-			vim.g.scrollbar_shape = {
-				head = "▖",
-				body = "▌",
-				tail = "▘",
-			}
-
-			local augroup = vim.api.nvim_create_augroup("Scrollbar", {})
-			vim.api.nvim_create_autocmd({ "CursorMoved", "WinScrolled" }, {
-				group = augroup,
-				callback = function()
-					return scrollbar.show()
-				end,
-			})
-			vim.api.nvim_create_autocmd({
-				"CursorHold",
-				"BufLeave",
-				"FocusLost",
-				"VimResized",
-				"QuitPre",
-			}, {
-				group = augroup,
-				callback = scrollbar.clear,
-			})
-		end,
 	},
 
 	{
