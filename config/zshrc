@@ -47,15 +47,6 @@ zinit wait"2" lucid as"null" \
  atpull'%atclone' make sbin"git-cal" for \
     k4rthik/git-cal
 
-# syntax, completions, suggestions
-zinit wait lucid for \
- atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
-    zdharma/fast-syntax-highlighting \
- blockf \
-    zsh-users/zsh-completions \
- atload"!_zsh_autosuggest_start" \
-    zsh-users/zsh-autosuggestions
-
 zinit wait"1" lucid from"gh-r" as"null" for \
      sbin"**/bat"         @sharkdp/bat \
      sbin"**/fd"          @sharkdp/fd \
@@ -68,13 +59,6 @@ zinit wait"1" lucid from"gh-r" as"null" for \
 # yank, clipboard
 zinit ice as"program" pick"yank" make
 zinit light mptre/yank
-
-# fzf-fasd
-zinit ice as"program" make
-zinit light "clvv/fasd"
-# Setup fasd
-eval "$(fasd --init auto)"
-zinit light "wookayin/fzf-fasd"  
 
 # direnv
 #zinit as"program" make'!' atclone'./direnv hook zsh > zhook.zsh' \
