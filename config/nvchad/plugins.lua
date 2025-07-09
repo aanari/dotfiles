@@ -393,17 +393,6 @@ return {
 	},
 
 	{
-		"saifulapm/chartoggle.nvim",
-		event = "BufEnter",
-		config = function()
-			require("chartoggle").setup({
-				leader = "<leader>",
-				keys = { ",", ";" },
-			})
-		end,
-	},
-
-	{
 		"Wansmer/treesj",
 		keys = { "<space>m", "<space>j", "<space>s" },
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
