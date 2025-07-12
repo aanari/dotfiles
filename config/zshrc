@@ -45,23 +45,15 @@ zinit snippet PZTM::utility
 # Git module - use built-in git aliases instead of svn
 zinit snippet PZTM::git/alias.zsh
 
-# Syntax highlighting (must be loaded before substring search)
+# Load history substring search early (before vi-mode)
+zinit ice depth=1
+zinit light zsh-users/zsh-history-substring-search
+zle -N history-substring-search-up
+zle -N history-substring-search-down
+
+# Syntax highlighting
 zinit ice wait"0" lucid atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay"
 zinit light zdharma-continuum/fast-syntax-highlighting
-
-# History substring search (must be after syntax highlighting)
-zinit ice wait"0" lucid atload"
-  zle -N history-substring-search-up
-  zle -N history-substring-search-down
-  bindkey -M emacs '^[[A' history-substring-search-up
-  bindkey -M emacs '^[[B' history-substring-search-down
-  bindkey -M vicmd 'k' history-substring-search-up
-  bindkey -M vicmd 'j' history-substring-search-down
-  bindkey -M vicmd '^[[A' history-substring-search-up
-  bindkey -M vicmd '^[[B' history-substring-search-down
-  bindkey -M viins '^[[A' history-substring-search-up
-  bindkey -M viins '^[[B' history-substring-search-down"
-zinit light zsh-users/zsh-history-substring-search
 
 # Autosuggestions
 zinit ice wait"0" lucid atload"!_zsh_autosuggest_start"
@@ -81,15 +73,25 @@ zinit light Peltoche/lsd
 zinit ice wait"0" lucid
 zinit light Aloxaf/fzf-tab
 
-zinit ice wait"0" lucid depth=1 atload"
-  # Ensure vi mode doesn't override our bindings
-  zvm_after_init() {
-    bindkey -M viins '^[[A' history-substring-search-up
-    bindkey -M viins '^[[B' history-substring-search-down
-    bindkey -M vicmd '^[[A' history-substring-search-up
-    bindkey -M vicmd '^[[B' history-substring-search-down
-  }"
+# Configure zsh-vi-mode before loading
+ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT
+ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
+
+# Load zsh-vi-mode eagerly for immediate cursor feedback
+zinit ice depth=1
 zinit light jeffreytse/zsh-vi-mode
+
+# Define after_init function to preserve our bindings
+zvm_after_init() {
+  bindkey -M emacs '^[[A' history-substring-search-up
+  bindkey -M emacs '^[[B' history-substring-search-down
+  bindkey -M vicmd 'k' history-substring-search-up
+  bindkey -M vicmd 'j' history-substring-search-down
+  bindkey -M vicmd '^[[A' history-substring-search-up
+  bindkey -M vicmd '^[[B' history-substring-search-down
+  bindkey -M viins '^[[A' history-substring-search-up
+  bindkey -M viins '^[[B' history-substring-search-down
+}
 
 # tldr
 zinit ice wait"2" as"command" pick"tldr" lucid
