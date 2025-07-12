@@ -1,12 +1,3 @@
-# Source Prezto.
-if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-  if [[ -z "${CLAUDECODE}" ]]; then
-    source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
-  fi
-fi
-
-[[ -f ~/.fresh/build/shell.sh ]] && . ~/.fresh/build/shell.sh
-
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -14,11 +5,17 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Bootstrap zinit
+# Bootstrap zinit (must be before any zinit commands)
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 [ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
 [ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
 source "${ZINIT_HOME}/zinit.zsh"
+
+# Load Powerlevel10k theme
+zinit ice depth=1
+zinit light romkatv/powerlevel10k
+
+[[ -f ~/.fresh/build/shell.sh ]] && . ~/.fresh/build/shell.sh
 
 # zsh-fzf-history-search
 zinit ice lucid wait'0'
@@ -26,15 +23,72 @@ zinit light joshskidmore/zsh-fzf-history-search
 
 # zinit annexes
 zinit light-mode for \
-    zdharma-continuum/zinit-annex-bin-gem-node\
+    zdharma-continuum/zinit-annex-bin-gem-node \
     zdharma-continuum/zinit-annex-patch-dl
 
+# Configure Prezto modules before loading
+zstyle ':prezto:*:*' color 'yes'
+zstyle ':prezto:module:editor' key-bindings 'vi'
+zstyle ':prezto:module:editor' dot-expansion 'yes'
+zstyle ':prezto:module:terminal' auto-title 'yes'
+zstyle ':prezto:module:terminal:window-title' format '%n@%m: %s'
+zstyle ':prezto:module:terminal:tab-title' format '%m: %s'
+
+# Load Prezto modules with zinit for better integration
+zinit snippet PZTM::environment
+zinit snippet PZTM::terminal
+zinit snippet PZTM::editor
+zinit snippet PZTM::history
+zinit snippet PZTM::directory
+zinit snippet PZTM::utility
+
+# Git module - use built-in git aliases instead of svn
+zinit snippet PZTM::git/alias.zsh
+
+# Syntax highlighting (must be loaded before substring search)
+zinit ice wait"0" lucid atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay"
+zinit light zdharma-continuum/fast-syntax-highlighting
+
+# History substring search (must be after syntax highlighting)
+zinit ice wait"0" lucid atload"
+  zle -N history-substring-search-up
+  zle -N history-substring-search-down
+  bindkey -M emacs '^[[A' history-substring-search-up
+  bindkey -M emacs '^[[B' history-substring-search-down
+  bindkey -M vicmd 'k' history-substring-search-up
+  bindkey -M vicmd 'j' history-substring-search-down
+  bindkey -M vicmd '^[[A' history-substring-search-up
+  bindkey -M vicmd '^[[B' history-substring-search-down
+  bindkey -M viins '^[[A' history-substring-search-up
+  bindkey -M viins '^[[B' history-substring-search-down"
+zinit light zsh-users/zsh-history-substring-search
+
+# Autosuggestions
+zinit ice wait"0" lucid atload"!_zsh_autosuggest_start"
+zinit light zsh-users/zsh-autosuggestions
+
+# Additional completions
+zinit ice wait"0" lucid blockf atpull'zinit creinstall -q .'
+zinit light zsh-users/zsh-completions
+
 # Plugins
+zinit ice wait"0" lucid
 zinit pack="bgn-binary+keys" for fzf
+
+zinit ice wait"0" lucid
 zinit light Peltoche/lsd
+
+zinit ice wait"0" lucid
 zinit light Aloxaf/fzf-tab
 
-zinit ice depth=1
+zinit ice wait"0" lucid depth=1 atload"
+  # Ensure vi mode doesn't override our bindings
+  zvm_after_init() {
+    bindkey -M viins '^[[A' history-substring-search-up
+    bindkey -M viins '^[[B' history-substring-search-down
+    bindkey -M vicmd '^[[A' history-substring-search-up
+    bindkey -M vicmd '^[[B' history-substring-search-down
+  }"
 zinit light jeffreytse/zsh-vi-mode
 
 # tldr
@@ -77,6 +131,7 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'lsd -l -F --group-directories-first
 # switch group using `,` and `.`
 zstyle ':fzf-tab:*' switch-group ',' '.'
 
+
 # dircolors
 test -r ~/.dir_colors && eval $(dircolors ~/.dir_colors)
 
@@ -104,8 +159,17 @@ ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BLINKING_BEAM
 export EDITOR='nvim'
 unsetopt PATH_DIRS
 
+# Additional vi mode settings
+export KEYTIMEOUT=1  # Reduce delay when switching modes
+
 # direnv hook
 eval "$(direnv hook zsh)"
 
 # zoxide init
 eval "$(zoxide init zsh)"
+
+# Compile zcompdump, if modified, to increase startup speed.
+zcompdump="${ZDOTDIR:-$HOME}/.zcompdump"
+if [[ -f "$zcompdump" && "$zcompdump" -nt /usr/share/zsh ]] && ! [[ -f "$zcompdump.zwc" ]] || [[ "$zcompdump" -nt "$zcompdump.zwc" ]]; then
+  zcompile "$zcompdump"
+fi
