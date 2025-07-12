@@ -407,49 +407,6 @@ return {
 		cmd = "CodeActionMenu",
 	},
 
-	{
-		"aanari/ChatGPT.nvim",
-		cmd = {
-			"ChatGPT",
-			"ChatGPTActAs",
-			"ChatGPTCompleteCode",
-			"ChatGPTEditWithInstructions",
-			"ChatGPTRun",
-		},
-		dependencies = {
-			"MunifTanjim/nui.nvim",
-			"nvim-lua/plenary.nvim",
-			"nvim-telescope/telescope.nvim",
-		},
-		config = function()
-			require("chatgpt").setup({
-				chat = {
-					welcome_message = "",
-				},
-				popup_layout = {
-					default = "center",
-					center = {
-						width = "90%",
-						height = "90%",
-					},
-					right = {
-						width = "30%",
-						width_settings_open = "50%",
-					},
-				},
-				openai_params = {
-					model = "openai/gpt-4-32k",
-					max_tokens = 12000,
-					frequency_penalty = 0,
-					presence_penalty = 0,
-					temperature = 0,
-					top_p = 1,
-					n = 1,
-				},
-				actions_paths = { "~/.config/nvim/lua/custom/configs/actions.json" },
-			})
-		end,
-	},
 
 	{
 		"jghauser/mkdir.nvim",
