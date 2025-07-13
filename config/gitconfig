@@ -49,6 +49,10 @@
 [interactive]
   diffFilter = delta --color-only
 
+[rerere]
+  enabled = true
+  autoupdate = true
+
 [merge]
   ff = only
   conflictstyle = diff3
@@ -56,9 +60,19 @@
 [push]
   default = simple
   followTags = true
+  autoSetupRemote = true
+
+[fetch]
+  prune = true
+  prunetags = true
+
+[pull]
+  rebase = true
 
 [diff]
   colorMoved = default
+  algorithm = histogram
+  compactionHeuristic = true
 
 [branch "main"]
   remote = origin
@@ -91,3 +105,6 @@
 [delta]
   navigate = true
   light = true
+
+[init]
+  defaultBranch = main
