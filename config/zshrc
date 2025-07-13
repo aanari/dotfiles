@@ -34,6 +34,20 @@ zstyle ':prezto:module:terminal' auto-title 'yes'
 zstyle ':prezto:module:terminal:window-title' format '%n@%m: %s'
 zstyle ':prezto:module:terminal:tab-title' format '%m: %s'
 
+# Cache completion initialization
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.cache/zsh/completions
+# Fuzzy completion matching
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'r:|=*' 'l:|=* r:|=*'
+# Faster git completion
+zstyle ':completion:*:*:git:*' script ~/.cache/zsh/git-completion.bash
+
+# Enhanced history settings
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_FIND_NO_DUPS
+setopt HIST_VERIFY
+setopt INC_APPEND_HISTORY_TIME
+
 # Load Prezto modules with zinit for better integration
 zinit snippet PZTM::environment
 zinit snippet PZTM::terminal
