@@ -1,4 +1,7 @@
 # Default colors
+[bell]
+duration = 0
+
 [colors.primary]
 background = '#FFFFFF' # base
 foreground = '#4C4F69' # text
@@ -10,6 +13,10 @@ bright_foreground = '#4C4F69' # text
 [colors.cursor]
 text = '#FFFFFF' # base
 cursor = '#DC8A78' # rosewater
+
+[cursor]
+style = { shape = "Block", blinking = "On" }
+blink_interval = 750
 
 [colors.vi_mode_cursor]
 text = '#FFFFFF' # base
@@ -76,7 +83,7 @@ cyan = '#179299' # teal
 white = '#ACB0BE' # surface2
 
 [font]
-size = 14.0
+size = 16.0
 
 [font.bold]
 family = "PragmataProMonoLiga Nerd Font"
@@ -111,6 +118,16 @@ mods = "Control|Shift"
 action = "Copy"
 key = "C"
 mods = "Control|Shift"
+
+[[keyboard.bindings]]
+action = "Paste"
+key = "V"
+mods = "Command"
+
+[[keyboard.bindings]]
+action = "Copy"
+key = "C"
+mods = "Command"
 
 [[keyboard.bindings]]
 action = "PasteSelection"
@@ -186,6 +203,11 @@ key = "End"
 mode = "~Alt"
 mods = "Shift"
 
+[[keyboard.bindings]]
+action = "SpawnNewInstance"
+key = "N"
+mods = "Command"
+
 [scrolling]
 history = 10000
 
@@ -193,11 +215,28 @@ history = 10000
 save_to_clipboard = true
 semantic_escape_chars = ",│`|:\"' ()[]{}<>\t"
 
+[mouse]
+hide_when_typing = true
+
 [window]
 dynamic_padding = true
 dynamic_title = true
 option_as_alt = "Both"
+opacity = 0.95
+decorations = "full"
+startup_mode = "Windowed"
 
 [window.padding]
 x = 2
 y = 0
+
+[terminal]
+osc52 = "CopyPaste"
+
+[hints]
+[[hints.enabled]]
+regex = "(ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)[^\u0000-\u001F\u007F-\u009F<>\"\\s{-}\\^⟨⟩`]+"
+command = "open"
+post_processing = true
+mouse.enabled = true
+mouse.mods = "Command"

@@ -12,7 +12,7 @@ vim.opt.shortmess:append("A") -- Ignores swapfiles when opening file
 vim.opt.shortmess:append("s") -- Disable 'Search hit BOTTOM, continuing at TOP'
 vim.opt.shortmess:append("cS") -- Disable "[1/5]", "Pattern not found", etc.
 vim.opt.shortmess:append("FW") -- Disable message after editing/writing file
-vim.opt.guifont = { "PragmataProMonoLiga Nerd Font", "h13" }
+vim.opt.guifont = { "PragmataProMonoLiga Nerd Font" }
 
 vim.api.nvim_set_hl(0, "RainbowDelimiterRed", { fg = "#e8646a" })
 vim.api.nvim_set_hl(0, "RainbowDelimiterYellow", { fg = "#ecd28b" })
