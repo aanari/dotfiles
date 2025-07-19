@@ -1,5 +1,8 @@
 # vim: set ft=sh:
 
+# Source FZF-powered functions if available
+[ -f ~/.dotfiles/config/shell/fzf-functions.sh ] && source ~/.dotfiles/config/shell/fzf-functions.sh
+
 gittags () {
     ls -1 --sort=time .git/refs/heads/ | while read b; do PAGER='' git log -n1 --color --pretty=format:'%C(yellow)%<(40)%d%Creset
 %Cred%h%Creset  %<(90)%s %C(green)%>(18)%cr%Creset   %C(bold blue)%>(18)%an%Creset%n' --abbrev-commit $b --; done;

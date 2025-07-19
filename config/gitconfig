@@ -1,6 +1,10 @@
 [alias]
   # View the SHA, description, and history graph of commits
   l = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+  # Short log with graph
+  lg = log --graph --oneline --decorate --all
+  # Show commits from all branches
+  la = log --graph --oneline --decorate --all --branches
   # deploy log
   dl = log --pretty=format:'%h %ad %an %s' --decorate --no-merges --date=short
   # View the current working tree status using the short format
@@ -45,6 +49,18 @@
   prune = fetch --prune
   # Grab those pesky un-added files
   stash-all = stash save --include-untracked
+  # List recent branches
+  recent = for-each-ref --count=10 --sort=-committerdate refs/heads/ --format="%(refname:short)"
+  # Show what's in staging
+  staged = diff --cached
+  # Better blame with date
+  blame-better = blame -w -C -C -C
+  # Find commits by commit message
+  find = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
+  # Find commits by source code
+  search = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short -S$1; }; f"
+  # Delete merged branches
+  cleanup = "!git branch --merged | grep -v '\\*\\|main\\|master\\|develop' | xargs -n 1 git branch -d"
 
 [interactive]
   diffFilter = delta --color-only
@@ -108,3 +124,38 @@
 
 [init]
   defaultBranch = main
+
+[core]
+  autocrlf = input
+  safecrlf = warn
+  whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
+  excludesfile = ~/.gitignore_global
+  pager = delta
+
+[rebase]
+  autoStash = true
+  updateRefs = true
+
+[commit]
+  verbose = true
+
+[help]
+  autocorrect = 20
+
+[color]
+  ui = true
+
+[color "diff-highlight"]
+  oldNormal = red bold
+  oldHighlight = red bold 52
+  newNormal = green bold
+  newHighlight = green bold 22
+
+[color "diff"]
+  meta = 11
+  frag = magenta bold
+  func = 146 bold
+  commit = yellow bold
+  old = red bold
+  new = green bold
+  whitespace = red reverse

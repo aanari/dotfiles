@@ -1,0 +1,55 @@
+# Global SSH Configuration
+# Security and performance optimizations
+
+# Default for all hosts
+Host *
+  # Security
+  PasswordAuthentication no
+  ChallengeResponseAuthentication no
+  HashKnownHosts yes
+  StrictHostKeyChecking ask
+  
+  # Performance
+  ControlMaster auto
+  ControlPath ~/.ssh/sockets/%r@%h-%p
+  ControlPersist 600
+  
+  # Connection
+  ServerAliveInterval 60
+  ServerAliveCountMax 3
+  ConnectTimeout 10
+  
+  # Compression
+  Compression yes
+  
+  # Forwarding
+  ForwardAgent no
+  ForwardX11 no
+  
+  # macOS specific
+  UseKeychain yes
+  AddKeysToAgent yes
+  IgnoreUnknown UseKeychain
+  
+  # Modern algorithms only
+  KexAlgorithms curve25519-sha256,curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256
+  Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
+  MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com
+
+# GitHub
+Host github.com
+  User git
+  ForwardAgent no
+  
+# GitLab
+Host gitlab.com
+  User git
+  ForwardAgent no
+
+# Example: Development server with specific settings
+# Host dev
+#   HostName dev.example.com
+#   User myuser
+#   Port 22
+#   IdentityFile ~/.ssh/id_ed25519
+#   ForwardAgent yes  # Only if needed
