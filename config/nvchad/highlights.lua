@@ -20,7 +20,7 @@ M.override = {
 	Type = { italic = true },
 	["@type"] = { link = "Type" },
 
-	CursorLine = { bg = "#eef0f1" },
+	CursorLine = { bg = "none" },
 	CursorReset = { fg = "#ffffff", bg = "#ffffff" },
 	Visual = { bg = "#E5EBF1" },
 

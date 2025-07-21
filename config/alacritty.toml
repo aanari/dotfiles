@@ -227,17 +227,21 @@ hide_when_typing = true
 dynamic_padding = true
 dynamic_title = true
 option_as_alt = "Both"
-opacity = 0.85
+opacity = 0.9
 decorations = "none"
 startup_mode = "Windowed"
 
+[window.position]
+x = 0
+y = 0
+
 [window.padding]
-x = 2
+x = 1
 y = 0
 
 [window.dimensions]
 columns = 500
-lines = 30
+lines = 48
 
 [terminal]
 osc52 = "CopyPaste"
