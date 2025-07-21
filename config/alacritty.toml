@@ -228,7 +228,7 @@ dynamic_padding = true
 dynamic_title = true
 option_as_alt = "Both"
 opacity = 0.9
-decorations = "none"
+decorations = "Full"
 startup_mode = "Windowed"
 
 [window.position]
