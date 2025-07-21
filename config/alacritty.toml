@@ -160,6 +160,11 @@ key = "F11"
 mods = "None"
 
 [[keyboard.bindings]]
+action = "ToggleSimpleFullscreen"
+key = "Return"
+mods = "Command"
+
+[[keyboard.bindings]]
 action = "Paste"
 key = "Paste"
 mods = "None"
@@ -222,13 +227,17 @@ hide_when_typing = true
 dynamic_padding = true
 dynamic_title = true
 option_as_alt = "Both"
-opacity = 0.95
-decorations = "full"
+opacity = 0.85
+decorations = "none"
 startup_mode = "Windowed"
 
 [window.padding]
 x = 2
 y = 0
+
+[window.dimensions]
+columns = 500
+lines = 30
 
 [terminal]
 osc52 = "CopyPaste"
