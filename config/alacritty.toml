@@ -86,11 +86,11 @@ white = '#ACB0BE' # surface2
 size = 16.0
 
 [font.bold]
-family = "PragmataProMonoLiga Nerd Font"
+family = "PragmataPro Mono Liga"
 style = "Bold"
 
 [font.bold_italic]
-family = "PragmataProMonoLiga Nerd Font"
+family = "PragmataPro Mono Liga"
 style = "Bold Italic"
 
 [font.glyph_offset]
@@ -98,11 +98,11 @@ x = 0
 y = 0
 
 [font.italic]
-family = "PragmataProMonoLiga Nerd Font"
+family = "PragmataPro Mono Liga"
 style = "Italic"
 
 [font.normal]
-family = "PragmataProMonoLiga Nerd Font"
+family = "PragmataPro Mono Liga"
 style = "Regular"
 
 [font.offset]
