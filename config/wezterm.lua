@@ -5,7 +5,7 @@ local function font_with_fallback(name, params)
 	return wezterm.font_with_fallback(names, params)
 end
 
-local font_name = "PragmataProMonoLiga Nerd Font"
+local font_name = "PragmataPro Mono Liga"
 
 return {
 	-- OpenGL for GPU acceleration, Software for CPU
@@ -31,158 +31,139 @@ return {
 	audible_bell = "Disabled",
 	warn_about_missing_glyphs = false,
 	scrollback_lines = 10000,
-	font_size = 11,
+	font_size = 16,
 	line_height = 1.0,
-
-	animation_fps = 30,
 
 	-- Cursor style
 	default_cursor_style = "BlinkingBlock",
+	cursor_blink_rate = 750,
 
-	-- X11
-	enable_wayland = false,
-
-	-- Keybinds
-	disable_default_key_bindings = true,
-	keys = {
-		{
-			key = "q",
-			mods = "CTRL",
-			action = wezterm.action({ CloseCurrentPane = { confirm = false } }),
-		},
-		{
-			key = "h",
-			mods = "CTRL|SHIFT",
-			action = wezterm.action({ ActivatePaneDirection = "Left" }),
-		},
-		{
-			key = "l",
-			mods = "CTRL|SHIFT",
-			action = wezterm.action({ ActivatePaneDirection = "Right" }),
-		},
-		{
-			key = "k",
-			mods = "CTRL|SHIFT",
-			action = wezterm.action({ ActivatePaneDirection = "Up" }),
-		},
-		{
-			key = "j",
-			mods = "CTRL|SHIFT",
-			action = wezterm.action({ ActivatePaneDirection = "Down" }),
-		},
-		{
-			key = "h",
-			mods = "CTRL|SHIFT|ALT",
-			action = wezterm.action({ AdjustPaneSize = { "Left", 1 } }),
-		},
-		{
-			key = "l",
-			mods = "CTRL|SHIFT|ALT",
-			action = wezterm.action({ AdjustPaneSize = { "Right", 1 } }),
-		},
-		{
-			key = "k",
-			mods = "CTRL|SHIFT|ALT",
-			action = wezterm.action({ AdjustPaneSize = { "Up", 1 } }),
-		},
-		{
-			key = "j",
-			mods = "CTRL|SHIFT|ALT",
-			action = wezterm.action({ AdjustPaneSize = { "Down", 1 } }),
-		},
-		{ -- browser-like bindings for tabbing
-			key = "t",
-			mods = "CTRL",
-			action = wezterm.action({ SpawnTab = "CurrentPaneDomain" }),
-		},
-		{
-			key = "w",
-			mods = "CTRL",
-			action = wezterm.action({ CloseCurrentTab = { confirm = false } }),
-		},
-		{
-			key = "Tab",
-			mods = "CTRL",
-			action = wezterm.action({ ActivateTabRelative = 1 }),
-		},
-		{
-			key = "Tab",
-			mods = "CTRL|SHIFT",
-			action = wezterm.action({ ActivateTabRelative = -1 }),
-		}, -- standard copy/paste bindings
-		{
-			key = "v",
-			mods = "CTRL|SHIFT",
-			action = wezterm.action({ PasteFrom = "Clipboard" }),
-		},
-		{
-			key = "v",
-			mods = "SUPER",
-			action = wezterm.action({ PasteFrom = "Clipboard" }),
-		},
-		{
-			key = "c",
-			mods = "CTRL|SHIFT",
-			action = wezterm.action({ CopyTo = "ClipboardAndPrimarySelection" }),
-		},
-		{
-			key = "c",
-			mods = "SUPER",
-			action = wezterm.action({ CopyTo = "ClipboardAndPrimarySelection" }),
-		},
-		{ mods = "CTRL", key = "-", action = "DecreaseFontSize" },
-		{ mods = "SUPER", key = "-", action = "DecreaseFontSize" },
-		{ mods = "CTRL", key = "=", action = "IncreaseFontSize" },
-		{ mods = "SUPER", key = "=", action = "IncreaseFontSize" },
-		{ mods = "CTRL", key = "0", action = "ResetFontSize" },
-		{ mods = "SUPER", key = "0", action = "ResetFontSize" },
-		{ key = "F11", action = "ToggleFullScreen" },
-		{ mods = "CTRL|SHIFT", key = "F", action = wezterm.action({ Search = { CaseSensitiveString = "" } }) },
-	},
-
-	-- Aesthetic Night Colorscheme
-	bold_brightens_ansi_colors = true,
-	colors = {
-		foreground = "#edeff0",
-		background = "#0c0e0f",
-		cursor_bg = "#edeff0",
-		cursor_fg = "#edeff0",
-		cursor_border = "#232526",
-		selection_fg = "#0c0e0f",
-		selection_bg = "#edeff0",
-		scrollbar_thumb = "#edeff0",
-		split = "#090909",
-		ansi = { "#232526", "#df5b61", "#78b892", "#de8f78", "#6791c9", "#bc83e3", "#67afc1", "#e4e6e7" },
-		brights = { "#2c2e2f", "#e8646a", "#81c19b", "#e79881", "#709ad2", "#c58cec", "#70b8ca", "#f2f4f5" },
-		indexed = { [136] = "#edeff0" },
-		tab_bar = {
-			active_tab = { bg_color = "#0c0e0f", fg_color = "#edeff0" },
-			inactive_tab = { bg_color = "#0c0e0f", fg_color = "#333333" },
-			inactive_tab_hover = { bg_color = "#0c0e0f", fg_color = "#444444" },
-			new_tab = { bg_color = "#0c0e0f", fg_color = "#333333" },
-			new_tab_hover = { bg_color = "#0c0e0f", fg_color = "#444444" },
-			inactive_tab_edge = "#333333",
-		},
-	},
-
-	-- Padding
+	-- Window
+	window_background_opacity = 0.9,
+	window_decorations = "RESIZE",
 	window_padding = {
-		left = 0,
-		right = 0,
+		left = 1,
+		right = 1,
 		top = 0,
 		bottom = 0,
+	},
+	initial_cols = 180,
+	initial_rows = 48,
+	adjust_window_size_when_changing_font_size = false,
+
+	-- MacOS specific
+	macos_window_background_blur = 10,
+	native_macos_fullscreen_mode = false,
+	send_composed_key_when_left_alt_is_pressed = true,
+	send_composed_key_when_right_alt_is_pressed = true,
+	prefer_to_spawn_tabs = false,
+
+	-- Colors (Catppuccin Latte theme to match your Alacritty)
+	colors = {
+		foreground = "#4C4F69",
+		background = "#FFFFFF",
+		cursor_bg = "#DC8A78",
+		cursor_fg = "#FFFFFF",
+		cursor_border = "#DC8A78",
+		selection_fg = "#FFFFFF",
+		selection_bg = "#DC8A78",
+		
+		ansi = {
+			"#5C5F77", -- black
+			"#D20F39", -- red
+			"#40A02B", -- green
+			"#DF8E1D", -- yellow
+			"#1E66F5", -- blue
+			"#EA76CB", -- magenta
+			"#179299", -- cyan
+			"#ACB0BE", -- white
+		},
+		brights = {
+			"#6C6F85", -- bright black
+			"#D20F39", -- bright red
+			"#40A02B", -- bright green
+			"#DF8E1D", -- bright yellow
+			"#1E66F5", -- bright blue
+			"#EA76CB", -- bright magenta
+			"#179299", -- bright cyan
+			"#BCC0CC", -- bright white
+		},
+		
+		visual_bell = "#202020",
+		
+		tab_bar = {
+			background = "#FFFFFF",
+			active_tab = {
+				bg_color = "#FFFFFF",
+				fg_color = "#4C4F69",
+			},
+			inactive_tab = {
+				bg_color = "#FFFFFF",
+				fg_color = "#6C6F85",
+			},
+			inactive_tab_hover = {
+				bg_color = "#FFFFFF",
+				fg_color = "#4C4F69",
+			},
+			new_tab = {
+				bg_color = "#FFFFFF",
+				fg_color = "#6C6F85",
+			},
+			new_tab_hover = {
+				bg_color = "#FFFFFF",
+				fg_color = "#4C4F69",
+			},
+		},
 	},
 
 	-- Tab Bar
 	enable_tab_bar = true,
 	hide_tab_bar_if_only_one_tab = true,
 	show_tab_index_in_tab_bar = false,
-	tab_bar_at_bottom = true,
+	tab_bar_at_bottom = false,
+
+	-- Key bindings
+	keys = {
+		{ key = "V", mods = "CTRL|SHIFT", action = wezterm.action({ PasteFrom = "Clipboard" }) },
+		{ key = "C", mods = "CTRL|SHIFT", action = wezterm.action({ CopyTo = "Clipboard" }) },
+		{ key = "V", mods = "CMD", action = wezterm.action({ PasteFrom = "Clipboard" }) },
+		{ key = "C", mods = "CMD", action = wezterm.action({ CopyTo = "Clipboard" }) },
+		{ key = "Insert", mods = "SHIFT", action = wezterm.action({ PasteFrom = "PrimarySelection" }) },
+		{ key = "0", mods = "CTRL", action = "ResetFontSize" },
+		{ key = "=", mods = "CTRL", action = "IncreaseFontSize" },
+		{ key = "+", mods = "CTRL", action = "IncreaseFontSize" },
+		{ key = "-", mods = "CTRL", action = "DecreaseFontSize" },
+		{ key = "F11", mods = "NONE", action = "ToggleFullScreen" },
+		{ key = "Return", mods = "CMD", action = "ToggleFullScreen" },
+		{ key = "L", mods = "CTRL", action = wezterm.action({ ClearScrollback = "ScrollbackAndViewport" }) },
+		{ key = "PageUp", mods = "NONE", action = wezterm.action({ ScrollByPage = -1 }) },
+		{ key = "PageDown", mods = "NONE", action = wezterm.action({ ScrollByPage = 1 }) },
+		{ key = "Home", mods = "SHIFT", action = "ScrollToTop" },
+		{ key = "End", mods = "SHIFT", action = "ScrollToBottom" },
+		{ key = "N", mods = "CMD", action = "SpawnWindow" },
+	},
+
+	-- Mouse bindings
+	mouse_bindings = {
+		{
+			event = { Up = { streak = 1, button = "Left" } },
+			mods = "CMD",
+			action = wezterm.action.OpenLinkAtMouseCursor,
+		},
+	},
+
+	-- Hyperlink rules (matching your Alacritty config)
+	hyperlink_rules = {
+		{
+			regex = "(ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)[^\\u0000-\\u001F\\u007F-\\u009F<>\"\\\\s{-}\\\\^⟨⟩`]+",
+			format = "$0",
+		},
+	},
 
 	-- General
 	automatically_reload_config = true,
-	inactive_pane_hsb = { saturation = 1.0, brightness = 1.0 },
-	window_background_opacity = 1.0,
-	window_close_confirmation = "NeverPrompt",
-	window_frame = { active_titlebar_bg = "#090909", font = font_with_fallback(font_name, { bold = true }) },
+	check_for_updates = false,
+	use_ime = true,
+	enable_kitty_graphics = true,
+	term = "xterm-256color",
 }
