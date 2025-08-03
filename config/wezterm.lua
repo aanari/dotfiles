@@ -54,6 +54,7 @@ return {
 	-- MacOS specific
 	macos_window_background_blur = 10,
 	native_macos_fullscreen_mode = false,
+	window_close_confirmation = "NeverPrompt",
 	send_composed_key_when_left_alt_is_pressed = true,
 	send_composed_key_when_right_alt_is_pressed = true,
 	prefer_to_spawn_tabs = false,
