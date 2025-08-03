@@ -7,8 +7,9 @@ end
 
 local font_name = "PragmataPro Mono Liga"
 
-
 return {
+	color_scheme = "One Light (base16)",
+
 	-- Performance
 	max_fps = 120,
 	enable_wayland = false,
@@ -44,7 +45,6 @@ return {
 	cursor_thickness = 2,
 
 	-- Window
-	window_background_opacity = 0.9,
 	window_decorations = "RESIZE",
 	window_padding = {
 		left = 1,
@@ -57,7 +57,7 @@ return {
 	adjust_window_size_when_changing_font_size = false,
 
 	-- MacOS specific
-	macos_window_background_blur = 10,
+	macos_window_background_blur = 5,
 	native_macos_fullscreen_mode = false,
 	window_close_confirmation = "NeverPrompt",
 	quit_when_all_windows_are_closed = true,
@@ -65,39 +65,11 @@ return {
 	send_composed_key_when_right_alt_is_pressed = true,
 	prefer_to_spawn_tabs = false,
 
-	-- Colors (Catppuccin Latte theme to match your Alacritty)
+	window_background_opacity = 0.85,
+	text_background_opacity = 1.0, -- This keeps text backgrounds opaque
+
 	colors = {
-		foreground = "#4C4F69",
-		background = "#FFFFFF",
-		cursor_bg = "#DC8A78",
-		cursor_fg = "#FFFFFF",
-		cursor_border = "#DC8A78",
-		selection_fg = "#FFFFFF",
-		selection_bg = "#DC8A78",
-
-		ansi = {
-			"#5C5F77", -- black
-			"#D20F39", -- red
-			"#40A02B", -- green
-			"#DF8E1D", -- yellow
-			"#1E66F5", -- blue
-			"#EA76CB", -- magenta
-			"#179299", -- cyan
-			"#ACB0BE", -- white
-		},
-		brights = {
-			"#6C6F85", -- bright black
-			"#D20F39", -- bright red
-			"#40A02B", -- bright green
-			"#DF8E1D", -- bright yellow
-			"#1E66F5", -- bright blue
-			"#EA76CB", -- bright magenta
-			"#179299", -- bright cyan
-			"#BCC0CC", -- bright white
-		},
-
-		-- visual_bell = "#202020",
-
+		background = "#FFFFFF", -- Solid white
 		tab_bar = {
 			background = "#E6E9EF",
 			active_tab = {
@@ -128,7 +100,7 @@ return {
 	hide_tab_bar_if_only_one_tab = true,
 	show_tab_index_in_tab_bar = false,
 	tab_bar_at_bottom = false,
-	use_fancy_tab_bar = true,  -- Use fancy tab bar style
+	use_fancy_tab_bar = true, -- Use fancy tab bar style
 	tab_max_width = 40,
 	window_frame = {
 		font = wezterm.font({ family = font_name, weight = "Bold" }),
@@ -184,7 +156,7 @@ return {
 	-- Hyperlink rules (matching your Alacritty config)
 	hyperlink_rules = {
 		{
-			regex = "(ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)[^\\u0000-\\u001F\\u007F-\\u009F<>\"\\\\s{-}\\\\^⟨⟩`]+",
+			regex = '(ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)[^\\u0000-\\u001F\\u007F-\\u009F<>"\\\\s{-}\\\\^⟨⟩`]+',
 			format = "$0",
 		},
 	},
