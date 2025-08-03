@@ -7,7 +7,11 @@ end
 
 local font_name = "PragmataPro Mono Liga"
 
+
 return {
+	-- Performance
+	max_fps = 120,
+	enable_wayland = false,
 	-- OpenGL for GPU acceleration, Software for CPU
 	front_end = "OpenGL",
 
@@ -37,6 +41,7 @@ return {
 	-- Cursor style
 	default_cursor_style = "BlinkingBlock",
 	cursor_blink_rate = 750,
+	cursor_thickness = 2,
 
 	-- Window
 	window_background_opacity = 0.9,
@@ -55,6 +60,7 @@ return {
 	macos_window_background_blur = 10,
 	native_macos_fullscreen_mode = false,
 	window_close_confirmation = "NeverPrompt",
+	quit_when_all_windows_are_closed = true,
 	send_composed_key_when_left_alt_is_pressed = true,
 	send_composed_key_when_right_alt_is_pressed = true,
 	prefer_to_spawn_tabs = false,
@@ -68,7 +74,7 @@ return {
 		cursor_border = "#DC8A78",
 		selection_fg = "#FFFFFF",
 		selection_bg = "#DC8A78",
-		
+
 		ansi = {
 			"#5C5F77", -- black
 			"#D20F39", -- red
@@ -89,29 +95,29 @@ return {
 			"#179299", -- bright cyan
 			"#BCC0CC", -- bright white
 		},
-		
+
 		visual_bell = "#202020",
-		
+
 		tab_bar = {
-			background = "#FFFFFF",
+			background = "#E6E9EF",
 			active_tab = {
 				bg_color = "#FFFFFF",
 				fg_color = "#4C4F69",
 			},
 			inactive_tab = {
-				bg_color = "#FFFFFF",
+				bg_color = "#CCD0DA",
 				fg_color = "#6C6F85",
 			},
 			inactive_tab_hover = {
-				bg_color = "#FFFFFF",
+				bg_color = "#DDD1DE",
 				fg_color = "#4C4F69",
 			},
 			new_tab = {
-				bg_color = "#FFFFFF",
+				bg_color = "#CCD0DA",
 				fg_color = "#6C6F85",
 			},
 			new_tab_hover = {
-				bg_color = "#FFFFFF",
+				bg_color = "#DDD1DE",
 				fg_color = "#4C4F69",
 			},
 		},
@@ -122,6 +128,14 @@ return {
 	hide_tab_bar_if_only_one_tab = true,
 	show_tab_index_in_tab_bar = false,
 	tab_bar_at_bottom = false,
+	use_fancy_tab_bar = true,  -- Use fancy tab bar style
+	tab_max_width = 40,
+	window_frame = {
+		font = wezterm.font({ family = font_name, weight = "Bold" }),
+		font_size = 14.0,
+		active_titlebar_bg = "#E6E9EF",
+		inactive_titlebar_bg = "#CCD0DA",
+	},
 
 	-- Key bindings
 	keys = {
@@ -142,6 +156,20 @@ return {
 		{ key = "Home", mods = "SHIFT", action = "ScrollToTop" },
 		{ key = "End", mods = "SHIFT", action = "ScrollToBottom" },
 		{ key = "N", mods = "CMD", action = "SpawnWindow" },
+		-- Tab management
+		{ key = "T", mods = "CMD", action = wezterm.action({ SpawnTab = "CurrentPaneDomain" }) },
+		{ key = "W", mods = "CMD", action = wezterm.action({ CloseCurrentTab = { confirm = false } }) },
+		{ key = "1", mods = "CMD", action = wezterm.action({ ActivateTab = 0 }) },
+		{ key = "2", mods = "CMD", action = wezterm.action({ ActivateTab = 1 }) },
+		{ key = "3", mods = "CMD", action = wezterm.action({ ActivateTab = 2 }) },
+		{ key = "4", mods = "CMD", action = wezterm.action({ ActivateTab = 3 }) },
+		{ key = "5", mods = "CMD", action = wezterm.action({ ActivateTab = 4 }) },
+		{ key = "LeftArrow", mods = "CMD|ALT", action = wezterm.action({ ActivateTabRelative = -1 }) },
+		{ key = "RightArrow", mods = "CMD|ALT", action = wezterm.action({ ActivateTabRelative = 1 }) },
+		-- Font size with Cmd
+		{ key = "=", mods = "CMD", action = "IncreaseFontSize" },
+		{ key = "-", mods = "CMD", action = "DecreaseFontSize" },
+		{ key = "0", mods = "CMD", action = "ResetFontSize" },
 	},
 
 	-- Mouse bindings
@@ -167,4 +195,18 @@ return {
 	use_ime = true,
 	enable_kitty_graphics = true,
 	term = "xterm-256color",
+
+	-- Advanced
+	enable_scroll_bar = false,
+	swap_backspace_and_delete = false,
+	exit_behavior = "Close",
+	selection_word_boundary = " \t\n{}[]()\"'`,;:",
+
+	-- Bell
+	visual_bell = {
+		fade_in_function = "EaseIn",
+		fade_in_duration_ms = 150,
+		fade_out_function = "EaseOut",
+		fade_out_duration_ms = 150,
+	},
 }
