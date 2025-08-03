@@ -96,7 +96,7 @@ return {
 			"#BCC0CC", -- bright white
 		},
 
-		visual_bell = "#202020",
+		-- visual_bell = "#202020",
 
 		tab_bar = {
 			background = "#E6E9EF",
@@ -202,11 +202,9 @@ return {
 	exit_behavior = "Close",
 	selection_word_boundary = " \t\n{}[]()\"'`,;:",
 
-	-- Bell
+	-- Bell (disabled by setting durations to 0)
 	visual_bell = {
-		fade_in_function = "EaseIn",
-		fade_in_duration_ms = 150,
-		fade_out_function = "EaseOut",
-		fade_out_duration_ms = 150,
+		fade_in_duration_ms = 0,
+		fade_out_duration_ms = 0,
 	},
 }
