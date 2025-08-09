@@ -1,21 +1,89 @@
 #!/bin/bash
-# Linux version
-# Use this script to pipe in/out of the clipboard
-#
+# Universal clipboard utility that works everywhere.
 # Usage: someapp | clip     # Pipe someapp's output into clipboard
 #        clip | someapp     # Pipe clipboard's content into someapp
-#
 
-if command -v xclip 1>/dev/null; then
-    if [[ -p /dev/stdin ]] ; then
-        # stdin is a pipe
-        # stdin -> clipboard
-        xclip -i -selection clipboard
+# Function to encode to base64 without line breaks.
+base64_encode() {
+    if command -v base64 >/dev/null 2>&1; then
+        base64 | tr -d '\n'
     else
-        # stdin is not a pipe
-        # clipboard -> stdout
-        xclip -o -selection clipboard
+        echo "base64 command not found" >&2
+        exit 1
     fi
+}
+
+# Function to copy using OSC52 escape sequence.
+osc52_copy() {
+    local data
+    data=$(base64_encode)
+    # Try different output methods for OSC52.
+    if [ -t 2 ]; then
+        # stderr is a terminal.
+        printf "\033]52;c;%s\a" "$data" >&2
+    elif [ -t 1 ]; then
+        # stdout is a terminal.
+        printf "\033]52;c;%s\a" "$data"
+    elif [ -e /dev/tty ]; then
+        # /dev/tty exists.
+        printf "\033]52;c;%s\a" "$data" >/dev/tty
+    else
+        # Last resort - try stderr anyway.
+        printf "\033]52;c;%s\a" "$data" >&2
+    fi
+}
+
+# Function to determine if we're in an SSH session.
+is_ssh() {
+    [ -n "$SSH_TTY" ] || [ -n "$SSH_CONNECTION" ] || [ -n "$SSH_CLIENT" ]
+}
+
+# Main logic for copying.
+copy_to_clipboard() {
+    # If we're in tmux, use tmux's clipboard with OSC52 support.
+    if [ -n "$TMUX" ]; then
+        tmux load-buffer -w -
+    # If we're on macOS (local), use pbcopy.
+    elif [ "$(uname)" = "Darwin" ] && ! is_ssh; then
+        pbcopy
+    # If we're on Linux with X11 (local), use xclip.
+    elif command -v xclip >/dev/null 2>&1 && [ -n "$DISPLAY" ] && ! is_ssh; then
+        xclip -i -selection clipboard
+    # If we're in an SSH session, use OSC52.
+    elif is_ssh; then
+        tee >(osc52_copy) >/dev/null
+    # Fallback to OSC52 for any other case.
+    else
+        tee >(osc52_copy) >/dev/null
+    fi
+}
+
+# Main logic for pasting.
+paste_from_clipboard() {
+    # If we're in tmux, use tmux's clipboard.
+    if [ -n "$TMUX" ]; then
+        tmux save-buffer -
+    # If we're on macOS (local), use pbpaste.
+    elif [ "$(uname)" = "Darwin" ] && ! is_ssh; then
+        pbpaste
+    # If we're on Linux with X11 (local), use xclip.
+    elif command -v xclip >/dev/null 2>&1 && [ -n "$DISPLAY" ] && ! is_ssh; then
+        xclip -o -selection clipboard
+    # For SSH sessions, we can't reliably paste (OSC52 is copy-only).
+    elif is_ssh; then
+        echo "Paste is not supported in SSH sessions without tmux" >&2
+        exit 1
+    else
+        echo "No suitable paste method found" >&2
+        exit 1
+    fi
+}
+
+# Determine if stdin is a pipe.
+if [[ -p /dev/stdin ]]; then
+    # stdin is a pipe - copy mode.
+    copy_to_clipboard
 else
-    echo "Remember to install xclip"
+    # stdin is not a pipe - paste mode.
+    paste_from_clipboard
 fi
