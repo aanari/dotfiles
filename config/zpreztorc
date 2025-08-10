@@ -202,7 +202,9 @@ zstyle ':prezto:module:syntax-highlighting' highlighters \
 #
 
 # Auto set the tab and window titles.
-zstyle ':prezto:module:terminal' auto-title 'yes'
+# Set to 'yes' to always set titles, 'no' to never set titles
+# Default behavior only sets titles when not in tmux/screen
+zstyle ':prezto:module:terminal' auto-title 'no'
 
 # Set the window title format.
 zstyle ':prezto:module:terminal:window-title' format '%n@%m: %s'
@@ -211,6 +213,7 @@ zstyle ':prezto:module:terminal:window-title' format '%n@%m: %s'
 zstyle ':prezto:module:terminal:tab-title' format '%m: %s'
 
 # Set the terminal multiplexer title format.
+# Not used when auto-title is disabled
 zstyle ':prezto:module:terminal:multiplexer-title' format '%s'
 
 #

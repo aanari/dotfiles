@@ -40,12 +40,12 @@ is_ssh() {
 
 # Main logic for copying.
 copy_to_clipboard() {
-    # If we're in tmux, use tmux's clipboard with OSC52 support.
-    if [ -n "$TMUX" ]; then
-        tmux load-buffer -w -
-    # If we're on macOS (local), use pbcopy.
-    elif [ "$(uname)" = "Darwin" ] && ! is_ssh; then
+    # If we're on macOS (local), always use pbcopy even in tmux.
+    if [ "$(uname)" = "Darwin" ] && ! is_ssh; then
         pbcopy
+    # If we're in tmux (non-macOS), use tmux's clipboard with OSC52 support.
+    elif [ -n "$TMUX" ]; then
+        tmux load-buffer -w -
     # If we're on Linux with X11 (local), use xclip.
     elif command -v xclip >/dev/null 2>&1 && [ -n "$DISPLAY" ] && ! is_ssh; then
         xclip -i -selection clipboard
@@ -60,12 +60,12 @@ copy_to_clipboard() {
 
 # Main logic for pasting.
 paste_from_clipboard() {
-    # If we're in tmux, use tmux's clipboard.
-    if [ -n "$TMUX" ]; then
-        tmux save-buffer -
-    # If we're on macOS (local), use pbpaste.
-    elif [ "$(uname)" = "Darwin" ] && ! is_ssh; then
+    # If we're on macOS (local), always use pbpaste even in tmux.
+    if [ "$(uname)" = "Darwin" ] && ! is_ssh; then
         pbpaste
+    # If we're in tmux (non-macOS), use tmux's clipboard.
+    elif [ -n "$TMUX" ]; then
+        tmux save-buffer -
     # If we're on Linux with X11 (local), use xclip.
     elif command -v xclip >/dev/null 2>&1 && [ -n "$DISPLAY" ] && ! is_ssh; then
         xclip -o -selection clipboard
