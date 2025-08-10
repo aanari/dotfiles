@@ -30,9 +30,23 @@ zinit light-mode for \
 zstyle ':prezto:*:*' color 'yes'
 zstyle ':prezto:module:editor' key-bindings 'vi'
 zstyle ':prezto:module:editor' dot-expansion 'yes'
-zstyle ':prezto:module:terminal' auto-title 'yes'
-zstyle ':prezto:module:terminal:window-title' format '%n@%m: %s'
-zstyle ':prezto:module:terminal:tab-title' format '%m: %s'
+
+# Disable auto-title in tmux to prevent hostname from appearing
+if [[ -n "$TMUX" ]]; then
+  zstyle ':prezto:module:terminal' auto-title 'no'
+  # Set pane title to current directory in tmux
+  autoload -Uz add-zsh-hook
+  function set_tmux_pane_title() {
+    printf '\033]2;%s\007' "${PWD##*/}"
+  }
+  # Set it initially and on directory change
+  set_tmux_pane_title
+  add-zsh-hook chpwd set_tmux_pane_title
+else
+  zstyle ':prezto:module:terminal' auto-title 'yes'
+  zstyle ':prezto:module:terminal:window-title' format '%n@%m: %s'
+  zstyle ':prezto:module:terminal:tab-title' format '%m: %s'
+fi
 
 # Cache completion initialization
 zstyle ':completion:*' use-cache on
@@ -50,7 +64,8 @@ setopt INC_APPEND_HISTORY_TIME
 
 # Load Prezto modules with zinit for better integration
 zinit snippet PZTM::environment
-zinit snippet PZTM::terminal
+# Don't load terminal module in tmux - it sets pane titles to hostname
+[[ -z "$TMUX" ]] && zinit snippet PZTM::terminal
 zinit snippet PZTM::editor
 zinit snippet PZTM::history
 zinit snippet PZTM::directory
