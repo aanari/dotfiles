@@ -29,7 +29,8 @@ fresh-options
 fresh claytron/pentadactyl-solarized colors/solarized-light.penta --file=~/.pentadactyl/colors/solarized-light.penta
 fresh tmux-plugins/tpm . --file=~/.tmux/plugins/tpm/
 fresh config/browsh --file=~/.config/browsh/
-fresh config/claude --file=~/.claude/
+fresh config/claude/settings.json --file=~/.claude/settings.json
+fresh config/claude/CLAUDE.md --file=~/.claude/CLAUDE.md
 fresh config/comfortable-swipe.conf --file=~/.config/comfortable-swipe.conf
 fresh config/delta.gitconfig --file=~/.config/delta.gitconfig
 fresh config/flake8 --file=~/.config/flake8
