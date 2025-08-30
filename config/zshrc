@@ -110,6 +110,11 @@ ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
 zinit ice depth=1
 zinit light jeffreytse/zsh-vi-mode
 
+# Load OSC52 clipboard integration for vi-mode
+if [[ -f ~/.dotfiles/config/zsh/vi-mode-clipboard.zsh ]]; then
+  source ~/.dotfiles/config/zsh/vi-mode-clipboard.zsh
+fi
+
 # Define after_init function to preserve our bindings
 zvm_after_init() {
   bindkey -M emacs '^[[A' history-substring-search-up
