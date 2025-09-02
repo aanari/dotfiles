@@ -39,12 +39,6 @@ return {
 			"windwp/nvim-autopairs",
 			"hrsh7th/cmp-cmdline",
 			"onsails/lspkind-nvim",
-			{
-				"zbirenbaum/copilot-cmp",
-				config = function()
-					require("copilot_cmp").setup()
-				end,
-			},
 		},
 		config = function()
 			local cmp = require("cmp")
@@ -393,7 +387,6 @@ return {
 		cmd = "CodeActionMenu",
 	},
 
-
 	{
 		"jghauser/mkdir.nvim",
 		event = { "FileWritePre", "BufWritePre" },
@@ -413,21 +406,6 @@ return {
 				-- copy to the system clipboard using OSC52
 				vim.fn.OSCYankString(url)
 			end,
-		},
-	},
-
-	{
-		"zbirenbaum/copilot.lua",
-		cmd = "Copilot",
-		event = "InsertEnter",
-		build = ":Copilot auth",
-		opts = {
-			suggestion = {
-				enabled = false,
-			},
-			panel = {
-				enabled = false,
-			},
 		},
 	},
 
