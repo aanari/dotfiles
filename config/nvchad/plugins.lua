@@ -19,24 +19,6 @@ return {
 	},
 
 	{
-		"ojroques/nvim-osc52",
-		event = "VeryLazy",
-		opts = {
-			silent = true,
-		},
-		config = function(_, opts)
-			require("osc52").setup(opts)
-			local function copy()
-				if vim.v.event.operator == "y" and (vim.v.event.regname == "" or vim.v.event.regname == "+") then
-					require("osc52").copy_register("+")
-					vim.highlight.on_yank({ higroup = "HighlightYank", timeout = 100 })
-				end
-			end
-			vim.api.nvim_create_autocmd("TextYankPost", { callback = copy })
-		end,
-	},
-
-	{
 		"mfussenegger/nvim-treehopper",
 		keys = {
 			{ "m", ":<C-U>lua require('tsht').nodes()<CR>", mode = "o" },
