@@ -16,28 +16,29 @@ vim.opt.guifont = { "PragmataProMonoLiga Nerd Font" }
 
 -- Configure clipboard based on environment
 if vim.env.TMUX then
-  -- Inside tmux - use tmux's clipboard (works with set-clipboard external)
-  local copy = {'tmux', 'load-buffer', '-'}
-  local paste = {'tmux', 'save-buffer', '-'}
-  vim.g.clipboard = {
-    name = 'tmux',
-    copy = {
-      ['+'] = copy,
-      ['*'] = copy,
-    },
-    paste = {
-      ['+'] = paste,
-      ['*'] = paste,
-    },
-    cache_enabled = 0,
-  }
-  vim.opt.clipboard = "unnamedplus"
+	-- Inside tmux (local or remote) - use tmux's clipboard
+	-- The -w flag works for both local and remote sessions
+	local copy = { "tmux", "load-buffer", "-w", "-" }
+	local paste = { "tmux", "save-buffer", "-" }
+	vim.g.clipboard = {
+		name = "tmux",
+		copy = {
+			["+"] = copy,
+			["*"] = copy,
+		},
+		paste = {
+			["+"] = paste,
+			["*"] = paste,
+		},
+		cache_enabled = 0,
+	}
+	vim.opt.clipboard = "unnamedplus"
 elseif vim.env.SSH_TTY then
-  -- SSH but no tmux - don't use clipboard
-  vim.opt.clipboard = ""
+	-- SSH but no tmux - don't use clipboard
+	vim.opt.clipboard = ""
 else
-  -- Local session without tmux
-  vim.opt.clipboard = "unnamedplus"
+	-- Local session without tmux
+	vim.opt.clipboard = "unnamedplus"
 end
 
 vim.api.nvim_set_hl(0, "RainbowDelimiterRed", { fg = "#e8646a" })

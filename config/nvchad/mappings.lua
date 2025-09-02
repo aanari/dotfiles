@@ -67,8 +67,6 @@ M.general = {
 		-- Reselect visual selection after indenting
 		["<"] = { "<gv", opts = { silent = true } },
 		[">"] = { ">gv", opts = { silent = true } },
-		-- Maintain the cursor position when yanking a visual selection
-		["y"] = { "myy`y", opts = { silent = true } },
 		-- Paste replace visual selection without coping it.
 		["p"] = { '"_dP', opts = { silent = true } },
 	},
@@ -77,7 +75,6 @@ M.general = {
 		["<C-a>"] = { vim.api.nvim_replace_termcodes("<C-\\><C-N>", true, true, true), "Escape terminal mode" },
 	},
 }
-
 
 M.treesitter = {
 	n = {
