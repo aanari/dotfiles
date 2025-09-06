@@ -19,24 +19,6 @@ return {
 	},
 
 	{
-		"ojroques/nvim-osc52",
-		event = "VeryLazy",
-		opts = {
-			silent = true,
-		},
-		config = function(_, opts)
-			require("osc52").setup(opts)
-			local function copy()
-				if vim.v.event.operator == "y" and (vim.v.event.regname == "" or vim.v.event.regname == "+") then
-					require("osc52").copy_register("+")
-					vim.highlight.on_yank({ higroup = "HighlightYank", timeout = 100 })
-				end
-			end
-			vim.api.nvim_create_autocmd("TextYankPost", { callback = copy })
-		end,
-	},
-
-	{
 		"mfussenegger/nvim-treehopper",
 		keys = {
 			{ "m", ":<C-U>lua require('tsht').nodes()<CR>", mode = "o" },
@@ -57,12 +39,6 @@ return {
 			"windwp/nvim-autopairs",
 			"hrsh7th/cmp-cmdline",
 			"onsails/lspkind-nvim",
-			{
-				"zbirenbaum/copilot-cmp",
-				config = function()
-					require("copilot_cmp").setup()
-				end,
-			},
 		},
 		config = function()
 			local cmp = require("cmp")
@@ -411,7 +387,6 @@ return {
 		cmd = "CodeActionMenu",
 	},
 
-
 	{
 		"jghauser/mkdir.nvim",
 		event = { "FileWritePre", "BufWritePre" },
@@ -431,21 +406,6 @@ return {
 				-- copy to the system clipboard using OSC52
 				vim.fn.OSCYankString(url)
 			end,
-		},
-	},
-
-	{
-		"zbirenbaum/copilot.lua",
-		cmd = "Copilot",
-		event = "InsertEnter",
-		build = ":Copilot auth",
-		opts = {
-			suggestion = {
-				enabled = false,
-			},
-			panel = {
-				enabled = false,
-			},
 		},
 	},
 

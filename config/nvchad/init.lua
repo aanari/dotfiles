@@ -14,6 +14,33 @@ vim.opt.shortmess:append("cS") -- Disable "[1/5]", "Pattern not found", etc.
 vim.opt.shortmess:append("FW") -- Disable message after editing/writing file
 vim.opt.guifont = { "PragmataProMonoLiga Nerd Font" }
 
+-- Configure clipboard based on environment
+if vim.env.TMUX then
+	-- Inside tmux (local or remote) - use tmux's clipboard
+	-- The -w flag works for both local and remote sessions
+	local copy = { "tmux", "load-buffer", "-w", "-" }
+	local paste = { "tmux", "save-buffer", "-" }
+	vim.g.clipboard = {
+		name = "tmux",
+		copy = {
+			["+"] = copy,
+			["*"] = copy,
+		},
+		paste = {
+			["+"] = paste,
+			["*"] = paste,
+		},
+		cache_enabled = 0,
+	}
+	vim.opt.clipboard = "unnamedplus"
+elseif vim.env.SSH_TTY then
+	-- SSH but no tmux - don't use clipboard
+	vim.opt.clipboard = ""
+else
+	-- Local session without tmux
+	vim.opt.clipboard = "unnamedplus"
+end
+
 vim.api.nvim_set_hl(0, "RainbowDelimiterRed", { fg = "#e8646a" })
 vim.api.nvim_set_hl(0, "RainbowDelimiterYellow", { fg = "#ecd28b" })
 vim.api.nvim_set_hl(0, "RainbowDelimiterBlue", { fg = "#709ad2" })
@@ -41,6 +68,13 @@ vim.opt.guicursor = {
 vim.api.nvim_set_hl(0, "IlluminatedWordText", { bg = "#22282a" })
 vim.api.nvim_set_hl(0, "IlluminatedWordRead", { bg = "#22282a" })
 vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { bg = "#22282a" })
+
+-- Highlight on yank
+vim.api.nvim_create_autocmd("TextYankPost", {
+	callback = function()
+		vim.highlight.on_yank({ higroup = "HighlightYank", timeout = 100 })
+	end,
+})
 
 -- Hopping
 vim.keymap.set("n", "S", "<cmd>lua require'hop'.hint_char2()<cr>", {})
