@@ -153,14 +153,6 @@ return {
 		},
 	},
 
-	-- Hyperlink rules (matching your Alacritty config)
-	hyperlink_rules = {
-		{
-			regex = '(ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)[^\\u0000-\\u001F\\u007F-\\u009F<>"\\\\s{-}\\\\^⟨⟩`]+',
-			format = "$0",
-		},
-	},
-
 	-- General
 	automatically_reload_config = true,
 	check_for_updates = false,
