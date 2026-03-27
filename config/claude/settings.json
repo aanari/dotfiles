@@ -1,4 +1,16 @@
 {
-  "includeCoAuthoredBy": false,
-  "model": "opus"
+  "permissions": {
+    "defaultMode": "bypassPermissions",
+    "allow": [
+      "Read", "Edit", "Write", "Grep", "Glob",
+      "Bash", "WebFetch", "mcp__*"
+    ]
+  },
+  "attribution": {
+    "commits": "",
+    "pullRequests": ""
+  },
+  "preferences": {
+    "thinkingMode": "always"
+  }
 }
