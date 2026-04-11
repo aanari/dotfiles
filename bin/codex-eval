@@ -25,6 +25,84 @@ selected_prompts=()
 workdir="${DEFAULT_WORKDIR}"
 out_dir=""
 
+metadata_value() {
+  local prompt_file="$1"
+  local key="$2"
+
+  sed -n "s/^<!-- codex-eval-${key}: \\(.*\\) -->$/\\1/p" "${prompt_file}" | head -n 1
+}
+
+compose_prompt() {
+  local prompt_file="$1"
+  local composed="$2"
+
+  sed '/^<!-- codex-eval-[a-z0-9-]*: .* -->$/d' "${prompt_file}" > "${composed}"
+}
+
+prepare_fixture_workspace() {
+  local fixture_name="$1"
+  local workspace="$2"
+  local fixture_root="${EVAL_ROOT}/fixtures/${fixture_name}"
+
+  if [[ ! -d "${fixture_root}" ]]; then
+    echo "Missing fixture repo: ${fixture_root}" >&2
+    exit 1
+  fi
+
+  rm -rf "${workspace}"
+  mkdir -p "${workspace}"
+  cp -R "${fixture_root}/." "${workspace}/"
+  chmod -R u+w "${workspace}"
+
+  (
+    cd "${workspace}"
+    git init -q
+    git config user.name "Codex Eval"
+    git config user.email "codex-eval@example.com"
+    git add -A
+    git commit -q -m "fixture baseline"
+  )
+}
+
+record_fixture_artifacts() {
+  local workspace="$1"
+  local status_file="$2"
+  local diff_stat_file="$3"
+  local diff_file="$4"
+
+  (
+    cd "${workspace}"
+    git status --short
+  ) > "${status_file}"
+
+  (
+    cd "${workspace}"
+    git diff --stat HEAD
+  ) > "${diff_stat_file}"
+
+  (
+    cd "${workspace}"
+    git diff HEAD
+  ) > "${diff_file}"
+}
+
+run_post_check() {
+  local workspace="$1"
+  local post_check="$2"
+  local post_check_file="$3"
+  local post_check_exit=0
+
+  set +e
+  (
+    cd "${workspace}"
+    /bin/bash -lc "${post_check}"
+  ) > "${post_check_file}" 2>&1
+  post_check_exit=$?
+  set -e
+
+  printf '\n[exit_code=%s]\n' "${post_check_exit}" >> "${post_check_file}"
+}
+
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --all)
@@ -101,6 +179,8 @@ run_one() {
   instruction_file="$(instruction_file_for_variant "${variant}")"
 
   local category prompt_base prompt_id run_dir composed output_file events_file stderr_file
+  local fixture_name sandbox post_check effective_workdir workspace
+  local status_file diff_stat_file diff_file post_check_file
   category="$(basename "$(dirname "${prompt_file}")")"
   prompt_base="$(basename "${prompt_file}" .md)"
   prompt_id="${category}__${prompt_base}"
@@ -112,20 +192,48 @@ run_one() {
   events_file="${run_dir}/${prompt_base}.events.jsonl"
   stderr_file="${run_dir}/${prompt_base}.stderr.log"
 
-  {
-    cat "${prompt_file}"
-  } > "${composed}"
+  compose_prompt "${prompt_file}" "${composed}"
+
+  fixture_name="$(metadata_value "${prompt_file}" "fixture")"
+  sandbox="$(metadata_value "${prompt_file}" "sandbox")"
+  post_check="$(metadata_value "${prompt_file}" "post-check")"
+  effective_workdir="${workdir}"
+
+  if [[ -n "${fixture_name}" ]]; then
+    workspace="${run_dir}/${prompt_base}.workspace"
+    prepare_fixture_workspace "${fixture_name}" "${workspace}"
+    effective_workdir="${workspace}"
+    if [[ -z "${sandbox}" ]]; then
+      sandbox="workspace-write"
+    fi
+  fi
+
+  if [[ -z "${sandbox}" ]]; then
+    sandbox="read-only"
+  fi
 
   echo "[${variant}] ${prompt_id}" >&2
   codex exec \
     --ephemeral \
     --skip-git-repo-check \
-    --sandbox read-only \
-    -C "${workdir}" \
+    --sandbox "${sandbox}" \
+    -C "${effective_workdir}" \
     -c "model_instructions_file=\"${instruction_file}\"" \
     --json \
     -o "${output_file}" \
     - < "${composed}" > "${events_file}" 2> "${stderr_file}"
+
+  if [[ -n "${fixture_name}" ]]; then
+    status_file="${run_dir}/${prompt_base}.status.txt"
+    diff_stat_file="${run_dir}/${prompt_base}.diffstat.txt"
+    diff_file="${run_dir}/${prompt_base}.diff.txt"
+    record_fixture_artifacts "${workspace}" "${status_file}" "${diff_stat_file}" "${diff_file}"
+
+    if [[ -n "${post_check}" ]]; then
+      post_check_file="${run_dir}/${prompt_base}.post-check.log"
+      run_post_check "${workspace}" "${post_check}" "${post_check_file}"
+    fi
+  fi
 
   printf '%s,%s,%s,%s,%s,%s\n' \
     "${variant}" "${prompt_id}" "${category}" "${output_file}" "${events_file}" "${stderr_file}" >> "${manifest}"

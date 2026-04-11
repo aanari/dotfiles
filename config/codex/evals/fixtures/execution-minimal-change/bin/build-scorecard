@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+root_dir="$(cd "$(dirname "$0")/.." && pwd)"
+manifest="${root_dir}/manifest.csv"
+scorecard="${root_dir}/scorecard.csv"
+
+{
+  printf 'variant,prompt_id,category,naturalness,concision,correctness,directness,willingness_to_act,non_annoyingness,notes\n'
+  tail -n +2 "${manifest}" | while IFS=, read -r variant prompt_id category composed_file output_file events_file stderr_file; do
+    printf '%s,%s,%s,,,,,,,\n' "${variant}" "${prompt_id}" "${category}"
+  done
+} > "${scorecard}"

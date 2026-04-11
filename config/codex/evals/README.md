@@ -10,7 +10,8 @@ This suite is built around real work patterns from this machine:
 
 The source material for these prompts lives in local anonymized fixtures under `config/codex/evals/fixtures/` plus dotfiles-local config files.
 
-The prompts are analysis-only. They explicitly ask Codex not to modify files so runs stay stable and comparable.
+Most prompts are analysis-only so runs stay stable and comparable.
+There is also one disposable workspace prompt under `prompts/execution/16-disposable-workspace.md` that exercises real edits, docs updates, and verification behavior in a copied fixture repo.
 
 Variants:
 
@@ -32,3 +33,11 @@ codex-eval --all --workdir /Users/ali/.dotfiles
 ```
 
 Outputs go under `~/.codex/eval-runs/<timestamp>/`.
+
+For the disposable workspace prompt, the harness also saves:
+
+- a copied workspace under the run directory
+- `*.status.txt`
+- `*.diffstat.txt`
+- `*.diff.txt`
+- `*.post-check.log`

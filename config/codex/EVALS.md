@@ -36,6 +36,7 @@ Execution:
 - "Go make this change and keep me updated as you work."
 - "Review this file and focus on bugs, regressions, and missing tests."
 - "Refactor this explanation so it is clearer, shorter, and more direct."
+- Include at least one disposable workspace task that requires a real edit, a doc update, and a lightweight verification command.
 
 Scoring rubric:
 
@@ -60,9 +61,11 @@ Failure modes to watch:
 Recommended workflow:
 
 1. Pick 8 to 12 prompts from your real work.
-2. Run each prompt against each variant.
-3. Save the transcripts.
-4. Score them quickly.
-5. Tune only the smallest default layer that addresses the recurring failures.
+2. Make sure at least one prompt is a real execution task in a disposable fixture repo.
+3. Run each prompt against each variant.
+4. Save the transcripts.
+5. For execution prompts, inspect the diff and check artifacts, not just the final message.
+6. Score them quickly.
+7. Tune only the smallest default layer that addresses the recurring failures.
 
 Keep the surrounding config stable, change only the instruction file layer, and evaluate on real usage.

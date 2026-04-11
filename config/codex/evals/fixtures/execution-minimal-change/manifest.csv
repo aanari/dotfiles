@@ -1,0 +1,2 @@
+variant,prompt_id,category,composed_file,output_file,events_file,stderr_file
+with-global-instructions,execution__sample,execution,/tmp/runs/execution__sample.prompt.md,/tmp/runs/execution__sample.last.md,/tmp/runs/execution__sample.events.jsonl,/tmp/runs/execution__sample.stderr.log
