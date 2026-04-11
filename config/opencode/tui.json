@@ -1,0 +1,21 @@
+{
+  "$schema": "https://opencode.ai/tui.json",
+  "scroll_speed": 3,
+  "scroll_acceleration": {
+    "enabled": true
+  },
+  "diff_style": "auto",
+  "mouse": true,
+  "keybinds": {
+    "leader": "ctrl+x",
+    "app_exit": "ctrl+d,<leader>q",
+    "editor_open": "ctrl+g,<leader>e",
+    "tool_details": "ctrl+o,<leader>d",
+    "agent_list": "ctrl+t,<leader>a",
+    "session_interrupt": "ctrl+c,escape",
+    "model_list": "alt+p,<leader>m",
+    "variant_cycle": "alt+o,<leader>v",
+    "display_thinking": "alt+t",
+    "messages_first": "home"
+  }
+}

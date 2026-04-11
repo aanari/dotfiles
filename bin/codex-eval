@@ -1,0 +1,141 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+EVAL_ROOT="${HOME}/.codex/evals"
+PROMPT_ROOT="${EVAL_ROOT}/prompts"
+DEFAULT_WORKDIR="${PWD}"
+RUN_ROOT="${HOME}/.codex/eval-runs"
+
+usage() {
+  cat <<'EOF'
+Usage: codex-eval [--all] [--variant NAME] [--prompt FILE] [--workdir DIR] [--out DIR]
+
+Options:
+  --all            Run the full suite across all variants
+  --variant NAME   One of: with-global-instructions, minimal-global-instructions
+  --prompt FILE    Specific prompt file to run (repeatable)
+  --workdir DIR    Repo/workdir for codex exec
+  --out DIR        Output directory (default: ~/.codex/eval-runs/<timestamp>)
+EOF
+}
+
+variants=(with-global-instructions minimal-global-instructions)
+selected_variants=()
+selected_prompts=()
+workdir="${DEFAULT_WORKDIR}"
+out_dir=""
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --all)
+      selected_variants=("${variants[@]}")
+      shift
+      ;;
+    --variant)
+      selected_variants+=("$2")
+      shift 2
+      ;;
+    --prompt)
+      selected_prompts+=("$2")
+      shift 2
+      ;;
+    --workdir)
+      workdir="$2"
+      shift 2
+      ;;
+    --out)
+      out_dir="$2"
+      shift 2
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    *)
+      echo "Unknown arg: $1" >&2
+      usage >&2
+      exit 1
+      ;;
+  esac
+done
+
+if [[ ${#selected_variants[@]} -eq 0 ]]; then
+  selected_variants=("${variants[@]}")
+fi
+
+if [[ ${#selected_prompts[@]} -eq 0 ]]; then
+  while IFS= read -r file; do
+    selected_prompts+=("$file")
+  done < <(find "${PROMPT_ROOT}" -type f -name '*.md' | sort)
+fi
+
+if [[ -z "${out_dir}" ]]; then
+  timestamp="$(date +%Y%m%dT%H%M%S)"
+  out_dir="${RUN_ROOT}/${timestamp}"
+fi
+
+mkdir -p "${out_dir}"
+mkdir -p "${out_dir}/runs"
+
+scorecard="${out_dir}/scorecard.csv"
+manifest="${out_dir}/manifest.csv"
+
+printf 'variant,prompt_id,category,output_file,events_file,stderr_file\n' > "${manifest}"
+printf 'variant,prompt_id,category,naturalness,concision,correctness,directness,willingness_to_act,non_annoyingness,notes\n' > "${scorecard}"
+
+instruction_file_for_variant() {
+  case "$1" in
+    with-global-instructions) echo "${HOME}/.codex/AGENTS.md" ;;
+    minimal-global-instructions) echo "${EVAL_ROOT}/instructions/empty.md" ;;
+    *)
+      echo "Unknown variant: $1" >&2
+      exit 1
+      ;;
+  esac
+}
+
+run_one() {
+  local variant="$1"
+  local prompt_file="$2"
+  local instruction_file
+  instruction_file="$(instruction_file_for_variant "${variant}")"
+
+  local category prompt_base prompt_id run_dir composed output_file events_file stderr_file
+  category="$(basename "$(dirname "${prompt_file}")")"
+  prompt_base="$(basename "${prompt_file}" .md)"
+  prompt_id="${category}__${prompt_base}"
+  run_dir="${out_dir}/runs/${variant}/${category}"
+  mkdir -p "${run_dir}"
+
+  composed="${run_dir}/${prompt_base}.prompt.md"
+  output_file="${run_dir}/${prompt_base}.last.md"
+  events_file="${run_dir}/${prompt_base}.events.jsonl"
+  stderr_file="${run_dir}/${prompt_base}.stderr.log"
+
+  {
+    cat "${prompt_file}"
+  } > "${composed}"
+
+  echo "[${variant}] ${prompt_id}" >&2
+  codex exec \
+    --ephemeral \
+    --skip-git-repo-check \
+    --sandbox read-only \
+    -C "${workdir}" \
+    -c "model_instructions_file=\"${instruction_file}\"" \
+    --json \
+    -o "${output_file}" \
+    - < "${composed}" > "${events_file}" 2> "${stderr_file}"
+
+  printf '%s,%s,%s,%s,%s,%s\n' \
+    "${variant}" "${prompt_id}" "${category}" "${output_file}" "${events_file}" "${stderr_file}" >> "${manifest}"
+  printf '%s,%s,%s,,,,,,,\n' "${variant}" "${prompt_id}" "${category}" >> "${scorecard}"
+}
+
+for variant in "${selected_variants[@]}"; do
+  for prompt_file in "${selected_prompts[@]}"; do
+    run_one "${variant}" "${prompt_file}"
+  done
+done
+
+echo "Wrote eval run to ${out_dir}"

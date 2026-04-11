@@ -1,0 +1,31 @@
+# Default Codex settings.
+
+# High reasoning effort is the closest persistent match to an
+# "always think" Claude Code setup.
+model_instructions_file = "/Users/ali/.codex/AGENTS.md"
+model = "gpt-5.4"
+model_reasoning_effort = "high"
+approvals_reviewer = "user"
+approval_policy = "never"
+sandbox_mode = "danger-full-access"
+
+[projects."/Users/ali/.dotfiles"]
+trust_level = "trusted"
+
+[projects."/Users/ali/Downloads/src"]
+trust_level = "trusted"
+
+[projects."/Users/ali/Projects/loa"]
+trust_level = "trusted"
+
+[projects."/Users/ali/Projects/openclaw"]
+trust_level = "trusted"
+
+[projects."/Users/ali/Projects/Claw"]
+trust_level = "trusted"
+
+[projects."/Users/ali/Documents/Mermaid"]
+trust_level = "trusted"
+
+[tui]
+theme = "github"
