@@ -3,16 +3,16 @@
 # XDG_CONFIG_HOME, XDG_DATA_HOME, and XDG_CACHE_HOME are not usually set for
 # macOS
 if [[ $(uname -a | grep -i darwin) ]]; then
-	export XDG_CONFIG_HOME="$HOME/.config"
-	export XDG_CACHE_HOME="$HOME/.cache"
-	export XDG_DATA_HOME="$HOME/.local/share"
+	export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+	export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
+	export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
 fi
-export DOTFILES=~/.dotfiles     # here
+export DOTFILES="${DOTFILES:-$HOME/.dotfiles}"     # here
 export ARCHFLAGS='-arch x86_64' # archflags
 export GH_LOGIN=aanari          # used by git-go
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
-export GOPATH=$HOME/go
-export GOROOT=/usr/local/go
+export GOPATH="${GOPATH:-$HOME/go}"
+export GOROOT="${GOROOT:-/usr/local/go}"
 export GO111MODULE=on
 export NNN_OPTS="AHedrx"
 export NNN_COLORS="6537"
@@ -22,4 +22,21 @@ export NNN_PLUG="p:preview-tui;j:autojump;c:fzcd"
 export NNN_FIFO="/tmp/nnn.fifo"
 export ZVM_LINE_INIT_MODE="i"
 export SPLIT="v"
-export PATH=/opt/homebrew/bin:$HOME/.claude/local:/usr/local/flutter/bin:/usr/local/bin:$HOME/.local/share/solana/install/active_release/bin:$PATH:$HOME/.local/bin:$HOME/.pub-cache/bin:$HOME/.cargo/bin:/usr/local/go/bin:$GOPATH/bin:/usr/share/swift/usr/bin
+
+typeset -gU path
+path=(
+	/opt/homebrew/bin
+	"$HOME/.claude/local"
+	/usr/local/flutter/bin
+	/usr/local/bin
+	"$HOME/.local/share/solana/install/active_release/bin"
+	"$HOME/.local/bin"
+	"$HOME/.pub-cache/bin"
+	"$HOME/.cargo/bin"
+	/usr/local/go/bin
+	"$GOPATH/bin"
+	/usr/share/swift/usr/bin
+	$path
+)
+
+export PATH

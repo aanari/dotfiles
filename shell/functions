@@ -3,19 +3,42 @@
 # Source FZF-powered functions if available
 [ -f ~/.dotfiles/config/shell/fzf-functions.sh ] && source ~/.dotfiles/config/shell/fzf-functions.sh
 
+unalias begin perlib rgg realias g 2>/dev/null
+
+begin() {
+    if [[ $# -ne 1 ]]; then
+        echo "usage: begin <branch>" >&2
+        return 1
+    fi
+
+    devenv && command git checkout -B "$1"
+}
+
 gittags () {
     ls -1 --sort=time .git/refs/heads/ | while read b; do PAGER='' git log -n1 --color --pretty=format:'%C(yellow)%<(40)%d%Creset
 %Cred%h%Creset  %<(90)%s %C(green)%>(18)%cr%Creset   %C(bold blue)%>(18)%an%Creset%n' --abbrev-commit $b --; done;
 }
 
+perlib() {
+    perl -Ilib -Ilocallib/lib/perl5 "$@"
+}
+
+rgg() {
+    rg --pretty --heading --fixed-strings --smart-case --hidden --follow --glob '!.git/*' "$@"
+}
+
+realias() {
+    local alias_file="${DOTFILES:-$HOME/.dotfiles}/shell/alias"
+    "${EDITOR:-nvim}" "$alias_file" && source "$alias_file"
+}
 
 
 function g() {
     if [ $# -gt 0 ];
     then
-      git $*
+      command git "$@"
     else
-      git status --short --branch
+      command git status --short --branch
     fi
 }
 

@@ -14,7 +14,7 @@ fresh zdharma/zinit . --file=~/.zinit/bin/
 
 # ~/.zshenv
 fresh-options --file=~/.zshenv --marker
-fresh shell/\*
+fresh shell/exports
 fresh-options
 
 # config

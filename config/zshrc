@@ -171,6 +171,13 @@ zstyle ':fzf-tab:*' switch-group ',' '.'
 # dircolors
 test -r ~/.dir_colors && eval $(dircolors ~/.dir_colors)
 
+# Load interactive shell helpers.
+for shell_file in alias editor filters functions; do
+  shell_file_path="${DOTFILES:-$HOME/.dotfiles}/shell/${shell_file}"
+  [[ -r "$shell_file_path" ]] && source "$shell_file_path"
+done
+unset shell_file shell_file_path
+
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # WSL specific things
