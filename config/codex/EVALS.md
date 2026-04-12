@@ -37,6 +37,7 @@ Execution:
 - "Review this file and focus on bugs, regressions, and missing tests."
 - "Refactor this explanation so it is clearer, shorter, and more direct."
 - Include at least one disposable workspace task that requires a real edit, a doc update, and a lightweight verification command.
+- Include at least one disposable workspace task that requires partial progress plus an explicit stop before a higher-blast-radius action.
 
 Scoring rubric:
 

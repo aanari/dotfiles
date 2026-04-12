@@ -1,0 +1,3 @@
+[deploy]
+timeout_seconds = 30
+region = "us-west-2"

@@ -11,7 +11,7 @@ This suite is built around real work patterns from this machine:
 The source material for these prompts lives in local anonymized fixtures under `config/codex/evals/fixtures/` plus dotfiles-local config files.
 
 Most prompts are analysis-only so runs stay stable and comparable.
-There is also one disposable workspace prompt under `prompts/execution/16-disposable-workspace.md` that exercises real edits, docs updates, and verification behavior in a copied fixture repo.
+There are also disposable workspace prompts under `prompts/execution/16-disposable-workspace.md` and `prompts/execution/17-risk-judgment.md` that exercise real edits, verification behavior, and pause-vs-proceed judgment in copied fixture repos.
 
 Variants:
 
