@@ -9,9 +9,6 @@ fresh freshshell/fresh-open bin/fresh-open --bin
 # dircolors
 fresh arcticicestudio/nord-dircolors src/dir_colors --file=~/.dir_colors
 
-# ~/.zinit
-fresh zdharma/zinit . --file=~/.zinit/bin/
-
 # ~/.zshenv
 fresh-options --file=~/.zshenv --marker
 fresh shell/exports

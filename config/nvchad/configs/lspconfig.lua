@@ -12,7 +12,7 @@ local servers = {
 	"html",
 	"jsonls",
 	"pyright",
-	"rls",
+	"rust_analyzer",
 	"stylelint_lsp",
 	"tailwindcss",
 	"ts_ls",

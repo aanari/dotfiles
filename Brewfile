@@ -18,7 +18,7 @@ brew "moreutils"
 
 # Modern replacements for Unix tools
 brew "bat"          # Better cat
-brew "eza"          # Better ls
+brew "lsd"          # Better ls
 brew "fd"           # Better find  
 brew "ripgrep"      # Better grep
 brew "sd"           # Better sed
@@ -55,7 +55,6 @@ brew "fzf"
 brew "jq"
 brew "yq"
 brew "gum"          # Pretty terminal prompts
-brew "starship"     # Cross-shell prompt
 
 # Network tools
 brew "curl"
@@ -94,8 +93,6 @@ brew "ffmpeg"
 # Shell
 brew "zsh"
 brew "zsh-completions"
-brew "zsh-autosuggestions"
-brew "zsh-syntax-highlighting"
 
 # Applications (Casks)
 cask "alacritty"

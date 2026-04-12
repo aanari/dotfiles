@@ -104,9 +104,6 @@
 [github]
   user = aanari
 
-[credential]
-  helper = store
-
 [transfer]
   fsckobjects = true
 
@@ -159,3 +156,6 @@
   old = red bold
   new = green bold
   whitespace = red reverse
+
+[include]
+  path = ~/.gitconfig.local

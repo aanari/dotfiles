@@ -11,7 +11,11 @@ begin() {
         return 1
     fi
 
-    devenv && command git checkout -B "$1"
+    if (( $+functions[devenv] )) || command -v devenv >/dev/null 2>&1; then
+        devenv || return $?
+    fi
+
+    command git checkout -B "$1"
 }
 
 gittags () {
@@ -39,6 +43,11 @@ function g() {
 }
 
 function dds() {
+    if [[ $# -ne 1 ]]; then
+        echo "usage: dds <service>" >&2
+        return 1
+    fi
+
     docker compose exec "$1" python manage.py shell -i ipython
 }
 
@@ -47,7 +56,12 @@ function manpdf() {
 }
 
 function mkcd() {
-    mkdir -p "$1" && cd "$1";
+    if [[ $# -ne 1 ]]; then
+        echo "usage: mkcd <dir>" >&2
+        return 1
+    fi
+
+    mkdir -p -- "$1" && builtin cd -- "$1"
 }
 
 rawurlencode() {
@@ -76,7 +90,7 @@ rawurldecode() {
   # encoded, we can replace %NN with \xNN and pass the lot to printf -b, which
   # will decode hex for us
 
-  printf -v REPLY '%b' "${1//%/\\x}" # You can either set a return variable (FASTER)
+  printf -v REPLY '%b' "${1//\%/\\x}" # You can either set a return variable (FASTER)
 
   echo "${REPLY}"  #+or echo the result (EASIER)... or both... :p
 }

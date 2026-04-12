@@ -14,19 +14,52 @@ ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 [ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
 source "${ZINIT_HOME}/zinit.zsh"
 
+_zinit_snippet_dir="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/snippets"
+_zinit_plugin_dir="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/plugins"
+
+compile_zsh_source() {
+  local source_path="$1"
+  local compiled_path="${source_path}.zwc"
+
+  [[ -r "$source_path" ]] || return 1
+
+  if [[ ! -r "$compiled_path" || "$source_path" -nt "$compiled_path" ]]; then
+    zcompile -- "$source_path" 2>/dev/null
+  fi
+}
+
+source_zinit_snippet() {
+  local snippet="$1"
+  local relpath="$2"
+  local snippet_path="${_zinit_snippet_dir}/${snippet}/${relpath}"
+
+  if [[ -r "${snippet_path}" ]]; then
+    compile_zsh_source "${snippet_path}"
+    source "${snippet_path}"
+  else
+    zinit snippet "${snippet}"
+  fi
+}
+
+source_zinit_plugin() {
+  local repo="$1"
+  local relpath="$2"
+  local plugin_path="${_zinit_plugin_dir}/${repo/\//---}/${relpath}"
+
+  if [[ -r "${plugin_path}" ]]; then
+    compile_zsh_source "${plugin_path}"
+    source "${plugin_path}"
+  else
+    zinit light "${repo}"
+  fi
+}
+
 if (( ZSH_HAS_TTY )); then
   # Load Powerlevel10k theme.
-  zinit ice depth=1
-  zinit light romkatv/powerlevel10k
+  source_zinit_plugin romkatv/powerlevel10k powerlevel10k.zsh-theme
 fi
 
 [[ -f ~/.fresh/build/shell.sh ]] && . ~/.fresh/build/shell.sh
-
-if (( ZSH_HAS_TTY )); then
-  # zsh-fzf-history-search.
-  zinit ice lucid wait'0'
-  zinit light joshskidmore/zsh-fzf-history-search
-fi
 
 # zinit annexes
 zinit light-mode for \
@@ -61,7 +94,7 @@ zstyle ':completion:*' cache-path ~/.cache/zsh/completions
 # Fuzzy completion matching
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'r:|=*' 'l:|=* r:|=*'
 # Faster git completion
-zstyle ':completion:*:*:git:*' script ~/.cache/zsh/git-completion.bash
+[[ -r ~/.cache/zsh/git-completion.bash ]] && zstyle ':completion:*:*:git:*' script ~/.cache/zsh/git-completion.bash
 
 # Enhanced history settings
 setopt HIST_EXPIRE_DUPS_FIRST
@@ -69,56 +102,58 @@ setopt HIST_FIND_NO_DUPS
 setopt HIST_VERIFY
 setopt INC_APPEND_HISTORY_TIME
 
-# Load Prezto modules with zinit for better integration
-zinit snippet PZTM::environment
+# Load Prezto modules from cached snippets when available.
+source_zinit_snippet PZTM::environment PZTM::environment
 # Don't load terminal module in tmux or non-tty shells.
-(( ZSH_HAS_TTY )) && [[ -z "$TMUX" ]] && zinit snippet PZTM::terminal
-zinit snippet PZTM::editor
-zinit snippet PZTM::history
-zinit snippet PZTM::directory
-zinit snippet PZTM::utility
+(( ZSH_HAS_TTY )) && [[ -z "$TMUX" ]] && source_zinit_snippet PZTM::terminal PZTM::terminal
+source_zinit_snippet PZTM::editor PZTM::editor
+source_zinit_snippet PZTM::history PZTM::history
+source_zinit_snippet PZTM::directory PZTM::directory
+source_zinit_snippet PZTM::utility PZTM::utility
 
 # Git module - use built-in git aliases instead of svn
-zinit snippet PZTM::git/alias.zsh
+source_zinit_snippet PZTM::git/alias.zsh alias.zsh
 
 if (( ZSH_HAS_TTY )); then
   # Load history substring search early (before vi-mode).
-  zinit ice depth=1
-  zinit light zsh-users/zsh-history-substring-search
+  source_zinit_plugin zsh-users/zsh-history-substring-search zsh-history-substring-search.plugin.zsh
   zle -N history-substring-search-up
   zle -N history-substring-search-down
 
   # Syntax highlighting.
-  zinit ice wait"0" lucid atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay"
-  zinit light zdharma-continuum/fast-syntax-highlighting
+  ZINIT[COMPINIT_OPTS]=-C
+  zicompinit
+  zicdreplay
+  source_zinit_plugin zdharma-continuum/fast-syntax-highlighting fast-syntax-highlighting.plugin.zsh
 
   # Autosuggestions.
-  zinit ice wait"0" lucid atload"!_zsh_autosuggest_start"
-  zinit light zsh-users/zsh-autosuggestions
+  source_zinit_plugin zsh-users/zsh-autosuggestions zsh-autosuggestions.plugin.zsh
+  (( $+functions[_zsh_autosuggest_start] )) && _zsh_autosuggest_start
 fi
 
 # Additional completions
 zinit ice wait"0" lucid blockf atpull'zinit creinstall -q .'
 zinit light zsh-users/zsh-completions
 
-zinit ice wait"0" lucid
-zinit light Peltoche/lsd
-
 if (( ZSH_HAS_TTY )); then
   # Plugins.
   zinit ice wait"0" lucid
   zinit pack="bgn-binary+keys" for fzf
+  [[ -r "${_zinit_plugin_dir}/fzf/key-bindings.zsh" ]] && source "${_zinit_plugin_dir}/fzf/key-bindings.zsh"
+  if (( $+functions[fzf-history-widget] )); then
+    bindkey -M emacs '^R' fzf-history-widget
+    bindkey -M viins '^R' fzf-history-widget
+    bindkey -M vicmd '^R' fzf-history-widget
+  fi
 
-  zinit ice wait"0" lucid
-  zinit light Aloxaf/fzf-tab
+  source_zinit_plugin Aloxaf/fzf-tab fzf-tab.plugin.zsh
 
   # Configure zsh-vi-mode before loading.
   ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT
   ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
 
   # Load zsh-vi-mode eagerly for immediate cursor feedback.
-  zinit ice depth=1
-  zinit light jeffreytse/zsh-vi-mode
+  source_zinit_plugin jeffreytse/zsh-vi-mode zsh-vi-mode.plugin.zsh
 
   # Load OSC52 clipboard integration for vi-mode.
   if [[ -f ~/.dotfiles/config/zsh/vi-mode-clipboard.zsh ]]; then
@@ -127,6 +162,11 @@ if (( ZSH_HAS_TTY )); then
 
   # Define after_init function to preserve our bindings.
   zvm_after_init() {
+    (( $+functions[fzf-history-widget] )) && {
+      bindkey -M emacs '^R' fzf-history-widget
+      bindkey -M viins '^R' fzf-history-widget
+      bindkey -M vicmd '^R' fzf-history-widget
+    }
     bindkey -M emacs '^[[A' history-substring-search-up
     bindkey -M emacs '^[[B' history-substring-search-down
     bindkey -M vicmd 'k' history-substring-search-up
@@ -200,15 +240,13 @@ if grep --quiet microsoft /proc/version 2>/dev/null; then
   export LIBGL_ALWAYS_INDIRECT=1
 fi
 
-# powerlevel10k
-# fzf
-source ~/.fzf.sh
+if (( ZSH_HAS_TTY )); then
+  [[ -r ~/.fzf.sh ]] && source ~/.fzf.sh
+fi
 
 # Misc
 export GIT_PAGER="delta"
 alias cat="bat"
-alias ll='ls -alh'
-alias la='ls -a'
 alias ls="lsd"
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=15'
 # Configure cursor shapes for different vim modes
@@ -222,16 +260,18 @@ export EDITOR='nvim'
 unsetopt PATH_DIRS
 
 # Additional vi mode settings
-export KEYTIMEOUT=1  # Reduce delay when switching modes
+export KEYTIMEOUT=1
 
-# direnv hook
-eval "$(direnv hook zsh)"
-
-# zoxide init
-eval "$(zoxide init zsh)"
+if (( ZSH_HAS_TTY )); then
+  eval "$(direnv hook zsh)"
+  eval "$(zoxide init zsh)"
+fi
 
 # Compile zcompdump, if modified, to increase startup speed.
 zcompdump="${ZDOTDIR:-$HOME}/.zcompdump"
 if [[ -f "$zcompdump" && "$zcompdump" -nt /usr/share/zsh ]] && ! [[ -f "$zcompdump.zwc" ]] || [[ "$zcompdump" -nt "$zcompdump.zwc" ]]; then
   zcompile "$zcompdump"
 fi
+
+unset _zinit_plugin_dir _zinit_snippet_dir
+unfunction compile_zsh_source source_zinit_plugin source_zinit_snippet 2>/dev/null

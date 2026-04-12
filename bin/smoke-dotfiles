@@ -1,0 +1,132 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${DOTFILES:-$HOME/.dotfiles}"
+cd "$ROOT"
+OS="$(uname -s)"
+
+pass() {
+  printf 'ok  %s\n' "$1"
+}
+
+fail() {
+  printf 'not ok  %s\n' "$1" >&2
+  exit 1
+}
+
+check_contains() {
+  local haystack="$1"
+  local needle="$2"
+  local label="$3"
+
+  if grep -Fq "$needle" <<<"$haystack"; then
+    pass "$label"
+  else
+    printf '%s\n' "$haystack" >&2
+    fail "$label"
+  fi
+}
+
+clean_terminal_output() {
+  perl -pe '
+    s/\e\][^\a]*(?:\a|\e\\)//g;
+    s/\e\[[0-9;?]*[ -\/]*[@-~]//g;
+    s/\r//g;
+    s/[\x00-\x08\x0b-\x1f\x7f]//g;
+  '
+}
+
+run_tty_zsh() {
+  local command="$1"
+
+  if script -q /dev/null true >/dev/null 2>&1; then
+    script -q /dev/null zsh -ic "$command" 2>/dev/null | clean_terminal_output
+  else
+    script -q -e -c "zsh -ic '$command'" /dev/null 2>/dev/null | clean_terminal_output
+  fi
+}
+
+pass "running fresh"
+fresh >/dev/null
+
+zsh -n config/zshrc shell/alias shell/editor shell/exports shell/filters shell/functions config/zprofile
+pass "zsh syntax"
+
+non_tty_output="$(zsh -fc '
+  print -r -- "ZSH_HAS_TTY=${ZSH_HAS_TTY-unset}"
+  whence -w g begin rgg mkcd dds 2>/dev/null || true
+  print -r -- "PATH_DUPS=$(print -l $path | sort | uniq -d | wc -l | awk "{print \$1}")"
+')"
+check_contains "$non_tty_output" 'ZSH_HAS_TTY=unset' 'noninteractive shell does not mark tty state'
+check_contains "$non_tty_output" 'g: none' 'non-tty shell does not load interactive helpers'
+check_contains "$non_tty_output" 'PATH_DUPS=0' 'non-tty PATH stays deduped'
+
+non_tty_interactive_output="$(zsh -i -c 'printf done' 2>&1)"
+check_contains "$non_tty_interactive_output" 'done' 'interactive non-tty shell starts cleanly'
+
+tty_output="$(
+  run_tty_zsh '
+    print -r -- "ZSH_HAS_TTY=$ZSH_HAS_TTY"
+    bindkey -M emacs "^R"
+    bindkey -M viins "^R"
+    bindkey -M vicmd "^R"
+    whence -w g begin rgg mkcd dds rawurlencode rawurldecode _direnv_hook __zoxide_z zvm_after_init history-substring-search-up 2>/dev/null || true
+    print -r -- "PATH_DUPS=$(print -l $path | sort | uniq -d | wc -l | awk "{print \$1}")"
+  '
+)"
+check_contains "$tty_output" 'ZSH_HAS_TTY=1' 'tty shell marks itself correctly'
+check_contains "$tty_output" '"^R" fzf-history-widget' 'tty Ctrl-R uses fzf history'
+check_contains "$tty_output" 'g: function' 'tty shell loads g helper'
+check_contains "$tty_output" '_direnv_hook: function' 'tty shell loads direnv hook'
+check_contains "$tty_output" '__zoxide_z: function' 'tty shell loads zoxide hook'
+check_contains "$tty_output" 'PATH_DUPS=0' 'tty PATH stays deduped'
+
+login_output="$(zsh -lc '
+  print -r -- "EDITOR=$EDITOR"
+  print -r -- "VISUAL=$VISUAL"
+  print -r -- "BROWSER=${BROWSER-unset}"
+  print -r -- "PATH_DUPS=$(print -l $path | sort | uniq -d | wc -l | awk "{print \$1}")"
+')"
+check_contains "$login_output" 'EDITOR=nvim' 'login shell exports EDITOR'
+check_contains "$login_output" 'VISUAL=nvim' 'login shell exports VISUAL'
+check_contains "$login_output" 'PATH_DUPS=0' 'login PATH stays deduped'
+if [[ "$OS" == "Darwin" ]]; then
+  check_contains "$login_output" 'BROWSER=open' 'login shell exports BROWSER on macOS'
+fi
+
+helper_output="$(zsh -fc '
+  source ~/.dotfiles/shell/functions
+  source ~/.dotfiles/shell/filters
+  tmp=$(mktemp -d)
+  cd "$tmp"
+  git init -q
+  touch a
+  git add a
+  git commit -qm init
+  begin smoke-branch >/dev/null
+  print -r -- "BRANCH=$(git rev-parse --abbrev-ref HEAD)"
+  print -r -- "ENCODED=$(rawurlencode "abc xyz")"
+  print -r -- "DECODED=$(rawurldecode "abc%20xyz")"
+  print -r -- "JSON=$(printf "{\"a\":1}\n" | json | head -n 1)"
+  print -r -- "XML=$(printf "<root><a>1</a></root>\n" | xml | head -n 2 | tail -n 1)"
+')"
+check_contains "$helper_output" 'BRANCH=smoke-branch' 'begin creates a branch'
+check_contains "$helper_output" 'ENCODED=abc%20xyz' 'rawurlencode works'
+check_contains "$helper_output" 'DECODED=abc xyz' 'rawurldecode works'
+check_contains "$helper_output" 'JSON={' 'json filter pretty-prints'
+check_contains "$helper_output" 'XML=<root>' 'xml filter pretty-prints'
+
+tmux_output="$(tmux -L dotfiles-smoke -f /dev/null start-server \; source-file config/tmux.conf \; show -gv default-terminal \; show -gv prefix \; show -gv mouse \; kill-server)"
+check_contains "$tmux_output" 'C-a' 'tmux prefix stays C-a'
+check_contains "$tmux_output" 'on' 'tmux mouse stays on'
+
+nvim_headless_output="$(nvim --headless '+lua local ok=pcall(require,"custom.plugins"); print(ok and "NVIM_CUSTOM_PLUGINS_OK" or "NVIM_CUSTOM_PLUGINS_FAIL")' '+lua local ok,cfg=pcall(require,"lspconfig.configs"); print(ok and ((cfg.rust_analyzer and cfg.yamlls and cfg.ts_ls) and "NVIM_LSP_CONFIGS_OK" or "NVIM_LSP_CONFIGS_MISSING") or cfg)' +qall 2>&1)"
+check_contains "$nvim_headless_output" 'NVIM_CUSTOM_PLUGINS_OK' 'nvim custom plugins load headless'
+check_contains "$nvim_headless_output" 'NVIM_LSP_CONFIGS_OK' 'nvim lsp configs load headless'
+
+for _ in 1 2 3; do
+  /usr/bin/time -p zsh -i -c exit >/tmp/dotfiles-smoke-time.out 2>>/tmp/dotfiles-smoke-time.err
+done
+check_contains "$(cat /tmp/dotfiles-smoke-time.err)" 'real ' 'interactive shell benchmark runs'
+
+pass "smoke test complete"

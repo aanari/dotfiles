@@ -42,12 +42,6 @@ typeset -gU cdpath fpath mailpath path
 #   $cdpath
 # )
 
-# Set the list of directories that Zsh searches for programs.
-path=(
-  /usr/local/{bin,sbin}
-  $path
-)
-
 #
 # Less
 #
@@ -65,3 +59,4 @@ fi
 
 # Added by `rbenv init` on Tue Jun 24 14:04:02 EDT 2025
 eval "$(rbenv init - --no-rehash zsh)"
+typeset -gU path

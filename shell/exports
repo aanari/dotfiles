@@ -34,6 +34,7 @@ path=(
 	"$HOME/.pub-cache/bin"
 	"$HOME/.cargo/bin"
 	/usr/local/go/bin
+	/usr/local/sbin
 	"$GOPATH/bin"
 	/usr/share/swift/usr/bin
 	$path

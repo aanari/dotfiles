@@ -1,7 +1,7 @@
 # vim: set ft=sh:
 
 xml() {
-  xmllint -format - | if [ -t 1 ] && which pygmentize &> /dev/null; then
+  xmllint -format - | if [ -t 1 ] && command -v pygmentize >/dev/null 2>&1; then
     pygmentize -l xml
   else
     cat
@@ -9,7 +9,7 @@ xml() {
 }
 
 json() {
-  python -mjson.tool | if [ -t 1 ] && which coderay &> /dev/null; then
+  python3 -m json.tool | if [ -t 1 ] && command -v coderay >/dev/null 2>&1; then
     coderay -json
   else
     cat
