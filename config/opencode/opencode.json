@@ -1,5 +1,11 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "instructions": ["/Users/ali/.codex/AGENTS.md"],
-  "permission": "allow"
+  "permission": {
+    "*": "allow",
+    "external_directory": {
+      "~/**": "allow",
+      "/tmp/**": "allow"
+    }
+  }
 }
