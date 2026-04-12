@@ -21,7 +21,7 @@ osascript -e '
 				make new session
 				tell the last session
 					exec command "zsh"
-					write text "vim -c \"setf perl\" " & escaped_filename & ";exit"
+					write text "vim " & escaped_filename & ";exit"
 				end tell
 			end tell
             activate

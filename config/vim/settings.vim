@@ -387,15 +387,6 @@ let g:dbext_default_profile_myDB='type=pgsql:host=localhost:user=geneangel:dsnna
 let g:dbext_default_profile='geneangel'
 
 """"""""""""""""""""""""""""""
-" => Perl
-""""""""""""""""""""""""""""""
-inoremap => =><Esc>:call tabularity#Align('=>')<cr>a
-au BufNewFile,BufRead *.t set filetype=perl
-au BufNewFile,BufRead *.tt set filetype=xml
-au FileType perl setl foldexpr=PerlFold(v:lnum)
-au FileType perl setl foldmethod=expr
-
-""""""""""""""""""""""""""""""
 " => Ruby
 """"""""""""""""""""""""""""""
 au FileType ruby setl sw=2 sts=2 et

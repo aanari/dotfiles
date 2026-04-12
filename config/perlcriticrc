@@ -1,2 +1,0 @@
-severity    = 3
-verbose     = [%p] %m at line %l, column %c.  %e.  (Severity: %s)\n
