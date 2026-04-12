@@ -13,9 +13,9 @@ gui:
       - 'blue'
 update:
   dockerRefreshInterval: '100ms'
-oS:
-  openCommand: 'sh -c "xdg-open {{filename}} > /dev/null"'
-  openLinkCommand: 'sh -c "xdg-open {{link}} > /dev/null"'
+os:
+  openCommand: 'sh -c "open {{filename}} > /dev/null"'
+  openLinkCommand: 'sh -c "open {{link}} > /dev/null"'
 stats:
   maxDuration: '3m0s'
   graphs:

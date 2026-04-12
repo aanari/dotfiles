@@ -80,7 +80,6 @@ brew "terraform"
 
 # Containers
 brew "docker"
-brew "docker-compose"
 brew "lazydocker"
 
 # Utilities

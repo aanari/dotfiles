@@ -43,7 +43,7 @@ function g() {
 }
 
 function dds() {
-    docker-compose exec $1 python manage.py shell -i ipython
+    docker compose exec "$1" python manage.py shell -i ipython
 }
 
 function manpdf() {

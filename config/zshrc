@@ -1,7 +1,10 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+typeset -gi ZSH_HAS_TTY=0
+[[ -t 0 && -t 1 ]] && ZSH_HAS_TTY=1
+
+# Enable Powerlevel10k instant prompt only when attached to a real tty.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+if (( ZSH_HAS_TTY )) && [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
@@ -11,15 +14,19 @@ ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 [ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
 source "${ZINIT_HOME}/zinit.zsh"
 
-# Load Powerlevel10k theme
-zinit ice depth=1
-zinit light romkatv/powerlevel10k
+if (( ZSH_HAS_TTY )); then
+  # Load Powerlevel10k theme.
+  zinit ice depth=1
+  zinit light romkatv/powerlevel10k
+fi
 
 [[ -f ~/.fresh/build/shell.sh ]] && . ~/.fresh/build/shell.sh
 
-# zsh-fzf-history-search
-zinit ice lucid wait'0'
-zinit light joshskidmore/zsh-fzf-history-search
+if (( ZSH_HAS_TTY )); then
+  # zsh-fzf-history-search.
+  zinit ice lucid wait'0'
+  zinit light joshskidmore/zsh-fzf-history-search
+fi
 
 # zinit annexes
 zinit light-mode for \
@@ -31,8 +38,8 @@ zstyle ':prezto:*:*' color 'yes'
 zstyle ':prezto:module:editor' key-bindings 'vi'
 zstyle ':prezto:module:editor' dot-expansion 'yes'
 
-# Disable auto-title in tmux to prevent hostname from appearing
-if [[ -n "$TMUX" ]]; then
+# Disable auto-title in tmux to prevent hostname from appearing.
+if (( ZSH_HAS_TTY )) && [[ -n "$TMUX" ]]; then
   zstyle ':prezto:module:terminal' auto-title 'no'
   # Set pane title to current directory in tmux
   autoload -Uz add-zsh-hook
@@ -64,8 +71,8 @@ setopt INC_APPEND_HISTORY_TIME
 
 # Load Prezto modules with zinit for better integration
 zinit snippet PZTM::environment
-# Don't load terminal module in tmux - it sets pane titles to hostname
-[[ -z "$TMUX" ]] && zinit snippet PZTM::terminal
+# Don't load terminal module in tmux or non-tty shells.
+(( ZSH_HAS_TTY )) && [[ -z "$TMUX" ]] && zinit snippet PZTM::terminal
 zinit snippet PZTM::editor
 zinit snippet PZTM::history
 zinit snippet PZTM::directory
@@ -74,58 +81,62 @@ zinit snippet PZTM::utility
 # Git module - use built-in git aliases instead of svn
 zinit snippet PZTM::git/alias.zsh
 
-# Load history substring search early (before vi-mode)
-zinit ice depth=1
-zinit light zsh-users/zsh-history-substring-search
-zle -N history-substring-search-up
-zle -N history-substring-search-down
+if (( ZSH_HAS_TTY )); then
+  # Load history substring search early (before vi-mode).
+  zinit ice depth=1
+  zinit light zsh-users/zsh-history-substring-search
+  zle -N history-substring-search-up
+  zle -N history-substring-search-down
 
-# Syntax highlighting
-zinit ice wait"0" lucid atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay"
-zinit light zdharma-continuum/fast-syntax-highlighting
+  # Syntax highlighting.
+  zinit ice wait"0" lucid atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay"
+  zinit light zdharma-continuum/fast-syntax-highlighting
 
-# Autosuggestions
-zinit ice wait"0" lucid atload"!_zsh_autosuggest_start"
-zinit light zsh-users/zsh-autosuggestions
+  # Autosuggestions.
+  zinit ice wait"0" lucid atload"!_zsh_autosuggest_start"
+  zinit light zsh-users/zsh-autosuggestions
+fi
 
 # Additional completions
 zinit ice wait"0" lucid blockf atpull'zinit creinstall -q .'
 zinit light zsh-users/zsh-completions
 
-# Plugins
-zinit ice wait"0" lucid
-zinit pack="bgn-binary+keys" for fzf
-
 zinit ice wait"0" lucid
 zinit light Peltoche/lsd
 
-zinit ice wait"0" lucid
-zinit light Aloxaf/fzf-tab
+if (( ZSH_HAS_TTY )); then
+  # Plugins.
+  zinit ice wait"0" lucid
+  zinit pack="bgn-binary+keys" for fzf
 
-# Configure zsh-vi-mode before loading
-ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT
-ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
+  zinit ice wait"0" lucid
+  zinit light Aloxaf/fzf-tab
 
-# Load zsh-vi-mode eagerly for immediate cursor feedback
-zinit ice depth=1
-zinit light jeffreytse/zsh-vi-mode
+  # Configure zsh-vi-mode before loading.
+  ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT
+  ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
 
-# Load OSC52 clipboard integration for vi-mode
-if [[ -f ~/.dotfiles/config/zsh/vi-mode-clipboard.zsh ]]; then
-  source ~/.dotfiles/config/zsh/vi-mode-clipboard.zsh
+  # Load zsh-vi-mode eagerly for immediate cursor feedback.
+  zinit ice depth=1
+  zinit light jeffreytse/zsh-vi-mode
+
+  # Load OSC52 clipboard integration for vi-mode.
+  if [[ -f ~/.dotfiles/config/zsh/vi-mode-clipboard.zsh ]]; then
+    source ~/.dotfiles/config/zsh/vi-mode-clipboard.zsh
+  fi
+
+  # Define after_init function to preserve our bindings.
+  zvm_after_init() {
+    bindkey -M emacs '^[[A' history-substring-search-up
+    bindkey -M emacs '^[[B' history-substring-search-down
+    bindkey -M vicmd 'k' history-substring-search-up
+    bindkey -M vicmd 'j' history-substring-search-down
+    bindkey -M vicmd '^[[A' history-substring-search-up
+    bindkey -M vicmd '^[[B' history-substring-search-down
+    bindkey -M viins '^[[A' history-substring-search-up
+    bindkey -M viins '^[[B' history-substring-search-down
+  }
 fi
-
-# Define after_init function to preserve our bindings
-zvm_after_init() {
-  bindkey -M emacs '^[[A' history-substring-search-up
-  bindkey -M emacs '^[[B' history-substring-search-down
-  bindkey -M vicmd 'k' history-substring-search-up
-  bindkey -M vicmd 'j' history-substring-search-down
-  bindkey -M vicmd '^[[A' history-substring-search-up
-  bindkey -M vicmd '^[[B' history-substring-search-down
-  bindkey -M viins '^[[A' history-substring-search-up
-  bindkey -M viins '^[[B' history-substring-search-down
-}
 
 # tldr
 zinit ice wait"2" as"command" pick"tldr" lucid
@@ -178,7 +189,9 @@ for shell_file in alias editor filters functions; do
 done
 unset shell_file shell_file_path
 
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+if (( ZSH_HAS_TTY )); then
+  [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+fi
 
 # WSL specific things
 if grep --quiet microsoft /proc/version 2>/dev/null; then
