@@ -8,8 +8,6 @@ end
 local font_name = "PragmataPro Mono Liga"
 
 return {
-	color_scheme = "One Light (base16)",
-
 	-- Performance
 	max_fps = 120,
 	enable_wayland = false,
@@ -69,28 +67,54 @@ return {
 	text_background_opacity = 1.0, -- This keeps text backgrounds opaque
 
 	colors = {
-		background = "#FFFFFF", -- Solid white
+		foreground = "#383A42",
+		background = "#FAFAFA",
+		cursor_bg = "#383A42",
+		cursor_fg = "#FAFAFA",
+		cursor_border = "#383A42",
+		selection_bg = "#DADADB",
+		selection_fg = "#383A42",
+		ansi = {
+			"#383A42",
+			"#D84A3D",
+			"#50A14F",
+			"#C18401",
+			"#4078F2",
+			"#A626A4",
+			"#0070A8",
+			"#FAFAFA",
+		},
+		brights = {
+			"#A2A2A3",
+			"#F07178",
+			"#7ECA9C",
+			"#DEA95F",
+			"#428BAB",
+			"#8E79B9",
+			"#519ABA",
+			"#54555B",
+		},
 		tab_bar = {
-			background = "#E6E9EF",
+			background = "#EAEAEB",
 			active_tab = {
-				bg_color = "#FFFFFF",
-				fg_color = "#4C4F69",
+				bg_color = "#FAFAFA",
+				fg_color = "#54555B",
 			},
 			inactive_tab = {
-				bg_color = "#CCD0DA",
-				fg_color = "#6C6F85",
+				bg_color = "#DADADB",
+				fg_color = "#A2A2A3",
 			},
 			inactive_tab_hover = {
-				bg_color = "#DDD1DE",
-				fg_color = "#4C4F69",
+				bg_color = "#E5E5E6",
+				fg_color = "#54555B",
 			},
 			new_tab = {
-				bg_color = "#CCD0DA",
-				fg_color = "#6C6F85",
+				bg_color = "#DADADB",
+				fg_color = "#A2A2A3",
 			},
 			new_tab_hover = {
-				bg_color = "#DDD1DE",
-				fg_color = "#4C4F69",
+				bg_color = "#E5E5E6",
+				fg_color = "#54555B",
 			},
 		},
 	},
@@ -105,8 +129,8 @@ return {
 	window_frame = {
 		font = wezterm.font({ family = font_name, weight = "Bold" }),
 		font_size = 14.0,
-		active_titlebar_bg = "#E6E9EF",
-		inactive_titlebar_bg = "#CCD0DA",
+		active_titlebar_bg = "#EAEAEB",
+		inactive_titlebar_bg = "#DADADB",
 	},
 
 	-- Key bindings

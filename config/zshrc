@@ -127,6 +127,7 @@ if (( ZSH_HAS_TTY )); then
   source_zinit_plugin zdharma-continuum/fast-syntax-highlighting fast-syntax-highlighting.plugin.zsh
 
   # Autosuggestions.
+  ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#A2A2A3'
   source_zinit_plugin zsh-users/zsh-autosuggestions zsh-autosuggestions.plugin.zsh
   (( $+functions[_zsh_autosuggest_start] )) && _zsh_autosuggest_start
 fi
@@ -248,7 +249,6 @@ fi
 export GIT_PAGER="delta"
 alias cat="bat"
 alias ls="lsd"
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=15'
 # Configure cursor shapes for different vim modes
 ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BLINKING_BEAM
 ZVM_NORMAL_MODE_CURSOR=$ZVM_CURSOR_BLOCK

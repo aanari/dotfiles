@@ -1,25 +1,25 @@
-background = #FFFFFF
+background = #FAFAFA
 foreground = #383A42
 window-theme = light
-selection-background = #BFCEFF
+selection-background = #DADADB
 selection-foreground = #383A42
 
 palette = 0=#383A42
-palette = 1=#CA1243
+palette = 1=#D84A3D
 palette = 2=#50A14F
 palette = 3=#C18401
 palette = 4=#4078F2
 palette = 5=#A626A4
-palette = 6=#0184BC
+palette = 6=#0070A8
 palette = 7=#FAFAFA
-palette = 8=#4F525D
-palette = 9=#DE2A5A
-palette = 10=#68B867
-palette = 11=#D79B0A
-palette = 12=#5A8BFF
-palette = 13=#BB2FBC
-palette = 14=#1196D0
-palette = 15=#FFFFFF
+palette = 8=#A2A2A3
+palette = 9=#F07178
+palette = 10=#7ECA9C
+palette = 11=#DEA95F
+palette = 12=#428BAB
+palette = 13=#8E79B9
+palette = 14=#519ABA
+palette = 15=#54555B
 
 font-family = ""
 font-family = "PragmataPro Mono Liga"
