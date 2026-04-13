@@ -20,12 +20,9 @@ fresh config/\*
 fresh jasoncodes/dotfiles config/hushlogin
 fresh jasoncodes/dotfiles config/inputrc
 fresh jasoncodes/dotfiles config/gemrc
-fresh jasoncodes/dotfiles config/screenrc
 fresh jasoncodes/dotfiles config/sqliterc
 fresh-options
-fresh claytron/pentadactyl-solarized colors/solarized-light.penta --file=~/.pentadactyl/colors/solarized-light.penta
 fresh tmux-plugins/tpm . --file=~/.tmux/plugins/tpm/
-fresh config/browsh --file=~/.config/browsh/
 fresh config/claude/settings.json --file=~/.claude/settings.json
 fresh config/claude/CLAUDE.md --file=~/.claude/CLAUDE.md
 fresh config/codex/AGENTS.md --file=~/.codex/AGENTS.md
@@ -50,21 +47,32 @@ fresh config/pgcli --file=~/.config/pgcli/
 fresh config/ptpython --file=~/.ptpython/
 fresh config/sqitch --file=~/.sqitch/
 fresh config/stripe --file=~/.stripe/
-fresh config/terminator/config --file=~/.config/terminator/config
 fresh henrik/dotfiles rubyrc --file=~/.pryrc --filter='cat; echo include RubyRC'
 fresh twe4ked/dotfiles config/ranger/rc.conf --file=~/.config/ranger/rc.conf
 
-# ~/.vimrc
-fresh-options --file=~/.vimrc --marker=\"
-fresh config/vim/vundle_before.vim
-fresh config/vim/vundle.vim
-fresh config/vim/vundle_after.vim
-fresh config/vim/settings.vim
-fresh config/vim/plugins.vim
-fresh-options
-fresh config/vim/after/syntax/markdown.vim --file=~/.vim/after/syntax/markdown.vim
-fresh config/vim/ftplugin/python.vim --file=~/.vim/after/ftplugin/python.vim
-fresh config/vim/after/autoload/styledcomplete.vim --file=~/.vim/after/autoload/styledcomplete.vim
+prune_stale_fresh_targets() {
+	local stale_paths=(
+		~/.screenrc
+		~/.config/browsh
+		~/.config/terminator/config
+		~/.pentadactyl/colors/solarized-light.penta
+		~/.vimrc
+		~/.vim/after
+	)
+
+	local stale_path
+	for stale_path in "${stale_paths[@]}"; do
+		if [ -e "$stale_path" ] || [ -L "$stale_path" ]; then
+			rm -rf "$stale_path"
+		fi
+	done
+
+	if [ -d ~/.vim/bundle ] && [ -w ~/.vim/bundle ]; then
+		rm -rf ~/.vim/bundle
+	fi
+}
+
+prune_stale_fresh_targets
 
 migrate_nvim_v25() {
 	local targets=(
