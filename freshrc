@@ -66,8 +66,71 @@ fresh config/vim/after/syntax/markdown.vim --file=~/.vim/after/syntax/markdown.v
 fresh config/vim/ftplugin/python.vim --file=~/.vim/after/ftplugin/python.vim
 fresh config/vim/after/autoload/styledcomplete.vim --file=~/.vim/after/autoload/styledcomplete.vim
 
-# ~/.config/nvim/lua/custom
-fresh config/nvchad --file=~/.config/nvim/lua/custom/
+migrate_nvim_v25() {
+	local targets=(
+		~/.config/nvim/init.lua
+		~/.config/nvim/lua/autocmds.lua
+		~/.config/nvim/lua/chadrc.lua
+		~/.config/nvim/lua/commands.lua
+		~/.config/nvim/lua/highlights.lua
+		~/.config/nvim/lua/mappings.lua
+		~/.config/nvim/lua/nvchad/cmp.lua
+		~/.config/nvim/lua/options.lua
+		~/.config/nvim/lua/configs/cmp.lua
+		~/.config/nvim/lua/configs/lazy.lua
+		~/.config/nvim/lua/configs/lspconfig.lua
+		~/.config/nvim/lua/configs/mason.lua
+		~/.config/nvim/lua/configs/none-ls.lua
+		~/.config/nvim/lua/configs/nvimtree.lua
+		~/.config/nvim/lua/configs/treesitter.lua
+		~/.config/nvim/lua/plugins/init.lua
+	)
+
+	for target in "${targets[@]}"; do
+		if [ -e "$target" ] && [ ! -L "$target" ]; then
+			rm -f "$target"
+		fi
+	done
+
+	local stale_paths=(
+		~/.config/nvim/.git
+		~/.config/nvim/.github
+		~/.config/nvim/.gitignore
+		~/.config/nvim/.ignore
+		~/.config/nvim/.stylua.toml
+		~/.config/nvim/LICENSE
+		~/.config/nvim/lua/custom
+		~/.config/nvim/lua/nvconfig.lua
+		~/.config/nvim/lua/core
+		~/.config/nvim/lua/plugins/configs
+	)
+
+	for path in "${stale_paths[@]}"; do
+		if [ -e "$path" ] || [ -L "$path" ]; then
+			rm -rf "$path"
+		fi
+	done
+}
+
+migrate_nvim_v25
+
+# ~/.config/nvim (NvChad v2.5 overrides)
+fresh config/nvim/init.lua --file=~/.config/nvim/init.lua
+fresh config/nvim/lua/autocmds.lua --file=~/.config/nvim/lua/autocmds.lua
+fresh config/nvim/lua/chadrc.lua --file=~/.config/nvim/lua/chadrc.lua
+fresh config/nvim/lua/commands.lua --file=~/.config/nvim/lua/commands.lua
+fresh config/nvim/lua/highlights.lua --file=~/.config/nvim/lua/highlights.lua
+fresh config/nvim/lua/mappings.lua --file=~/.config/nvim/lua/mappings.lua
+fresh config/nvim/lua/nvchad/cmp.lua --file=~/.config/nvim/lua/nvchad/cmp.lua
+fresh config/nvim/lua/options.lua --file=~/.config/nvim/lua/options.lua
+fresh config/nvim/lua/configs/cmp.lua --file=~/.config/nvim/lua/configs/cmp.lua
+fresh config/nvim/lua/configs/lazy.lua --file=~/.config/nvim/lua/configs/lazy.lua
+fresh config/nvim/lua/configs/lspconfig.lua --file=~/.config/nvim/lua/configs/lspconfig.lua
+fresh config/nvim/lua/configs/mason.lua --file=~/.config/nvim/lua/configs/mason.lua
+fresh config/nvim/lua/configs/none-ls.lua --file=~/.config/nvim/lua/configs/none-ls.lua
+fresh config/nvim/lua/configs/nvimtree.lua --file=~/.config/nvim/lua/configs/nvimtree.lua
+fresh config/nvim/lua/configs/treesitter.lua --file=~/.config/nvim/lua/configs/treesitter.lua
+fresh config/nvim/lua/plugins/init.lua --file=~/.config/nvim/lua/plugins/init.lua
 
 # ~/.config/ghostty
 fresh config/ghostty --file=~/.config/ghostty/

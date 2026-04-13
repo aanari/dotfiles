@@ -2,6 +2,7 @@
 set -euo pipefail
 
 ROOT="${DOTFILES:-$HOME/.dotfiles}"
+export ROOT
 cd "$ROOT"
 OS="$(uname -s)"
 
@@ -95,8 +96,8 @@ if [[ "$OS" == "Darwin" ]]; then
 fi
 
 helper_output="$(zsh -fc '
-  source ~/.dotfiles/shell/functions
-  source ~/.dotfiles/shell/filters
+  source "$ROOT/shell/functions"
+  source "$ROOT/shell/filters"
   tmp=$(mktemp -d)
   cd "$tmp"
   git init -q
@@ -120,9 +121,16 @@ tmux_output="$(tmux -L dotfiles-smoke -f /dev/null start-server \; source-file c
 check_contains "$tmux_output" 'C-a' 'tmux prefix stays C-a'
 check_contains "$tmux_output" 'on' 'tmux mouse stays on'
 
-nvim_headless_output="$(nvim --headless '+lua local ok=pcall(require,"custom.plugins"); print(ok and "NVIM_CUSTOM_PLUGINS_OK" or "NVIM_CUSTOM_PLUGINS_FAIL")' '+lua local ok,cfg=pcall(require,"lspconfig.configs"); print(ok and ((cfg.rust_analyzer and cfg.yamlls and cfg.ts_ls) and "NVIM_LSP_CONFIGS_OK" or "NVIM_LSP_CONFIGS_MISSING") or cfg)' +qall 2>&1)"
-check_contains "$nvim_headless_output" 'NVIM_CUSTOM_PLUGINS_OK' 'nvim custom plugins load headless'
+nvim_headless_output="$(nvim --headless   '+lua print("NVIM_START_OK")'   '+lua require("lazy").load({ plugins = { "nvim-cmp", "nvim-lspconfig" } })'   '+lua print(package.loaded.cmp and "NVIM_CMP_OK" or "NVIM_CMP_FAIL")'   '+lua print((vim.lsp.config.rust_analyzer and vim.lsp.config.yamlls and vim.lsp.config.ts_ls) and "NVIM_LSP_CONFIGS_OK" or "NVIM_LSP_CONFIGS_MISSING")'   +qall 2>&1)"
+check_contains "$nvim_headless_output" 'NVIM_START_OK' 'nvim starts headless'
+check_contains "$nvim_headless_output" 'NVIM_CMP_OK' 'nvim cmp loads headless'
 check_contains "$nvim_headless_output" 'NVIM_LSP_CONFIGS_OK' 'nvim lsp configs load headless'
+
+nvim_lsp_bins_output="$(nvim --headless \
+  '+lua require("lazy").load({ plugins = { "nvim-lspconfig" } })' \
+  '+lua local bins={"lua-language-server","gopls","vscode-eslint-language-server","stylelint-language-server","tailwindcss-language-server","typescript-language-server","unocss-language-server","yaml-language-server"}; local missing={}; for _,bin in ipairs(bins) do if vim.fn.executable(bin) ~= 1 then table.insert(missing, bin) end end; print(#missing == 0 and "NVIM_LSP_BINS_OK" or ("NVIM_LSP_BINS_MISSING:" .. table.concat(missing, ",")))' \
+  +qall 2>&1)"
+check_contains "$nvim_lsp_bins_output" 'NVIM_LSP_BINS_OK' 'major nvim lsp binaries are installed'
 
 for _ in 1 2 3; do
   /usr/bin/time -p zsh -i -c exit >/tmp/dotfiles-smoke-time.out 2>>/tmp/dotfiles-smoke-time.err

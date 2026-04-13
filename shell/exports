@@ -12,7 +12,13 @@ export ARCHFLAGS='-arch x86_64' # archflags
 export GH_LOGIN=aanari          # used by git-go
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
 export GOPATH="${GOPATH:-$HOME/go}"
-export GOROOT="${GOROOT:-/usr/local/go}"
+if [[ -z ${GOROOT:-} ]]; then
+	if [[ -d /opt/homebrew/opt/go/libexec ]]; then
+		export GOROOT=/opt/homebrew/opt/go/libexec
+	elif [[ -d /usr/local/go ]]; then
+		export GOROOT=/usr/local/go
+	fi
+fi
 export GO111MODULE=on
 export NNN_OPTS="AHedrx"
 export NNN_COLORS="6537"
@@ -33,7 +39,7 @@ path=(
 	"$HOME/.local/bin"
 	"$HOME/.pub-cache/bin"
 	"$HOME/.cargo/bin"
-	/usr/local/go/bin
+	"$GOROOT/bin"
 	/usr/local/sbin
 	"$GOPATH/bin"
 	/usr/share/swift/usr/bin
