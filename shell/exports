@@ -10,6 +10,7 @@ fi
 export DOTFILES="${DOTFILES:-$HOME/.dotfiles}"     # here
 export ARCHFLAGS='-arch x86_64' # archflags
 export GH_LOGIN=aanari          # used by git-go
+export GOOGLE_WORKSPACE_CLI_KEYRING_BACKEND=file
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
 export GOPATH="${GOPATH:-$HOME/go}"
 if [[ -z ${GOROOT:-} ]]; then

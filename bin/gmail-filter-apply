@@ -1,0 +1,175 @@
+#!/usr/bin/env python3
+
+import argparse
+import json
+import os
+import subprocess
+import sys
+from pathlib import Path
+
+
+def run_gws_json(args):
+    env = os.environ.copy()
+    env.setdefault("GOOGLE_WORKSPACE_CLI_KEYRING_BACKEND", "file")
+    result = subprocess.run(
+        ["gws", *args, "--format", "json"],
+        check=False,
+        capture_output=True,
+        text=True,
+        env=env,
+    )
+    if result.returncode != 0:
+        sys.stderr.write(result.stderr)
+        raise SystemExit(result.returncode)
+    payload = result.stdout.strip()
+    if not payload:
+        return {}
+    return json.loads(payload)
+
+
+def load_rules(path_arg):
+    if path_arg == "-":
+        return json.load(sys.stdin)
+    return json.loads(Path(path_arg).read_text())
+
+
+def normalize_criteria(rule):
+    if "criteria" in rule:
+        criteria = dict(rule["criteria"])
+    elif "query" in rule:
+        criteria = {"query": rule["query"]}
+    else:
+        raise SystemExit("Each rule must include either 'criteria' or 'query'.")
+
+    normalized = {}
+    for key in ("from", "to", "subject", "query", "negatedQuery", "hasAttachment", "excludeChats", "size", "sizeComparison"):
+        if key in criteria and criteria[key] not in (None, ""):
+            normalized[key] = criteria[key]
+    if not normalized:
+        raise SystemExit("Each rule must keep at least one non-empty filter criterion.")
+    return normalized
+
+
+def normalize_rule(rule):
+    if "label" not in rule:
+        raise SystemExit("Each rule must include 'label'.")
+    return {
+        "criteria": normalize_criteria(rule),
+        "label": rule["label"],
+        "archive": bool(rule.get("archive", True)),
+    }
+
+
+def criteria_signature(criteria):
+    return json.dumps({key: criteria[key] for key in sorted(criteria)}, sort_keys=True, separators=(",", ":"))
+
+
+def ensure_label(label_name, labels_by_name, apply):
+    if label_name in labels_by_name:
+        return labels_by_name[label_name]["id"], False
+    if not apply:
+        return None, True
+    payload = run_gws_json(
+        [
+            "gmail",
+            "users",
+            "labels",
+            "create",
+            "--params",
+            json.dumps({"userId": "me"}),
+            "--json",
+            json.dumps(
+                {
+                    "name": label_name,
+                    "labelListVisibility": "labelShow",
+                    "messageListVisibility": "show",
+                }
+            ),
+        ]
+    )
+    labels_by_name[label_name] = payload
+    return payload["id"], True
+
+
+def filter_exists(existing_filters, criteria, label_id, archive):
+    wanted_remove = sorted(["INBOX"] if archive else [])
+    wanted_add = sorted([label_id])
+    for item in existing_filters:
+        action = item.get("action", {})
+        if criteria_signature(item.get("criteria", {})) != criteria_signature(criteria):
+            continue
+        if sorted(action.get("addLabelIds", [])) != wanted_add:
+            continue
+        if sorted(action.get("removeLabelIds", [])) != wanted_remove:
+            continue
+        return True
+    return False
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Create Gmail filters from reviewed JSON rules.")
+    parser.add_argument("rules", help="Path to JSON rules file, or - for stdin.")
+    parser.add_argument("--apply", action="store_true", help="Actually create missing labels and filters.")
+    args = parser.parse_args()
+
+    payload = load_rules(args.rules)
+    rules = payload["rules"] if isinstance(payload, dict) and "rules" in payload else payload
+    rules = [normalize_rule(rule) for rule in rules]
+
+    labels_payload = run_gws_json(
+        ["gmail", "users", "labels", "list", "--params", json.dumps({"userId": "me"})]
+    )
+    filters_payload = run_gws_json(
+        ["gmail", "users", "settings", "filters", "list", "--params", json.dumps({"userId": "me"})]
+    )
+    labels_by_name = {item["name"]: item for item in labels_payload.get("labels", [])}
+    existing_filters = filters_payload.get("filter", [])
+
+    for rule in rules:
+        label_id, created_label = ensure_label(rule["label"], labels_by_name, args.apply)
+        status_bits = []
+        if created_label:
+            status_bits.append("create-label")
+        if label_id is None:
+            status_bits.append("needs-label")
+        elif filter_exists(existing_filters, rule["criteria"], label_id, rule["archive"]):
+            status_bits.append("filter-exists")
+        else:
+            status_bits.append("create-filter")
+            if args.apply:
+                body = {
+                    "criteria": rule["criteria"],
+                    "action": {"addLabelIds": [label_id]},
+                }
+                if rule["archive"]:
+                    body["action"]["removeLabelIds"] = ["INBOX"]
+                created_filter = run_gws_json(
+                    [
+                        "gmail",
+                        "users",
+                        "settings",
+                        "filters",
+                        "create",
+                        "--params",
+                        json.dumps({"userId": "me"}),
+                        "--json",
+                        json.dumps(body),
+                    ]
+                )
+                existing_filters.append(created_filter)
+
+        print(
+            json.dumps(
+                {
+                    "label": rule["label"],
+                    "criteria": rule["criteria"],
+                    "archive": rule["archive"],
+                    "status": status_bits,
+                    "apply": args.apply,
+                }
+            )
+        )
+
+
+if __name__ == "__main__":
+    main()

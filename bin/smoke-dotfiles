@@ -53,6 +53,9 @@ fresh >/dev/null
 zsh -n config/zshrc shell/alias shell/editor shell/exports shell/filters shell/functions config/zprofile
 pass "zsh syntax"
 
+python3 -m py_compile bin/gmail-inbox-analyze bin/gmail-filter-apply
+pass "gmail helper scripts compile"
+
 non_tty_output="$(zsh -fc '
   print -r -- "ZSH_HAS_TTY=${ZSH_HAS_TTY-unset}"
   whence -w g begin rgg mkcd dds 2>/dev/null || true
