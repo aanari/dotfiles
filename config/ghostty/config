@@ -1,10 +1,48 @@
-theme = primary
-font-family = "PragmataProMonoLiga Nerd Font"
-font-size = 14
+background = #FFFFFF
+foreground = #383A42
+window-theme = light
+
+font-family = ""
+font-family = "PragmataPro Mono Liga"
+font-family = "Apple Color Emoji"
+font-family = "azuki_font"
+window-title-font-family = "PragmataPro Mono Liga"
+font-size = 16
 font-thicken = true
+
+cursor-style = block
+cursor-opacity = 1
+cursor-click-to-move = true
+
+shell-integration = zsh
+shell-integration-features = cursor,title,sudo,ssh-env,ssh-terminfo,path
+
 clipboard-read = allow
 clipboard-write = allow
 clipboard-trim-trailing-spaces = true
+clipboard-paste-protection = true
+copy-on-select = false
+
+scrollbar = never
+window-width = 180
+window-height = 48
+window-padding-x = 1
+window-padding-y = 0
+window-padding-balance = false
+window-inherit-working-directory = true
+tab-inherit-working-directory = true
+split-inherit-working-directory = true
+window-new-tab-position = end
+
+background-opacity = 0.85
+background-opacity-cells = false
+background-blur = 5
+
 confirm-close-surface = false
-macos-icon = "chalkboard"
-auto-update = "download"
+quit-after-last-window-closed = true
+window-decoration = auto
+
+macos-titlebar-style = tabs
+macos-option-as-alt = false
+macos-icon = chalkboard
+auto-update = download

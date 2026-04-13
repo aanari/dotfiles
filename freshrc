@@ -134,6 +134,7 @@ fresh config/nvim/lua/plugins/init.lua --file=~/.config/nvim/lua/plugins/init.lu
 
 # ~/.config/ghostty
 fresh config/ghostty --file=~/.config/ghostty/
+fresh config/wezterm.lua --file=~/.wezterm.lua
 
 # ~/.config/himalaya
 fresh config/himalaya --file=~/.config/himalaya/
