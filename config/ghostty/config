@@ -32,6 +32,7 @@ font-thicken = true
 cursor-style = block
 cursor-opacity = 1
 cursor-click-to-move = true
+keyboard-protocol = legacy
 
 shell-integration = zsh
 shell-integration-features = cursor,title,sudo,ssh-env,ssh-terminfo,path
