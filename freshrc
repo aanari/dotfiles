@@ -70,6 +70,7 @@ prune_stale_fresh_targets() {
 	if [ -d ~/.vim/bundle ] && [ -w ~/.vim/bundle ]; then
 		rm -rf ~/.vim/bundle
 	fi
+
 }
 
 prune_stale_fresh_targets
@@ -142,7 +143,7 @@ fresh config/nvim/lua/plugins/init.lua --file=~/.config/nvim/lua/plugins/init.lu
 
 # ~/.config/ghostty
 fresh config/ghostty --file=~/.config/ghostty/
-fresh config/wezterm.lua --file=~/.wezterm.lua
+fresh terminal/wezterm.lua --file=~/.wezterm.lua
 
 # ~/.config/himalaya
 fresh config/himalaya --file=~/.config/himalaya/
