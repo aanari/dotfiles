@@ -7,6 +7,25 @@ import subprocess
 import sys
 from pathlib import Path
 
+LABEL_COLORS = {
+    "Infra": {"textColor": "#0b804b", "backgroundColor": "#b9e4d0"},
+    "Logistics": {"textColor": "#1c4587", "backgroundColor": "#c9daf8"},
+    "Receipts": {"textColor": "#a46a21", "backgroundColor": "#fce8b3"},
+    "Notifications": {"textColor": "#653e9b", "backgroundColor": "#e4d7f5"},
+    "Updates": {"textColor": "#285bac", "backgroundColor": "#b6cff5"},
+    "Newsletters": {"textColor": "#b65775", "backgroundColor": "#fcdee8"},
+    "Promotions": {"textColor": "#cc3a21", "backgroundColor": "#f6c5be"},
+}
+
+FALLBACK_LABEL_COLORS = [
+    {"textColor": "#0b804b", "backgroundColor": "#b9e4d0"},
+    {"textColor": "#1c4587", "backgroundColor": "#c9daf8"},
+    {"textColor": "#a46a21", "backgroundColor": "#fce8b3"},
+    {"textColor": "#653e9b", "backgroundColor": "#e4d7f5"},
+    {"textColor": "#b65775", "backgroundColor": "#fcdee8"},
+    {"textColor": "#cc3a21", "backgroundColor": "#f6c5be"},
+]
+
 
 def run_gws_json(args):
     env = os.environ.copy()
@@ -64,11 +83,62 @@ def criteria_signature(criteria):
     return json.dumps({key: criteria[key] for key in sorted(criteria)}, sort_keys=True, separators=(",", ":"))
 
 
+def criteria_to_query(criteria):
+    parts = []
+
+    def quote(value):
+        if isinstance(value, bool):
+            return ""
+        value = str(value)
+        if not value:
+            return ""
+        if any(ch.isspace() for ch in value):
+            return '"' + value.replace('"', '\\"') + '"'
+        return value
+
+    if criteria.get("from"):
+        parts.append(f'from:{quote(criteria["from"])}')
+    if criteria.get("to"):
+        parts.append(f'to:{quote(criteria["to"])}')
+    if criteria.get("subject"):
+        parts.append(f'subject:{quote(criteria["subject"])}')
+    if criteria.get("query"):
+        parts.append(f'({criteria["query"]})')
+    if criteria.get("negatedQuery"):
+        parts.append(f'-({criteria["negatedQuery"]})')
+    if criteria.get("hasAttachment"):
+        parts.append("has:attachment")
+    if criteria.get("excludeChats"):
+        parts.append("-is:chat")
+    if criteria.get("sizeComparison") and criteria.get("size") is not None:
+        op = "larger" if criteria["sizeComparison"] == "larger" else "smaller"
+        parts.append(f"{op}:{criteria['size']}")
+
+    parts.append("in:inbox")
+    return " ".join(part for part in parts if part)
+
+
+def pick_label_color(label_name, labels_by_name):
+    if label_name in LABEL_COLORS:
+        return LABEL_COLORS[label_name]
+    used = {
+        json.dumps(item.get("color", {}), sort_keys=True)
+        for item in labels_by_name.values()
+        if item.get("type") == "user" and item.get("color")
+    }
+    for color in FALLBACK_LABEL_COLORS:
+        signature = json.dumps(color, sort_keys=True)
+        if signature not in used:
+            return color
+    return FALLBACK_LABEL_COLORS[0]
+
+
 def ensure_label(label_name, labels_by_name, apply):
     if label_name in labels_by_name:
         return labels_by_name[label_name]["id"], False
     if not apply:
         return None, True
+    color = pick_label_color(label_name, labels_by_name)
     payload = run_gws_json(
         [
             "gmail",
@@ -83,6 +153,7 @@ def ensure_label(label_name, labels_by_name, apply):
                     "name": label_name,
                     "labelListVisibility": "labelShow",
                     "messageListVisibility": "show",
+                    "color": color,
                 }
             ),
         ]
@@ -104,6 +175,57 @@ def filter_exists(existing_filters, criteria, label_id, archive):
             continue
         return True
     return False
+
+
+def list_matching_inbox_message_ids(criteria):
+    ids = []
+    page_token = None
+    query = criteria_to_query(criteria)
+
+    while True:
+        params = {"userId": "me", "q": query, "maxResults": 500}
+        if page_token:
+            params["pageToken"] = page_token
+        payload = run_gws_json(
+            ["gmail", "users", "messages", "list", "--params", json.dumps(params)]
+        )
+        ids.extend(item["id"] for item in payload.get("messages", []))
+        page_token = payload.get("nextPageToken")
+        if not page_token:
+            break
+
+    return ids
+
+
+def chunked(items, size):
+    for idx in range(0, len(items), size):
+        yield items[idx:idx + size]
+
+
+def retroactively_apply_rule(ids, label_id, archive):
+    if not ids:
+        return 0
+
+    for batch in chunked(ids, 1000):
+        body = {
+            "ids": batch,
+            "addLabelIds": [label_id],
+            "removeLabelIds": ["INBOX"] if archive else [],
+        }
+        run_gws_json(
+            [
+                "gmail",
+                "users",
+                "messages",
+                "batchModify",
+                "--params",
+                json.dumps({"userId": "me"}),
+                "--json",
+                json.dumps(body),
+            ]
+        )
+
+    return len(ids)
 
 
 def main():
@@ -130,6 +252,7 @@ def main():
         status_bits = []
         if created_label:
             status_bits.append("create-label")
+        matching_inbox_count = 0
         if label_id is None:
             status_bits.append("needs-label")
         elif filter_exists(existing_filters, rule["criteria"], label_id, rule["archive"]):
@@ -158,12 +281,21 @@ def main():
                 )
                 existing_filters.append(created_filter)
 
+        if label_id is not None:
+            matching_ids = list_matching_inbox_message_ids(rule["criteria"])
+            matching_inbox_count = len(matching_ids)
+            if matching_inbox_count:
+                status_bits.append(f"backfill:{matching_inbox_count}")
+                if args.apply:
+                    retroactively_apply_rule(matching_ids, label_id, rule["archive"])
+
         print(
             json.dumps(
                 {
                     "label": rule["label"],
                     "criteria": rule["criteria"],
                     "archive": rule["archive"],
+                    "matching_inbox_count": matching_inbox_count,
                     "status": status_bits,
                     "apply": args.apply,
                 }

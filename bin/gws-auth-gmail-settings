@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+export GOOGLE_WORKSPACE_CLI_KEYRING_BACKEND=file
+
+tmp_log="$(mktemp)"
+cleanup() {
+  rm -f "$tmp_log"
+}
+trap cleanup EXIT
+
+copy_and_open_url() {
+  local url=""
+  local _i
+
+  for _i in $(seq 1 200); do
+    url="$(python3 - "$tmp_log" <<'PY'
+import pathlib, re, sys
+text = pathlib.Path(sys.argv[1]).read_text(errors="ignore")
+m = re.search(r'https://accounts\.google\.com/o/oauth2/auth\?[^\s]+', text)
+print(m.group(0) if m else "")
+PY
+)"
+    if [[ -n "$url" ]]; then
+      printf '%s' "$url" | pbcopy
+      open "$url" >/dev/null 2>&1 || true
+      printf '\nCopied auth URL to clipboard and tried to open it in your browser.\n' >&2
+      return 0
+    fi
+    sleep 0.1
+  done
+}
+
+copy_and_open_url &
+watcher_pid=$!
+
+gws auth login --scopes 'openid,https://www.googleapis.com/auth/userinfo.email,https://www.googleapis.com/auth/userinfo.profile,https://www.googleapis.com/auth/drive,https://www.googleapis.com/auth/gmail.modify,https://www.googleapis.com/auth/gmail.settings.basic,https://www.googleapis.com/auth/documents,https://www.googleapis.com/auth/calendar,https://www.googleapis.com/auth/presentations,https://www.googleapis.com/auth/spreadsheets,https://www.googleapis.com/auth/tasks,https://www.googleapis.com/auth/cloud-platform' 2>&1 | tee "$tmp_log"
+
+wait "$watcher_pid" 2>/dev/null || true

@@ -34,6 +34,16 @@ CATEGORY_PRIORITY = {
     "Promotions": 1,
 }
 
+MANUAL_REVIEW_PATTERN = re.compile(
+    r"\b("
+    r"login|log in|logged in|sign-in|sign in|signed in|new device|verification code|verify|"
+    r"security alert|security vulnerabilities|vulnerabilit|oauth application approval|"
+    r"requesting updated permissions|password|passkey|two-factor|2fa|account.*(changed|change|updated|update)|"
+    r"action needed|confirm your recent purchase|identity monitoring|declined|suspended|at risk"
+    r")\b",
+    re.IGNORECASE,
+)
+
 
 def run_gws_json(args):
     env = os.environ.copy()
@@ -123,6 +133,30 @@ def normalize_list_id(value):
     if value.startswith("<") and value.endswith(">"):
         value = value[1:-1]
     return value.lower()
+
+
+def load_protected_senders(path):
+    protected = set()
+    file_path = Path(path).expanduser()
+    if file_path.exists():
+        for line in file_path.read_text().splitlines():
+            line = line.strip().lower()
+            if line and not line.startswith("#"):
+                protected.add(line)
+
+    env_value = os.environ.get("GMAIL_ANALYZER_PROTECTED_SENDERS", "")
+    for item in env_value.split(","):
+        item = item.strip().lower()
+        if item:
+            protected.add(item)
+
+    return protected
+
+
+def requires_manual_review(sender, headers):
+    subject = headers.get("subject", "")
+    haystack = " ".join([sender["email"], sender["name"], subject]).lower()
+    return bool(MANUAL_REVIEW_PATTERN.search(haystack))
 
 
 def classify_message(sender, headers, label_names):
@@ -232,12 +266,18 @@ def main():
         help="Minimum dominant-category confidence before proposing a rule. Default: 0.6.",
     )
     parser.add_argument("--out-dir", default="~/.gws/analysis", help="Directory for analysis reports.")
+    parser.add_argument(
+        "--protected-senders-file",
+        default="~/.gws/protected_senders.txt",
+        help="Optional newline-delimited protected senders file. Default: ~/.gws/protected_senders.txt.",
+    )
     args = parser.parse_args()
 
     out_dir = Path(args.out_dir).expanduser()
     stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
     run_dir = out_dir / stamp
     run_dir.mkdir(parents=True, exist_ok=True)
+    protected_senders = load_protected_senders(args.protected_senders_file)
 
     labels_payload = run_gws_json(
         ["gmail", "users", "labels", "list", "--params", json.dumps({"userId": "me"})]
@@ -255,6 +295,8 @@ def main():
     sender_counter = Counter()
     domain_counter = Counter()
     grouped_candidates = defaultdict(list)
+    protected_sender_hits = 0
+    manual_review_hits = 0
 
     message_ids = [ref["id"] for ref in message_refs]
     messages_by_id = {}
@@ -274,6 +316,8 @@ def main():
         label_names = [label_id_to_name.get(item, item) for item in message.get("labelIds", [])]
         category, reason = classify_message(sender, headers, label_names)
         criteria = proposed_criteria(sender, headers)
+        is_protected_sender = sender["email"] in protected_senders
+        needs_manual_review = requires_manual_review(sender, headers)
         detail = {
             "id": message.get("id"),
             "threadId": message.get("threadId"),
@@ -287,12 +331,20 @@ def main():
             "category": category,
             "reason": reason,
             "criteria": criteria,
+            "protectedSender": is_protected_sender,
+            "manualReview": needs_manual_review,
         }
         details.append(detail)
         if sender["email"]:
             sender_counter[sender["email"]] += 1
         if sender["domain"]:
             domain_counter[sender["domain"]] += 1
+        if is_protected_sender:
+            protected_sender_hits += 1
+            continue
+        if needs_manual_review:
+            manual_review_hits += 1
+            continue
         if category and criteria:
             grouped_candidates[(category, criteria_signature(criteria))].append(detail)
 
@@ -378,6 +430,8 @@ def main():
     report_lines.append(f"- Proposed new rules: {len(proposed_rules)}")
     report_lines.append(f"- Skipped because similar filter already exists: {len(skipped_rules)}")
     report_lines.append(f"- Ambiguous candidates below confidence threshold: {len(ambiguous_rules)}")
+    report_lines.append(f"- Protected-sender messages excluded from rule generation: {protected_sender_hits}")
+    report_lines.append(f"- Manual-review messages excluded from rule generation: {manual_review_hits}")
     report_lines.append("")
 
     report_lines.append("## Top senders")
@@ -452,6 +506,9 @@ def main():
                     [item["name"] for item in labels if item.get("type") == "user"],
                     key=str.lower,
                 ),
+                "protected_senders": sorted(protected_senders),
+                "protected_sender_hits": protected_sender_hits,
+                "manual_review_hits": manual_review_hits,
                 "proposed_rules": proposed_rules,
                 "skipped_existing_rules": skipped_rules,
                 "ambiguous_rules": ambiguous_rules,
