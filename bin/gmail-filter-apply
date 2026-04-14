@@ -15,6 +15,7 @@ LABEL_COLORS = {
     "Updates": {"textColor": "#285bac", "backgroundColor": "#b6cff5"},
     "Newsletters": {"textColor": "#b65775", "backgroundColor": "#fcdee8"},
     "Promotions": {"textColor": "#cc3a21", "backgroundColor": "#f6c5be"},
+    "Calendar": {"textColor": "#0b804b", "backgroundColor": "#b9e4d0"},
 }
 
 FALLBACK_LABEL_COLORS = [
