@@ -54,6 +54,31 @@ source_zinit_plugin() {
   fi
 }
 
+source_fzf_key_bindings() {
+  local key_bindings_path=""
+  local brew_prefix=""
+
+  if (( $+commands[brew] )); then
+    brew_prefix="$(brew --prefix fzf 2>/dev/null)"
+    if [[ -n "$brew_prefix" && -r "$brew_prefix/shell/key-bindings.zsh" ]]; then
+      key_bindings_path="$brew_prefix/shell/key-bindings.zsh"
+    fi
+  fi
+
+  if [[ -z "$key_bindings_path" && -r "$HOME/.fresh/source/junegunn/fzf/shell/key-bindings.zsh" ]]; then
+    key_bindings_path="$HOME/.fresh/source/junegunn/fzf/shell/key-bindings.zsh"
+  fi
+
+  if [[ -z "$key_bindings_path" && -r "${_zinit_plugin_dir}/fzf/key-bindings.zsh" ]]; then
+    key_bindings_path="${_zinit_plugin_dir}/fzf/key-bindings.zsh"
+  fi
+
+  if [[ -n "$key_bindings_path" ]]; then
+    compile_zsh_source "$key_bindings_path"
+    source "$key_bindings_path"
+  fi
+}
+
 if (( ZSH_HAS_TTY )); then
   # Load Powerlevel10k theme.
   source_zinit_plugin romkatv/powerlevel10k powerlevel10k.zsh-theme
@@ -142,9 +167,7 @@ zinit light zsh-users/zsh-completions
 
 if (( ZSH_HAS_TTY )); then
   # Plugins.
-  zinit ice wait"0" lucid
-  zinit pack="bgn-binary+keys" for fzf
-  [[ -r "${_zinit_plugin_dir}/fzf/key-bindings.zsh" ]] && source "${_zinit_plugin_dir}/fzf/key-bindings.zsh"
+  source_fzf_key_bindings
   if (( $+functions[fzf-history-widget] )); then
     bindkey -M emacs '^R' fzf-history-widget
     bindkey -M viins '^R' fzf-history-widget
@@ -313,4 +336,4 @@ if [[ -f "$zcompdump" && "$zcompdump" -nt /usr/share/zsh ]] && ! [[ -f "$zcompdu
 fi
 
 unset _zinit_plugin_dir _zinit_snippet_dir
-unfunction compile_zsh_source source_zinit_plugin source_zinit_snippet 2>/dev/null
+unfunction compile_zsh_source source_fzf_key_bindings source_zinit_plugin source_zinit_snippet 2>/dev/null
