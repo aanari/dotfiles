@@ -1,7 +1,7 @@
 # vim: set ft=sh:
 
 # Source FZF-powered functions if available
-[ -f ~/.dotfiles/config/shell/fzf-functions.sh ] && source ~/.dotfiles/config/shell/fzf-functions.sh
+[ -f "${DOTFILES:-$HOME/.dotfiles}/config/shell/fzf-functions.sh" ] && source "${DOTFILES:-$HOME/.dotfiles}/config/shell/fzf-functions.sh"
 
 unalias begin rgg realias g gws gwS 2>/dev/null
 

@@ -20,7 +20,6 @@ if [[ -z ${GOROOT:-} ]]; then
 		export GOROOT=/usr/local/go
 	fi
 fi
-export GO111MODULE=on
 export NNN_OPTS="AHedrx"
 export NNN_COLORS="6537"
 export NNN_FCOLORS='c1e2272eff6033f3c6d6abc4'
