@@ -34,7 +34,7 @@ return {
 	audible_bell = "Disabled",
 	warn_about_missing_glyphs = false,
 	scrollback_lines = 10000,
-	font_size = 16,
+	font_size = 18,
 	line_height = 1.0,
 
 	-- Cursor style
