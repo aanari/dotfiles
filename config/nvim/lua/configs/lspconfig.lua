@@ -8,7 +8,47 @@ end
 
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
-    nvchad_lsp.on_attach(nil, args.buf)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if not client then
+      return
+    end
+
+    nvchad_lsp.on_attach(client, args.buf)
+
+    if client:supports_method "textDocument/semanticTokens" then
+      client.server_capabilities.semanticTokensProvider = nil
+      vim.lsp.semantic_tokens.stop(args.buf, client.id)
+    end
+
+    if not client:supports_method("textDocument/documentHighlight", args.buf) then
+      return
+    end
+
+    local group = vim.api.nvim_create_augroup(
+      string.format("dotfiles_lsp_highlight_%d_%d", args.data.client_id, args.buf),
+      { clear = true }
+    )
+
+    vim.api.nvim_create_autocmd("CursorHold", {
+      buffer = args.buf,
+      group = group,
+      callback = vim.lsp.buf.document_highlight,
+    })
+
+    vim.api.nvim_create_autocmd({ "CursorMoved", "InsertEnter" }, {
+      buffer = args.buf,
+      group = group,
+      callback = vim.lsp.buf.clear_references,
+    })
+
+    vim.api.nvim_create_autocmd("LspDetach", {
+      buffer = args.buf,
+      group = group,
+      callback = function()
+        vim.lsp.buf.clear_references()
+        vim.api.nvim_clear_autocmds { group = group, buffer = args.buf }
+      end,
+    })
   end,
 })
 

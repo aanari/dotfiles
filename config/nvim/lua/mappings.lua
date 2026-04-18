@@ -43,6 +43,16 @@ end, { desc = "Line diagnostics" })
 map("n", "<leader>fm", function()
   vim.lsp.buf.format { async = true, timeout_ms = 5000 }
 end, { desc = "LSP formatting" })
+map("n", "<leader>lr", vim.lsp.buf.references, { desc = "LSP references" })
+map("n", "<leader>ls", vim.lsp.buf.document_symbol, { desc = "LSP document symbols" })
+map("n", "gi", vim.lsp.buf.implementation, { desc = "LSP go to implementation" })
+map("n", "<leader>ih", function()
+  if not (vim.lsp.inlay_hint and vim.lsp.inlay_hint.enable and vim.lsp.inlay_hint.is_enabled) then
+    vim.notify("Inlay hints are not supported in this Neovim build.", vim.log.levels.WARN)
+    return
+  end
+  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = 0 }, { bufnr = 0 })
+end, { desc = "Toggle inlay hints" })
 
 map("i", "jk", "<ESC>", { desc = "Exit insert mode" })
 

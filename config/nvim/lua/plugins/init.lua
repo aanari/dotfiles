@@ -50,6 +50,13 @@ return {
   },
 
   {
+    "nvim-tree/nvim-tree.lua",
+    opts = function()
+      return require "configs.nvimtree"
+    end,
+  },
+
+  {
     "nvim-treesitter/playground",
     cmd = "TSCaptureUnderCursor",
     config = function()
@@ -58,13 +65,6 @@ return {
           enable = true,
         },
       }
-    end,
-  },
-
-  {
-    "nvim-tree/nvim-tree.lua",
-    opts = function()
-      return require "configs.nvimtree"
     end,
   },
 
