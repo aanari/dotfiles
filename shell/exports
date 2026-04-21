@@ -12,6 +12,18 @@ export ARCHFLAGS='-arch x86_64' # archflags
 export GH_LOGIN=aanari          # used by git-go
 export GOOGLE_WORKSPACE_CLI_KEYRING_BACKEND=file
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
+if [[ "$OSTYPE" == darwin* ]]; then
+	export BROWSER='open'
+fi
+export EDITOR='nvim'
+export VISUAL='nvim'
+export PAGER='less'
+export BAT_THEME='GitHub'
+export LANG="${LANG:-en_US.UTF-8}"
+export LESS='-g -i -M -R -S -w -X -z-4'
+if (( $+commands[(i)lesspipe(|.sh)] )); then
+	export LESSOPEN="| /usr/bin/env $commands[(i)lesspipe(|.sh)] %s 2>&-"
+fi
 export GOPATH="${GOPATH:-$HOME/go}"
 if [[ -z ${GOROOT:-} ]]; then
 	if [[ -d /opt/homebrew/opt/go/libexec ]]; then

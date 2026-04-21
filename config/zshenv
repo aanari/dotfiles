@@ -4,7 +4,9 @@
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
 
-# Ensure that a non-login, non-interactive shell has a defined environment.
-if [[ ( "$SHLVL" -eq 1 && ! -o LOGIN ) && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
+# Keep non-interactive shells minimal so SSH and Mosh bootstrap commands do not
+# inherit login-shell side effects. Interactive non-login shells still get the
+# usual login environment.
+if [[ -o INTERACTIVE && "$SHLVL" -eq 1 && ! -o LOGIN && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprofile"
 fi

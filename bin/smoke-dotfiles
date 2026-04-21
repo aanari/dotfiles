@@ -58,10 +58,26 @@ pass "gmail helper scripts compile"
 
 non_tty_output="$(zsh -fc '
   print -r -- "ZSH_HAS_TTY=${ZSH_HAS_TTY-unset}"
+  print -r -- "EDITOR=$EDITOR"
+  print -r -- "VISUAL=$VISUAL"
+  print -r -- "BROWSER=${BROWSER-unset}"
+  print -r -- "PAGER=$PAGER"
+  print -r -- "BAT_THEME=$BAT_THEME"
+  print -r -- "LANG=$LANG"
+  print -r -- "LESS=$LESS"
   whence -w g begin rgg mkcd dds 2>/dev/null || true
   print -r -- "PATH_DUPS=$(print -l $path | sort | uniq -d | wc -l | awk "{print \$1}")"
 ')"
 check_contains "$non_tty_output" 'ZSH_HAS_TTY=unset' 'noninteractive shell does not mark tty state'
+check_contains "$non_tty_output" 'EDITOR=nvim' 'noninteractive shell exports EDITOR'
+check_contains "$non_tty_output" 'VISUAL=nvim' 'noninteractive shell exports VISUAL'
+if [[ "$OS" == "Darwin" ]]; then
+  check_contains "$non_tty_output" 'BROWSER=open' 'noninteractive shell exports BROWSER on macOS'
+fi
+check_contains "$non_tty_output" 'PAGER=less' 'noninteractive shell exports PAGER'
+check_contains "$non_tty_output" 'BAT_THEME=GitHub' 'noninteractive shell exports BAT_THEME'
+check_contains "$non_tty_output" 'LANG=en_US.UTF-8' 'noninteractive shell exports UTF-8 locale'
+check_contains "$non_tty_output" 'LESS=-g -i -M -R -S -w -X -z-4' 'noninteractive shell exports LESS'
 check_contains "$non_tty_output" 'g: none' 'non-tty shell does not load interactive helpers'
 check_contains "$non_tty_output" 'PATH_DUPS=0' 'non-tty PATH stays deduped'
 
