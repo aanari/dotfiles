@@ -34,6 +34,7 @@ brew "git-delta"
 brew "gh"           # GitHub CLI
 brew "lazygit"
 brew "neovim"
+brew "tree-sitter-cli" # Required by nvim-treesitter main branch
 brew "tmux"
 brew "direnv"
 brew "just"

@@ -1,3 +1,7 @@
+-- nvim-treesitter `main` branch only takes `ensure_installed` (and `install_dir`).
+-- Highlighting is enabled by NvChad's FileType autocmd that calls
+-- `vim.treesitter.start()`. Folds/indents/incremental selection now come from
+-- Neovim itself (see autocmds.lua).
 return {
   ensure_installed = {
     "awk",
@@ -16,7 +20,6 @@ return {
     "javascript",
     "json",
     "json5",
-    "jsonc",
     "lua",
     "markdown",
     "markdown_inline",
@@ -31,18 +34,8 @@ return {
     "tsx",
     "typescript",
     "vim",
+    "vimdoc",
     "vue",
     "yaml",
-  },
-  highlight = { enable = true },
-  indent = { enable = true },
-  incremental_selection = {
-    enable = true,
-    keymaps = {
-      init_selection = "<C-Space>",
-      node_incremental = "<C-Space>",
-      scope_incremental = "<C-s>",
-      node_decremental = "<M-Space>",
-    },
   },
 }
