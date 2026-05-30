@@ -44,7 +44,7 @@ export SPLIT="v"
 typeset -gU path
 path=(
 	/opt/homebrew/bin
-	"$HOME/.claude/local"
+	"$HOME/.cloudcode/bin"
 	/usr/local/flutter/bin
 	/usr/local/bin
 	"$HOME/.local/share/solana/install/active_release/bin"
