@@ -27,9 +27,10 @@ font-family = "Apple Color Emoji"
 font-family = "azuki_font"
 window-title-font-family = "PragmataPro Mono Liga"
 font-size = 18
-font-thicken = true
+font-thicken = false
 
 cursor-style = block
+cursor-style-blink = true
 cursor-opacity = 1
 cursor-click-to-move = true
 
@@ -55,7 +56,7 @@ window-new-tab-position = end
 
 background-opacity = 0.85
 background-opacity-cells = false
-background-blur = 5
+background-blur = false
 
 confirm-close-surface = false
 quit-after-last-window-closed = true
@@ -63,5 +64,25 @@ window-decoration = auto
 
 macos-titlebar-style = tabs
 macos-option-as-alt = false
+macos-non-native-fullscreen = true
 macos-icon = chalkboard
 auto-update = download
+
+mouse-hide-while-typing = true
+
+# Keybinds to match WezTerm muscle memory
+# Send raw ESC for ctrl+[ so it works as <Esc> in vim/neovim under the kitty protocol
+keybind = ctrl+left_bracket=text:\x1b
+keybind = ctrl+l=clear_screen
+keybind = f11=toggle_fullscreen
+keybind = cmd+alt+left=previous_tab
+keybind = cmd+alt+right=next_tab
+keybind = ctrl+plus=increase_font_size:1
+keybind = ctrl+equal=increase_font_size:1
+keybind = ctrl+minus=decrease_font_size:1
+keybind = ctrl+zero=reset_font_size
+keybind = page_up=scroll_page_up
+keybind = page_down=scroll_page_down
+keybind = shift+home=scroll_to_top
+keybind = shift+end=scroll_to_bottom
+keybind = shift+insert=paste_from_selection
