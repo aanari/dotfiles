@@ -17,5 +17,10 @@
     "variant_cycle": "alt+o,<leader>v",
     "display_thinking": "alt+t",
     "messages_first": "home"
+  },
+  "attention": {
+    "enabled": true,
+    "notifications": true,
+    "sound": false
   }
 }

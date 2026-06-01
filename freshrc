@@ -32,6 +32,7 @@ fresh config/codex/evals --file=~/.codex/evals/
 fresh config/codex/README.md --file=~/.codex/README.md
 fresh config/codex/EVALS.md --file=~/.codex/EVALS.md
 fresh config/opencode --file=~/.config/opencode/
+fresh config/cloudcode/tui.json --file=~/.config/cloudcode/tui.json
 fresh config/comfortable-swipe.conf --file=~/.config/comfortable-swipe.conf
 fresh config/delta.gitconfig --file=~/.config/delta.gitconfig
 fresh config/flake8 --file=~/.config/flake8
