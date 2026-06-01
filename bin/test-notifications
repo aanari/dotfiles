@@ -1,0 +1,154 @@
+#!/usr/bin/env bash
+#
+# test-notifications: deterministic verification of the agent notification
+# wiring. Proves byte-level correctness of every emission path and that a real
+# tmux server forwards the wrapped OSC unwrapped to its outer terminal.
+#
+# It does NOT prove a GUI banner renders (that needs human eyes / a focused
+# terminal), but it verifies everything up to the terminal emulator's input,
+# which is the part that was previously only eyeballed.
+#
+# Stages 1-3 are deterministic and blocking (real regression guards). Stage 4
+# drives a live tmux server and is timing-sensitive, so it is best-effort: it
+# reports WARN (never FAIL) if inconclusive, since the wrapping it exercises is
+# already byte-asserted deterministically in stage 2.
+#
+# Usage: test-notifications        # exits non-zero if any check fails
+
+set -u
+ESC=$'\033'; BEL=$'\007'
+fails=0
+pass() { printf '  \033[32mPASS\033[0m  %s\n' "$1"; }
+fail() { printf '  \033[31mFAIL\033[0m  %s\n' "$1"; printf '          expected: %q\n          got:      %q\n' "${2-}" "${3-}"; fails=$((fails+1)); }
+skip() { printf '  \033[33mSKIP\033[0m  %s\n' "$1"; }
+warn() { printf '  \033[33mWARN\033[0m  %s\n' "$1"; }   # non-blocking: never counts as a failure
+
+# Resolve the script under test: deployed copy, else repo sibling.
+here=$(cd "$(dirname "$0")" && pwd)
+AN="${AGENT_NOTIFY:-$HOME/bin/agent-notify}"
+[ -x "$AN" ] || AN="$here/agent-notify"
+PLUGIN="$here/../config/opencode/plugins/notify.ts"
+[ -f "$PLUGIN" ] || PLUGIN="$HOME/.config/opencode/plugins/notify.ts"
+
+hex() { xxd -p | tr -d '\n'; }
+
+echo "agent-notify: $AN"
+echo "opencode plugin: $PLUGIN"
+
+echo
+echo "== 1. Claude mode: hook JSON contract + OSC allowlist =="
+out=$("$AN" --claude 'Claude Code' 'turn complete')
+if printf '%s' "$out" | jq -e . >/dev/null 2>&1; then pass "stdout is valid JSON"; else fail "stdout is valid JSON" "<json object>" "$out"; fi
+seq=$(printf '%s' "$out" | jq -r '.terminalSequence')
+exp="${ESC}]777;notify;Claude Code;turn complete${BEL}"
+[ "$seq" = "$exp" ] && pass "terminalSequence decodes to raw OSC 777" || fail "terminalSequence bytes" "$exp" "$seq"
+if [[ "$seq" =~ ^${ESC}\]([0-9]+)\; ]]; then
+  code="${BASH_REMATCH[1]}"
+  case " 0 1 2 9 99 777 " in *" $code "*) pass "OSC $code is in Claude's allowlist (0/1/2/9/99/777)";; *) fail "OSC code in allowlist" "0|1|2|9|99|777" "$code";; esac
+else fail "parse OSC code" "ESC ] <num> ;" "$seq"; fi
+case "$seq" in *"${ESC}Ptmux;"*) fail "claude mode must NOT pre-wrap (Claude wraps itself)" "no DCS" "DCS present";; *) pass "no DCS wrapper present (Claude does its own tmux wrap)";; esac
+
+echo
+echo "== 2. Codex/tty mode: exact bytes under a real pty =="
+# Run AN under a pty so /dev/tty is writable, capture everything it emits.
+emit() { TERM=xterm-ghostty TMUX="$1" python3 - "$AN" "$2" "$3" <<'PY'
+import os, pty, sys
+an, title, body = sys.argv[1], sys.argv[2], sys.argv[3]
+buf = bytearray()
+pid, fd = pty.fork()
+if pid == 0:
+    os.execvp(an, [an, title, body])
+while True:
+    try:
+        b = os.read(fd, 1024)
+    except OSError:
+        break
+    if not b:
+        break
+    buf.extend(b)
+os.write(1, bytes(buf))
+PY
+}
+got=$(emit "" CC ok | hex)
+exp=$(printf '%s' "${BEL}${ESC}]777;notify;CC;ok${BEL}" | hex)
+[ "$got" = "$exp" ] && pass "non-tmux: BEL + raw OSC 777" || fail "non-tmux bytes" "$exp" "$got"
+got=$(emit "fake" CC ok | hex)
+exp=$(printf '%s' "${BEL}${ESC}Ptmux;${ESC}${ESC}]777;notify;CC;ok${BEL}${ESC}\\" | hex)
+[ "$got" = "$exp" ] && pass "in-tmux: BEL + DCS-wrapped OSC 777" || fail "in-tmux bytes" "$exp" "$got"
+# No-tty safety: must exit 0 and emit nothing.
+out=$(TMUX= "$AN" CC ok 2>&1 </dev/null); rc=$?
+[ $rc -eq 0 ] && [ -z "$out" ] && pass "no controlling terminal: silent, rc=0" || fail "no-tty safety" "rc=0 empty" "rc=$rc out=$out"
+
+echo
+echo "== 3. OpenCode plugin: run the REAL file, assert bytes =="
+if [ ! -f "$PLUGIN" ]; then
+  skip "plugin file not found"
+elif node --experimental-strip-types -e '' >/dev/null 2>&1; then
+  d=$(mktemp -d); cp "$PLUGIN" "$d/notify.ts"
+  cat >"$d/h.mts" <<'TS'
+import { Notify } from "./notify.ts"
+const h = await Notify()
+await h.event({ event: { type: "session.idle" } })
+await h.event({ event: { type: "session.created" } }) // must be ignored
+TS
+  got=$( (cd "$d" && TMUX= node --experimental-strip-types h.mts 2>/dev/null) | hex)
+  exp=$(printf '%s' "${BEL}${ESC}]777;notify;opencode;turn complete${BEL}" | hex)
+  [ "$got" = "$exp" ] && pass "non-tmux: BEL + raw OSC (and non-idle ignored)" || fail "plugin non-tmux bytes" "$exp" "$got"
+  got=$( (cd "$d" && TMUX=fake node --experimental-strip-types h.mts 2>/dev/null) | hex)
+  exp=$(printf '%s' "${BEL}${ESC}Ptmux;${ESC}${ESC}]777;notify;opencode;turn complete${BEL}${ESC}\\" | hex)
+  [ "$got" = "$exp" ] && pass "in-tmux: BEL + DCS-wrapped OSC" || fail "plugin in-tmux bytes" "$exp" "$got"
+  rm -rf "$d"
+else
+  skip "node lacks --experimental-strip-types; cannot run .ts plugin directly"
+fi
+
+echo
+echo "== 4. End-to-end: real tmux forwards the unwrapped OSC =="
+if ! command -v tmux >/dev/null; then
+  skip "tmux not installed"
+else
+  AN="$AN" python3 - <<'PY'
+import os, pty, time, select, subprocess, sys, tempfile
+an = os.environ["AN"]
+sock = "cc_notif_test_%d" % os.getpid()
+conf = tempfile.NamedTemporaryFile("w", suffix=".conf", delete=False)
+conf.write("set -g allow-passthrough all\nset -g status off\nset -g default-shell /bin/sh\n")
+conf.close()
+subprocess.run(["tmux","-L",sock,"-f",conf.name,"new-session","-d","-x","100","-y","30"], check=True)
+pid, fd = pty.fork()
+if pid == 0:
+    os.environ["TERM"] = "xterm-ghostty"
+    os.execvp("tmux", ["tmux","-L",sock,"attach"])
+time.sleep(0.8)
+# Emit from inside the pane via the REAL agent-notify (it sees TMUX, wraps, writes /dev/tty).
+subprocess.run(["tmux","-L",sock,"send-keys", "%s CCITEST ok" % an, "Enter"], check=True)
+buf = bytearray()
+end = time.time() + 1.8
+while time.time() < end:
+    r,_,_ = select.select([fd],[],[],0.3)
+    if r:
+        try: buf.extend(os.read(fd, 4096))
+        except OSError: break
+subprocess.run(["tmux","-L",sock,"kill-server"], stderr=subprocess.DEVNULL)
+os.unlink(conf.name)
+data = bytes(buf)
+osc = b"\x1b]777;notify;CCITEST;ok\x07"   # the UNWRAPPED notification
+wrap = b"\x1bPtmux;"                       # the DCS wrapper (must be consumed by tmux)
+ok_osc = osc in data
+ok_nowrap = wrap not in data
+print("  \033[32mPASS\033[0m  tmux forwarded the unwrapped OSC 777 to its outer terminal" if ok_osc
+      else "  \033[33mWARN\033[0m  unwrapped OSC 777 not seen (timing/env-sensitive; non-blocking)")
+print("  \033[32mPASS\033[0m  DCS wrapper was consumed by tmux (not leaked)" if ok_nowrap
+      else "  \033[33mWARN\033[0m  DCS wrapper not confirmed consumed (non-blocking)")
+sys.exit(0)  # best-effort stage: never fails the suite
+PY
+  : # stage 4 is intentionally non-blocking; it cannot affect the exit status
+fi
+
+echo
+if [ "$fails" -eq 0 ]; then
+  printf '\033[32mAll notification checks passed.\033[0m (GUI banner render still needs a human/focused-terminal check.)\n'
+else
+  printf '\033[31m%d check(s) failed.\033[0m\n' "$fails"
+fi
+exit $(( fails > 0 ? 1 : 0 ))

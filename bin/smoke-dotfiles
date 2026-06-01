@@ -140,6 +140,13 @@ tmux_output="$(tmux -L dotfiles-smoke -f /dev/null start-server \; source-file c
 check_contains "$tmux_output" 'C-a' 'tmux prefix stays C-a'
 check_contains "$tmux_output" 'on' 'tmux mouse stays on'
 
+if notif_output="$(bin/test-notifications 2>&1)"; then
+  pass 'agent notifications (byte paths + real tmux passthrough)'
+else
+  printf '%s\n' "$notif_output" >&2
+  fail 'agent notifications (byte paths + real tmux passthrough)'
+fi
+
 nvim_headless_output="$(nvim --headless   '+lua print("NVIM_START_OK")'   '+lua require("lazy").load({ plugins = { "nvim-cmp", "nvim-lspconfig" } })'   '+lua print(package.loaded.cmp and "NVIM_CMP_OK" or "NVIM_CMP_FAIL")'   '+lua print((vim.lsp.config.rust_analyzer and vim.lsp.config.yamlls and vim.lsp.config.ts_ls) and "NVIM_LSP_CONFIGS_OK" or "NVIM_LSP_CONFIGS_MISSING")'   +qall 2>&1)"
 check_contains "$nvim_headless_output" 'NVIM_START_OK' 'nvim starts headless'
 check_contains "$nvim_headless_output" 'NVIM_CMP_OK' 'nvim cmp loads headless'

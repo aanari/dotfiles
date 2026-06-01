@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+#
+# agent-notify: emit a desktop notification (OSC 777) that survives every case:
+# local, over SSH, inside tmux, and outside tmux. Each agent hands escapes to
+# the terminal differently, so there are two output modes:
+#
+#   --claude : print Claude Code hook JSON {"terminalSequence":"<raw OSC 777>"}.
+#              Claude emits it through its own terminal write path and does the
+#              tmux DCS-wrapping itself (its allowlist forbids DCS), so we must
+#              send a RAW OSC here. Claude hooks have no controlling terminal,
+#              which is why writing to /dev/tty (the default mode) is useless
+#              for Claude.
+#   default  : write to /dev/tty, DCS-wrapped when inside tmux. Used by Codex's
+#              `notify` program, whose subprocess keeps the controlling terminal.
+#
+# Usage: agent-notify [--claude] [TITLE] [BODY]
+# Codex appends a JSON payload as the BODY arg; we never echo raw JSON.
+
+mode=tty
+case "${1:-}" in
+  --claude) mode=claude; shift ;;
+  --tty)    shift ;;
+esac
+
+title="${1:-Agent}"
+body="${2:-needs your attention}"
+case "$body" in '{'*) body="turn complete" ;; esac
+
+if [ "$mode" = claude ]; then
+  # Control bytes must be \u-escaped for JSON. TITLE/BODY are caller constants
+  # (no quotes/backslashes), so no further escaping is needed.
+  printf '{"terminalSequence":"\\u001b]777;notify;%s;%s\\u0007"}' "$title" "$body"
+  exit 0
+fi
+
+# tty mode: never fail the caller. Bail quietly if the terminal can't be opened
+# ([ -w /dev/tty ] is not enough: the device can exist yet fail to open).
+out=/dev/tty
+{ : >"$out"; } 2>/dev/null || exit 0
+
+ESC=$'\033'; BEL=$'\007'
+osc="${ESC}]777;notify;${title};${body}${BEL}"
+
+# Raw bell first: flags the tmux window (monitor-bell) and bounces the dock.
+printf '%s' "$BEL" >"$out"
+
+# Desktop notification, DCS-wrapped so it survives tmux passthrough.
+if [ -n "${TMUX:-}" ] || [ -z "${TERM##screen*}" ] || [ -z "${TERM##tmux*}" ]; then
+  osc="${ESC}Ptmux;${ESC}${osc}${ESC}\\"
+fi
+printf '%s' "$osc" >"$out"
+exit 0

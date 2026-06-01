@@ -70,6 +70,9 @@ auto-update = download
 
 mouse-hide-while-typing = true
 
+# Agent/long-task bell: bounce the dock + tab bell glyph, no audio.
+bell-features = title,attention
+
 # Keybinds to match WezTerm muscle memory
 # Send raw ESC for ctrl+[ so it works as <Esc> in vim/neovim under the kitty protocol
 keybind = ctrl+left_bracket=text:\x1b

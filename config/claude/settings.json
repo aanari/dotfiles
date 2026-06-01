@@ -12,5 +12,15 @@
   },
   "preferences": {
     "thinkingMode": "always"
+  },
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          { "type": "command", "command": "\"$HOME\"/bin/agent-notify --claude 'Claude Code' 'needs your input'" }
+        ]
+      }
+    ]
   }
 }
