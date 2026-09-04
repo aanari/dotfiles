@@ -49,11 +49,23 @@ const inTmux = () =>
   Boolean(process.env.TMUX) || /^(screen|tmux)/.test(process.env.TERM ?? "");
 
 const sequence = (body) => {
-  const osc = `${ESC}]777;notify;${title()};${clean(body)}${BEL}`;
-  if (!inTmux() || process.env.CLOUDCODE_NOTIFY_NO_PASSTHROUGH === "1") return osc;
-  // tmux passthrough doubles every ESC inside the payload and terminates the
-  // outer DCS with ST.
-  return `${ESC}Ptmux;${osc.replace(/\x1b/g, ESC + ESC)}${ESC}\\`;
+  let osc = `${ESC}]777;notify;${title()};${clean(body)}${BEL}`;
+  if (inTmux() && process.env.CLOUDCODE_NOTIFY_NO_PASSTHROUGH !== "1") {
+    // tmux passthrough doubles every ESC inside the payload and terminates the
+    // outer DCS with ST.
+    osc = `${ESC}Ptmux;${osc.replace(/\x1b/g, ESC + ESC)}${ESC}\\`;
+  }
+  // A bare BEL first, unwrapped, exactly as bin/agent-notify does it. This is
+  // what drives Ghostty's bell-features: `attention` bounces the dock until the
+  // app regains focus and `title` prefixes the tab with a bell, both of which
+  // persist on their own rather than depending on the macOS notification alert
+  // style. The banner alone is at the mercy of that setting; these are not.
+  // Silent, since the config sets no-audio and no-system. It also flags the
+  // tmux window for monitor-bell.
+  //
+  // The BEL that terminates the OSC above does not do this: it is consumed as
+  // the string terminator while the parser is inside the sequence.
+  return `${BEL}${osc}`;
 };
 
 const emit = (text) => {

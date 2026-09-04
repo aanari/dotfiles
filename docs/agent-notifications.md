@@ -56,6 +56,29 @@ This is where notifications render, so set it once per Mac:
 Ghostty only appears in that list after it has shown at least one notification, so
 trigger one first (see Verify).
 
+### If banners still vanish
+
+The macOS banner is not the only signal, and it is the least reliable one: how
+long it stays up is entirely up to that Alert style setting, and macOS will
+replace rather than stack repeat notifications from one app.
+
+The durable signals come from Ghostty itself, driven by the bare BEL that every
+notifier here sends ahead of the OSC. They are governed by `bell-features` in
+`config/ghostty/config`, and unlike the banner they persist by construction:
+
+| feature     | effect                                        | clears when          |
+| ----------- | --------------------------------------------- | -------------------- |
+| `attention` | bounces the Ghostty dock icon                 | Ghostty regains focus |
+| `title`     | prefixes the tab title with a bell emoji      | re-focus or keypress |
+| `border`    | draws a border around the alerted surface     | re-focus or keypress |
+
+`attention` and `title` are on; `border` is off. Turn it on by changing
+`no-border` to `border` if you want something visible without checking the dock.
+`no-audio,no-system` keep all of this silent.
+
+So a missed banner is recoverable: the dock icon is still bouncing and the tab
+still reads with a bell until you look at it.
+
 ## Over SSH (cloudtop)
 
 Works as long as the dotfiles are deployed on the remote, which gives you tmux
