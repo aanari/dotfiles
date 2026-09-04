@@ -41,10 +41,19 @@ const BODIES = {
 };
 
 // ";" separates OSC 777 fields and BEL terminates the string, so either one
-// arriving from a session title would truncate the sequence mid-flight.
+// arriving from a session title or an assistant reply would truncate the
+// sequence mid-flight.
 const clean = (text) => text.replace(/[\x00-\x1f;]/g, " ").trim();
 
 const MAX_LABEL = 60;
+
+// What the assistant actually said, which is the only genuinely useful thing to
+// put in a completion banner. Both comparable agents do this and nothing less:
+// Codex previews the response at 200 graphemes
+// (AGENT_NOTIFICATION_PREVIEW_GRAPHEMES in its tui, falling back to "Agent turn
+// complete" only when empty) and Claude Code hands hooks the whole thing as
+// `last_assistant_message`. 200 matches Codex; macOS truncates well before it.
+const MAX_PREVIEW = 200;
 
 // CloudCode names a session before it has anything to name it after, so an
 // untouched one reads "New session - <timestamp>". That is worse than nothing
@@ -52,8 +61,12 @@ const MAX_LABEL = 60;
 const isPlaceholderTitle = (t) => !t || /^New session\b/.test(t);
 
 // ASCII only, per the house rule: "..." rather than a Unicode ellipsis.
-const truncate = (text) =>
-  text.length <= MAX_LABEL ? text : `${text.slice(0, MAX_LABEL - 3)}...`;
+const truncate = (text, max = MAX_LABEL) =>
+  text.length <= max ? text : `${text.slice(0, max - 3)}...`;
+
+// Collapse the newlines and runs of whitespace a markdown reply is full of; a
+// banner is one line however the text arrives.
+const oneLine = (text) => text.split(/\s+/).filter(Boolean).join(" ");
 
 // Name the source when the session is remote. With a Mac and a cloudtop both
 // notifying the same Ghostty, an unqualified "CloudCode" does not say which
@@ -112,25 +125,74 @@ export const NotifyPlugin = async (input) => {
   const labels = new Map();
   const fallback = input?.directory ? basename(input.directory) : "";
 
+  // The assistant's reply, per session. session.idle names no message, so the
+  // text has to be accumulated as it streams: message.updated says which
+  // message id is the assistant's, message.part.updated carries the text under
+  // that id. Parts arrive repeatedly while the reply streams, so last write
+  // wins and the final one is the complete text.
+  const speaking = new Map(); // sessionID -> assistant messageID
+  const reply = new Map(); // sessionID -> latest assistant text
+
+  // A long-lived server sees many sessions; keep these from growing forever.
+  const cap = (map) => {
+    if (map.size > 64) map.delete(map.keys().next().value);
+  };
+
   const remember = (info) => {
     if (!info?.id) return;
     const label = isPlaceholderTitle(info.title)
       ? basename(info.directory ?? "")
       : info.title;
     if (label) labels.set(info.id, label);
-    // A long-lived server sees many sessions; keep this from growing forever.
-    if (labels.size > 64) labels.delete(labels.keys().next().value);
+    cap(labels);
   };
 
   return {
     event: async ({ event }) => {
-      if (event?.type === "session.updated") {
-        remember(event.properties?.info);
+      const type = event?.type;
+      const props = event?.properties;
+
+      if (type === "session.updated") {
+        remember(props?.info);
         return;
       }
-      const state = BODIES[event?.type];
+      if (type === "message.updated") {
+        const info = props?.info;
+        if (info?.role === "assistant" && info.id && info.sessionID) {
+          speaking.set(info.sessionID, info.id);
+          cap(speaking);
+        }
+        return;
+      }
+      if (type === "message.part.updated") {
+        const part = props?.part;
+        if (
+          part?.type === "text" &&
+          part.sessionID &&
+          part.messageID === speaking.get(part.sessionID)
+        ) {
+          reply.set(part.sessionID, part.text ?? "");
+          cap(reply);
+        }
+        return;
+      }
+
+      const state = BODIES[type];
       if (!state) return;
-      const label = labels.get(event.properties?.sessionID) || fallback;
+      const sessionID = props?.sessionID;
+
+      // Lead with what was said. Only when there is nothing to quote - an
+      // errored or interrupted turn, or a prompt for input - does the banner
+      // fall back to naming the state and the session.
+      if (type === "session.idle") {
+        const said = oneLine(clean(reply.get(sessionID) ?? ""));
+        reply.delete(sessionID);
+        if (said) {
+          emit(sequence(truncate(said, MAX_PREVIEW)));
+          return;
+        }
+      }
+      const label = labels.get(sessionID) || fallback;
       emit(sequence(label ? `${state} - ${truncate(label)}` : state));
     },
   };

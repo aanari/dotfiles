@@ -140,16 +140,28 @@ else
   # SSH_CONNECTION is pinned rather than inherited: the plugin labels the title
   # with the hostname when the session is remote, so running this suite over SSH
   # would otherwise change the expected bytes out from under the assertions.
-  # $3, when set, is a session title fed in via session.updated first, so the
-  # body-labelling path is exercised the way CloudCode actually drives it.
-  ccemit() { TERM=xterm-ghostty TMUX="$1" SSH_CONNECTION="${2-}" SSH_TTY= CC_TITLE="${3-}" python3 - "$CCP" <<'PY'
+  # $3 is a session title fed in via session.updated; $4 is an assistant reply
+  # fed in via message.updated + message.part.updated. Both are driven the way
+  # CloudCode actually drives them, so the accumulation path is under test and
+  # not just the formatting.
+  ccemit() { TERM=xterm-ghostty TMUX="$1" SSH_CONNECTION="${2-}" SSH_TTY= CC_TITLE="${3-}" CC_REPLY="${4-}" CC_ROLE="${5-assistant}" python3 - "$CCP" <<'PY'
 import json, os, pty, sys
 t = os.environ.get("CC_TITLE", "")
+r = os.environ.get("CC_REPLY", "")
+role = os.environ.get("CC_ROLE", "assistant")
+feed = ""
 if t:
-    feed = ("await h.event({ event: { type: 'session.updated', properties: { info: "
-            "{ id: 's', title: %s, directory: '/x/d' } } } });"
-            "await h.event({ event: { type: 'session.idle', properties: "
-            "{ sessionID: 's' } } });" % json.dumps(t))
+    feed += ("await h.event({ event: { type: 'session.updated', properties: { info: "
+             "{ id: 's', title: %s, directory: '/x/d' } } } });" % json.dumps(t))
+if r:
+    feed += ("await h.event({ event: { type: 'message.updated', properties: { info: "
+             "{ role: %s, id: 'm1', sessionID: 's' } } } });"
+             "await h.event({ event: { type: 'message.part.updated', properties: "
+             "{ part: { type: 'text', messageID: 'm1', sessionID: 's', text: %s } } } });"
+             % (json.dumps(role), json.dumps(r)))
+if t or r:
+    feed += ("await h.event({ event: { type: 'session.idle', properties: "
+             "{ sessionID: 's' } } });")
 else:
     feed = "await h.event({ event: { type: 'session.idle' } });"
 code = ("const m = await import(process.argv[1]);"
@@ -194,6 +206,17 @@ PY
   got=$(ccemit "" "" "evil;title;here" | hex)
   exp=$(printf '%s' "${BEL}${ESC}]777;notify;CloudCode;turn complete - evil title here${BEL}" | hex)
   [ "$got" = "$exp" ] && pass "session label is scrubbed of OSC delimiters" || fail "cloudcode label scrubbing" "$exp" "$got"
+  # The point of the whole thing: say what the assistant said, the way Codex
+  # previews its response, rather than announcing that a turn ended. Newlines
+  # collapse because a banner is one line however the markdown arrived.
+  got=$(ccemit "" "" "" "$(printf 'Fixed it:\n\n- one\n- two')" | hex)
+  exp=$(printf '%s' "${BEL}${ESC}]777;notify;CloudCode;Fixed it: - one - two${BEL}" | hex)
+  [ "$got" = "$exp" ] && pass "body previews the assistant reply" || fail "cloudcode reply preview" "$exp" "$got"
+  # Text parts stream for the user's own message too. Quoting the prompt back
+  # would be worse than useless, so only the message flagged assistant counts.
+  got=$(ccemit "" "" "" "MY PROMPT" "user" | hex)
+  exp=$(printf '%s' "${BEL}${ESC}]777;notify;CloudCode;turn complete${BEL}" | hex)
+  [ "$got" = "$exp" ] && pass "a user message never reaches the banner" || fail "cloudcode user leak" "$exp" "$got"
 fi
 
 # tui.json is a strict schema and the loader discards the WHOLE file on any

@@ -96,11 +96,24 @@ the dependency; terminals that do not implement OSC 777 discard it.
 Remote banners are titled `CloudCode (<host>)` rather than plain `CloudCode`, so
 a turn finishing on the cloudtop is distinguishable from one on the Mac.
 
-The body names the session too - `turn complete - Fix the notify plugin` - because
-`session.idle` carries only a session id, and a bare "turn complete" says nothing
-about which of several running sessions it came from. The plugin keeps the title
-from the preceding `session.updated`, falling back to the directory name when a
-session has not been titled yet.
+The body is what the assistant actually said, previewed at 200 characters on one
+line. That is what makes the banner worth reading: "turn complete" tells you a
+turn ended, which you can already see.
+
+Both comparable agents do exactly this, so the plugin follows them rather than
+inventing something. Codex previews its response at 200 graphemes and falls back
+to "Agent turn complete" only when the response is empty; Claude Code hands hooks
+the whole thing as `last_assistant_message` and its docs specifically recommend
+that field over parsing the transcript, for notification hooks.
+
+CloudCode exposes no equivalent field, so the plugin accumulates it: the assistant
+message id comes from `message.updated`, its text from the `message.part.updated`
+events that stream under that id. Only text under the id flagged `assistant`
+counts, so your own prompt is never quoted back at you.
+
+When there is nothing to quote - an interrupted turn, an error, a prompt for input
+- the banner falls back to naming the state and the session, taking the title from
+`session.updated` and then the directory name.
 
 ## Verify
 
