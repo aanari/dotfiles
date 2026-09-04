@@ -47,8 +47,18 @@ fresh config/neomutt --file=~/.config/neomutt/
 fresh config/pgcli --file=~/.config/pgcli/
 fresh config/ptpython --file=~/.ptpython/
 fresh config/sqitch --file=~/.sqitch/
+# Host definitions stay in ~/.ssh/config.local, which is untracked because
+# this repo is public. config/ssh/config Includes it.
+fresh config/ssh/config --file=~/.ssh/config
 fresh config/stripe --file=~/.stripe/
 fresh twe4ked/dotfiles config/ranger/rc.conf --file=~/.config/ranger/rc.conf
+
+# ~/Library/LaunchAgents
+# Keeps the aanari-tunnel port forwards up around the clock. Changing the
+# plist needs a reload to take effect:
+#   launchctl bootout gui/$UID/io.anari.autossh.aanari
+#   launchctl bootstrap gui/$UID ~/Library/LaunchAgents/io.anari.autossh.aanari.plist
+fresh config/launchd/io.anari.autossh.aanari.plist --file=~/Library/LaunchAgents/io.anari.autossh.aanari.plist
 
 prune_stale_fresh_targets() {
 	local stale_paths=(

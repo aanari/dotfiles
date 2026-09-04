@@ -1,55 +1,44 @@
-# Global SSH Configuration
-# Security and performance optimizations
+# Machine-specific host definitions -- real hostnames, port forwards, which
+# boxes get an agent -- live in ~/.ssh/config.local, which is not tracked:
+# this repo is public. A missing Include is not an error, so this file is
+# safe to deploy on a machine that has no config.local yet.
+#
+# Include it FIRST. ssh keeps the first value it obtains for each keyword,
+# so per-host settings have to be read before the generic blocks below.
+Include ~/.ssh/config.local
 
-# Default for all hosts
-Host *
-  # Security
-  PasswordAuthentication no
-  ChallengeResponseAuthentication no
-  HashKnownHosts yes
-  StrictHostKeyChecking ask
-  
-  # Performance
-  ControlMaster auto
-  ControlPath ~/.ssh/sockets/%r@%h-%p
-  ControlPersist 600
-  
-  # Connection
-  ServerAliveInterval 60
-  ServerAliveCountMax 3
-  ConnectTimeout 10
-  
-  # Compression
-  Compression yes
-  
-  # Forwarding
-  ForwardAgent no
-  ForwardX11 no
-  
-  # macOS specific
-  UseKeychain yes
-  AddKeysToAgent yes
-  IgnoreUnknown UseKeychain
-  
-  # Modern algorithms only
-  KexAlgorithms curve25519-sha256,curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256
-  Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
-  MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com
+# --- autossh tunnels -------------------------------------------------
+# Applies to the *-tunnel aliases defined in config.local, which exist
+# purely for autossh to drive.
+#
+# autossh can only restart ssh when ssh EXITS, so these differ from the
+# interactive hosts in two ways that matter:
+#   1. multiplexing off. A multiplexed child attaches to the existing
+#      master, exits 0 within milliseconds, and autossh reads that as a
+#      failed start ("ssh exited prematurely with status 0") and quits.
+#      This is the most common reason autossh looks broken.
+#   2. fast liveness detection. 15s x 4 = ~60s to notice a dead link,
+#      instead of the 10min the interactive defaults below allow. autossh
+#      cannot reconnect until ssh gives up, so patience here is a cost.
+Host *-tunnel
+  ControlMaster no
+  ControlPath none
+  ExitOnForwardFailure yes
+  SessionType none
+  ServerAliveInterval 15
+  ServerAliveCountMax 4
 
-# GitHub
-Host github.com
-  User git
-  ForwardAgent no
-  
-# GitLab
-Host gitlab.com
-  User git
-  ForwardAgent no
-
-# Example: Development server with specific settings
-# Host dev
-#   HostName dev.example.com
-#   User myuser
-#   Port 22
-#   IdentityFile ~/.ssh/id_ed25519
-#   ForwardAgent yes  # Only if needed
+# Defaults for everything else.
+#
+# Cloudtop sshd runs ClientAliveInterval 30 / ClientAliveCountMax 20, so it
+# hangs up after 600s of silence from us. Waiting longer than the server
+# does just leaves dead sessions wedged, so cap at ~600s to match: past
+# that the session is already gone on the far end.
+Match all
+  ServerAliveInterval 30
+  ServerAliveCountMax 20
+  TCPKeepAlive no
+  ConnectTimeout 60
+  ConnectionAttempts 5
+  SendEnv LANG LC_*
+  SendEnv TERM
