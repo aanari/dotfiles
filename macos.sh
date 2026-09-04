@@ -124,6 +124,20 @@ sudo chflags uchg /private/var/vm/sleepimage
 sudo pmset -a sms 0
 
 ###############################################################################
+# Power management (keeps long-lived SSH sessions alive)                      #
+###############################################################################
+
+# Keep the network stack up across sleep. At 0, macOS tears down every TCP
+# connection the moment the machine sleeps, which kills SSH sessions and
+# autossh tunnels no matter how the keepalives are tuned.
+sudo pmset -a tcpkeepalive 1
+
+# Never idle-sleep on AC, 30 minutes on battery. This was shipping at 1 minute,
+# which dropped connections as soon as the display went dark.
+sudo pmset -c sleep 0
+sudo pmset -b sleep 30
+
+###############################################################################
 # Trackpad, mouse, keyboard, Bluetooth accessories, and input                 #
 ###############################################################################
 
