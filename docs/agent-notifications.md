@@ -96,6 +96,12 @@ the dependency; terminals that do not implement OSC 777 discard it.
 Remote banners are titled `CloudCode (<host>)` rather than plain `CloudCode`, so
 a turn finishing on the cloudtop is distinguishable from one on the Mac.
 
+The body names the session too - `turn complete - Fix the notify plugin` - because
+`session.idle` carries only a session id, and a bare "turn complete" says nothing
+about which of several running sessions it came from. The plugin keeps the title
+from the preceding `session.updated`, falling back to the directory name when a
+session has not been titled yet.
+
 ## Verify
 
 ```sh

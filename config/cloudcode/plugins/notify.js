@@ -29,6 +29,7 @@
 
 import { openSync, writeSync, closeSync } from "fs";
 import { hostname } from "os";
+import { basename } from "path";
 
 const ESC = "\x1b";
 const BEL = "\x07";
@@ -40,8 +41,19 @@ const BODIES = {
 };
 
 // ";" separates OSC 777 fields and BEL terminates the string, so either one
-// arriving from a hostname would truncate the sequence mid-flight.
+// arriving from a session title would truncate the sequence mid-flight.
 const clean = (text) => text.replace(/[\x00-\x1f;]/g, " ").trim();
+
+const MAX_LABEL = 60;
+
+// CloudCode names a session before it has anything to name it after, so an
+// untouched one reads "New session - <timestamp>". That is worse than nothing
+// in a banner; fall back to the directory instead.
+const isPlaceholderTitle = (t) => !t || /^New session\b/.test(t);
+
+// ASCII only, per the house rule: "..." rather than a Unicode ellipsis.
+const truncate = (text) =>
+  text.length <= MAX_LABEL ? text : `${text.slice(0, MAX_LABEL - 3)}...`;
 
 // Name the source when the session is remote. With a Mac and a cloudtop both
 // notifying the same Ghostty, an unqualified "CloudCode" does not say which
@@ -90,13 +102,36 @@ const emit = (text) => {
   }
 };
 
-export const NotifyPlugin = async () => {
+export const NotifyPlugin = async (input) => {
   if (process.env.CLOUDCODE_NOTIFY_DISABLE === "1") return {};
+
+  // session.idle carries only a sessionID, so "turn complete" on its own cannot
+  // say which session finished - useless when several are running across two
+  // machines. session.updated does carry the title and directory, so keep the
+  // last one seen per session and label the notification with it.
+  const labels = new Map();
+  const fallback = input?.directory ? basename(input.directory) : "";
+
+  const remember = (info) => {
+    if (!info?.id) return;
+    const label = isPlaceholderTitle(info.title)
+      ? basename(info.directory ?? "")
+      : info.title;
+    if (label) labels.set(info.id, label);
+    // A long-lived server sees many sessions; keep this from growing forever.
+    if (labels.size > 64) labels.delete(labels.keys().next().value);
+  };
+
   return {
     event: async ({ event }) => {
-      const body = BODIES[event?.type];
-      if (!body) return;
-      emit(sequence(body));
+      if (event?.type === "session.updated") {
+        remember(event.properties?.info);
+        return;
+      }
+      const state = BODIES[event?.type];
+      if (!state) return;
+      const label = labels.get(event.properties?.sessionID) || fallback;
+      emit(sequence(label ? `${state} - ${truncate(label)}` : state));
     },
   };
 };
