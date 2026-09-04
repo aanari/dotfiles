@@ -163,7 +163,8 @@ if t or r:
     feed += ("await h.event({ event: { type: 'session.idle', properties: "
              "{ sessionID: 's' } } });")
 else:
-    feed = "await h.event({ event: { type: 'session.idle' } });"
+    feed = "await h.event({ event: { type: %s } });" % json.dumps(
+        os.environ.get("CC_EVENT", "session.idle"))
 code = ("const m = await import(process.argv[1]);"
         "const f = m.NotifyPlugin ?? Object.values(m).find(v => typeof v === 'function');"
         "const h = await f();" + feed)
@@ -217,6 +218,10 @@ PY
   got=$(ccemit "" "" "" "MY PROMPT" "user" | hex)
   exp=$(printf '%s' "${BEL}${ESC}]777;notify;CloudCode;turn complete${BEL}" | hex)
   [ "$got" = "$exp" ] && pass "a user message never reaches the banner" || fail "cloudcode user leak" "$exp" "$got"
+  # ctrl-c raises session.error. Announcing a failure at the moment you chose to
+  # stop the turn is noise, so it must emit nothing at all - not even the bell.
+  got=$(CC_EVENT=session.error ccemit "" | hex)
+  [ -z "$got" ] && pass "an interrupted turn stays silent" || fail "cloudcode interrupt silence" "<no output>" "$got"
 fi
 
 # tui.json is a strict schema and the loader discards the WHOLE file on any

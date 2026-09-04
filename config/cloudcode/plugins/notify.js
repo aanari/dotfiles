@@ -34,10 +34,20 @@ import { basename } from "path";
 const ESC = "\x1b";
 const BEL = "\x07";
 
+// session.error is deliberately absent. It fires when a turn is interrupted with
+// ctrl-c, and announcing that a session errored at the moment you deliberately
+// stopped it is pure noise - you are already at the keyboard. Claude Code draws
+// the same line: its Stop hook explicitly does not run on a user interrupt.
+//
+// The cost is that a genuine failure, an API error overnight say, now passes
+// unannounced. Reinstating only that case needs the abort told apart from a real
+// error. The binary has a MessageAbortedError variant that looks like the right
+// discriminator, but an interrupted turn here emitted session.idle and no
+// session.error at all, so the shape that actually arrives on ctrl-c is
+// unconfirmed and filtering on a guessed name would just reinstate the noise.
 const BODIES = {
   "session.idle": "turn complete",
   "permission.asked": "needs your input",
-  "session.error": "session error",
 };
 
 // ";" separates OSC 777 fields and BEL terminates the string, so either one

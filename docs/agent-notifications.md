@@ -111,9 +111,17 @@ message id comes from `message.updated`, its text from the `message.part.updated
 events that stream under that id. Only text under the id flagged `assistant`
 counts, so your own prompt is never quoted back at you.
 
-When there is nothing to quote - an interrupted turn, an error, a prompt for input
-- the banner falls back to naming the state and the session, taking the title from
-`session.updated` and then the directory name.
+When there is nothing to quote - a prompt for input, or a turn that produced no
+text - the banner falls back to naming the state and the session, taking the title
+from `session.updated` and then the directory name.
+
+Interrupting a turn with ctrl-c raises `session.error`, and that fires no
+notification at all. Being told a session errored at the moment you deliberately
+stopped it is noise; you are already at the keyboard. Claude Code draws the same
+line, its `Stop` hook explicitly not running on a user interrupt. The cost is that
+a genuine overnight API failure also passes unannounced - reinstating only that
+case needs the abort told apart from a real error, and the payload arriving on
+ctrl-c has not been pinned down.
 
 ## Verify
 
