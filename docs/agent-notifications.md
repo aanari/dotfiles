@@ -58,19 +58,19 @@ trigger one first (see Verify).
 
 ## Over SSH (cloudtop)
 
-Works as long as your dotfiles are deployed on the remote (tmux passthrough + the
-config). If banners do not appear over SSH, the usual cause is that SSH does not
-forward the terminal identity. Forward it:
+Works as long as the dotfiles are deployed on the remote, which gives you tmux
+passthrough and the plugin. Nothing else is needed: the escape is emitted
+unconditionally, so no environment has to survive the hop.
 
-```sh
-# local ~/.ssh/config
-Host <cloudtop-host>
-  SendEnv TERM_PROGRAM
-# remote /etc/ssh/sshd_config (often already allowed)
-AcceptEnv TERM_PROGRAM
-```
+This is deliberate. An earlier version gated emission on a `TERM_PROGRAM`
+allow-list copied from Codex, which cannot work here - `~/.ssh/config` does not
+forward `TERM_PROGRAM`, and a corp `sshd` need not honour it even with
+`SendEnv`. The variable is simply unset on the cloudtop, so every remote
+notification silently degraded to a bare BEL. Emitting unconditionally removes
+the dependency; terminals that do not implement OSC 777 discard it.
 
-Confirm on the remote: `echo $TERM_PROGRAM` should print `ghostty`.
+Remote banners are titled `CloudCode (<host>)` rather than plain `CloudCode`, so
+a turn finishing on the cloudtop is distinguishable from one on the Mac.
 
 ## Verify
 

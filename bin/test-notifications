@@ -137,7 +137,10 @@ else
   # process.stdout.write would still pass; detaching fd 1 leaves the pty
   # reachable only through an explicit /dev/tty open, which is the property
   # under test.
-  ccemit() { TERM=xterm-ghostty TMUX="$1" python3 - "$CCP" <<'PY'
+  # SSH_CONNECTION is pinned rather than inherited: the plugin labels the title
+  # with the hostname when the session is remote, so running this suite over SSH
+  # would otherwise change the expected bytes out from under the assertions.
+  ccemit() { TERM=xterm-ghostty TMUX="$1" SSH_CONNECTION="${2-}" SSH_TTY= python3 - "$CCP" <<'PY'
 import os, pty, sys
 code = ("const m = await import(process.argv[1]);"
         "const f = m.NotifyPlugin ?? Object.values(m).find(v => typeof v === 'function');"
@@ -165,6 +168,12 @@ PY
   got=$(ccemit "fake" | hex)
   exp=$(printf '%s' "${ESC}Ptmux;${ESC}${ESC}]777;notify;CloudCode;turn complete${BEL}${ESC}\\" | hex)
   [ "$got" = "$exp" ] && pass "in-tmux: plugin DCS-wraps the OSC 777" || fail "cloudcode in-tmux bytes" "$exp" "$got"
+  # Remote sessions label the title with the host, so a banner from the cloudtop
+  # is distinguishable from one raised by the Mac.
+  short=$(hostname | cut -d. -f1)
+  got=$(ccemit "" "10.0.0.1 52 10.0.0.2 22" | hex)
+  exp=$(printf '%s' "${ESC}]777;notify;CloudCode (${short});turn complete${BEL}" | hex)
+  [ "$got" = "$exp" ] && pass "remote: title is labelled with the hostname" || fail "cloudcode remote title" "$exp" "$got"
 fi
 
 # tui.json is a strict schema and the loader discards the WHOLE file on any
