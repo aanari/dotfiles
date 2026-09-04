@@ -5,16 +5,22 @@
 // Sink: /dev/tty, opened in-process. CloudCode runs plugins inside the server,
 // whose stdout is a pipe rather than the user's terminal, so an escape written
 // there never reaches the emulator. The server process does keep the
-// controlling terminal while a TUI is attached. Shelling out to a helper such
-// as bin/agent-notify cannot work either: CloudCode detaches child processes
-// from that terminal, so the child cannot open /dev/tty at all.
+// controlling terminal while a TUI is attached. Shelling out to a helper that
+// writes to the terminal, as bin/agent-notify does, cannot work either:
+// CloudCode detaches child processes from that terminal, so the child cannot
+// open /dev/tty at all. (A helper that does not need a terminal, such as the
+// G3N sender in the gdotfiles bin/notify, is unaffected by this.)
 //
-// Sequence: OSC 777, the same one bin/agent-notify emits for Codex and Claude,
-// DCS-wrapped when tmux is in the path. Emitted unconditionally rather than
-// behind a terminal allow-list. Such a list keys off TERM_PROGRAM, which SSH
-// does not forward to a cloudtop, so it silently downgrades every remote
-// notification to a bare BEL. Terminals that do not implement OSC 777 discard
-// it, which is the same bet agent-notify already makes.
+// Sequence: a bare BEL, then OSC 777, DCS-wrapped when tmux is in the path.
+// Byte-identical to what bin/agent-notify emits for Codex and Claude in the
+// personal ~/.dotfiles repo. That script is not deployed on a cloudtop, but
+// keeping the bytes the same means every agent alerts the same way wherever it
+// runs. See sequence() for why the leading BEL carries the persistence.
+//
+// The OSC is emitted unconditionally rather than behind a terminal allow-list.
+// Such a list keys off TERM_PROGRAM, which SSH does not forward to a cloudtop,
+// so it silently downgrades every remote notification to a bare BEL. Terminals
+// that do not implement OSC 777 discard it.
 //
 // Env:
 //   CLOUDCODE_NOTIFY_DISABLE=1         skip all notifications

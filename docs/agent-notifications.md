@@ -72,9 +72,10 @@ notifier here sends ahead of the OSC. They are governed by `bell-features` in
 | `title`     | prefixes the tab title with a bell emoji      | re-focus or keypress |
 | `border`    | draws a border around the alerted surface     | re-focus or keypress |
 
-`attention` and `title` are on; `border` is off. Turn it on by changing
-`no-border` to `border` if you want something visible without checking the dock.
-`no-audio,no-system` keep all of this silent.
+`config/ghostty/config` sets `bell-features = title,attention`, so those two are
+on and `border` is not. Add `border` to that line if you want something visible
+without checking the dock. Audio stays off because Ghostty defaults to
+`no-audio,no-system`; you do not have to silence anything.
 
 So a missed banner is recoverable: the dock icon is still bouncing and the tab
 still reads with a bell until you look at it.
@@ -101,16 +102,20 @@ a turn finishing on the cloudtop is distinguishable from one on the Mac.
 test-notifications      # byte-level checks + a real tmux passthrough test
 ```
 
-Then trigger one real turn per agent. You should get a persistent banner. Nothing
-here suppresses a notification while the terminal is focused, so you do not need
-to switch windows to see one.
+Then trigger one real turn per agent. You should get a banner, plus a bouncing
+dock icon and a bell on the tab title that stay until you look. Nothing here
+suppresses a notification while the terminal is focused, so you do not need to
+switch windows to see one.
 
 ## Troubleshoot
 
 - No banner on the Mac: Ghostty lacks Notification permission, or a Focus / Do Not
   Disturb is active.
-- Banner appears but vanishes: set Ghostty's Alert style to **Alerts** (above).
-- Nothing over SSH: `TERM_PROGRAM` not forwarded (above); confirm the remote tmux
-  has `allow-passthrough`.
+- Banner appears but vanishes: set Ghostty's Alert style to **Alerts** (above). If
+  it still vanishes, that is macOS, not this wiring - rely on the dock bounce and
+  the tab bell instead (see "If banners still vanish").
+- Nothing over SSH: confirm the remote tmux has `allow-passthrough` and that the
+  plugin is deployed there. `TERM_PROGRAM` is irrelevant - nothing keys off it any
+  more.
 - CloudCode debugging: `~/.local/share/cloudcode/log/` - look for `service=plugin`
   and `type=session.idle publishing`.
