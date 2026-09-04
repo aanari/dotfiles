@@ -8,10 +8,10 @@
 # terminal), but it verifies everything up to the terminal emulator's input,
 # which is the part that was previously only eyeballed.
 #
-# Stages 1-2 are deterministic and blocking (real regression guards). Stage 3
-# drives a live tmux server and is timing-sensitive, so it is best-effort: it
-# reports WARN (never FAIL) if inconclusive, since the wrapping it exercises is
-# already byte-asserted deterministically in stage 2.
+# Stages 1, 2 and 4 are deterministic and blocking (real regression guards).
+# Stage 3 drives a live tmux server and is timing-sensitive, so it is
+# best-effort: it reports WARN (never FAIL) if inconclusive, since the wrapping
+# it exercises is already byte-asserted deterministically in stage 2.
 #
 # Usage: test-notifications        # exits non-zero if any check fails
 
@@ -116,7 +116,105 @@ print("  \033[32mPASS\033[0m  DCS wrapper was consumed by tmux (not leaked)" if 
       else "  \033[33mWARN\033[0m  DCS wrapper not confirmed consumed (non-blocking)")
 sys.exit(0)  # best-effort stage: never fails the suite
 PY
-  : # stage 4 is intentionally non-blocking; it cannot affect the exit status
+  : # stage 3 is intentionally non-blocking; it cannot affect the exit status
+fi
+
+echo
+echo "== 4. CloudCode: plugin bytes + tui.json accepted by the installed build =="
+CCP="${CLOUDCODE_NOTIFY_PLUGIN:-$HOME/.config/cloudcode/plugins/notify.js}"
+[ -f "$CCP" ] || CCP="$here/../config/cloudcode/plugins/notify.js"
+if [ ! -f "$CCP" ]; then
+  skip "notify.js not found"
+elif ! command -v node >/dev/null; then
+  skip "node not installed (needed to drive the plugin)"
+else
+  # CloudCode runs plugins inside the server, whose stdout is a pipe rather than
+  # the terminal, so the plugin has to write to /dev/tty. Drive it under a pty
+  # and assert what actually lands on the terminal, byte for byte.
+  #
+  # stdout is pointed at /dev/null in the child on purpose. Under a bare pty the
+  # two sinks are the same device, so a plugin that regressed to
+  # process.stdout.write would still pass; detaching fd 1 leaves the pty
+  # reachable only through an explicit /dev/tty open, which is the property
+  # under test.
+  ccemit() { TERM=xterm-ghostty TMUX="$1" python3 - "$CCP" <<'PY'
+import os, pty, sys
+code = ("const m = await import(process.argv[1]);"
+        "const f = m.NotifyPlugin ?? Object.values(m).find(v => typeof v === 'function');"
+        "await (await f()).event({ event: { type: 'session.idle' } });")
+buf = bytearray()
+pid, fd = pty.fork()
+if pid == 0:
+    devnull = os.open(os.devnull, os.O_WRONLY)
+    os.dup2(devnull, 1)
+    os.execvp("node", ["node", "--input-type=module", "-e", code, sys.argv[1]])
+while True:
+    try:
+        b = os.read(fd, 1024)
+    except OSError:
+        break
+    if not b:
+        break
+    buf.extend(b)
+os.write(1, bytes(buf))
+PY
+  }
+  got=$(ccemit "" | hex)
+  exp=$(printf '%s' "${ESC}]777;notify;CloudCode;turn complete${BEL}" | hex)
+  [ "$got" = "$exp" ] && pass "non-tmux: plugin writes raw OSC 777 to /dev/tty" || fail "cloudcode non-tmux bytes" "$exp" "$got"
+  got=$(ccemit "fake" | hex)
+  exp=$(printf '%s' "${ESC}Ptmux;${ESC}${ESC}]777;notify;CloudCode;turn complete${BEL}${ESC}\\" | hex)
+  [ "$got" = "$exp" ] && pass "in-tmux: plugin DCS-wraps the OSC 777" || fail "cloudcode in-tmux bytes" "$exp" "$got"
+fi
+
+# tui.json is a strict schema and the loader discards the WHOLE file on any
+# unrecognized key, silently taking every keybind with it. Only the installed
+# build knows which keys it accepts, so boot the real TUI against a scratch data
+# dir and check whether it rejected the deployed config.
+if ! command -v cloudcode >/dev/null; then
+  skip "cloudcode not installed (tui.json validation)"
+else
+  ccdata=$(mktemp -d)
+  CCDATA="$ccdata" python3 - <<'PY' >/dev/null 2>&1
+import os, pty, select, signal, sys, time, glob
+data = os.environ["CCDATA"]
+pid, fd = pty.fork()
+if pid == 0:
+    os.environ["XDG_DATA_HOME"] = data
+    os.environ["TERM"] = "xterm-256color"
+    os.execvp("cloudcode", ["cloudcode"])
+# Stop as soon as the TUI has been through its config stage, rather than
+# burning a fixed timeout on every run.
+end = time.time() + 15
+while time.time() < end:
+    select.select([fd], [], [], 0.3)
+    try:
+        os.read(fd, 4096)
+    except OSError:
+        break
+    text = ""
+    for path in glob.glob(os.path.join(data, "cloudcode", "log", "*.log")):
+        try:
+            text += open(path, errors="ignore").read()
+        except OSError:
+            pass
+    if "invalid tui config" in text or "service=tui." in text:
+        break
+try:
+    os.kill(pid, signal.SIGTERM)
+except ProcessLookupError:
+    pass
+PY
+  logs=$(cat "$ccdata"/cloudcode/log/*.log 2>/dev/null)
+  if [ -z "$logs" ]; then
+    warn "tui.json validation inconclusive (CloudCode produced no log)"
+  elif printf '%s' "$logs" | grep -q 'invalid tui config'; then
+    bad=$(printf '%s' "$logs" | grep -o '"keys":\[[^]]*\]' | head -1)
+    fail "tui.json accepted by the installed CloudCode" "no rejected keys" "${bad:-schema error}"
+  else
+    pass "tui.json accepted by the installed CloudCode (nothing discarded)"
+  fi
+  rm -rf "$ccdata"
 fi
 
 echo
