@@ -111,17 +111,21 @@ message id comes from `message.updated`, its text from the `message.part.updated
 events that stream under that id. Only text under the id flagged `assistant`
 counts, so your own prompt is never quoted back at you.
 
-When there is nothing to quote - a prompt for input, or a turn that produced no
-text - the banner falls back to naming the state and the session, taking the title
-from `session.updated` and then the directory name.
+**Nothing worth saying means no notification.** There is no generic fallback: a
+turn that produced no reply is silent rather than announcing "turn complete",
+which reports the one thing already visible on screen. A banner you learn to
+ignore is worse than no banner.
 
-Interrupting a turn with ctrl-c raises `session.error`, and that fires no
-notification at all. Being told a session errored at the moment you deliberately
-stopped it is noise; you are already at the keyboard. Claude Code draws the same
-line, its `Stop` hook explicitly not running on a user interrupt. The cost is that
-a genuine overnight API failure also passes unannounced - reinstating only that
-case needs the abort told apart from a real error, and the payload arriving on
-ctrl-c has not been pinned down.
+That is also what makes an interrupt silent. `session.idle` does fire when you
+ctrl-c a turn, but no assistant reply is captured for it, so it lands in the
+no-content case and says nothing. `session.error` is not handled at all - its only
+observed content was the literal string "session error", which fails the same
+test. The cost is that a genuine overnight API failure passes unannounced too;
+reinstating that means quoting the real error text, not restoring a constant.
+
+The one fixed string still sent is `needs your input` for a permission prompt,
+labelled with the session. That is not a status report, it is the whole message,
+and acting on it is the point.
 
 ## Verify
 

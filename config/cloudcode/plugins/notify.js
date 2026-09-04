@@ -34,21 +34,27 @@ import { basename } from "path";
 const ESC = "\x1b";
 const BEL = "\x07";
 
-// session.error is deliberately absent. It fires when a turn is interrupted with
-// ctrl-c, and announcing that a session errored at the moment you deliberately
-// stopped it is pure noise - you are already at the keyboard. Claude Code draws
-// the same line: its Stop hook explicitly does not run on a user interrupt.
+// The rule: nothing worth saying, no notification.
 //
-// The cost is that a genuine failure, an API error overnight say, now passes
-// unannounced. Reinstating only that case needs the abort told apart from a real
-// error. The binary has a MessageAbortedError variant that looks like the right
-// discriminator, but an interrupted turn here emitted session.idle and no
-// session.error at all, so the shape that actually arrives on ctrl-c is
-// unconfirmed and filtering on a guessed name would just reinstate the noise.
-const BODIES = {
-  "session.idle": "turn complete",
-  "permission.asked": "needs your input",
-};
+// A completed turn is only announced when there is an assistant reply to quote.
+// There is no generic fallback, because a banner reading "turn complete" reports
+// the one thing already visible on screen, and a banner you learn to ignore is
+// worse than none.
+//
+// That also makes an interrupt silent, which is the behaviour you want and the
+// reason the fallback had to go rather than be special-cased. session.idle does
+// fire when you ctrl-c a turn, but no assistant reply is captured for it, so it
+// falls straight into the no-content case.
+//
+// session.error is not handled at all. Its only observed content was the literal
+// string "session error", which fails the same test. A genuine overnight API
+// failure therefore passes unannounced; reinstating that case means finding the
+// real error text and quoting it, not restoring a constant.
+//
+// permission.asked keeps a fixed string because "needs your input" is not a
+// status report, it is the whole message - there is nothing else to say and
+// acting on it is the point.
+const NEEDS_INPUT = "needs your input";
 
 // ";" separates OSC 777 fields and BEL terminates the string, so either one
 // arriving from a session title or an assistant reply would truncate the
@@ -187,23 +193,26 @@ export const NotifyPlugin = async (input) => {
         return;
       }
 
-      const state = BODIES[type];
-      if (!state) return;
       const sessionID = props?.sessionID;
 
-      // Lead with what was said. Only when there is nothing to quote - an
-      // errored or interrupted turn, or a prompt for input - does the banner
-      // fall back to naming the state and the session.
       if (type === "session.idle") {
         const said = oneLine(clean(reply.get(sessionID) ?? ""));
         reply.delete(sessionID);
-        if (said) {
-          emit(sequence(truncate(said, MAX_PREVIEW)));
-          return;
-        }
+        // No reply to quote, so nothing worth interrupting you for. An
+        // interrupted turn arrives here.
+        if (!said) return;
+        emit(sequence(truncate(said, MAX_PREVIEW)));
+        return;
       }
-      const label = labels.get(sessionID) || fallback;
-      emit(sequence(label ? `${state} - ${truncate(label)}` : state));
+
+      if (type === "permission.asked") {
+        const label = labels.get(sessionID) || fallback;
+        emit(
+          sequence(
+            label ? `${NEEDS_INPUT} - ${truncate(label)}` : NEEDS_INPUT,
+          ),
+        );
+      }
     },
   };
 };
