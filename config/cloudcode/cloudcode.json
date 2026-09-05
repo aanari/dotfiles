@@ -1,0 +1,22 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "google-vertex/claude-opus-5@default",
+  "instructions": [],
+  "memory": { "enabled": true },
+  "snapshot": false,
+  "autoupdate": true,
+  "formatter": { "prettier": { "disabled": true } },
+  "artifact": {
+    "enabled": false
+  },
+  "permission": {
+    "*": "allow",
+    "question": "deny"
+  },
+  "agent": {
+    "build": {
+      "model": "google-vertex/claude-opus-5@default",
+      "variant": "max"
+    }
+  }
+}

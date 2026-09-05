@@ -57,25 +57,44 @@ return {
   },
 
   {
-    "nvim-treesitter/playground",
-    cmd = "TSCaptureUnderCursor",
-    config = function()
-      require("nvim-treesitter.configs").setup {
-        playground = {
-          enable = true,
-        },
-      }
-    end,
-  },
-
-  {
     "nvim-treesitter/nvim-treesitter",
+    lazy = false,
+    branch = "main",
+    build = ":TSUpdate",
+    config = function(_, opts)
+      require("nvim-treesitter").setup(opts)
+      -- Install missing parsers on startup in the background.
+      vim.schedule(function()
+        local installed = require("nvim-treesitter").get_installed()
+        local installed_set = {}
+        for _, lang in ipairs(installed) do
+          installed_set[lang] = true
+        end
+        local missing = {}
+        for _, lang in ipairs(opts.ensure_installed or {}) do
+          if not installed_set[lang] then
+            table.insert(missing, lang)
+          end
+        end
+        if #missing > 0 then
+          require("nvim-treesitter").install(missing)
+        end
+      end)
+    end,
     opts = function()
       return require "configs.treesitter"
     end,
     dependencies = {
-      "nvim-treesitter/nvim-treesitter-textobjects",
-      "nvim-treesitter/nvim-treesitter-refactor",
+      {
+        "nvim-treesitter/nvim-treesitter-textobjects",
+        branch = "main",
+        config = function()
+          require("nvim-treesitter-textobjects").setup {
+            select = { lookahead = true },
+            move = { set_jumps = true },
+          }
+        end,
+      },
       "hiphish/rainbow-delimiters.nvim",
       {
         "David-Kunz/treesitter-unit",

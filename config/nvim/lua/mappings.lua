@@ -66,7 +66,7 @@ map("v", "p", '"_dP', { silent = true, desc = "Paste without yanking replaced te
 
 map("t", "<C-a>", vim.api.nvim_replace_termcodes("<C-\\><C-N>", true, true, true), { desc = "Exit terminal mode" })
 
-map("n", "<leader>cu", "<cmd>TSCaptureUnderCursor<CR>", { desc = "Treesitter capture under cursor" })
+map("n", "<leader>cu", "<cmd>Inspect<CR>", { desc = "Treesitter capture under cursor" })
 map("n", "<leader>gc", function()
   require("nvterm.terminal").send("clear && g++ -o out " .. vim.fn.expand "%" .. " && ./out", "vertical")
 end, { desc = "Compile and run current C++ file" })

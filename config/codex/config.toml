@@ -9,6 +9,9 @@ approvals_reviewer = "user"
 approval_policy = "never"
 sandbox_mode = "danger-full-access"
 
+# Ring the bell + desktop notification on turn completion / pending approval.
+notify = ["agent-notify", "Codex"]
+
 [projects."/Users/ali/.dotfiles"]
 trust_level = "trusted"
 

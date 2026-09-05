@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>io.anari.autossh.aanari</string>
+
+  <!-- No -f. autossh must stay in the foreground so launchd can supervise
+       it; -f would daemonize, launchd would see an immediate exit, and the
+       job would respawn forever. The forwards themselves come from the
+       aanari-tunnel block in ~/.ssh/config.local, which is untracked. -->
+  <key>ProgramArguments</key>
+  <array>
+    <string>/opt/homebrew/bin/autossh</string>
+    <string>-M</string>
+    <string>0</string>
+    <string>-N</string>
+    <string>aanari-tunnel</string>
+  </array>
+
+  <key>EnvironmentVariables</key>
+  <dict>
+    <!-- At login the network may not be up and gcert may not have run yet.
+         Without this, autossh treats that first failure as a bad invocation
+         and exits instead of retrying. -->
+    <key>AUTOSSH_GATETIME</key>
+    <string>0</string>
+    <!-- corp-ssh-helper (the ProxyCommand) lives in /usr/local/bin and ssh
+         in /usr/bin; launchd's default PATH has neither reliably. -->
+    <key>PATH</key>
+    <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+  </dict>
+
+  <!-- SSH_AUTH_SOCK is deliberately NOT set here. It is already in the
+       launchd user domain (launchctl getenv SSH_AUTH_SOCK) and is inherited,
+       and its path contains a per-boot random component, so hardcoding it
+       would break on the next reboot. -->
+
+  <key>RunAtLoad</key>
+  <true/>
+
+  <key>KeepAlive</key>
+  <dict>
+    <key>SuccessfulExit</key>
+    <false/>
+  </dict>
+
+  <!-- While the corp cert is expired every attempt fails fast; this keeps
+       the retry loop from hammering the relay. -->
+  <key>ThrottleInterval</key>
+  <integer>30</integer>
+
+  <key>ProcessType</key>
+  <string>Background</string>
+
+  <key>StandardOutPath</key>
+  <string>/Users/aanari/Library/Logs/autossh-aanari.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/aanari/Library/Logs/autossh-aanari.log</string>
+</dict>
+</plist>
