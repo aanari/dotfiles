@@ -31,6 +31,7 @@ fresh config/codex/rules --file=~/.codex/rules/
 fresh config/codex/evals --file=~/.codex/evals/
 fresh config/codex/README.md --file=~/.codex/README.md
 fresh config/codex/EVALS.md --file=~/.codex/EVALS.md
+fresh config/codex/skills/goal-definer/SKILL.md --file=~/.codex/skills/goal-definer/SKILL.md
 fresh config/opencode --file=~/.config/opencode/
 
 # cloudcode; cloudcode.json is the config it actually reads (a stray
