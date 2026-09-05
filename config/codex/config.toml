@@ -3,8 +3,8 @@
 # High reasoning effort is the closest persistent match to an
 # "always think" Claude Code setup.
 model_instructions_file = "/Users/ali/.codex/AGENTS.md"
-model = "gpt-5.4"
-model_reasoning_effort = "high"
+model = "gpt-5.6"
+model_reasoning_effort = "xhigh"
 approvals_reviewer = "user"
 approval_policy = "never"
 sandbox_mode = "danger-full-access"
@@ -29,3 +29,6 @@ trust_level = "trusted"
 
 [tui]
 theme = "github"
+
+[features]
+memories = true

@@ -130,8 +130,9 @@ def normalize_sender(headers):
 
 def normalize_list_id(value):
     value = (value or "").strip()
-    if value.startswith("<") and value.endswith(">"):
-        value = value[1:-1]
+    match = re.search(r"<([^<>]+)>", value)
+    if match:
+        value = match.group(1)
     return value.lower()
 
 
@@ -205,11 +206,16 @@ def classify_message(sender, headers, label_names):
 def proposed_criteria(sender, headers):
     email_addr = sender["email"]
     list_id = normalize_list_id(headers.get("list-id", ""))
-    if email_addr:
-        return {"from": email_addr}
     if list_id:
         return {"query": f"list:{list_id}"}
+    if email_addr:
+        return {"from": email_addr}
     return None
+
+
+def write_private_text(path, text):
+    path.write_text(text)
+    path.chmod(0o600)
 
 
 def criteria_signature(criteria):
@@ -277,6 +283,7 @@ def main():
     stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
     run_dir = out_dir / stamp
     run_dir.mkdir(parents=True, exist_ok=True)
+    run_dir.chmod(0o700)
     protected_senders = load_protected_senders(args.protected_senders_file)
 
     labels_payload = run_gws_json(
@@ -287,6 +294,7 @@ def main():
     )
     labels = labels_payload.get("labels", [])
     label_id_to_name = {item["id"]: item["name"] for item in labels}
+    user_label_names = {item["name"] for item in labels if item.get("type") == "user"}
     existing_filters = filters_payload.get("filter", [])
     existing_filter_signatures = build_existing_filter_signatures(existing_filters, label_id_to_name)
     message_refs = fetch_message_refs(args.query, args.sample)
@@ -325,7 +333,6 @@ def main():
             "date": headers.get("date", ""),
             "sender": sender,
             "labels": label_names,
-            "snippet": message.get("snippet", ""),
             "listId": headers.get("list-id", ""),
             "listUnsubscribe": headers.get("list-unsubscribe", ""),
             "category": category,
@@ -373,7 +380,7 @@ def main():
             name
             for item in items
             for name in item["labels"]
-            if not name.startswith("CATEGORY_") and name not in {"INBOX", "UNREAD", "IMPORTANT", "STARRED"}
+            if name in user_label_names
         }
         if label_names:
             category = sorted(label_names)[0]
@@ -493,8 +500,9 @@ def main():
     report_path = run_dir / "report.md"
     summary_path = run_dir / "summary.json"
     rules_path = run_dir / "rules.json"
-    report_path.write_text("\n".join(report_lines) + "\n")
-    summary_path.write_text(
+    write_private_text(report_path, "\n".join(report_lines) + "\n")
+    write_private_text(
+        summary_path,
         json.dumps(
             {
                 "query": args.query,
@@ -515,9 +523,9 @@ def main():
                 "messages": details,
             },
             indent=2,
-        )
+        ),
     )
-    rules_path.write_text(json.dumps(rules_payload, indent=2) + "\n")
+    write_private_text(rules_path, json.dumps(rules_payload, indent=2) + "\n")
 
     print(report_path)
 

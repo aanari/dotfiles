@@ -1,11 +1,19 @@
 #!/usr/bin/env python3
 
 import argparse
+import hashlib
 import json
 import os
+import re
 import subprocess
 import sys
+import tomllib
+from collections import defaultdict
 from pathlib import Path
+
+
+DEFAULT_RULES_PATH = "~/.config/gmail-filters/filters.toml"
+DEFAULT_STATE_PATH = "~/.config/gmail-filters/state.json"
 
 LABEL_COLORS = {
     "Infra": {"textColor": "#0b804b", "backgroundColor": "#b9e4d0"},
@@ -27,6 +35,28 @@ FALLBACK_LABEL_COLORS = [
     {"textColor": "#cc3a21", "backgroundColor": "#f6c5be"},
 ]
 
+CRITERIA_KEYS = {
+    "from": "from",
+    "to": "to",
+    "subject": "subject",
+    "query": "query",
+    "negated_query": "negatedQuery",
+    "negatedQuery": "negatedQuery",
+    "has_attachment": "hasAttachment",
+    "hasAttachment": "hasAttachment",
+    "exclude_chats": "excludeChats",
+    "excludeChats": "excludeChats",
+    "size": "size",
+    "size_comparison": "sizeComparison",
+    "sizeComparison": "sizeComparison",
+}
+
+API_TO_FILE_CRITERIA_KEYS = {
+    api_key: file_key
+    for file_key, api_key in CRITERIA_KEYS.items()
+    if "_" in file_key or file_key in {"from", "to", "subject", "query", "size"}
+}
+
 
 def run_gws_json(args):
     env = os.environ.copy()
@@ -42,57 +72,384 @@ def run_gws_json(args):
         sys.stderr.write(result.stderr)
         raise SystemExit(result.returncode)
     payload = result.stdout.strip()
-    if not payload:
-        return {}
-    return json.loads(payload)
+    return json.loads(payload) if payload else {}
 
 
-def load_rules(path_arg):
+def read_rules(path_arg):
+    path = Path(path_arg).expanduser()
     if path_arg == "-":
-        return json.load(sys.stdin)
-    return json.loads(Path(path_arg).read_text())
-
-
-def normalize_criteria(rule):
-    if "criteria" in rule:
-        criteria = dict(rule["criteria"])
-    elif "query" in rule:
-        criteria = {"query": rule["query"]}
+        payload = json.load(sys.stdin)
+    elif path.suffix.lower() == ".toml":
+        with path.open("rb") as handle:
+            payload = tomllib.load(handle)
     else:
-        raise SystemExit("Each rule must include either 'criteria' or 'query'.")
+        payload = json.loads(path.read_text())
 
-    normalized = {}
-    for key in ("from", "to", "subject", "query", "negatedQuery", "hasAttachment", "excludeChats", "size", "sizeComparison"):
-        if key in criteria and criteria[key] not in (None, ""):
-            normalized[key] = criteria[key]
-    if not normalized:
-        raise SystemExit("Each rule must keep at least one non-empty filter criterion.")
+    if isinstance(payload, dict):
+        rules = payload.get("filters", payload.get("rules"))
+        if rules is None:
+            raise SystemExit("Rules must contain a 'filters' or 'rules' array.")
+    elif isinstance(payload, list):
+        rules = payload
+    else:
+        raise SystemExit("Rules must be a document or array.")
+
+    normalized = [normalize_rule(rule, index) for index, rule in enumerate(rules, 1)]
+    ids = [rule["id"] for rule in normalized]
+    duplicates = sorted({rule_id for rule_id in ids if ids.count(rule_id) > 1})
+    if duplicates:
+        raise SystemExit(f"Duplicate filter ids: {', '.join(duplicates)}")
     return normalized
 
 
-def normalize_rule(rule):
-    if "label" not in rule:
-        raise SystemExit("Each rule must include 'label'.")
+def normalize_criteria(rule):
+    source = rule.get("criteria", rule)
+    normalized = {}
+    for file_key, api_key in CRITERIA_KEYS.items():
+        if file_key not in source:
+            continue
+        value = source[file_key]
+        if value not in (None, "", False):
+            normalized[api_key] = value
+    if not normalized:
+        raise SystemExit("Each filter must contain at least one matching criterion.")
+    return normalized
+
+
+def normalize_label_list(value, field_name):
+    if value is None:
+        return []
+    if not isinstance(value, list) or not all(isinstance(item, str) and item for item in value):
+        raise SystemExit(f"'{field_name}' must be an array of non-empty label names.")
+    return sorted(set(value))
+
+
+def normalize_action(rule):
+    if "label" in rule:
+        add_labels = [rule["label"]]
+        remove_labels = ["INBOX"] if bool(rule.get("archive", True)) else []
+        forward = None
+    else:
+        action = rule.get("action", rule)
+        add_labels = normalize_label_list(
+            action.get("add_labels", action.get("addLabelIds")), "add_labels"
+        )
+        remove_labels = normalize_label_list(
+            action.get("remove_labels", action.get("removeLabelIds")), "remove_labels"
+        )
+        forward = action.get("forward")
+
+    if forward is not None and (not isinstance(forward, str) or not forward):
+        raise SystemExit("'forward' must be a non-empty email address.")
+    if not add_labels and not remove_labels and not forward:
+        raise SystemExit("Each filter must contain at least one action.")
     return {
-        "criteria": normalize_criteria(rule),
-        "label": rule["label"],
-        "archive": bool(rule.get("archive", True)),
+        "add_labels": sorted(set(add_labels)),
+        "remove_labels": sorted(set(remove_labels)),
+        "forward": forward,
     }
 
 
-def criteria_signature(criteria):
-    return json.dumps({key: criteria[key] for key in sorted(criteria)}, sort_keys=True, separators=(",", ":"))
+def normalize_rule(rule, index):
+    if not isinstance(rule, dict):
+        raise SystemExit(f"Filter {index} must be an object.")
+    criteria = normalize_criteria(rule)
+    action = normalize_action(rule)
+    rule_id = rule.get("id")
+    if rule_id is None:
+        digest = hashlib.sha256(filter_signature(criteria, action).encode()).hexdigest()[:12]
+        rule_id = f"legacy-{digest}"
+    if not isinstance(rule_id, str) or not re.fullmatch(r"[a-z0-9][a-z0-9._-]*", rule_id):
+        raise SystemExit(
+            f"Filter {index} has an invalid id. Use lowercase letters, digits, '.', '_' or '-'."
+        )
+    return {"id": rule_id, "criteria": criteria, "action": action}
+
+
+def filter_signature(criteria, action):
+    return json.dumps(
+        {"criteria": criteria, "action": action},
+        sort_keys=True,
+        separators=(",", ":"),
+    )
+
+
+def fetch_labels_and_filters():
+    labels_payload = run_gws_json(
+        ["gmail", "users", "labels", "list", "--params", json.dumps({"userId": "me"})]
+    )
+    filters_payload = run_gws_json(
+        [
+            "gmail",
+            "users",
+            "settings",
+            "filters",
+            "list",
+            "--params",
+            json.dumps({"userId": "me"}),
+        ]
+    )
+    labels = labels_payload.get("labels", [])
+    filters = filters_payload.get("filter", [])
+    return labels, filters
+
+
+def labels_by_name_and_id(labels):
+    by_name = {item["name"]: item for item in labels}
+    by_id = {item["id"]: item for item in labels}
+    return by_name, by_id
+
+
+def action_from_api(action, labels_by_id):
+    def label_name(label_id):
+        return labels_by_id.get(label_id, {}).get("name", label_id)
+
+    return {
+        "add_labels": sorted(label_name(item) for item in action.get("addLabelIds", [])),
+        "remove_labels": sorted(label_name(item) for item in action.get("removeLabelIds", [])),
+        "forward": action.get("forward"),
+    }
+
+
+def normalize_actual_filters(filters, labels_by_id):
+    normalized = []
+    for item in filters:
+        criteria = {
+            key: value
+            for key, value in item.get("criteria", {}).items()
+            if key in set(CRITERIA_KEYS.values()) and value not in (None, "", False)
+        }
+        action = action_from_api(item.get("action", {}), labels_by_id)
+        normalized.append(
+            {
+                "filter_id": item["id"],
+                "criteria": criteria,
+                "action": action,
+                "signature": filter_signature(criteria, action),
+            }
+        )
+    return normalized
+
+
+def load_state(path_arg):
+    path = Path(path_arg).expanduser()
+    if not path.exists():
+        return {"version": 1, "managed": {}}
+    payload = json.loads(path.read_text())
+    if payload.get("version") != 1 or not isinstance(payload.get("managed"), dict):
+        raise SystemExit(f"Unsupported state file: {path}")
+    return payload
+
+
+def write_private_text(path, text):
+    path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
+    try:
+        path.parent.chmod(0o700)
+    except OSError:
+        pass
+    path.write_text(text)
+    path.chmod(0o600)
+
+
+def save_state(path_arg, state):
+    path = Path(path_arg).expanduser()
+    write_private_text(path, json.dumps(state, indent=2, sort_keys=True) + "\n")
+
+
+def build_plan(rules, labels, filters, state):
+    labels_by_name, labels_by_id = labels_by_name_and_id(labels)
+    actual = normalize_actual_filters(filters, labels_by_id)
+    actual_by_id = {item["filter_id"]: item for item in actual}
+    actual_by_signature = defaultdict(list)
+    for item in actual:
+        actual_by_signature[item["signature"]].append(item["filter_id"])
+
+    for rule in rules:
+        user_add_labels = [
+            label
+            for label in rule["action"]["add_labels"]
+            if label not in labels_by_name or labels_by_name[label].get("type") == "user"
+        ]
+        if len(user_add_labels) > 1:
+            raise SystemExit(
+                f"Filter '{rule['id']}' adds more than one user label. "
+                "Gmail requires separate filters for separate user labels."
+            )
+
+    missing_labels = sorted(
+        {
+            label
+            for rule in rules
+            for label in rule["action"]["add_labels"]
+            if label not in labels_by_name
+        }
+    )
+    unknown_remove_labels = sorted(
+        {
+            label
+            for rule in rules
+            for label in rule["action"]["remove_labels"]
+            if label not in labels_by_name
+        }
+    )
+    if unknown_remove_labels:
+        raise SystemExit(
+            "Cannot remove labels that do not exist: " + ", ".join(unknown_remove_labels)
+        )
+
+    managed = state.get("managed", {})
+    claimed = set()
+    entries = []
+    for rule in rules:
+        signature = filter_signature(rule["criteria"], rule["action"])
+        old_filter_id = managed.get(rule["id"], {}).get("filter_id")
+        candidates = [
+            item
+            for item in actual_by_signature.get(signature, [])
+            if item not in claimed
+        ]
+        if old_filter_id in candidates:
+            filter_id = old_filter_id
+        else:
+            filter_id = candidates[0] if candidates else None
+        if filter_id:
+            claimed.add(filter_id)
+            status = "current" if filter_id == old_filter_id else "adopt"
+        else:
+            status = "create"
+        entries.append(
+            {
+                "rule": rule,
+                "signature": signature,
+                "status": status,
+                "filter_id": filter_id,
+                "old_filter_id": old_filter_id,
+                "replace_filter_id": None,
+            }
+        )
+
+    for entry in entries:
+        old_filter_id = entry["old_filter_id"]
+        if (
+            old_filter_id
+            and old_filter_id != entry["filter_id"]
+            and old_filter_id in actual_by_id
+            and old_filter_id not in claimed
+        ):
+            entry["replace_filter_id"] = old_filter_id
+            entry["status"] = "replace" if not entry["filter_id"] else "adopt-replacing"
+
+    desired_ids = {rule["id"] for rule in rules}
+    stale = []
+    for rule_id, record in sorted(managed.items()):
+        filter_id = record.get("filter_id")
+        if rule_id in desired_ids or filter_id in claimed:
+            continue
+        if filter_id in actual_by_id:
+            stale.append({"id": rule_id, "filter_id": filter_id})
+
+    return {
+        "entries": entries,
+        "stale": stale,
+        "missing_labels": missing_labels,
+        "labels_by_name": labels_by_name,
+    }
+
+
+def pick_label_color(label_name, labels_by_name):
+    if label_name in LABEL_COLORS:
+        return LABEL_COLORS[label_name]
+    used = {
+        json.dumps(item.get("color", {}), sort_keys=True)
+        for item in labels_by_name.values()
+        if item.get("type") == "user" and item.get("color")
+    }
+    for color in FALLBACK_LABEL_COLORS:
+        if json.dumps(color, sort_keys=True) not in used:
+            return color
+    return FALLBACK_LABEL_COLORS[0]
+
+
+def create_label(label_name, labels_by_name):
+    payload = run_gws_json(
+        [
+            "gmail",
+            "users",
+            "labels",
+            "create",
+            "--params",
+            json.dumps({"userId": "me"}),
+            "--json",
+            json.dumps(
+                {
+                    "name": label_name,
+                    "labelListVisibility": "labelShow",
+                    "messageListVisibility": "show",
+                    "color": pick_label_color(label_name, labels_by_name),
+                }
+            ),
+        ]
+    )
+    labels_by_name[label_name] = payload
+    return payload
+
+
+def action_to_api(action, labels_by_name):
+    try:
+        add_ids = [labels_by_name[name]["id"] for name in action["add_labels"]]
+        remove_ids = [labels_by_name[name]["id"] for name in action["remove_labels"]]
+    except KeyError as error:
+        raise SystemExit(f"Unknown Gmail label: {error.args[0]}") from error
+    payload = {}
+    if add_ids:
+        payload["addLabelIds"] = sorted(add_ids)
+    if remove_ids:
+        payload["removeLabelIds"] = sorted(remove_ids)
+    if action.get("forward"):
+        payload["forward"] = action["forward"]
+    return payload
+
+
+def create_filter(rule, labels_by_name):
+    return run_gws_json(
+        [
+            "gmail",
+            "users",
+            "settings",
+            "filters",
+            "create",
+            "--params",
+            json.dumps({"userId": "me"}),
+            "--json",
+            json.dumps(
+                {
+                    "criteria": rule["criteria"],
+                    "action": action_to_api(rule["action"], labels_by_name),
+                }
+            ),
+        ]
+    )
+
+
+def delete_filter(filter_id):
+    run_gws_json(
+        [
+            "gmail",
+            "users",
+            "settings",
+            "filters",
+            "delete",
+            "--params",
+            json.dumps({"userId": "me", "id": filter_id}),
+        ]
+    )
 
 
 def criteria_to_query(criteria):
     parts = []
 
     def quote(value):
-        if isinstance(value, bool):
-            return ""
         value = str(value)
-        if not value:
-            return ""
         if any(ch.isspace() for ch in value):
             return '"' + value.replace('"', '\\"') + '"'
         return value
@@ -114,77 +471,19 @@ def criteria_to_query(criteria):
     if criteria.get("sizeComparison") and criteria.get("size") is not None:
         op = "larger" if criteria["sizeComparison"] == "larger" else "smaller"
         parts.append(f"{op}:{criteria['size']}")
-
     parts.append("in:inbox")
-    return " ".join(part for part in parts if part)
-
-
-def pick_label_color(label_name, labels_by_name):
-    if label_name in LABEL_COLORS:
-        return LABEL_COLORS[label_name]
-    used = {
-        json.dumps(item.get("color", {}), sort_keys=True)
-        for item in labels_by_name.values()
-        if item.get("type") == "user" and item.get("color")
-    }
-    for color in FALLBACK_LABEL_COLORS:
-        signature = json.dumps(color, sort_keys=True)
-        if signature not in used:
-            return color
-    return FALLBACK_LABEL_COLORS[0]
-
-
-def ensure_label(label_name, labels_by_name, apply):
-    if label_name in labels_by_name:
-        return labels_by_name[label_name]["id"], False
-    if not apply:
-        return None, True
-    color = pick_label_color(label_name, labels_by_name)
-    payload = run_gws_json(
-        [
-            "gmail",
-            "users",
-            "labels",
-            "create",
-            "--params",
-            json.dumps({"userId": "me"}),
-            "--json",
-            json.dumps(
-                {
-                    "name": label_name,
-                    "labelListVisibility": "labelShow",
-                    "messageListVisibility": "show",
-                    "color": color,
-                }
-            ),
-        ]
-    )
-    labels_by_name[label_name] = payload
-    return payload["id"], True
-
-
-def filter_exists(existing_filters, criteria, label_id, archive):
-    wanted_remove = sorted(["INBOX"] if archive else [])
-    wanted_add = sorted([label_id])
-    for item in existing_filters:
-        action = item.get("action", {})
-        if criteria_signature(item.get("criteria", {})) != criteria_signature(criteria):
-            continue
-        if sorted(action.get("addLabelIds", [])) != wanted_add:
-            continue
-        if sorted(action.get("removeLabelIds", [])) != wanted_remove:
-            continue
-        return True
-    return False
+    return " ".join(parts)
 
 
 def list_matching_inbox_message_ids(criteria):
     ids = []
     page_token = None
-    query = criteria_to_query(criteria)
-
     while True:
-        params = {"userId": "me", "q": query, "maxResults": 500}
+        params = {
+            "userId": "me",
+            "q": criteria_to_query(criteria),
+            "maxResults": 500,
+        }
         if page_token:
             params["pageToken"] = page_token
         payload = run_gws_json(
@@ -193,115 +492,290 @@ def list_matching_inbox_message_ids(criteria):
         ids.extend(item["id"] for item in payload.get("messages", []))
         page_token = payload.get("nextPageToken")
         if not page_token:
-            break
-
-    return ids
+            return ids
 
 
 def chunked(items, size):
-    for idx in range(0, len(items), size):
-        yield items[idx:idx + size]
+    for index in range(0, len(items), size):
+        yield items[index:index + size]
 
 
-def retroactively_apply_rule(ids, label_id, archive):
-    if not ids:
-        return 0
+def backfill_rule(rule, labels_by_name, apply):
+    ids = list_matching_inbox_message_ids(rule["criteria"])
+    action = action_to_api(rule["action"], labels_by_name)
+    add_ids = action.get("addLabelIds", [])
+    remove_ids = action.get("removeLabelIds", [])
+    if apply and ids and (add_ids or remove_ids):
+        for batch in chunked(ids, 1000):
+            run_gws_json(
+                [
+                    "gmail",
+                    "users",
+                    "messages",
+                    "batchModify",
+                    "--params",
+                    json.dumps({"userId": "me"}),
+                    "--json",
+                    json.dumps(
+                        {
+                            "ids": batch,
+                            "addLabelIds": add_ids,
+                            "removeLabelIds": remove_ids,
+                        }
+                    ),
+                ]
+            )
+    return len(ids), bool(rule["action"].get("forward"))
 
-    for batch in chunked(ids, 1000):
-        body = {
-            "ids": batch,
-            "addLabelIds": [label_id],
-            "removeLabelIds": ["INBOX"] if archive else [],
-        }
-        run_gws_json(
-            [
-                "gmail",
-                "users",
-                "messages",
-                "batchModify",
-                "--params",
-                json.dumps({"userId": "me"}),
-                "--json",
-                json.dumps(body),
-            ]
-        )
 
-    return len(ids)
+def toml_value(value):
+    if isinstance(value, bool):
+        return "true" if value else "false"
+    if isinstance(value, int):
+        return str(value)
+    if isinstance(value, str):
+        return json.dumps(value, ensure_ascii=False)
+    if isinstance(value, list):
+        return "[" + ", ".join(toml_value(item) for item in value) + "]"
+    raise TypeError(f"Unsupported TOML value: {value!r}")
 
 
-def main():
-    parser = argparse.ArgumentParser(description="Create Gmail filters from reviewed JSON rules.")
-    parser.add_argument("rules", help="Path to JSON rules file, or - for stdin.")
-    parser.add_argument("--apply", action="store_true", help="Actually create missing labels and filters.")
-    args = parser.parse_args()
-
-    payload = load_rules(args.rules)
-    rules = payload["rules"] if isinstance(payload, dict) and "rules" in payload else payload
-    rules = [normalize_rule(rule) for rule in rules]
-
-    labels_payload = run_gws_json(
-        ["gmail", "users", "labels", "list", "--params", json.dumps({"userId": "me"})]
-    )
-    filters_payload = run_gws_json(
-        ["gmail", "users", "settings", "filters", "list", "--params", json.dumps({"userId": "me"})]
-    )
-    labels_by_name = {item["name"]: item for item in labels_payload.get("labels", [])}
-    existing_filters = filters_payload.get("filter", [])
-
+def rules_to_toml(rules):
+    lines = ["version = 1", ""]
     for rule in rules:
-        label_id, created_label = ensure_label(rule["label"], labels_by_name, args.apply)
-        status_bits = []
-        if created_label:
-            status_bits.append("create-label")
-        matching_inbox_count = 0
-        if label_id is None:
-            status_bits.append("needs-label")
-        elif filter_exists(existing_filters, rule["criteria"], label_id, rule["archive"]):
-            status_bits.append("filter-exists")
-        else:
-            status_bits.append("create-filter")
-            if args.apply:
-                body = {
-                    "criteria": rule["criteria"],
-                    "action": {"addLabelIds": [label_id]},
-                }
-                if rule["archive"]:
-                    body["action"]["removeLabelIds"] = ["INBOX"]
-                created_filter = run_gws_json(
-                    [
-                        "gmail",
-                        "users",
-                        "settings",
-                        "filters",
-                        "create",
-                        "--params",
-                        json.dumps({"userId": "me"}),
-                        "--json",
-                        json.dumps(body),
-                    ]
-                )
-                existing_filters.append(created_filter)
+        lines.append("[[filters]]")
+        lines.append(f"id = {toml_value(rule['id'])}")
+        for api_key, value in rule["criteria"].items():
+            file_key = API_TO_FILE_CRITERIA_KEYS[api_key]
+            lines.append(f"{file_key} = {toml_value(value)}")
+        action = rule["action"]
+        if action["add_labels"]:
+            lines.append(f"add_labels = {toml_value(action['add_labels'])}")
+        if action["remove_labels"]:
+            lines.append(f"remove_labels = {toml_value(action['remove_labels'])}")
+        if action.get("forward"):
+            lines.append(f"forward = {toml_value(action['forward'])}")
+        lines.append("")
+    return "\n".join(lines)
 
-        if label_id is not None:
-            matching_ids = list_matching_inbox_message_ids(rule["criteria"])
-            matching_inbox_count = len(matching_ids)
-            if matching_inbox_count:
-                status_bits.append(f"backfill:{matching_inbox_count}")
-                if args.apply:
-                    retroactively_apply_rule(matching_ids, label_id, rule["archive"])
 
+def slugify(value):
+    value = re.sub(r"[^a-z0-9]+", "-", value.lower()).strip("-")
+    return value[:40] or "filter"
+
+
+def imported_rule_id(item, occurrence):
+    action = item["action"]
+    criteria = item["criteria"]
+    label = (action["add_labels"] or action["remove_labels"] or ["filter"])[0]
+    hint = criteria.get("from") or criteria.get("query") or criteria.get("subject") or "rule"
+    digest = hashlib.sha256(item["signature"].encode()).hexdigest()[:10]
+    suffix = f"-{occurrence}" if occurrence > 1 else ""
+    return f"{slugify(label)}-{slugify(str(hint))[:24]}-{digest}{suffix}"
+
+
+def import_current(path_arg, state_path_arg, force):
+    path = Path(path_arg).expanduser()
+    if path.exists() and not force:
+        raise SystemExit(f"Refusing to overwrite {path}. Pass --force to replace it.")
+    labels, filters = fetch_labels_and_filters()
+    _, labels_by_id = labels_by_name_and_id(labels)
+    actual = normalize_actual_filters(filters, labels_by_id)
+    signature_counts = defaultdict(int)
+    rules = []
+    managed = {}
+    for item in actual:
+        signature_counts[item["signature"]] += 1
+        rule_id = imported_rule_id(item, signature_counts[item["signature"]])
+        rule = {
+            "id": rule_id,
+            "criteria": item["criteria"],
+            "action": item["action"],
+        }
+        rules.append(rule)
+        managed[rule_id] = {
+            "filter_id": item["filter_id"],
+            "signature": item["signature"],
+        }
+    rules.sort(key=lambda item: item["id"])
+    write_private_text(path, rules_to_toml(rules))
+    save_state(state_path_arg, {"version": 1, "managed": managed})
+    print(json.dumps({"imported": len(rules), "rules": str(path), "state": str(Path(state_path_arg).expanduser())}))
+
+
+def print_plan(plan):
+    for label in plan["missing_labels"]:
+        print(json.dumps({"type": "label", "label": label, "status": "create"}))
+    for entry in plan["entries"]:
         print(
             json.dumps(
                 {
-                    "label": rule["label"],
-                    "criteria": rule["criteria"],
-                    "archive": rule["archive"],
-                    "matching_inbox_count": matching_inbox_count,
-                    "status": status_bits,
-                    "apply": args.apply,
+                    "type": "filter",
+                    "id": entry["rule"]["id"],
+                    "status": entry["status"],
+                    "filter_id": entry["filter_id"],
+                    "replace_filter_id": entry["replace_filter_id"],
                 }
             )
         )
+    for item in plan["stale"]:
+        print(json.dumps({"type": "filter", "id": item["id"], "status": "stale", "filter_id": item["filter_id"]}))
+    counts = defaultdict(int)
+    for entry in plan["entries"]:
+        counts[entry["status"]] += 1
+    print(
+        json.dumps(
+            {
+                "type": "summary",
+                "filters": len(plan["entries"]),
+                "statuses": dict(sorted(counts.items())),
+                "missing_labels": len(plan["missing_labels"]),
+                "stale": len(plan["stale"]),
+            }
+        )
+    )
+
+
+def apply_plan(plan, state, state_path_arg, prune, backfill, selected_only):
+    labels_by_name = plan["labels_by_name"]
+    for label_name in plan["missing_labels"]:
+        create_label(label_name, labels_by_name)
+
+    managed = dict(state.get("managed", {}))
+    claimed = set()
+    for entry in plan["entries"]:
+        rule = entry["rule"]
+        filter_id = entry["filter_id"]
+        if not filter_id:
+            created = create_filter(rule, labels_by_name)
+            filter_id = created["id"]
+            print(json.dumps({"type": "apply", "id": rule["id"], "status": "created", "filter_id": filter_id}))
+        elif entry["status"] != "current":
+            print(json.dumps({"type": "apply", "id": rule["id"], "status": "adopted", "filter_id": filter_id}))
+
+        replace_filter_id = entry["replace_filter_id"]
+        if replace_filter_id and replace_filter_id != filter_id:
+            delete_filter(replace_filter_id)
+            print(json.dumps({"type": "apply", "id": rule["id"], "status": "deleted-replaced", "filter_id": replace_filter_id}))
+
+        managed[rule["id"]] = {
+            "filter_id": filter_id,
+            "signature": entry["signature"],
+        }
+        claimed.add(filter_id)
+
+        if backfill:
+            count, has_forward = backfill_rule(rule, labels_by_name, True)
+            print(
+                json.dumps(
+                    {
+                        "type": "backfill",
+                        "id": rule["id"],
+                        "matching_inbox_count": count,
+                        "forward_skipped": has_forward,
+                    }
+                )
+            )
+
+    if not selected_only:
+        for rule_id, record in list(managed.items()):
+            if rule_id not in {entry["rule"]["id"] for entry in plan["entries"]} and record.get("filter_id") in claimed:
+                del managed[rule_id]
+
+    if prune:
+        for item in plan["stale"]:
+            delete_filter(item["filter_id"])
+            managed.pop(item["id"], None)
+            print(json.dumps({"type": "apply", "id": item["id"], "status": "pruned", "filter_id": item["filter_id"]}))
+
+    save_state(state_path_arg, {"version": 1, "managed": managed})
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Plan and safely reconcile declarative Gmail filters."
+    )
+    parser.add_argument(
+        "rules",
+        nargs="?",
+        default=DEFAULT_RULES_PATH,
+        help=f"TOML or legacy JSON rules. Default: {DEFAULT_RULES_PATH}.",
+    )
+    parser.add_argument("--apply", action="store_true", help="Apply the planned changes.")
+    parser.add_argument(
+        "--backfill",
+        action="store_true",
+        help="Count matching inbox mail, and modify it when combined with --apply.",
+    )
+    parser.add_argument(
+        "--prune",
+        action="store_true",
+        help="Delete managed server filters removed from the rules file. Requires --apply.",
+    )
+    parser.add_argument(
+        "--only",
+        action="append",
+        default=[],
+        metavar="ID",
+        help="Plan or apply only the named filter id. May be repeated.",
+    )
+    parser.add_argument(
+        "--state",
+        default=DEFAULT_STATE_PATH,
+        help=f"Private managed-filter state. Default: {DEFAULT_STATE_PATH}.",
+    )
+    parser.add_argument(
+        "--import-current",
+        metavar="PATH",
+        help="Export current server filters to a private TOML source of truth.",
+    )
+    parser.add_argument("--force", action="store_true", help="Allow --import-current to overwrite its destination.")
+    args = parser.parse_args()
+
+    if args.import_current:
+        if args.apply or args.backfill or args.prune or args.only:
+            parser.error("--import-current cannot be combined with apply, backfill, prune, or only.")
+        import_current(args.import_current, args.state, args.force)
+        return
+    if args.prune and not args.apply:
+        parser.error("--prune requires --apply.")
+    if args.prune and args.only:
+        parser.error("--prune cannot be combined with --only.")
+
+    rules = read_rules(args.rules)
+    if args.only:
+        wanted = set(args.only)
+        known = {rule["id"] for rule in rules}
+        missing = sorted(wanted - known)
+        if missing:
+            raise SystemExit("Unknown filter ids: " + ", ".join(missing))
+        rules = [rule for rule in rules if rule["id"] in wanted]
+
+    labels, filters = fetch_labels_and_filters()
+    state = load_state(args.state)
+    plan = build_plan(rules, labels, filters, state)
+    if args.only:
+        plan["stale"] = []
+    print_plan(plan)
+
+    if args.apply:
+        apply_plan(plan, state, args.state, args.prune, args.backfill, bool(args.only))
+    elif args.backfill:
+        labels_by_name = plan["labels_by_name"]
+        if plan["missing_labels"]:
+            raise SystemExit("Create missing labels before planning a backfill.")
+        for entry in plan["entries"]:
+            count, has_forward = backfill_rule(entry["rule"], labels_by_name, False)
+            print(
+                json.dumps(
+                    {
+                        "type": "backfill-plan",
+                        "id": entry["rule"]["id"],
+                        "matching_inbox_count": count,
+                        "forward_skipped": has_forward,
+                    }
+                )
+            )
 
 
 if __name__ == "__main__":

@@ -1,0 +1,18 @@
+version = 1
+
+[[filters]]
+id = "github-notifications"
+from = "notifications@github.com"
+add_labels = ["Notifications"]
+remove_labels = ["INBOX"]
+
+[[filters]]
+id = "project-mailing-list"
+query = "list:project.example.com"
+add_labels = ["Newsletters"]
+remove_labels = ["INBOX"]
+
+[[filters]]
+id = "important-receipts"
+query = "from:(billing@example.com OR receipts@example.com)"
+add_labels = ["Receipts"]

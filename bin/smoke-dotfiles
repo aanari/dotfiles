@@ -56,6 +56,9 @@ pass "zsh syntax"
 python3 -m py_compile bin/gmail-inbox-analyze bin/gmail-filter-apply
 pass "gmail helper scripts compile"
 
+python3 -m unittest discover -s tests -p 'test_gmail_*.py'
+pass "gmail helper tests"
+
 non_tty_output="$(zsh -fc '
   print -r -- "ZSH_HAS_TTY=${ZSH_HAS_TTY-unset}"
   print -r -- "EDITOR=$EDITOR"
