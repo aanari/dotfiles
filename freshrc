@@ -40,6 +40,12 @@ fresh config/cloudcode/cloudcode.json --file=~/.config/cloudcode/cloudcode.json
 fresh config/cloudcode/tui.json --file=~/.config/cloudcode/tui.json
 fresh config/cloudcode/plugins --file=~/.config/cloudcode/plugins/
 fresh config/comfortable-swipe.conf --file=~/.config/comfortable-swipe.conf
+
+# ~/.config/herdr (config.toml only -- the rest of that directory is herdr
+# runtime state: socket, logs, session.json. Linking the directory would hand
+# fresh herdr's live state.)
+fresh config/herdr/config.toml --file=~/.config/herdr/config.toml
+
 fresh config/delta.gitconfig --file=~/.config/delta.gitconfig
 fresh config/flake8 --file=~/.config/flake8
 fresh config/hammerspoon --file=~/.hammerspoon/

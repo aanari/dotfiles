@@ -1,0 +1,173 @@
+onboarding = false
+# herdr configuration.
+# Mirrors ~/.tmux.conf so navigation and shortcuts carry over from tmux.
+# Full key reference: https://herdr.dev/docs/config-reference/.
+#
+# Naming note: herdr "tab" == tmux "window", herdr "workspace"/Space == tmux "session".
+# Binding syntax: "prefix+x" needs the prefix first; "ctrl+x" is a direct chord.
+# Arrays bind several keys to one action.
+#
+# Rule that explains most of this file: a binding set here silently beats a herdr
+# default on the same key, and that default is dropped with no warning.
+# `herdr config check` only complains when two keys set HERE collide.
+
+[theme]
+# Matches catppuccin latte from the tmux setup.
+name = "catppuccin-latte"
+
+[terminal]
+# Root new Spaces at $HOME so creating one is a single keystroke with nothing
+# to answer. This is one policy for panes, tabs AND Spaces -- there is no
+# per-surface override -- so a split no longer inherits the pane you were in.
+new_cwd = "home"
+
+[ui]
+# Wide, because the sidebar is the tab strip here and a session title needs room.
+# The max is only a ceiling on dragging; it is set well clear of the width so a
+# drag never stops short of where it was aimed.
+sidebar_width = 44
+sidebar_max_width = 72
+# One tab per Space here, so the row only ever holds a single entry. It comes
+# back on its own if a Space ever gets a second tab.
+hide_tab_bar_when_single_tab = true
+
+# Reclaim the scrollbar column beside every pane; also keeps it out of
+# terminal-native selections.
+pane_scrollbars = false
+# Share divider borders between splits instead of holding them apart.
+pane_gaps = false
+# Drop the frame around the outside edge. This is the one that glitched when
+# set alone -- herdr's docs pair it with pane_gaps off, which is now the case.
+pane_outer_borders = false
+
+[ui.sidebar.agents]
+# This is the herdr equivalent of the tmux @catppuccin_window_*_text formats that
+# showed #T. herdr already tracks the OSC title each agent sets (see
+# `herdr api snapshot`), it just does not put it in the sidebar by default: the
+# default rows are [["state_icon","machine","workspace","tab"],["agent"]], which
+# on a one-agent-per-Space setup only repeats the Space name back at you.
+# One line per agent: state dot, then the session title, nothing else.
+#
+# terminal_title_stripped is the title herdr reads off the pane itself, which
+# is what every agent here sets: claude, codex and opencode all put the task in
+# the OSC title. No per-agent special-casing, so this row works for whichever
+# one is running, and for a plain shell.
+#
+# It needs an explicit color: herdr draws titles in the theme's overlay0, a
+# light gray. #4c4f69 is catppuccin latte's `text`. Sidebar fg only takes #RGB
+# or #RRGGBB, never a theme color name.
+rows = [["state_icon", { token = "terminal_title_stripped", fg = "#4c4f69", bold = true }]]
+row_gap = 0
+
+[ui.toast]
+# Surface a backgrounded agent's attention as a desktop notification, mirroring the
+# tmux bell/notification forwarding to Ghostty. Set to "off" to silence popups.
+# Off: the agent sends its own desktop notification (see config/cloudcode/
+# plugins/notify.js), so leaving herdr's on means two popups for one event.
+# herdr's own toast also titles it "<agent> finished" and puts the Space path
+# and index in the body, which names the container rather than the work.
+delivery = "off"
+
+[keys]
+# Prefix is Ctrl-a (tmux: set -g prefix ^a).
+prefix = "ctrl+a"
+
+# Splits. herdr's split names are the inverse of tmux's, so these are mapped by the
+# physical result: v splits side by side (tmux splitw -h), s splits stacked (tmux splitw -v).
+split_vertical = "prefix+v"
+split_horizontal = "prefix+s"
+# prefix+s is herdr's default Settings key and the split above takes it, so put
+# Settings somewhere tmux does not use.
+settings = "prefix+comma"
+
+# New tab == tmux new-window (bind c).
+# One tab per Space here, so the tab actions are unbound rather than left on
+# their defaults -- omitting them would restore prefix+c / prefix+shift+x.
+new_tab = []
+# New Space == what a tmux session was. shift+c is the same reflex one size up;
+# it opens at $HOME, unnamed.
+# For a Space backed by its own git worktree, prefix+shift+g.
+new_workspace = ["prefix+shift+n", "prefix+shift+c", "prefix+c"]
+
+# Pane focus. prefix+hjkl mirrors tmux "bind h/j/k/l select-pane"; the bare ctrl+hjkl
+# mirrors your vim-tmux-navigator "bind -n C-h/j/k/l".
+# Caveat: herdr has no is_vim guard, so inside a full-screen TUI (vim, some agent TUIs)
+# ctrl+hjkl switch panes instead of reaching the app, and ctrl+h can read as backspace in
+# some terminals. If that bites, delete the "ctrl+..." entries (prefix+hjkl still works) or
+# switch them to the herdr-safe ctrl+alt+hjkl family. Modal inputs (rename, search) are
+# routed before direct chords, so these do not eat ctrl+k/ctrl+u while you type a name.
+focus_pane_left = ["prefix+h", "ctrl+h"]
+focus_pane_down = ["prefix+j", "ctrl+j"]
+focus_pane_up = ["prefix+k", "ctrl+k"]
+focus_pane_right = ["prefix+l", "ctrl+l"]
+# Last pane, like tmux "bind -n C-\ select-pane -l".
+last_pane = "ctrl+backslash"
+
+# One-keystroke resize, like tmux "bind H/J/K/L resizep". This displaces herdr's
+# default swap-pane bindings on the same keys, so swap moves to alt below.
+resize_pane_left = "prefix+shift+h"
+resize_pane_down = "prefix+shift+j"
+resize_pane_up = "prefix+shift+k"
+resize_pane_right = "prefix+shift+l"
+swap_pane_left = "prefix+alt+h"
+swap_pane_down = "prefix+alt+j"
+swap_pane_up = "prefix+alt+k"
+swap_pane_right = "prefix+alt+l"
+
+# Space navigation gets the primary keys, because a Space is the unit of work here:
+# one per task, the way a tmux session was. prefix+n/p and prefix+<number> are the
+# tmux next/previous/select-window reflex, aimed one level up.
+previous_workspace = ["prefix+p", "shift+up"]
+next_workspace = ["prefix+n", "shift+down"]
+switch_workspace = "prefix+1..9"
+
+# Tabs keep the secondary keys. shift+arrows mirror tmux "bind -n S-Left/S-Right";
+# prefix+ctrl+h/l mirror tmux "bind -r C-h/C-l select-window".
+# prefix+ctrl+<number> needs the terminal to encode ctrl+digit, which Ghostty does
+# through the kitty keyboard protocol; switch it to prefix+alt+1..9 if it goes dead.
+# One tab per Space, so tab navigation is dead weight -- but only the two
+# direct chords are worth reclaiming. herdr forwards a key it does not bind to
+# the pane, so shift+left/right now reach whatever is running inside instead of
+# being swallowed by a no-op. The prefix-guarded spellings stay: they shadow
+# nothing, and they are the way back if a Space ever does grow a second tab.
+previous_tab = ["prefix+ctrl+h"]
+next_tab = ["prefix+ctrl+l"]
+switch_tab = "prefix+ctrl+1..9"
+# Reorder the active tab, like tmux "bind < / > swap-window -d".
+move_tab_previous = "prefix+shift+comma"
+move_tab_next = "prefix+shift+period"
+
+# Copy mode. Space and ctrl+space mirror tmux "bind Space/C-Space copy-mode"; prefix+[ kept.
+# In copy mode herdr is already vi-style (v select, y copy, q/esc quit), matching mode-keys vi,
+# and now also has w/b/e plus big-word W/B/E motions and / ? n N search.
+copy_mode = ["prefix+[", "prefix+space", "prefix+ctrl+space"]
+
+# Kill/close. x closes a pane (tmux kill-pane), shift+x closes a tab (tmux kill-window),
+# shift+q closes a Space (tmux "bind Q kill-session"); shift+d kept as well.
+close_pane = "prefix+x"
+close_tab = []
+close_workspace = ["prefix+shift+d", "prefix+shift+q", "prefix+shift+x"]
+
+# Detach. prefix+d mirrors tmux's detach; prefix+q kept as the herdr default.
+detach = ["prefix+q", "prefix+d"]
+
+# Space picker. prefix+ctrl+f mirrors tmux "bind C-f find-session".
+# prefix+g is the session navigator, which searches Spaces, tabs and panes at once.
+workspace_picker = ["prefix+w", "prefix+ctrl+f"]
+
+# Left at herdr defaults below, because tmux has no 1:1 equivalent:
+#   resize_mode   = "prefix+r"          # hold-and-repeat resize; the single-shot
+#                                       # bindings above cover the tmux reflex.
+#   reload_config = "prefix+shift+r"    # tmux used prefix+r; or run: herdr server reload-config.
+#   zoom          = "prefix+z"          # same as the tmux default.
+#   goto          = "prefix+g"          # session navigator.
+#   new_worktree  = "prefix+shift+g"    # Space backed by a fresh git worktree.
+#   rename_tab    = "prefix+shift+t"
+#   rename_pane   = "prefix+shift+p"
+#   toggle_sidebar = "prefix+b"         # tmux used prefix+b for send-prefix, which
+#                                       # herdr has no equivalent for.
+#
+# tmux bindings with no herdr action at all, so they are simply gone:
+#   bind C-s synchronize-panes, bind enter next-layout, bind -n C-q clear-history,
+#   bind m mouse toggle (see ui.mouse_capture), bind C-x kill other windows,
+#   bind -n M-o prefix-off mode, bind b send-prefix.
