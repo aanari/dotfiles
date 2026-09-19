@@ -32,6 +32,17 @@ trust_level = "trusted"
 
 [tui]
 theme = "github"
+# Minimal terminal title: just the task. The default is
+# ["activity", "thread-name", "project-name"], whose `activity` item is a
+# braille spinner that advances every 100ms while a turn runs -- ten title
+# rewrites a second, which reads as flicker in a herdr sidebar or a tmux status
+# line. The project name is redundant there too, since the Space or window
+# already names it, and notifications carry the rest.
+#
+# thread-title over thread-name deliberately: thread-name is None until the
+# thread is named, which clears the title and leaves a blank row, while
+# thread-title falls back to the thread id so there is always something.
+terminal_title = ["thread-title"]
 
 [features]
 memories = true

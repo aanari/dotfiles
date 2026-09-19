@@ -85,18 +85,23 @@ const truncate = (text, max = MAX_LABEL) =>
 const oneLine = (text) => text.split(/\s+/).filter(Boolean).join(" ");
 
 // Name the source when the session is remote. With a Mac and a cloudtop both
-// notifying the same Ghostty, an unqualified "CloudCode" does not say which
-// one just finished.
-const title = () => {
-  if (!process.env.SSH_CONNECTION && !process.env.SSH_TTY) return "CloudCode";
-  return `CloudCode (${clean(hostname().split(".")[0])})`;
+// notifying the same Ghostty, an unqualified label does not say which one just
+// finished.
+const where = () => {
+  if (!process.env.SSH_CONNECTION && !process.env.SSH_TTY) return "";
+  return ` (${clean(hostname().split(".")[0])})`;
 };
+
+// Title the notification with the session's task, which is what a pane list in
+// herdr or tmux shows for the same session. The body already carries what
+// happened, so the title is the only place the task can appear.
+const title = (label) => `${truncate(clean(label ?? "")) || "CloudCode"}${where()}`;
 
 const inTmux = () =>
   Boolean(process.env.TMUX) || /^(screen|tmux)/.test(process.env.TERM ?? "");
 
-const sequence = (body) => {
-  let osc = `${ESC}]777;notify;${title()};${clean(body)}${BEL}`;
+const sequence = (body, label) => {
+  let osc = `${ESC}]777;notify;${title(label)};${clean(body)}${BEL}`;
   if (inTmux() && process.env.CLOUDCODE_NOTIFY_NO_PASSTHROUGH !== "1") {
     // tmux passthrough doubles every ESC inside the payload and terminates the
     // outer DCS with ST.
@@ -201,17 +206,12 @@ export const NotifyPlugin = async (input) => {
         // No reply to quote, so nothing worth interrupting you for. An
         // interrupted turn arrives here.
         if (!said) return;
-        emit(sequence(truncate(said, MAX_PREVIEW)));
+        emit(sequence(truncate(said, MAX_PREVIEW), labels.get(sessionID) || fallback));
         return;
       }
 
       if (type === "permission.asked") {
-        const label = labels.get(sessionID) || fallback;
-        emit(
-          sequence(
-            label ? `${NEEDS_INPUT} - ${truncate(label)}` : NEEDS_INPUT,
-          ),
-        );
+        emit(sequence(NEEDS_INPUT, labels.get(sessionID) || fallback));
       }
     },
   };
