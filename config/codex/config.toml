@@ -46,3 +46,8 @@ terminal_title = ["thread-title"]
 
 [features]
 memories = true
+
+[skills]
+config = [
+  { path = "/Users/ali/.agents/skills/goal-definer", enabled = true },
+]
