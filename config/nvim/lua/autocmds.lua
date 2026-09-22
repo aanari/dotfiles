@@ -8,9 +8,12 @@ autocmd("VimResized", {
   command = "tabdo wincmd =",
 })
 
+-- Flash what was just yanked, so the extent of a motion is visible. Borrow
+-- Visual rather than name a color, so it follows whatever base46 theme is
+-- loaded. Swap in Search or IncSearch if the wash is too quiet to catch.
 autocmd("TextYankPost", {
   callback = function()
-    vim.highlight.on_yank { higroup = "HighlightYank", timeout = 100 }
+    vim.hl.on_yank { higroup = "Visual", timeout = 200 }
   end,
 })
 

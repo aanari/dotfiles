@@ -41,7 +41,6 @@ M.override = {
 
 M.add = {
   MsgArea = { fg = "#5C91CE", bold = true },
-  HighlightYank = { bg = "#ffff99" },
   HlSearchNear = { fg = "#0c0e0f", bg = "#f6dc95" },
 
   RainbowDelimiterRed = { fg = "#e8646a" },
