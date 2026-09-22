@@ -79,12 +79,18 @@ if vim.env.TMUX then
     cache_enabled = 0,
   }
   opt.clipboard = "unnamedplus"
-elseif vim.fn.has "mac" == 0 and not vim.env.DISPLAY and not vim.env.WAYLAND_DISPLAY then
-  -- Nothing local can reach the clipboard here: no tmux to hand off to and no
-  -- X for xclip. Leaving it to nvim gets us nothing either, because herdr
-  -- never answers nvim's XTGETTCAP query for Ms, so the OSC 52 fallback never
-  -- arms, and that fallback is skipped outright unless 'clipboard' is empty.
-  -- Name OSC 52 by hand instead, which sidesteps both.
+elseif
+  not vim.env.DISPLAY
+  and not vim.env.WAYLAND_DISPLAY
+  and (vim.env.SSH_TTY or vim.env.SSH_CONNECTION or vim.fn.has "mac" == 0)
+then
+  -- The clipboard we want is the one at the far end of the ssh link, or we are
+  -- on a headless box with no X for xclip. Either way nvim cannot find it on
+  -- its own: herdr never answers the XTGETTCAP query for Ms, so the OSC 52
+  -- fallback never arms, and that fallback is skipped outright unless
+  -- 'clipboard' is empty. Worse, on a mac nvim picks pbcopy ahead of
+  -- everything else, so yanks over ssh land in the remote mac's clipboard and
+  -- quietly go nowhere. Name OSC 52 by hand, which sidesteps all of it.
   local osc52 = require "vim.ui.clipboard.osc52"
 
   vim.g.clipboard = {
