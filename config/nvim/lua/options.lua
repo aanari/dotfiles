@@ -79,6 +79,34 @@ if vim.env.TMUX then
     cache_enabled = 0,
   }
   opt.clipboard = "unnamedplus"
+elseif vim.fn.has "mac" == 0 and not vim.env.DISPLAY and not vim.env.WAYLAND_DISPLAY then
+  -- Nothing local can reach the clipboard here: no tmux to hand off to and no
+  -- X for xclip. Leaving it to nvim gets us nothing either, because herdr
+  -- never answers nvim's XTGETTCAP query for Ms, so the OSC 52 fallback never
+  -- arms, and that fallback is skipped outright unless 'clipboard' is empty.
+  -- Name OSC 52 by hand instead, which sidesteps both.
+  local osc52 = require "vim.ui.clipboard.osc52"
+
+  vim.g.clipboard = {
+    name = "osc52",
+    copy = {
+      ["+"] = osc52.copy "+",
+      ["*"] = osc52.copy "*",
+    },
+    -- Reading back over OSC 52 blocks for ten seconds in terminals that refuse
+    -- the query, and unnamedplus would pay that on every put. Serve puts from
+    -- the last yank, and paste outside text with the terminal's own key. Hand
+    -- back the regtype too, or a linewise yank comes back charwise.
+    paste = {
+      ["+"] = function()
+        return { vim.fn.getreg('"', 1, true), vim.fn.getregtype '"' }
+      end,
+      ["*"] = function()
+        return { vim.fn.getreg('"', 1, true), vim.fn.getregtype '"' }
+      end,
+    },
+  }
+  opt.clipboard = "unnamedplus"
 elseif vim.env.SSH_TTY then
   opt.clipboard = ""
 else
