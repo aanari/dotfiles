@@ -7,8 +7,9 @@
     ]
   },
   "attribution": {
-    "commits": "",
-    "pullRequests": ""
+    "commit": "",
+    "pr": "",
+    "sessionUrl": false
   },
   "preferences": {
     "thinkingMode": "always"
