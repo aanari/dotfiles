@@ -1,0 +1,95 @@
+#!/bin/sh
+# Launch an agent-controllable Chrome: same logins and extensions as the main
+# profile, remote debugging on a fixed port, no "Allow remote debugging?" dialogs.
+#
+# Chrome 136+ ignores --remote-debugging-port on the default data directory, so
+# this runs a second Chrome instance from a copy of the main profile
+# (~/Library/Application Support/Google/Chrome-Agent). It coexists with normal
+# Chrome.
+#
+# Two things matter for logins to survive:
+#   1. Launch through LaunchServices (`open`), never by exec'ing the binary from
+#      a sandboxed or Rosetta shell. Chrome needs the login keychain's
+#      "Chrome Safe Storage" key; without it, it silently deletes every cookie it
+#      cannot decrypt and persists nothing new.
+#   2. Copy SQLite stores with sqlite3's online backup, not cp/rsync, so a
+#      running main Chrome does not leave a torn copy.
+#
+# Usage: chrome-agent            start (no-op if already listening)
+#        chrome-agent --reseed   stop the agent Chrome, re-copy the main profile, start
+#        chrome-agent --quit     stop the agent Chrome gracefully
+PORT="${CHROME_AGENT_PORT:-9333}"
+DIR="$HOME/Library/Application Support/Google/Chrome-Agent"
+SRC="$HOME/Library/Application Support/Google/Chrome"
+URL="http://127.0.0.1:$PORT"
+
+listening() { curl -s -m 2 "$URL/json/version" >/dev/null 2>&1; }
+
+quit_agent() {
+  listening || return 0
+  # Graceful shutdown over CDP so Chrome flushes cookies and session state.
+  node -e '
+    const u=process.argv[1]; fetch(u+"/json/version").then(r=>r.json()).then(v=>{
+      const ws=new WebSocket(v.webSocketDebuggerUrl);
+      ws.onopen=()=>ws.send(JSON.stringify({id:1,method:"Browser.close"}));
+      ws.onclose=()=>process.exit(0); setTimeout(()=>process.exit(0),5000);
+    }).catch(()=>process.exit(0))' "$URL"
+  for _ in 1 2 3 4 5 6 7 8 9 10; do listening || return 0; sleep 1; done
+  echo "chrome-agent: Chrome did not exit after Browser.close" >&2
+  return 1
+}
+
+reseed() {
+  mkdir -p "$DIR"
+  rsync -a --delete \
+    --exclude='Crashpad' --exclude='DevToolsActivePort' --exclude='Singleton*' \
+    --exclude='*.pma' --exclude='lockfile' --exclude='RunningChromeVersion' \
+    --exclude='*/Cache' --exclude='*/Code Cache' --exclude='*/GPUCache' \
+    --exclude='*/Service Worker/CacheStorage' --exclude='*/Service Worker/ScriptCache' \
+    --exclude='GrShaderCache' --exclude='GraphiteDawnCache' --exclude='GPUPersistentCache' \
+    --exclude='component_crx_cache' --exclude='extensions_crx_cache' \
+    --exclude='optimization_guide_model_store' --exclude='Snapshots' \
+    --exclude='*/Cookies' --exclude='*/Cookies-journal' \
+    --exclude='*/Login Data' --exclude='*/Login Data-journal' \
+    --exclude='*/Web Data' --exclude='*/Web Data-journal' \
+    --exclude='*/History' --exclude='*/History-journal' \
+    "$SRC/" "$DIR/"
+  # Consistent copies of the live SQLite stores.
+  for db in "Cookies" "Login Data" "Web Data" "History"; do
+    [ -f "$SRC/Default/$db" ] || continue
+    rm -f "$DIR/Default/$db" "$DIR/Default/$db-journal"
+    sqlite3 "$SRC/Default/$db" ".backup '$DIR/Default/$db'"
+  done
+  # Tell Chrome this profile exited cleanly so it does not treat it as crashed.
+  python3 - "$DIR/Default/Preferences" <<'PY'
+import json, sys
+p = sys.argv[1]; d = json.load(open(p))
+d.setdefault("profile", {})["exit_type"] = "Normal"; d["profile"]["exited_cleanly"] = True
+json.dump(d, open(p, "w"))
+PY
+}
+
+case "$1" in
+  --quit)   quit_agent; exit $? ;;
+  --reseed) quit_agent || exit 1; reseed; shift ;;
+esac
+
+if listening; then
+  echo "chrome-agent already listening on $URL"
+  exit 0
+fi
+
+# LaunchServices starts Chrome natively, outside the caller's sandbox, with
+# normal keychain access. -n forces a new instance alongside the main Chrome.
+open -n -a "Google Chrome" --args --user-data-dir="$DIR" \
+  --remote-debugging-port="$PORT" --no-first-run --no-default-browser-check "$@"
+
+for _ in $(seq 1 20); do
+  if listening; then
+    echo "chrome-agent listening on $URL"
+    exit 0
+  fi
+  sleep 1
+done
+echo "chrome-agent: Chrome did not open port $PORT" >&2
+exit 1
