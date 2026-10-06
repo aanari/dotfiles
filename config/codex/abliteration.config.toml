@@ -1,0 +1,7 @@
+# Codex profile: `codex --profile abliteration`. Used from Dropbox/College.
+# The provider it references is defined in config.toml.
+model = "abliterated-model"
+model_provider = "abliteration"
+model_reasoning_effort = "high"
+# abliteration.ai rejects the Responses web_search tool unless enabled in its console.
+web_search = "disabled"

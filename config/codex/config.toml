@@ -51,3 +51,15 @@ memories = true
 config = [
   { path = "/Users/ali/.agents/skills/goal-definer", enabled = true },
 ]
+
+# abliteration.ai (Dropbox/College). Codex only honors model_provider /
+# model_providers at user level, so the provider lives here and the project
+# selects it with `codex --profile abliteration` (project-local config cannot).
+# The profile itself is a separate file: config/codex/abliteration.config.toml.
+# base_url goes through the local image-trimming proxy
+# (College/ablit-proxy.py); use https://api.abliteration.ai/v1 to skip it.
+[model_providers.abliteration]
+name = "abliteration.ai"
+base_url = "http://127.0.0.1:8787/v1"
+wire_api = "responses"
+env_key = "ABLITERATION_API_KEY"

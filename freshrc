@@ -27,6 +27,7 @@ fresh config/claude/settings.json --file=~/.claude/settings.json
 fresh config/claude/CLAUDE.md --file=~/.claude/CLAUDE.md
 fresh config/codex/AGENTS.md --file=~/.codex/AGENTS.md
 fresh config/codex/config.toml --file=~/.codex/config.toml
+fresh config/codex/abliteration.config.toml --file=~/.codex/abliteration.config.toml
 fresh config/codex/rules --file=~/.codex/rules/
 fresh config/codex/evals --file=~/.codex/evals/
 fresh config/codex/README.md --file=~/.codex/README.md
